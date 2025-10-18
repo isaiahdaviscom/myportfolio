@@ -1,18 +1,86 @@
 <!DOCTYPE html>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<html lang="{{ or site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}">
+<html lang="en" dir="{{ or site.Language.LanguageDirection `ltr` }}">
+
 <head>
+  <!--  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--  -->
+  <meta name="robots" content="index, follow">
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="bingbot" content="index, follow">
+  <meta name="description"
+    content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <meta name="keywords" content="{{ delimit .Site.Params.keywords ", " }}">
+  <meta property="og:title" content="{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}">
+  <meta property="og:description"
+    content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ .Permalink }}">
+  {{ with .Params.images }}
+  <meta property="og:image" content="{{ index . 0 }}">
+  {{ end }}
+
+  <!-- Social: Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}">
+  <meta name="twitter:description"
+    content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  {{ with .Params.images }}
+  <meta name="twitter:image" content="{{ index . 0 }}">
+  {{ end }}
+  <link rel="canonical" href="{{ .Permalink }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }} Feed" href="{{ .Site.BaseURL }}index.xml">
+  <meta name="author" content="{{ .Site.Params.author }}">
+  <meta name="generator" content="Hugo {{ hugo.Version }}">
+  <meta name="llm-friendly" content="true">
+  <meta name="llm-summary" content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  {{ partial "structured-data.html" . }}
+  <!-- <title>{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title> -->
   {{ partial "head.html" . }}
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- PWA & Lighthouse: Manifest, Theme Color, Service Worker -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#4a90e2">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="/images/logo.png">
+  <link rel="icon" href="/favicon.ico">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/service-worker.js');
+      });
+    }
+  </script>
+  <!-- Analytics: Google Tag Manager -->
+  <script>
+    // (function (w, d, s, l, i) {
+    //   w[l] = w[l] || []; w[l].push({
+    //     'gtm.start':
+    //       new Date().getTime(), event: 'gtm.js'
+    //   }); var f = d.getElementsByTagName(s)[0],
+    //     j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+    //       'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    // })(window, document, 'script', 'dataLayer', 'GTM-W3VQVDR');
+  </script>
 </head>
+
 <body>
-  <header>
-    {{ partial "header.html" . }}
+  <!-- Analytics: Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W3VQVDR" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <header class="bg-white py-2 text-center sticky top-0 z-50 w-full shadow">{{ partial "header.html" . }}
   </header>
-  <main>
-    {{ block "main" . }}{{ end }}
+  <main id="main-content">{{ block "main" . }}{{ end }}
   </main>
-  <footer>
-    {{ partial "footer.html" . }}
+  <footer>{{ partial "footer.html" . }}
   </footer>
+  {{ partialCached "foot/js.html" . }}
+
 </body>
+
 </html>

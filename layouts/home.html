@@ -1,0 +1,11 @@
+{{ define "main" }}
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-100 flex flex-col">
+  <div class="container mx-auto px-4 py-12 flex-1">
+    <article class="prose prose-lg max-w-3xl mx-auto text-gray-800">
+      <h1 class="section-title mb-8 display-6 col-9">{{ .Title }}</h1>
+      {{ .Content }}
+    </article>
+    {{ partial "gallery.html" (dict "columns" 3 "Site" .Site "featureOnly" true) }}
+  </div>
+</div>
+{{ end }}

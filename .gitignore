@@ -16,6 +16,9 @@ dist-ssr
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
 .idea
 .DS_Store
 *.suo
@@ -33,5 +36,11 @@ dist-ssr
 .cache/
 # public/
 /public
+
+# Chrome DevTools Automatic
+devtools.json
+
+# Chrome Debug Profile (for DevTools workspace)
+.chrome-debug-profile/
 
 

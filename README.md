@@ -1,163 +1,110 @@
-# Hugo and Tailwind CSS Project Setup
+# Hugo + Tailwind CSS Portfolio: Developer Quickstart
 
-- [Hugo and Tailwind CSS Project Setup](#hugo-and-tailwind-css-project-setup)
-  - [Prerequisites](#prerequisites)
-  - [Initialize Hugo](#initialize-hugo)
-  - [Configure Hugo](#configure-hugo)
-    - [Create or Install a Theme](#create-or-install-a-theme)
-    - [Update Configuration](#update-configuration)
-    - [Content Creation](#content-creation)
-  - [Integrate Tailwind CSS](#integrate-tailwind-css)
-    - [Install Dependencies](#install-dependencies)
-    - [Configure Tailwind and PostCSS](#configure-tailwind-and-postcss)
-    - [Add Tailwind to Your CSS](#add-tailwind-to-your-css)
-    - [Build CSS with PostCSS](#build-css-with-postcss)
-    - [Automate During Development](#automate-during-development)
-    - [Link CSS in Hugo Layouts](#link-css-in-hugo-layouts)
-  - [Serve and Build the Site](#serve-and-build-the-site)
-  - [Conclusion](#conclusion)
+This guide is focused on making it easy for developers to edit and extend the core parts of this Hugo + Tailwind CSS portfolio project.
 
-Here's a comprehensive README.md document that compiles all the instructions on how to set up a Hugo project, including how to add a custom theme and integrate Tailwind CSS:
+---
 
-This guide provides detailed instructions on how to set up a Hugo static site with Tailwind CSS integrated, directly within an existing project directory.
+## Project Structure Overview
 
-## Prerequisites
+### Project Root (Non-Theme)
+- **content/**: Markdown files for pages and posts (`_index.md`, `about.md`, etc.)
+- **static/**: Static assets (images, compiled CSS, favicon, etc.)
+- **src/css/**: Source CSS (Tailwind entry point)
+- **public/**: Hugo build output (do not edit manually)
+- **archetypes/**: Archetype templates for new content
+- **config files**: `hugo.toml`, `netlify.toml`, `package.json`, etc.
 
-Before you start, you need to have Hugo and Node.js (with npm) installed on your system.
+### Theme Directory (`themes/myPortfolio/`)
+- **layouts/**: All theme templates (base, partials, shortcodes)
+  - `_default/`: Base, single, list, home layouts
+  - `partials/`: Header, footer, menu, gallery, etc.
+  - `shortcodes/`: Custom shortcodes (e.g., `portfolio-cards.html`)
+- **assets/**: Theme-specific CSS/JS (processed by Hugo Pipes)
+- **static/**: Theme-specific static assets (overrides project static if same path)
+- **archetypes/**: Theme archetypes
+- **content/**: Theme demo content (optional, not used in production)
+- **theme.toml**: Theme metadata
 
-- **Hugo**: [Installation Guide](https://gohugo.io/getting-started/installing/)
-- **Node.js and npm**: [Download Page](https://nodejs.org/)
+---
 
-## Initialize Hugo
+## 1. Prerequisites
+- [Hugo](https://gohugo.io/getting-started/installing/)
+- [Node.js & npm](https://nodejs.org/)
 
-Navigate to your project directory and initialize a new Hugo site. This command will also force Hugo to create a new site even if files are already present in the directory.
+---
 
+## 2. Local Development
+**Install dependencies:**
 ```bash
-hugo new site . --force
+npm install
 ```
-
-**Congratulations!** Your new Hugo site is now created in your current project directory.
-
-## Configure Hugo
-
-### Create or Install a Theme
-
-- **Create a custom theme**:
-
-  ```bash
-  hugo new theme <THEMENAME>
-  ```
-
-  Replace `<THEMENAME>` with your desired theme name.
-
-- **Install a theme from Hugo themes gallery**:
-  [Hugo Themes](https://themes.gohugo.io/)
-
-### Update Configuration
-
-Set the theme in the `config.toml` file:
-
-```toml
-theme = "<THEMENAME>"
-```
-
-### Content Creation
-
-Create new content by specifying the section and filename:
-
+**Start development server (auto-reloads on changes):**
 ```bash
-hugo new content/<SECTIONNAME>/<FILENAME>.<FORMAT>
+npm run start
 ```
 
-## Integrate Tailwind CSS
+---
 
-### Install Dependencies
+## 3. Editing Content (Non-Theme)
+- **Homepage:**  `content/_index.md`
+- **Portfolio:**  `content/portfolio/`
+- **Blog Posts:**  `content/posts/`
+- **Other Pages:**  `content/about.md`, `content/contact.md`, etc.
 
-Install Tailwind CSS and its peer dependencies:
+---
 
-```bash
-npm install tailwindcss@latest postcss@latest autoprefixer@latest
-```
+## 4. Customizing Layouts & Components (Theme)
+- **Main Layouts:**  `themes/myPortfolio/layouts/_default/`
+- **Homepage Layout:**  `themes/myPortfolio/layouts/_default/home.html`
+- **Partials:**  `themes/myPortfolio/layouts/partials/`
+- **Shortcodes:**  `themes/myPortfolio/layouts/shortcodes/`
 
-### Configure Tailwind and PostCSS
+---
 
-Generate the Tailwind and PostCSS configuration files:
+## 5. Styling with Tailwind CSS
+- **Edit Tailwind source:**  `src/css/tailwind.css`
+- **Build CSS:**  `npm run build:css` (or `npm run watch` for auto-rebuild)
+- **Link CSS:**  Layouts include `/css/styles.css` from the `static/css/` directory.
 
-```bash
-npx tailwindcss init -p
-```
+---
 
-Configure PurgeCSS in `tailwind.config.js` to remove unused styles:
+## 6. Configuration
+- **Site-wide settings:**  `hugo.toml` (site title, theme, params, menus, etc.)
+- **Theme selection:**  Set `theme = "myPortfolio"` in `hugo.toml`.
+- **Menu:**  Define navigation in `hugo.toml` under `[[menus.main]]` and ensure referenced content files exist.
 
-```javascript
-module.exports = {
-  purge: ['./layouts/**/*.html', './content/**/*.md'],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-```
+---
 
-### Add Tailwind to Your CSS
+## 7. Theme vs. Project Customization
+- **To update the theme for all sites:** Edit files in `themes/myPortfolio/`.
+- **To override a theme template for this site only:** Copy the file from `themes/myPortfolio/layouts/` to `layouts/` in the project root and edit there.
+- **Static assets in `static/` at the project root override theme static assets of the same path.**
 
-Create a CSS file at `assets/css/styles.css` and include Tailwind's directives:
+---
 
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
+## 8. Adding New Features
+- **New Section/Page:**  Add a Markdown file in `content/` and create/update a layout in `themes/myPortfolio/layouts/`.
+- **New Component:**  Add a partial in `themes/myPortfolio/layouts/partials/` and include it in layouts as needed.
+- **New Shortcode:**  Add to `themes/myPortfolio/layouts/shortcodes/` and use in Markdown as `{{< shortcode >}}`.
 
-### Build CSS with PostCSS
+---
 
-Update `package.json` to add scripts for building CSS:
+## 9. Best Practices & Tips
+- **Keep theme and project customizations separate for easier upgrades.**
+- **Use shortcodes for reusable content blocks in Markdown.**
+- **Use partials for reusable layout components.**
+- **Keep the dev server running (`npm run start`) for rapid iteration.**
+- **Check the `public/` folder for build output, but do not edit it directly.**
 
-```json
-"scripts": {
-  "build:css": "postcss assets/css/styles.css -o static/css/styles.css",
-  "watch:css": "postcss assets/css/styles.css -o static/css/styles.css --watch"
-}
-```
+---
 
-Build the CSS:
+## References
+- [Hugo Documentation](https://gohugo.io/documentation/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 
-```bash
-npm run build:css
-```
+---
 
-### Automate During Development
+**Tip:**
+For rapid iteration, keep the dev server running (`npm run start`) and edit content, layouts, or styles. Hugo and Tailwind will auto-reload your changes.
 
-Automatically rebuild CSS on changes:
-
-```bash
-npm run watch:css
-```
-
-### Link CSS in Hugo Layouts
-
-Include the compiled CSS in your layouts:
-
-```html
-<link rel="stylesheet" href="{{ .Site.BaseURL }}css/styles.css">
-```
-
-## Serve and Build the Site
-
-Serve your site locally with Hugo's built-in server, which supports live reloading:
-
-```bash
-hugo server --buildDrafts
-```
-
-Build your site to generate the static files:
-
-```bash
-hugo
-```
-
-## Conclusion
-
-You now have a Hugo site integrated with Tailwind CSS ready for development. For more information on customization and advanced configurations, refer to the [Hugo documentation](https://gohugo.io/documentation/) and the [Tailwind CSS documentation](https://tailwindcss.com/docs).
-
-This README.md document serves as a complete guide to setting up a Hugo project with Tailwind CSS, tailored for rapid development and easy deployment. It covers every step from initial setup to development and build processes.
+---

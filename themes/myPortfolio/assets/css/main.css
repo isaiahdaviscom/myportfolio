@@ -1,34 +1,131 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-body {
-  color: #222;
-  font-family: Arial, sans-serif;
-  line-height: 1.5;
-  margin: 1rem auto;
-  max-width: 768px;
-  font-size: .825em;
+/* Layout */
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
 }
 
-header {
-  border-bottom: 1px solid #222;
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+
+.container {
+  padding-left: 50px;
+  padding-right: 50px;
+  max-width: 1500px;
+}
+
+/* General Styles */
+body {
+  --font-sans: 'Inter', sans-serif;
+  color: #333;
+  font-family: var(--font-sans);
+  line-height: 1.75;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', sans-serif;
+  color: #222;
   margin-bottom: 1rem;
 }
 
-footer {
-  border-top: 1px solid #222;
-  margin-top: 1rem;
+p {
+  margin-bottom: 1.5rem;
+  color: #555;
 }
 
-header nav ul,
-footer nav ul {
+/* Header */
+header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+header nav ul {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between; 
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-a {
-  color: #00e;
+header nav ul li a {
+  color: #007acc;
   text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+header nav ul li a:hover {
+  color: #005f99;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #007acc, #50e3c2);
+  color: white;
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.hero a {
+  display: inline-block;
+  background-color: #ffffff;
+  color: #007acc;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.hero a:hover {
+  background-color: #007acc;
+  color: #ffffff;
+}
+
+/* Footer */
+footer {
+  background-color: #222;
+  color: #fff;
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-top: 2rem;
+}
+
+footer a {
+  color: #50e3c2;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
 }

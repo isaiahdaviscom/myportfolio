@@ -1,0 +1,11 @@
+# Prettier ignore file
+node_modules/
+public/
+.chrome-debug-profile/
+.git/
+.github/
+*.min.js
+*.min.css
+package-lock.json
+themes/myPortfolio/exampleSite/
+**/*.md

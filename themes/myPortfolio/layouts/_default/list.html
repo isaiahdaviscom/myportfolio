@@ -1,8 +1,39 @@
 {{ define "main" }}
-  <h1>{{ .Title }}</h1>
-  {{ .Content }}
-  {{ range .Pages }}
-    <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-    {{ .Summary }}
-  {{ end }}
+{{ if eq .Section "posts" }}
+  <section class="py-12 min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-100">
+    <div class="container mx-auto px-4">
+      <h1 class="text-4xl font-extrabold mb-6 text-blue-900 tracking-tight">Blog</h1>
+      <p class="mb-8 text-lg text-blue-700">My latest posts and articles.</p>
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {{ range .Pages.ByDate.Reverse }}
+          <article class="bg-white rounded-xl shadow-lg p-6 flex flex-col h-full border border-blue-100 hover:shadow-2xl transition">
+            <header>
+              <h2 class="text-2xl font-semibold mb-2 text-blue-800">
+                <a href="{{ .RelPermalink }}" class="hover:underline text-blue-700">{{ .Title }}</a>
+              </h2>
+              <time class="block text-gray-500 text-xs mb-2" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format ":date_long" }}</time>
+            </header>
+            <p class="mb-4 text-gray-700">{{ with .Params.description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}</p>
+            <a href="{{ .RelPermalink }}" class="mt-auto text-blue-600 hover:underline font-medium">Read More &rarr;</a>
+          </article>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ else if eq .Section "portfolio" }}
+  <section class="py-12 min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-100">
+    <div class="container mx-auto px-4">
+      <h1 class="text-4xl font-extrabold mb-6 text-blue-900 tracking-tight">Portfolio</h1>
+      <p class="mb-8 text-lg text-blue-700">A selection of my professional and creative work.</p>
+      {{ partial "gallery.html" (dict "columns" 3 "Site" .Site) }}
+    </div>
+  </section>
+{{ else }}
+  <section class="py-12 min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-100">
+    <div class="container mx-auto px-4">
+      <h1 class="text-4xl font-extrabold mb-6 text-blue-900 tracking-tight">{{ .Title }}</h1>
+      <div class="prose prose-lg max-w-3xl mx-auto text-gray-800">{{ .Content }}</div>
+    </div>
+  </section>
+{{ end }}
 {{ end }}

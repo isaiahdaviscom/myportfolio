@@ -1,0 +1,17 @@
+<script>
+  ((i, e) => {
+    // <stdin>
+    e.addEventListener("DOMContentLoaded", () => {
+      const currentYear = new Date().getFullYear();
+      const footerYear = document.getElementById("footer-year");
+      if (footerYear) {
+        footerYear.textContent = currentYear;
+      }
+      console.log(currentYear);
+      const footerVersion = document.getElementById("footer-version");
+      if (footerVersion) {
+        footerVersion.textContent = "v1.0.0"; // Replace with actual version if available
+      }
+    });
+  })(window, document);
+</script>

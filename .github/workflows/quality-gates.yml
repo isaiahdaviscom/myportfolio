@@ -1,0 +1,189 @@
+name: Quality Gates
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+    name: Code Quality Checks
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Check Prettier formatting
+      run: npx prettier --check "**/*.{js,css,html,md,json,yml,yaml}"
+    
+    - name: Lint CSS with Stylelint
+      run: npx stylelint "src/**/*.css" "themes/**/*.css"
+    
+    - name: Lint JavaScript with ESLint
+      run: npx eslint "themes/**/assets/js/**/*.js" "static/js/**/*.js"
+    
+    - name: Validate package.json
+      run: npx npm-package-json-lint .
+
+  security-scan:
+    runs-on: ubuntu-latest
+    name: Security Checks
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run npm audit
+      run: npm audit --audit-level moderate
+      continue-on-error: true
+    
+    - name: Check for known vulnerabilities
+      run: |
+        # Check for common security issues in static files
+        echo "Checking for sensitive information..."
+        ! grep -r "password\|secret\|key\|token" static/ || exit 1
+        ! grep -r "localhost" public/ || exit 1
+        echo "✅ No sensitive information found"
+
+  performance-budget:
+    runs-on: ubuntu-latest
+    name: Performance Budget
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v2
+      with:
+        hugo-version: '0.132.2'
+        extended: true
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build site
+      run: npm run build:all
+    
+    - name: Check bundle sizes
+      run: |
+        echo "📊 Checking bundle sizes..."
+        
+        # Check CSS bundle size (limit: 100KB)
+        if [ -f "static/css/styles.css" ]; then
+          css_size=$(stat -c%s "static/css/styles.css" 2>/dev/null || stat -f%z "static/css/styles.css")
+          css_kb=$((css_size / 1024))
+          echo "CSS bundle size: ${css_kb}KB"
+          if [ $css_size -gt 102400 ]; then
+            echo "❌ CSS bundle too large: ${css_kb}KB (limit: 100KB)"
+            exit 1
+          fi
+        fi
+        
+        # Check JS bundle size (limit: 50KB)
+        if [ -f "static/js/main.js" ]; then
+          js_size=$(stat -c%s "static/js/main.js" 2>/dev/null || stat -f%z "static/js/main.js")
+          js_kb=$((js_size / 1024))
+          echo "JS bundle size: ${js_kb}KB"
+          if [ $js_size -gt 51200 ]; then
+            echo "❌ JS bundle too large: ${js_kb}KB (limit: 50KB)"
+            exit 1
+          fi
+        fi
+        
+        # Check total build size
+        total_size=$(du -sb public/ | cut -f1)
+        total_mb=$((total_size / 1024 / 1024))
+        echo "Total build size: ${total_mb}MB"
+        if [ $total_size -gt 52428800 ]; then # 50MB limit
+          echo "❌ Build too large: ${total_mb}MB (limit: 50MB)"
+          exit 1
+        fi
+        
+        echo "✅ All bundle sizes within limits"
+    
+    - name: Check image optimization
+      run: |
+        echo "🖼️ Checking image optimization..."
+        find static/images public/images -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" 2>/dev/null | while read img; do
+          if [ -f "$img" ]; then
+            size=$(stat -c%s "$img" 2>/dev/null || stat -f%z "$img")
+            size_kb=$((size / 1024))
+            if [ $size -gt 1048576 ]; then # 1MB limit per image
+              echo "❌ Image too large: $img (${size_kb}KB)"
+              exit 1
+            fi
+          fi
+        done
+        echo "✅ Image sizes acceptable"
+
+  accessibility-check:
+    runs-on: ubuntu-latest
+    name: Accessibility Tests
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v2
+      with:
+        hugo-version: '0.132.2'
+        extended: true
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build site
+      run: npm run build:all
+    
+    - name: Install accessibility tools
+      run: npm install -g @axe-core/cli pa11y-ci
+    
+    - name: Start local server
+      run: |
+        npx http-server public -p 8080 --silent &
+        sleep 5
+    
+    - name: Run axe accessibility tests
+      run: |
+        echo "🔍 Running axe accessibility tests..."
+        npx axe-cli http://localhost:8080 --exit --tags wcag2a,wcag2aa
+    
+    - name: Run pa11y accessibility tests
+      run: |
+        echo "🔍 Running pa11y accessibility tests..."
+        echo "http://localhost:8080" | npx pa11y-ci --sitemap
+      continue-on-error: true

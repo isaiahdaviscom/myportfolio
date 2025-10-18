@@ -4,9 +4,68 @@
     "githubPullRequests.ignoredPullRequestBranches": [
         "master"
     ],
-    "workbench.colorTheme": "Visual Studio Dark",
+    "workbench.colorTheme": "Abyss",
     "workbench.iconTheme": "material-icon-theme",
     "workbench.editor.labelFormat": "short",
     "workbench.editor.tabSizing": "shrink",
     "workbench.editor.tabCloseButton": "off",
+    "workbench.editor.tabActionCloseVisibility": false,
+    
+    // Chrome DevTools Workspace Configuration
+    "chrome.executable": "chrome",
+    "chrome.webRoot": "${workspaceFolder}/public",
+    "chrome.sourceMapPathOverrides": {
+        "webpack:///./~/*": "${webRoot}/node_modules/*",
+        "webpack:///./*": "${webRoot}/*",
+        "webpack:///src/*": "${webRoot}/*",
+        "webpack:///./src/*": "${webRoot}/*"
+    },
+    
+    // CSS and styling configuration
+    "css.validate": false,
+    "scss.validate": false,
+    "less.validate": false,
+    "stylelint.validate": ["css", "scss", "postcss"],
+    
+    // HTML and Hugo configuration
+    "emmet.includeLanguages": {
+        "hugo": "html",
+        "html": "html"
+    },
+    "files.associations": {
+        "*.html": "html",
+        "*.md": "markdown"
+    },
+    "html.format.enable": false,
+    "html.format.wrapLineLength": 0,
+    "html.format.unformatted": "wbr",
+    "html.format.contentUnformatted": "pre,code,textarea",
+    "html.format.extraLiners": "head, body, /html",
+    "html.format.preserveNewLines": true,
+    "html.format.maxPreserveNewLines": 2,
+    "html.format.indentInnerHtml": false,
+    "html.format.wrapAttributes": "auto",
+    "html.format.templating": true,
+    "html.hover.documentation": true,
+    "html.suggest.html5": true,
+    "html.autoClosingTags": true,
+    
+    // TailwindCSS configuration
+    "tailwindCSS.includeLanguages": {
+        "hugo": "html",
+        "html": "html"
+    },
+    "tailwindCSS.files.exclude": [
+        "**/.git/**",
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/public/**"
+    ],
+    
+    // Live Server and debugging
+    "liveServer.settings.port": 5500,
+    "liveServer.settings.root": "/public",
+    "liveServer.settings.CustomBrowser": "chrome",
+    "liveServer.settings.ChromeDebuggingAttachment": true
 }

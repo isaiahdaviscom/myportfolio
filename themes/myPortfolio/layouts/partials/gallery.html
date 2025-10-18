@@ -1,0 +1,56 @@
+<section id="gallery" aria-label="A list of projects I've worked on" class="py-8">
+  <div class="container mx-auto px-4">
+    <div class="grid gap-6 {{ with .columns }}grid-cols-{{ . }}{{ else }}grid-cols-3{{ end }}">
+      {{ $pages := where .Site.RegularPages "Section" "portfolio" }}
+      {{ if .featureOnly }}
+        {{ $pages = where $pages ".Params.feature" true }}
+      {{ end }}
+      {{ $weightOrder := .weightOrder | default "asc" }}
+       {{ $pages = sort $pages "Weight" }}
+      {{ if eq $weightOrder "desc" }}
+        {{ $pages = collections.Reverse $pages }}
+      {{ end }}
+      {{ range $i, $page := $pages }}
+      <div class="cards mb-4">
+        <a class="link-image focus:outline-blue-700 focus-visible:ring-2 focus-visible:ring-blue-700"
+          href="{{ $page.RelPermalink }}" aria-labelledby="card-title-{{ $page.File.BaseFileName }}" tabindex="0">
+          <div class="card _skeleton_16u0g_1">
+            <picture>
+              {{ with $page.Resources.GetMatch "*.webp" }}
+              <source srcset="{{ .RelPermalink }}" type="image/webp" />
+              {{ end }} {{ with $page.Params.cover }} {{ if eq $i 0 }}
+              <img class="w-full h-auto object-cover" src="{{ . }}" alt="{{ $page.Title }} cover image." width="514"
+                height="354" decoding="async" />
+              {{ else }}
+              <img class="w-full h-auto object-cover" src="{{ . }}" alt="{{ $page.Title }} cover image." width="514"
+                height="354" loading="lazy" decoding="async" />
+              {{ end }} {{ end }}
+            </picture>
+            <div
+              class="card-img-overlay overflow-hidden {{ with $page.Params.bgcolor }}{{ . }}{{ else }}bg-gray-900{{ end }} rounded-lg shadow-lg group">
+              <div class="card-img-overlay text-white bg-black bg-opacity-80">
+                {{ with $page.Params.role }}<span class="badge bg-primary text-white">{{ . }}</span>
+                {{ end }}
+                <h3 id="card-title-{{ $page.File.BaseFileName }}"
+                  class="text-lg font-bold card-title display-6 text-white">
+                  {{ $page.Title }}
+                </h3>
+                {{ with $page.Params.dates }}
+                <p class="text-sm text-white">{{ . }}</p>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+<!-- <script>
+  window.addEventListener('pageshow', function (event) {
+    if (event.persisted) {
+      window.location.reload();
+    }
+  });
+</script> -->
