@@ -7,9 +7,9 @@ Your Hugo portfolio now supports multiple deployment environments for safe testi
 ### **Environment Structure:**
 ```
 🟢 Production  → master branch     → https://isaiahdavis.com
-🟡 Staging     → develop branch    → https://develop--myportfolio-staging.netlify.app  
-🔵 Preview     → Pull Requests     → https://deploy-preview-[PR#]--myportfolio.netlify.app
-🟠 Feature     → feature/* branches → https://[branch]--myportfolio.netlify.app
+🟡 Staging     → develop branch    → https://myportfolio-develop.netlify.app  
+🔵 Preview     → Pull Requests     → https://deploy-preview-[PR#]-myportfolio.netlify.app
+🟠 Feature     → feature/* branches → https://[branch]-myportfolio.netlify.app
 ```
 
 ---
@@ -93,7 +93,7 @@ git merge feature/new-portfolio-item
 git push origin develop
 
 # 🎯 Staging site automatically deploys at:
-# https://develop--myportfolio-staging.netlify.app
+# https://myportfolio-develop.netlify.app
 ```
 
 #### **3. Production Deployment**

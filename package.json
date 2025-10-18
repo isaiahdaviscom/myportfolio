@@ -6,9 +6,13 @@
   "scripts": {
     "build": "npm run build:all",
     "build:all": "npm run build:css && npm run build:js && npm run build:hugo",
+    "build:dev": "npm run build:css && npm run build:js && npm run build:hugo:dev",
+    "build:prod": "npm run build:css && npm run build:js && npm run build:hugo:prod",
     "build:css": "npx postcss src/css/tailwind.css -o static/css/styles.css",
     "build:js": "npx esbuild themes/myPortfolio/assets/js/main.js --minify --bundle --outfile=static/js/main.js",
     "build:hugo": "hugo --gc --minify",
+    "build:hugo:dev": "hugo --config hugo.toml,config.development.toml --gc --minify",
+    "build:hugo:prod": "hugo --config hugo.toml,config.production.toml --gc --minify",
     "watch": "npx postcss src/css/tailwind.css -o static/css/styles.css --watch",
     "hugo": "hugo server -D",
     "start": "npm run watch & npm run hugo",

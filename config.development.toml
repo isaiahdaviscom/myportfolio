@@ -1,0 +1,28 @@
+# Hugo configuration for development environment
+# This file overrides hugo.toml settings for development builds
+
+baseURL = "https://myportfolio-develop.netlify.app"
+
+# Disable sitemap generation for development
+disableKinds = ["sitemap", "robotsTXT"]
+
+# Enable development features
+buildDrafts = true
+buildFuture = true
+buildExpired = true
+
+# SEO protection for development
+[params]
+  noindex = true
+  environment = "development"
+
+# Disable RSS feeds for development
+disableRSS = true
+
+# Disable taxonomy pages that could be indexed
+disableKinds = ["sitemap", "robotsTXT", "RSS"]
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

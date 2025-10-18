@@ -16,6 +16,12 @@ theme = 'myPortfolio'
 
 [build]
 
+# Sitemap configuration (disabled for development)
+[sitemap]
+  changefreq = "monthly"
+  filename = "sitemap.xml"
+  priority = 0.5
+
 [deploy]
   [[deploy.targets]]
     name = "Netlify"

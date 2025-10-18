@@ -9,32 +9,46 @@
 
 # Development/Staging environment (develop branch)
 [context.develop]
-  command = "npm run build:all"
+  command = "npm run build:dev"
   [context.develop.environment]
     HUGO_ENV = "development"
-    HUGO_BASEURL = "https://develop--myportfolio-staging.netlify.app"
+    HUGO_BASEURL = "https://myportfolio-develop.netlify.app"
+    ROBOTS_DISALLOW = "true"
 
 # Production environment (master branch)
 [context.production]
-  command = "npm run build:all"
+  command = "npm run build:prod"
   [context.production.environment]
     HUGO_ENV = "production"
     HUGO_BASEURL = "https://isaiahdavis.com"
 
 # Deploy previews (for pull requests)
 [context.deploy-preview]
-  command = "npm run build:all"
+  command = "npm run build:dev"
   [context.deploy-preview.environment]
     HUGO_ENV = "preview"
 
 # Branch deploys (any other branch)
 [context.branch-deploy]
-  command = "npm run build:all"
+  command = "npm run build:dev"
   [context.branch-deploy.environment]
     HUGO_ENV = "staging"
 
 [build.processing]
   skip_processing = ["node_modules/**"]
+
+# Environment-specific robots.txt redirects
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots-dev.txt"
+  status = 200
+  conditions = {Context = ["develop", "deploy-preview", "branch-deploy"]}
+
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots-prod.txt"
+  status = 200
+  conditions = {Context = ["production"]}
 
 [[redirects]]
   from = "/admin/*"
@@ -47,6 +61,22 @@
   to = "/404.html"
   status = 404
 
+# Development environment headers (prevent indexing)
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    X-XSS-Protection = "1; mode=block"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex"
+    X-Environment = "development"
+  conditions = {Context = ["develop", "deploy-preview", "branch-deploy"]}
+
+# Production environment headers (allow indexing)
 [[headers]]
   for = "/*"
   [headers.values]
@@ -57,6 +87,8 @@
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
     X-XSS-Protection = "1; mode=block"
     Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    X-Environment = "production"
+  conditions = {Context = ["production"]}
 
 [[headers]]
   for = "/*.html"

@@ -1,0 +1,27 @@
+# Hugo configuration for production environment
+# This file overrides hugo.toml settings for production builds
+
+baseURL = "https://isaiahdavis.com"
+
+# Enable all content types for production
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
+# Enable SEO features for production
+[params]
+  noindex = false
+  environment = "production"
+
+# Enable sitemap and RSS for production
+enableRobotsTXT = true
+
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.8
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = false
