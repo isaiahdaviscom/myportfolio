@@ -8,7 +8,7 @@ Recursive menu walker for Hugo navigation menus.
   {{- $attrs := dict "href" .URL }}
   {{- $isPortfolioSection := and (eq .Identifier "portfolio") (or $page.IsSection (eq $page.Section "portfolio")) }}
   {{- if or ($page.IsMenuCurrent .Menu .) $isPortfolioSection }}
-    {{- $attrs = merge $attrs (dict "class" "active text-blue-700 font-bold underline" "aria-current" "page") }}
+    {{- $attrs = merge $attrs (dict "class" "active font-bold underline" "aria-current" "page") }}
   {{- else if $page.HasMenuCurrent .Menu .}}
     {{- $attrs = merge $attrs (dict "class" "ancestor" "aria-current" "true") }}
   {{- end }}

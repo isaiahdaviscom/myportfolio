@@ -5,7 +5,16 @@
   <!--  -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!--  -->
+
+  {{- /* Cache Control for Development */ -}}
+  {{ if ne hugo.Environment "production" }}
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="cache-bust" content="{{ now.Unix }}">
+  {{ end }}
+
+  {{- /* SEO and Robot Control */ -}}
   {{ if eq hugo.Environment "production" }}
   <meta name="robots" content="index, follow">
   <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -18,7 +27,7 @@
   {{ end }}
   <meta name="description"
     content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-  <meta name="keywords" content="{{ delimit .Site.Params.keywords ", " }}">
+  <meta name="keywords" content="{{ delimit .Site.Params.keywords " , " }}">
   <meta property="og:title" content="{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}">
   <meta property="og:description"
     content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
@@ -41,11 +50,16 @@
   <meta name="author" content="{{ .Site.Params.author }}">
   <meta name="generator" content="Hugo {{ hugo.Version }}">
   <meta name="llm-friendly" content="true">
-  <meta name="llm-summary" content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <meta name="llm-summary"
+    content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   {{ partial "structured-data.html" . }}
   <!-- <title>{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title> -->
   {{ partial "head.html" . }}
-  <link rel="stylesheet" href="/css/styles.css">
+  {{ if eq hugo.Environment "production" }}
+    <link rel="stylesheet" href="/css/styles.min.css">
+  {{ else }}
+    <link rel="stylesheet" href="/css/styles.css">
+  {{ end }}
   <!-- PWA & Lighthouse: Manifest, Theme Color, Service Worker -->
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="theme-color" content="#4a90e2">
@@ -55,21 +69,21 @@
   <link rel="icon" href="/favicon.ico">
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
+      window.addEventListener('load', function () {
         navigator.serviceWorker.register('/service-worker.js');
       });
     }
   </script>
   <!-- Analytics: Google Tag Manager -->
   <script>
-    // (function (w, d, s, l, i) {
-    //   w[l] = w[l] || []; w[l].push({
-    //     'gtm.start':
-    //       new Date().getTime(), event: 'gtm.js'
-    //   }); var f = d.getElementsByTagName(s)[0],
-    //     j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-    //       'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    // })(window, document, 'script', 'dataLayer', 'GTM-W3VQVDR');
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-W3VQVDR');
   </script>
 </head>
 
@@ -86,7 +100,12 @@
   </main>
   <footer>{{ partial "footer.html" . }}
   </footer>
+  {{- /* Use regular partial in development to prevent caching */ -}}
+  {{ if eq hugo.Environment "development" }}
+  {{ partial "foot/js.html" . }}
+  {{ else }}
   {{ partialCached "foot/js.html" . }}
+  {{ end }}
 
 </body>
 

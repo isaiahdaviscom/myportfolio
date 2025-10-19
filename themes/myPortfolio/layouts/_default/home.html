@@ -1,10 +1,8 @@
 {{ define "main" }}
-<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-100 flex flex-col">
-  <div class="container mx-auto px-4 py-12 flex-1">
-    <article class="prose prose-lg max-w-3xl mx-auto text-gray-800">
+
+    <section class="prose prose-lg max-w-3xl mx-auto">
       {{ .Content }}
-    </article>
+    </section>
     {{ partial "gallery.html" (dict "columns" 3 "Site" .Site "featureOnly" true) }}
-  </div>
-</div>
+
 {{ end }}

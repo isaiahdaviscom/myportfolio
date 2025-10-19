@@ -1,0 +1,15 @@
+{
+  "timestamp": "2025-10-19T06:39:54.519Z",
+  "mode": "dry-run",
+  "results": {
+    "filesProcessed": 1,
+    "classesRemoved": 14,
+    "linesRemoved": 221,
+    "sizeSaved": 1276
+  },
+  "recommendations": [
+    "This was a dry run - no files were modified",
+    "Review the results and run with --actual to apply changes",
+    "Make sure to backup your files before actual cleanup"
+  ]
+}

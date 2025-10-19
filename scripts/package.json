@@ -1,0 +1,15 @@
+{
+  "name": "css-optimization",
+  "version": "1.0.0",
+  "description": "CSS Tree-shaking and optimization tools for Hugo portfolio project",
+  "scripts": {
+    "analyze": "node scripts/css-treeshaker.js",
+    "optimize": "node scripts/css-treeshaker.js && npm run build:css:prod",
+    "build:css:prod": "npx postcss src/css/tailwind.css -o static/css/styles.css --env production && npm run treeshake",
+    "treeshake": "node scripts/css-treeshaker.js static/css/styles.css static/css/",
+    "report": "node scripts/css-treeshaker.js && echo 'Check css-optimization-report.md for details'"
+  },
+  "dependencies": {
+    "purgecss": "^6.0.0"
+  }
+}

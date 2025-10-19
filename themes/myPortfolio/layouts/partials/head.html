@@ -1,3 +1,9 @@
 <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+{{- /* Disable caching in development */ -}}
+{{ if eq hugo.Environment "development" }}
+{{ partial "head/css.html" . }}
+{{ partial "head/js.html" . }}
+{{ else }}
 {{ partialCached "head/css.html" . }}
 {{ partialCached "head/js.html" . }}
+{{ end }}
