@@ -26,64 +26,134 @@
   <meta name="environment" content="{{ hugo.Environment }}">
   {{ end }}
   <meta name="description"
-    content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-  <meta name="keywords" content="{{ delimit .Site.Params.keywords " , " }}">
-  <meta property="og:title" content="{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}">
+    content="{{ with .Params.description }}{{ . | htmlEscape }}{{ else }}{{ .Site.Params.description | htmlEscape }}{{ end }}">
+  <meta name="keywords" content="{{ delimit .Site.Params.keywords " , " | htmlEscape }}">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title"
+    content="{{ if .Title }}{{ .Title | htmlEscape }} | {{ end }}{{ .Site.Title | htmlEscape }}">
   <meta property="og:description"
-    content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    content="{{ with .Params.description }}{{ . | htmlEscape }}{{ else }}{{ .Site.Params.description | htmlEscape }}{{ end }}">
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ .Permalink }}">
   {{ with .Params.images }}
-  <meta property="og:image" content="{{ index . 0 }}">
+  <meta property="og:image" content="{{ index . 0 | absURL }}">
   {{ end }}
 
-  <!-- Social: Twitter -->
+  <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}">
+  <meta name="twitter:title"
+    content="{{ if .Title }}{{ .Title | htmlEscape }} | {{ end }}{{ .Site.Title | htmlEscape }}">
   <meta name="twitter:description"
-    content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    content="{{ with .Params.description }}{{ . | htmlEscape }}{{ else }}{{ .Site.Params.description | htmlEscape }}{{ end }}">
   {{ with .Params.images }}
-  <meta name="twitter:image" content="{{ index . 0 }}">
+  <meta name="twitter:image" content="{{ index . 0 | absURL }}">
   {{ end }}
+
   <link rel="canonical" href="{{ .Permalink }}">
-  <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }} Feed" href="{{ .Site.BaseURL }}index.xml">
-  <meta name="author" content="{{ .Site.Params.author }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title | htmlEscape }} Feed"
+    href="{{ .Site.BaseURL }}index.xml">
+  <meta name="author" content="{{ .Site.Params.author | htmlEscape }}">
   <meta name="generator" content="Hugo {{ hugo.Version }}">
   <meta name="llm-friendly" content="true">
   <meta name="llm-summary"
-    content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    content="{{ with .Params.description }}{{ . | htmlEscape }}{{ else }}{{ .Site.Params.description | htmlEscape }}{{ end }}">
+
+  <!-- Structured Data -->
   {{ partial "structured-data.html" . }}
-  <!-- <title>{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title> -->
+
+  <!-- Page Title -->
+  <title>{{ if .Title }}{{ .Title | htmlEscape }} | {{ end }}{{ .Site.Title | htmlEscape }}</title>
+
+  <!-- Head Partial -->
   {{ partial "head.html" . }}
+
+  <!-- PWA & Lighthouse: Icons and Manifest -->
+  <!-- Note: apple-touch-icon is correctly placed in head section per HTML5 spec -->
+  <!-- Apple touch icon for PWA support - properly placed in head section -->
+  <link rel="apple-touch-icon" href="/images/profile-branded.png">
+  <link rel="icon" href="/favicon.ico">
+
+  <!-- Stylesheets -->
   {{ if eq hugo.Environment "production" }}
-    <link rel="stylesheet" href="/css/styles.min.css">
+  <link rel="stylesheet" href="/css/styles.min.css">
   {{ else }}
-    <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/styles.css">
   {{ end }}
-  <!-- PWA & Lighthouse: Manifest, Theme Color, Service Worker -->
+
+  <!-- PWA Configuration -->
   <link rel="manifest" href="/manifest.webmanifest">
+  <!-- Theme color with fallbacks for cross-browser compatibility -->
+  <!-- PWA theme color with graceful degradation for unsupported browsers -->
+  <!-- Note: theme-color works in modern browsers, safely ignored by others -->
   <meta name="theme-color" content="#4a90e2">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="msapplication-navbutton-color" content="#4a90e2">
+  <meta name="msapplication-TileColor" content="#4a90e2">
+  <!-- iOS-specific PWA settings -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="apple-touch-icon" href="/images/logo.png">
-  <link rel="icon" href="/favicon.ico">
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('/service-worker.js');
-      });
-    }
+  <meta name="apple-mobile-web-app-title" content="{{ .Site.Title | htmlEscape }}">
+  <!-- Analytics Configuration -->
+  <script type="application/json" id="analytics-config">
+  {
+    "gtmId": "GTM-W3VQVDR",
+    "environment": {{ hugo.Environment | jsonify }}
+  }
   </script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    (function () {
+      'use strict';
+
+      // Register service worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(function (registration) {
+              console.log('ServiceWorker registration successful');
+            })
+            .catch(function (err) {
+              console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+      }
+    })();
+  </script>
+
   <!-- Analytics: Google Tag Manager -->
   <script>
-    (function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start':
-          new Date().getTime(), event: 'gtm.js'
-      }); var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-W3VQVDR');
+    (function () {
+      'use strict';
+
+      // Load analytics configuration
+      const configScript = document.getElementById('analytics-config');
+      if (!configScript) return;
+
+      let config;
+      try {
+        config = JSON.parse(configScript.textContent);
+      } catch (error) {
+        console.error('Analytics: Invalid configuration', error);
+        return;
+      }
+
+      // Initialize Google Tag Manager
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+          'gtm.start': new Date().getTime(),
+          event: 'gtm.js'
+        });
+        const f = d.getElementsByTagName(s)[0];
+        const j = d.createElement(s);
+        const dl = l !== 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', config.gtmId);
+    })();
   </script>
 </head>
 
@@ -91,19 +161,36 @@
   <!-- Analytics: Google Tag Manager (noscript) -->
   <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W3VQVDR" height="0" width="0"
-      style="display:none;visibility:hidden"></iframe>
+      style="display:none;visibility:hidden" title="Google Tag Manager">
+    </iframe>
   </noscript>
-  <!-- End Google Tag Manager (noscript) -->
-  <header class="bg-white py-2 text-center sticky top-0 z-50 w-full shadow">{{ partial "header.html" . }}
+
+  <!-- Skip to main content link for accessibility -->
+  <a href="#main-content"
+    class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 bg-blue-600 text-white p-2 z-50">
+    Skip to main content
+  </a>
+
+  <!-- Site Header -->
+  <header class="bg-white py-2 text-center sticky top-0 z-50 w-full shadow" role="banner">
+    {{ partial "header.html" . }}
   </header>
-  <main id="main-content">{{ block "main" . }}{{ end }}
+
+  <!-- Main Content -->
+  <main id="main-content" role="main">
+    {{ block "main" . }}{{ end }}
   </main>
-  <footer>{{ partial "footer.html" . }}
+
+  <!-- Site Footer -->
+  <footer role="contentinfo">
+    {{ partial "footer.html" . }}
   </footer>
+  <!-- JavaScript Assets -->
+  {{- if eq hugo.Environment "development" }}
   {{- /* Use regular partial in development to prevent caching */ -}}
-  {{ if eq hugo.Environment "development" }}
   {{ partial "foot/js.html" . }}
   {{ else }}
+  {{- /* Use cached partial in production for performance */ -}}
   {{ partialCached "foot/js.html" . }}
   {{ end }}
 

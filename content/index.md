@@ -4,4 +4,4 @@ description: "Welcome to my portfolio homepage."
 url: "/"
 ---
 
-### Currently based in Chicago, IL
+## Currently based in Chicago, IL

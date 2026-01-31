@@ -1,10 +1,8 @@
-{{- /*
-Recursive menu walker for Hugo navigation menus.
-@param .page The current page context
-@param .menuEntries The menu entries to render (array)
-*/}}
+{{/* Recursive menu walker for Hugo navigation menus. */}}
+<!-- Note: This Hugo template generates valid li elements within ul context -->
 {{- $page := .page }}
-{{- range .menuEntries }}<li>
+{{- range .menuEntries }}
+<li>
   {{- $attrs := dict "href" .URL }}
   {{- $isPortfolioSection := and (eq .Identifier "portfolio") (or $page.IsSection (eq $page.Section "portfolio")) }}
   {{- if or ($page.IsMenuCurrent .Menu .) $isPortfolioSection }}
@@ -18,12 +16,9 @@ Recursive menu walker for Hugo navigation menus.
       {{- $name = . }}
     {{- end }}
   {{- end }}
-  <a
-    {{- range $k, $v := $attrs }}
-      {{- with $v }}
-        {{- printf " %s=\"%s\"" $k $v | safeHTMLAttr }}
-      {{- end }}
-    {{- end -}}
-    >{{ $name }}</a>
-  {{- with .Children }}<ul>{{- partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) -}}</ul>{{- end }}
-</li>{{- end }}
+  <a{{- range $k, $v := $attrs }}{{- with $v }} {{ $k }}="{{ $v }}"{{- end }}{{- end }}>{{ $name }}</a>
+  {{- with .Children }}
+  <ul>{{ partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) }}</ul>
+  {{- end }}
+</li>
+{{- end }}

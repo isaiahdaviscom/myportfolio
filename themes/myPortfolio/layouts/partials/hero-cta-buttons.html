@@ -1,0 +1,79 @@
+{{- /*
+Hero CTA Buttons Component - Call-to-action buttons for hero sections
+Usage: {{ partial "hero-cta-buttons.html" (dict "buttons" .Site.Params.hero.buttons "style" "centered") }}
+
+Parameters:
+- buttons: Array of button objects (required)
+- style: "centered", "left", "minimal", "fullscreen" (default: "centered")
+
+Expected data structure:
+buttons:
+  - text: "View My Work"
+    url: "/portfolio"
+    style: "primary"
+    icon: "fas fa-arrow-right"
+    external: false
+  - text: "Download Resume"
+    url: "/resume.pdf"
+    style: "secondary"
+    icon: "fas fa-download"
+    external: true
+*/}}
+
+{{- $buttons := .buttons }}
+{{- $style := .style | default "centered" }}
+
+{{- if $buttons }}
+  <div class="hero-cta-buttons {{ if eq $style "centered" }}flex flex-wrap items-center justify-center gap-4{{ else if eq $style "fullscreen" }}flex flex-wrap items-center justify-center gap-6{{ else }}flex flex-wrap items-center gap-4{{ end }}">
+    
+    {{- range $index, $button := $buttons }}
+      {{- $buttonStyle := .style | default "primary" }}
+      {{- $isExternal := .external | default false }}
+      {{- $target := "_self" }}
+      {{- if $isExternal }}{{ $target = "_blank" }}{{ end }}
+      
+      {{- /* Button styling based on type */ -}}
+      {{- $buttonClasses := "" }}
+      {{- if eq $buttonStyle "primary" }}
+        {{- if eq $style "fullscreen" }}
+          {{- $buttonClasses = "inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-white bg-opacity-20 backdrop-blur-sm border-2 border-white rounded-full hover:bg-opacity-30 transition-all duration-300 transform hover:scale-105 hover:shadow-lg" }}
+        {{- else }}
+          {{- $buttonClasses = "inline-flex items-center px-6 py-3 text-base font-semibold text-gray-900 bg-white rounded-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 hover:shadow-lg" }}
+        {{- end }}
+      {{- else if eq $buttonStyle "secondary" }}
+        {{- if eq $style "fullscreen" }}
+          {{- $buttonClasses = "inline-flex items-center px-8 py-4 text-lg font-semibold text-white border-2 border-white rounded-full hover:bg-white hover:text-gray-900 transition-all duration-300 transform hover:scale-105" }}
+        {{- else }}
+          {{- $buttonClasses = "inline-flex items-center px-6 py-3 text-base font-semibold text-white border-2 border-white rounded-lg hover:bg-white hover:text-gray-900 transition-all duration-300 transform hover:scale-105" }}
+        {{- end }}
+      {{- else if eq $buttonStyle "ghost" }}
+        {{- $buttonClasses = "inline-flex items-center px-6 py-3 text-base font-semibold text-white hover:text-gray-200 transition-colors duration-300" }}
+      {{- end }}
+      
+      <a href="{{ .url }}" 
+         target="{{ $target }}"
+         {{- if $isExternal }} rel="noopener noreferrer"{{ end }}
+         class="{{ $buttonClasses }}"
+         {{- with .title }} title="{{ . }}"{{ end }}>
+        
+        {{- /* Button text */ -}}
+        <span>{{ .text }}</span>
+        
+        {{- /* Button icon */ -}}
+        {{- with .icon }}
+          <i class="{{ . }} ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
+        {{- else }}
+          {{- if $isExternal }}
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          {{- else }}
+            <svg class="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          {{- end }}
+        {{- end }}
+      </a>
+    {{- end }}
+  </div>
+{{- end }}

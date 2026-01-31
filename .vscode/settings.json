@@ -33,16 +33,67 @@
         "html": "html"
     },
     "files.associations": {
-        "*.html": "html",
+        "**/layouts/**/*.html": "hugo",
+        "**/themes/**/layouts/**/*.html": "hugo",
+        "**/partials/**/*.html": "hugo",
+        "**/shortcodes/**/*.html": "hugo",
+        "*.html": "hugo",
         "*.md": "markdown"
     },
     "html.format.enable": false,
+    "html.validate.scripts": false,
     "html.format.wrapLineLength": 0,
     "html.format.unformatted": "wbr",
     "html.format.contentUnformatted": "pre,code,textarea",
     "html.format.extraLiners": "head, body, /html",
     "html.format.preserveNewLines": true,
     "html.format.maxPreserveNewLines": 2,
+    
+    // Suppress Hugo template false positives
+    "html.validate.styles": false,
+    "css.lint.compatibleVendorPrefixes": "ignore",
+    "css.lint.vendorPrefix": "ignore",
+    "css.lint.unknownProperties": "ignore",
+    
+    // HTML structure validation suppressions for Hugo templates
+    "html.customData": [".vscode/hugo-html.json"],
+    "html.completion.attributeDefaultValue": "doublequotes",
+    
+    // Hugo-specific validation suppression
+    "[hugo]": {
+        "html.validate.scripts": false,
+        "html.validate.styles": false,
+        "html.suggest.html5": false,
+        "html.hover.documentation": false,
+        "html.format.enable": false,
+        "html.validate": false
+    },
+    
+    // Global HTML validation suppressions for specific Hugo issues
+    "html.trace.server": "off",
+    "html.experimental.custom.data": [],
+    
+    // Path-based validation for Hugo layouts
+    "files.exclude": {
+        "**/public/**": true
+    },
+    "search.exclude": {
+        "**/public/**": true,
+        "**/node_modules/**": true,
+        "**/.git/**": true
+    },
+    "files.watcherExclude": {
+        "**/public/**": true,
+        "**/node_modules/**": true
+    },
+    
+    // Microsoft Edge Tools and browser compatibility suppression
+    "edge-tools.webhint.enable": false,
+    "microsoft-edge-tools.webhint": false,
+    
+    // Problem matcher suppressions for Hugo-specific false positives
+    "problems.decorations.enabled": true,
+    "problems.showCurrentInStatus": false,
     "html.format.indentInnerHtml": false,
     "html.format.wrapAttributes": "auto",
     "html.format.templating": true,

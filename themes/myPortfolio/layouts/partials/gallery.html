@@ -1,4 +1,4 @@
-<section id="gallery" aria-label="A list of projects I've worked on" class="container py-8">
+<section id="gallery" aria-label="A list of projects I've worked on" class="py-8">
   <div class="mx-auto px-4">
     <div class="row grid gap-6 {{ with .columns }}grid-cols-{{ . }}{{ else }}grid-cols-3{{ end }}">
       {{ $pages := where .Site.RegularPages "Section" "portfolio" }}

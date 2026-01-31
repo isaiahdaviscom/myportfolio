@@ -1,0 +1,417 @@
+{{/* -*- mode: hugo -*- */}}
+{{- /*
+Image Gallery Component - Responsive gallery with lightbox functionality
+Usage: {{ partial "image-gallery.html" (dict "images" .Params.gallery "style" "grid" "columns" 3) }}
+
+Parameters:
+- images: Array of image objects or simple URLs (required)
+- style: "grid", "masonry", "carousel", "thumbnails" (default: "grid")
+- columns: Number of columns for grid layout (default: 3)
+- lightbox: Enable lightbox functionality (default: true)
+- captions: Show image captions (default: true)
+
+Expected data structure:
+images:
+- src: "/images/project1.jpg"
+alt: "Project screenshot"
+title: "Homepage design"
+caption: "Clean and modern interface"
+- src: "/images/project2.jpg"
+alt: "Mobile view"
+*/}}
+
+{{- $images := .images }}
+{{- $style := .style | default "grid" }}
+{{- $columns := .columns | default 3 }}
+{{- $lightbox := .lightbox | default true }}
+{{- $captions := .captions | default true }}
+
+{{- /* Validate inputs */ -}}
+{{- $validStyles := slice "grid" "masonry" "carousel" "thumbnails" }}
+{{- if not (in $validStyles $style) }}
+{{- $style = "grid" }}
+{{- end }}
+
+{{- if or (lt $columns 1) (gt $columns 6) }}
+{{- $columns = 3 }}
+{{- end }}
+
+{{- if and $images (gt (len $images) 0) }}
+<div class="image-gallery
+    {{- if eq $style " masonry" }} masonry-gallery{{ end }}{{- if eq $style "carousel" }} carousel-gallery{{ end }}">
+
+  {{- if eq $style "carousel" }}
+  {{- /* Carousel layout */ -}}
+  <div class="relative overflow-hidden rounded-lg">
+    <div class="carousel-container flex transition-transform duration-300" id="gallery-carousel">
+      {{- range $index, $image := $images }}
+      {{- $imageSrc := "" }}
+      {{- $imageAlt := "" }}
+      {{- $imageTitle := "" }}
+      {{- $imageCaption := "" }}
+
+      {{- if reflect.IsMap $image }}
+      {{- $imageSrc = $image.src }}
+      {{- $imageAlt = $image.alt | default $image.title | default "Gallery image" }}
+      {{- $imageTitle = $image.title }}
+      {{- $imageCaption = $image.caption }}
+      {{- else }}
+      {{- $imageSrc = $image }}
+      {{- $imageAlt = "Gallery image" }}
+      {{- end }}
+
+      <div class="carousel-slide min-w-full">
+        <img src="{{ $imageSrc | safeURL }}" alt="{{ $imageAlt | htmlEscape }}" {{- with $imageTitle }}
+          title="{{ . | htmlEscape }}" {{ end }} class="w-full h-96 object-cover
+                   {{- if $lightbox }} cursor-pointer{{ end }}" {{- if $lightbox }} data-lightbox-index="{{ $index }}"
+          {{ end }}>
+
+        {{- if and $captions $imageCaption }}
+        <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
+          <p class="text-sm">{{ $imageCaption | htmlEscape }}</p>
+        </div>
+        {{- end }}
+      </div>
+      {{- end }}
+    </div>
+
+    {{- /* Carousel controls */ -}}
+    <button
+      class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+      data-carousel-prev aria-label="Previous slide">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <button
+      class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+      data-carousel-next aria-label="Next slide">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+
+    {{- /* Carousel indicators */ -}}
+    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2" role="group"
+      aria-label="Slide indicators">
+      {{- range $index, $image := $images }}
+      <button
+        class="w-3 h-3 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+        data-carousel-slide="{{ $index }}" aria-label="Go to slide {{ add $index 1 }}"></button>
+      {{- end }}
+    </div>
+  </div>
+
+  {{- else }}
+  {{- /* Grid/Masonry/Thumbnails layout */ -}}
+  <div class="
+        {{- if eq $style " masonry" }}columns-1 md:columns-2 lg:columns-{{ $columns }} gap-4 space-y-4{{- else if eq
+    $style "thumbnails" }}flex flex-wrap gap-2{{- else }}grid grid-cols-1 md:grid-cols-2 lg:grid-cols-{{ $columns }}
+    gap-4{{ end }}">
+
+    {{- range $index, $image := $images }}
+    {{- $imageSrc := "" }}
+    {{- $imageAlt := "" }}
+    {{- $imageTitle := "" }}
+    {{- $imageCaption := "" }}
+
+    {{- if reflect.IsMap $image }}
+    {{- $imageSrc = $image.src }}
+    {{- $imageAlt = $image.alt | default $image.title | default "Gallery image" }}
+    {{- $imageTitle = $image.title }}
+    {{- $imageCaption = $image.caption }}
+    {{- else }}
+    {{- $imageSrc = $image }}
+    {{- $imageAlt = "Gallery image" }}
+    {{- end }}
+
+    <div class="gallery-item group
+            {{- if eq $style " masonry" }} break-inside-avoid mb-4{{- else if eq $style "thumbnails" }} w-20 h-20{{-
+      else }} aspect-square{{ end }}">
+
+      <div class="relative overflow-hidden rounded-lg
+              {{- if eq $style " thumbnails" }} w-full h-full{{ else }} h-full{{ end }}">
+
+        <img src="{{ $imageSrc | safeURL }}" alt="{{ $imageAlt | htmlEscape }}" {{- with $imageTitle }}
+          title="{{ . | htmlEscape }}" {{ end }} class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110
+                   {{- if $lightbox }} cursor-pointer{{ end }}" {{- if $lightbox }} data-lightbox-index="{{ $index }}"
+          {{ end }}>
+
+        {{- /* Image overlay */ -}}
+        {{- if and $lightbox (ne $style "thumbnails") }}
+        <div
+          class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-colors duration-300 flex items-center justify-center">
+          <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+          </svg>
+        </div>
+        {{- end }}
+
+        {{- /* Image caption */ -}}
+        {{- if and $captions $imageCaption (ne $style "thumbnails") }}
+        <div
+          class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/50 to-transparent text-white p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+          <p class="text-sm">{{ $imageCaption | htmlEscape }}</p>
+        </div>
+        {{- end }}
+      </div>
+    </div>
+    {{- end }}
+  </div>
+  {{- end }}
+</div>
+
+{{- /* Lightbox modal */ -}}
+{{- if $lightbox }}
+<div id="lightbox" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden items-center justify-center" role="dialog"
+  aria-modal="true" aria-labelledby="lightbox-counter" aria-describedby="lightbox-instructions">
+  <div class="relative max-w-full max-h-full p-4">
+    <img id="lightbox-image" src="" alt="" class="max-w-full max-h-full object-contain">
+
+    {{- /* Lightbox controls */ -}}
+    <button
+      class="absolute top-4 right-4 text-white hover:text-gray-300 text-2xl focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded"
+      data-lightbox-close aria-label="Close lightbox" title="Close (Esc)">
+      &times;
+    </button>
+
+    <button
+      class="absolute top-1/2 left-4 transform -translate-y-1/2 text-white hover:text-gray-300 text-2xl focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded"
+      data-lightbox-prev aria-label="Previous image" title="Previous (←)">
+      &#8249;
+    </button>
+
+    <button
+      class="absolute top-1/2 right-4 transform -translate-y-1/2 text-white hover:text-gray-300 text-2xl focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded"
+      data-lightbox-next aria-label="Next image" title="Next (→)">
+      &#8250;
+    </button>
+
+    {{- /* Image counter and instructions */ -}}
+    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-sm text-center">
+      <div id="lightbox-counter" aria-live="polite"></div>
+      <div id="lightbox-instructions" class="text-xs opacity-75 mt-1">Use arrow keys to navigate, Esc to close</div>
+    </div>
+  </div>
+</div>
+
+{{- /* Gallery configuration data */ -}}
+<script type="application/json" id="gallery-config">
+{
+  "images": [
+    {{- range $index, $image := $images }}
+      {{- $imageSrc := "" }}
+      {{- $imageAlt := "" }}
+      {{- if reflect.IsMap $image }}
+        {{- $imageSrc = $image.src }}
+        {{- $imageAlt = $image.alt | default $image.title | default "Gallery image" }}
+      {{- else }}
+        {{- $imageSrc = $image }}
+        {{- $imageAlt = "Gallery image" }}
+      {{- end }}
+      {
+        "src": {{ $imageSrc | jsonify }},
+        "alt": {{ $imageAlt | jsonify }}
+      }{{- if ne $index (sub (len $images) 1) }},{{ end }}
+    {{- end }}
+  ],
+  "style": {{ $style | jsonify }},
+  "lightbox": {{ $lightbox }}
+}
+</script>
+
+<script>
+  (function () {
+    'use strict';
+
+    // Load gallery configuration from JSON
+    const configScript = document.getElementById('gallery-config');
+    if (!configScript) {
+      console.error('Gallery: Configuration not found');
+      return;
+    }
+
+    let galleryConfig;
+    try {
+      galleryConfig = JSON.parse(configScript.textContent);
+    } catch (error) {
+      console.error('Gallery: Invalid configuration', error);
+      return;
+    }
+
+    const { images: galleryImages, style: galleryStyle, lightbox: lightboxEnabled } = galleryConfig;
+
+    // Gallery functionality wrapped in IIFE to prevent global namespace pollution
+    let currentImageIndex = 0;
+    let currentSlide = 0;
+
+    // Helper function to safely get elements
+    const safeGetElement = (id) => {
+      const element = document.getElementById(id);
+      if (!element) {
+        console.warn(`Gallery: Element with id '${id}' not found`);
+      }
+      return element;
+    };
+
+    // Lightbox functionality
+    const lightbox = {
+      open(index) {
+        if (index < 0 || index >= galleryImages.length) {
+          console.error('Gallery: Invalid image index', index);
+          return;
+        }
+
+        currentImageIndex = index;
+        const lightboxEl = safeGetElement('lightbox');
+        const lightboxImage = safeGetElement('lightbox-image');
+        const counter = safeGetElement('lightbox-counter');
+
+        if (!lightboxEl || !lightboxImage || !counter) return;
+
+        try {
+          lightboxImage.src = galleryImages[index].src;
+          lightboxImage.alt = galleryImages[index].alt;
+          counter.textContent = `${index + 1} / ${galleryImages.length}`;
+
+          lightboxEl.classList.remove('hidden');
+          lightboxEl.classList.add('flex');
+          lightboxEl.focus();
+        } catch (error) {
+          console.error('Gallery: Error opening lightbox', error);
+        }
+      },
+
+      close() {
+        const lightboxEl = safeGetElement('lightbox');
+        if (!lightboxEl) return;
+
+        lightboxEl.classList.add('hidden');
+        lightboxEl.classList.remove('flex');
+      },
+
+      previous() {
+        currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+        this.open(currentImageIndex);
+      },
+
+      next() {
+        currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+        this.open(currentImageIndex);
+      }
+    };
+
+    // Carousel functionality (only if style is carousel)
+    const carousel = galleryStyle === 'carousel' ? {
+      updatePosition() {
+        const carouselEl = safeGetElement('gallery-carousel');
+        if (carouselEl) {
+          carouselEl.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+      },
+
+      goToSlide(index) {
+        if (index < 0 || index >= galleryImages.length) return;
+        currentSlide = index;
+        this.updatePosition();
+      },
+
+      previous() {
+        currentSlide = (currentSlide - 1 + galleryImages.length) % galleryImages.length;
+        this.updatePosition();
+      },
+
+      next() {
+        currentSlide = (currentSlide + 1) % galleryImages.length;
+        this.updatePosition();
+      }
+    } : null;
+
+    // Event listeners setup
+    function setupEventListeners() {
+      // Lightbox image clicks
+      document.addEventListener('click', function (e) {
+        if (e.target.hasAttribute('data-lightbox-index')) {
+          e.preventDefault();
+          const index = parseInt(e.target.getAttribute('data-lightbox-index'), 10);
+          lightbox.open(index);
+        }
+      });
+
+      // Lightbox controls
+      document.addEventListener('click', function (e) {
+        if (e.target.hasAttribute('data-lightbox-close')) {
+          e.preventDefault();
+          lightbox.close();
+        } else if (e.target.hasAttribute('data-lightbox-prev')) {
+          e.preventDefault();
+          lightbox.previous();
+        } else if (e.target.hasAttribute('data-lightbox-next')) {
+          e.preventDefault();
+          lightbox.next();
+        }
+      });
+
+      // Carousel controls (only if carousel is enabled)
+      if (galleryStyle === 'carousel' && carousel) {
+        document.addEventListener('click', function (e) {
+          if (e.target.hasAttribute('data-carousel-prev')) {
+            e.preventDefault();
+            carousel.previous();
+          } else if (e.target.hasAttribute('data-carousel-next')) {
+            e.preventDefault();
+            carousel.next();
+          } else if (e.target.hasAttribute('data-carousel-slide')) {
+            e.preventDefault();
+            const slideIndex = parseInt(e.target.getAttribute('data-carousel-slide'), 10);
+            carousel.goToSlide(slideIndex);
+          }
+        });
+      }
+
+      // Keyboard navigation
+      document.addEventListener('keydown', function (e) {
+        const lightboxEl = safeGetElement('lightbox');
+        if (lightboxEl && !lightboxEl.classList.contains('hidden')) {
+          switch (e.key) {
+            case 'Escape':
+              e.preventDefault();
+              lightbox.close();
+              break;
+            case 'ArrowLeft':
+              e.preventDefault();
+              lightbox.previous();
+              break;
+            case 'ArrowRight':
+              e.preventDefault();
+              lightbox.next();
+              break;
+          }
+        }
+      });
+
+      // Close lightbox when clicking outside the image
+      document.addEventListener('click', function (e) {
+        const lightboxEl = safeGetElement('lightbox');
+        if (lightboxEl && e.target === lightboxEl) {
+          lightbox.close();
+        }
+      });
+    }
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupEventListeners);
+    } else {
+      setupEventListeners();
+    }
+  })();
+</script>
+{{- end }}
+{{- else }}
+<div class="image-gallery-empty text-center py-8 text-gray-500">
+  <p>No images to display</p>
+</div>
+{{- end }}

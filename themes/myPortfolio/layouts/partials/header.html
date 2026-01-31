@@ -4,18 +4,19 @@
 </a>
 <section class="container mx-auto px-4">
   <div class="flex flex-wrap items-center">
-    <nav role="navigation" aria-label="main navigation list" class="w-full sm:w-1/4 flex items-center">
-      <ul class="flex items-center gap-3">
-        <li aria-label="My homepage">
+    <div class="w-full sm:w-1/4 flex items-center">
+      <div class="flex items-center gap-3">
+        <div aria-label="My homepage">
           <div class="relative flex items-center _image_inner_container_6tup4_1">
             <img src="/images/profile-branded.png" alt="Profile picture of Isaiah Davis" height="64" width="64"
               class="align-top rounded-full border-2 border-blue-500 shadow-md" loading="lazy">
             <span class="absolute bottom-1 right-1 block h-3 w-3 rounded-full bg-gray-400 border-2 border-white"
               title="Status: offline"></span>
           </div>
-        </li>{{ partial "menu.html" (dict "menuID" "main" "page" .) }}
-      </ul>
-    </nav>
+        </div>
+        {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+      </div>
+    </div>
     <div id="social" class="flex justify-end flex-1 space-x-2 mt-4 sm:mt-0">
       <div id="linkedin">
         <a href="https://www.linkedin.com/in/isaiahdavis/" target="_blank" rel="noopener noreferrer"

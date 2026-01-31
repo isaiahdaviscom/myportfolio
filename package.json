@@ -73,5 +73,9 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "bin": {
+    "pf": "./cli.js",
+    "portfolio": "./cli.js"
+  }
 }

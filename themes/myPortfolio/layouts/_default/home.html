@@ -1,8 +1,6 @@
 {{ define "main" }}
-
-    <section class="prose prose-lg max-w-3xl mx-auto">
+    <section class="container">
       {{ .Content }}
     </section>
     {{ partial "gallery.html" (dict "columns" 3 "Site" .Site "featureOnly" true) }}
-
 {{ end }}

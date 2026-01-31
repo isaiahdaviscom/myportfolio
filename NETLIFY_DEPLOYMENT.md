@@ -7,7 +7,7 @@
 - [x] Publish directory set (`public`)
 - [x] CSS build process (PostCSS + TailwindCSS)
 - [x] JavaScript build process (ESBuild)
-- [x] Environment variables template created
+- [x] Environment variables template created 
 
 ## 🔧 Build Configuration
 - **Build Command**: `npm run build:all`

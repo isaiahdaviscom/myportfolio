@@ -12,6 +12,9 @@ Renders a menu for the given menu ID.
 
 {{- with index site.Menus $menuID }}
   <nav aria-label="Main Navigation" id="{{ $menuID }}" class="inline-menu">
-    <ul>{{- partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) -}}</ul>
+    <!-- Note: Hugo partial generates valid li elements for menu structure -->
+    <ul>
+      {{- partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) }}
+    </ul>
   </nav>
 {{- end }}
