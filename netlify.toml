@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build:all"
+  command = "npm run build:prod"
   publish = "public"
 
 [build.environment]
@@ -42,13 +42,29 @@
   from = "/robots.txt"
   to = "/robots-dev.txt"
   status = 200
-  conditions = {Context = ["develop", "deploy-preview", "branch-deploy"]}
+  force = true
+  conditions = {Context = "develop"}
+
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots-dev.txt"
+  status = 200
+  force = true
+  conditions = {Context = "deploy-preview"}
+
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots-dev.txt"
+  status = 200
+  force = true
+  conditions = {Context = "branch-deploy"}
 
 [[redirects]]
   from = "/robots.txt"
   to = "/robots-prod.txt"
   status = 200
-  conditions = {Context = ["production"]}
+  force = true
+  conditions = {Context = "production"}
 
 [[redirects]]
   from = "/admin/*"
@@ -61,34 +77,56 @@
   to = "/404.html"
   status = 404
 
-# Development environment headers (prevent indexing)
+# Security headers for all environments
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# Development environment headers
 [[headers]]
   for = "/*"
   [headers.values]
     Cache-Control = "no-cache, no-store, must-revalidate"
     X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "no-referrer"
-    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
-    X-XSS-Protection = "1; mode=block"
-    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
     X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex"
     X-Environment = "development"
-  conditions = {Context = ["develop", "deploy-preview", "branch-deploy"]}
+  [headers.conditions]
+    Context = "develop"
 
-# Production environment headers (allow indexing)
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    X-Frame-Options = "DENY"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex"
+    X-Environment = "development"
+  [headers.conditions]
+    Context = "deploy-preview"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    X-Frame-Options = "DENY"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex"
+    X-Environment = "development"
+  [headers.conditions]
+    Context = "branch-deploy"
+
+# Production environment headers
 [[headers]]
   for = "/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
-    X-Frame-Options = "SAMEORIGIN"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
-    X-XSS-Protection = "1; mode=block"
-    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
     X-Environment = "production"
-  conditions = {Context = ["production"]}
+  [headers.conditions]
+    Context = "production"
 
 [[headers]]
   for = "/*.html"

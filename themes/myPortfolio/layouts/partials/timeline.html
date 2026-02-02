@@ -129,7 +129,7 @@ experience:
                 {{- with .achievements }}
                   <div class="mb-4">
                     <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-2">Key Achievements:</h4>
-                    <!-- Note: Hugo template {{- range }} generates valid li elements -->
+                    <!-- Note: Hugo template range syntax generates valid li elements -->
                     <ul class="list-disc list-inside space-y-1 text-sm text-gray-600 dark:text-gray-400">
                       {{- range . }}
                       <li>{{ . }}</li>
