@@ -1,0 +1,41 @@
+/*
+  PRINT UTILITIES (Site-Specific)
+  ==============================
+  Purpose: Print-specific optimizations for portfolio content
+  Location: src/css/utilities/print.css
+  Layer: @layer utilities (highest specificity)
+  
+  Standards:
+  - Optimizes components for print media
+  - Removes visual effects that don't translate to print
+  - Maintains content readability on paper
+  - Uses utilities layer for override capability
+  
+  Print Considerations:
+  - Remove gradients and overlays
+  - Ensure text contrast for black & white printing  
+  - Preserve layout structure
+*/
+
+@layer utilities {
+  @media print {
+    /* Remove card image overlays in print - content should be readable */
+    @container card (min-width: 300px) {
+      .card picture::before {
+        content: none; /* Remove gradient overlay for print */
+      }
+      
+      .card h3,
+      .card p {
+        color: #000 !important; /* Ensure text is black for print */
+      }
+    }
+    
+    /* Additional print optimizations */
+    .badge {
+      background-color: transparent !important;
+      color: #000 !important;
+      border: 1px solid #000 !important;
+    }
+  }
+}

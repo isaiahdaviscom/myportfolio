@@ -1,43 +1,357 @@
-<a class="absolute left-2 top-2 z-10 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 text-xs"
-  href="#main-content">
-  <small>Skip to Main</small>
-</a>
+{{/*
+  ════════════════════════════════════════════════
+  HEADER PARTIAL — Instagram Stories Style
+  ════════════════════════════════════════════════
+  Left:   Profile ring trigger (stories) + nav
+  Right:  Social links
+  Modal:  Stories overlay panel (2 slides)
+
+  Business hours (All times Chicago / Central):
+    Available: Mon–Fri, 9:00 AM – 6:00 PM CT
+*/}}
+
+{{/* ── Profile image path (set once here) ─── */}}
+{{- $avatar := "/images/profile-branded.png" -}}
+
 <section class="container mx-auto px-4">
-  <div class="flex flex-wrap items-center">
-    <div class="w-full sm:w-1/4 flex items-center">
-      <div class="flex items-center gap-3">
-        <div aria-label="My homepage">
-          <div class="relative flex items-center _image_inner_container_6tup4_1">
-            <img src="/images/profile-branded.png" alt="Profile picture of Isaiah Davis" height="64" width="64"
-              class="align-top rounded-full border-2 border-blue-500 shadow-md" loading="lazy">
-            <span class="absolute bottom-1 right-1 block h-3 w-3 rounded-full bg-gray-400 border-2 border-white"
-              title="Status: offline"></span>
-          </div>
-        </div>
-        {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+  <div class="flex items-center gap-4">
+
+    {{/* ══ LEFT: ring trigger + nav ══ */}}
+    <div class="flex items-center gap-3 flex-1 min-w-0">
+
+      {{/* ── Stories ring trigger button ── */}}
+      <button
+        id="stories-trigger"
+        class="stories-trigger"
+        aria-label="View my availability — opens a stories panel"
+        aria-haspopup="dialog"
+        aria-controls="stories-overlay"
+        aria-expanded="false"
+        type="button">
+
+        {{/* Ring (gradient or gray — toggled by JS) */}}
+        <span id="stories-ring" class="stories-ring stories-ring--away" aria-hidden="true">
+          <span class="stories-ring-inner">
+            <img
+              src="{{ $avatar }}"
+              alt="Profile picture of Isaiah Davis"
+              class="stories-avatar"
+              width="40" height="40"
+              loading="eager">
+          </span>
+        </span>
+
+        {{/* Status dot */}}
+        <span
+          id="stories-dot"
+          class="stories-dot stories-dot--closed"
+          title="Availability status"></span>
+      </button>
+
+      {{/* ── Name + availability label ── */}}
+      <div class="leading-tight min-w-0">
+        <p class="text-sm font-semibold text-gray-900 truncate">Isaiah Davis</p>
+        <p id="availability-label" class="text-xs availability-closed truncate">Checking hours…</p>
       </div>
+
+      {{/* ── Primary nav ── */}}
+      {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
     </div>
-    <div id="social" class="flex justify-end flex-1 space-x-2 mt-4 sm:mt-0">
-      <div id="linkedin">
-        <a href="https://www.linkedin.com/in/isaiahdavis/" target="_blank" rel="noopener noreferrer"
-          aria-label="My Linkedin profile" class="flex items-center p-1 hover:bg-blue-50 rounded transition">
-          <img height="28" width="28" src="/vendors/fontawesome/linkedin-brands-solid.svg" alt="My Linkedin profile">
-          <p class="hidden print ml-2"><em>linkedin.com/in/isaiahdavis</em></p>
-        </a>
-      </div>
-      <div id="github">
-        <a href="https://github.com/isaiahdaviscom" target="_blank" rel="noopener noreferrer"
-          aria-label="My Github profile" class="flex items-center p-1 hover:bg-gray-100 rounded transition">
-          <img height="28" width="28" src="/vendors/fontawesome/github-brands.svg" alt="My GitHub profile">
-          <p class="hidden print ml-2"><em>github.com/isaiahdaviscom</em></p>
-        </a>
-      </div>
-      <div id="email">
-        <a aria-label="Contact Me" href="/contact" class="flex items-center p-1 hover:bg-green-50 rounded transition">
-          <img height="24" width="24" src="/vendors/fontawesome/paper-plane-solid.svg" alt="Contact Me">
-          <p class="hidden print ml-2"><em>isaiah.davisx@gmail.com</em></p>
-        </a>
-      </div>
-    </div>
+
+    {{/* ══ RIGHT: social icons ══ */}}
+    <nav id="social" aria-label="Social links" class="flex items-center gap-1 shrink-0">
+      <a href="https://www.linkedin.com/in/isaiahdavis/" target="_blank" rel="noopener noreferrer"
+        aria-label="LinkedIn profile" class="flex items-center p-1.5 hover:bg-blue-50 rounded-lg transition">
+        <img height="22" width="22" src="/vendors/fontawesome/linkedin-brands-solid.svg" alt="LinkedIn">
+        <span class="hidden print:inline ml-2 text-xs italic text-gray-600">linkedin.com/in/isaiahdavis</span>
+      </a>
+      <a href="https://github.com/isaiahdaviscom" target="_blank" rel="noopener noreferrer"
+        aria-label="GitHub profile" class="flex items-center p-1.5 hover:bg-gray-100 rounded-lg transition">
+        <img height="22" width="22" src="/vendors/fontawesome/github-brands.svg" alt="GitHub">
+        <span class="hidden print:inline ml-2 text-xs italic text-gray-600">github.com/isaiahdaviscom</span>
+      </a>
+      <a href="/contact" aria-label="Contact me"
+        class="flex items-center p-1.5 hover:bg-green-50 rounded-lg transition">
+        <img height="20" width="20" src="/vendors/fontawesome/paper-plane-solid.svg" alt="Contact">
+        <span class="hidden print:inline ml-2 text-xs italic text-gray-600">isaiah.davisx@gmail.com</span>
+      </a>
+    </nav>
+
   </div>
 </section>
+
+
+{{/* ════════════════════════════════════════════
+     STORIES OVERLAY MODAL
+     ════════════════════════════════════════════ */}}
+<div
+  id="stories-overlay"
+  class="stories-overlay"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Isaiah Davis — Availability"
+  aria-hidden="true">
+
+  {{/* Backdrop (click to close) */}}
+  <div class="stories-backdrop" id="stories-backdrop"></div>
+
+  {{/* Card */}}
+  <div class="stories-card" id="stories-card">
+
+    {{/* ── Progress bars ── */}}
+    <div class="stories-progress-track" aria-hidden="true">
+      <div class="stories-progress-segment">
+        <div class="stories-progress-fill" id="stories-fill-0" style="--story-dur:6000ms"></div>
+      </div>
+      <div class="stories-progress-segment">
+        <div class="stories-progress-fill" id="stories-fill-1" style="--story-dur:6000ms"></div>
+      </div>
+    </div>
+
+    {{/* ── Close button ── */}}
+    <button id="stories-close" class="stories-close-btn" aria-label="Close stories panel" type="button">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="14" height="14"
+        aria-hidden="true">
+        <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" fill="none"/>
+      </svg>
+    </button>
+
+    {{/* ── SLIDE 0 — Availability ── */}}
+    <div class="stories-slide" id="stories-slide-0" aria-live="polite">
+      <div class="stories-slide-bg stories-slide-bg--1"></div>
+
+      {{/* Author chip */}}
+      <div class="stories-author-row">
+        <img src="{{ $avatar }}" alt="" class="stories-author-avatar" width="34" height="34" aria-hidden="true">
+        <div>
+          <p class="stories-author-name">Isaiah Davis</p>
+          <p class="stories-author-meta">Design &amp; Development</p>
+        </div>
+      </div>
+
+      {{/* Body content */}}
+      <div class="stories-body">
+        <span class="stories-status-pill">
+          <span id="slide-status-dot" class="stories-status-indicator stories-status-indicator--closed"></span>
+          <span id="slide-status-text">Checking…</span>
+        </span>
+        <h2 id="stories-headline" class="stories-headline">Available for<br>new work.</h2>
+        <p id="stories-subtext" class="stories-subtext">Mon–Fri · 9 AM–6 PM CT<br>Response within 24 hours.</p>
+        <a href="/contact" class="stories-cta" id="stories-cta-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+            width="14" height="14" aria-hidden="true">
+            <path d="M2.25 6.75c0-1.036.84-1.875 1.875-1.875h15.75c1.035 0 1.875.84 1.875 1.875v10.5c0
+              1.035-.84 1.875-1.875 1.875H4.125A1.875 1.875 0 012.25 17.25V6.75z"/>
+            <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              d="M2.25 7.5L12 13.5l9.75-6"/>
+          </svg>
+          Get in touch
+        </a>
+      </div>
+    </div>
+
+    {{/* ── SLIDE 1 — About ── */}}
+    <div class="stories-slide" id="stories-slide-1" aria-live="polite" hidden>
+      <div class="stories-slide-bg stories-slide-bg--2"></div>
+
+      {{/* Author chip */}}
+      <div class="stories-author-row">
+        <img src="{{ $avatar }}" alt="" class="stories-author-avatar" width="34" height="34" aria-hidden="true">
+        <div>
+          <p class="stories-author-name">Isaiah Davis</p>
+          <p class="stories-author-meta">Chicago, IL</p>
+        </div>
+      </div>
+
+      {{/* Body content */}}
+      <div class="stories-body">
+        <span class="stories-status-pill">
+          <span class="stories-status-indicator" style="background:#60a5fa;box-shadow:0 0 0 3px rgba(96,165,250,.3)"></span>
+          About
+        </span>
+        <h2 class="stories-headline">Designer &amp;<br>Developer.</h2>
+        <p class="stories-subtext">I craft clean, performant digital experiences — branding, UI/UX, and full-stack web.</p>
+        <a href="/about" class="stories-cta">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+            width="14" height="14" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25
+              8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786
+              0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd"/>
+          </svg>
+          More about me
+        </a>
+      </div>
+    </div>
+
+    {{/* ── Invisible tap zones ── */}}
+    <div class="stories-tap-prev" id="stories-tap-prev" role="button" aria-label="Previous slide" tabindex="-1"></div>
+    <div class="stories-tap-next" id="stories-tap-next" role="button" aria-label="Next slide"   tabindex="-1"></div>
+
+  </div>{{/* /stories-card */}}
+</div>{{/* /stories-overlay */}}
+
+
+{{/* ════════════════════════════════════════════
+     STORIES JAVASCRIPT
+     Business hours: Mon–Fri 9:00–18:00 Chicago CT
+     ════════════════════════════════════════════ */}}
+<script>
+(function () {
+  'use strict';
+
+  /* ── Business hours helper ────────────────── */
+  function getChicagoNow() {
+    return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+  }
+
+  function isBusinessHours() {
+    var d = getChicagoNow();
+    var day  = d.getDay();   // 0=Sun … 6=Sat
+    var hour = d.getHours();
+    var min  = d.getMinutes();
+    // Mon–Fri (1–5), 9:00–17:59
+    return day >= 1 && day <= 5 && (hour > 9 || (hour === 9 && min >= 0)) && hour < 18;
+  }
+
+  function nextOpenText() {
+    var d   = getChicagoNow();
+    var day = d.getDay();
+    var h   = d.getHours();
+    if (day === 0) return 'Back Mon 9 AM CT';               // Sunday
+    if (day === 6) return 'Back Mon 9 AM CT';               // Saturday
+    if (h < 9)    return 'Opens today at 9 AM CT';
+    if (h >= 18)  return day === 5 ? 'Back Mon 9 AM CT' : 'Back tomorrow 9 AM CT';
+    return 'Available now';
+  }
+
+  /* ── DOM refs ─────────────────────────────── */
+  var ring      = document.getElementById('stories-ring');
+  var dot       = document.getElementById('stories-dot');
+  var label     = document.getElementById('availability-label');
+  var overlay   = document.getElementById('stories-overlay');
+  var trigger   = document.getElementById('stories-trigger');
+  var closeBtn  = document.getElementById('stories-close');
+  var backdrop  = document.getElementById('stories-backdrop');
+  var tapPrev   = document.getElementById('stories-tap-prev');
+  var tapNext   = document.getElementById('stories-tap-next');
+  var slides    = [document.getElementById('stories-slide-0'), document.getElementById('stories-slide-1')];
+  var fills     = [document.getElementById('stories-fill-0'), document.getElementById('stories-fill-1')];
+
+  /* Slide 0 dynamic refs */
+  var slideDot    = document.getElementById('slide-status-dot');
+  var slideTxt    = document.getElementById('slide-status-text');
+  var slideHead   = document.getElementById('stories-headline');
+  var slideSub    = document.getElementById('stories-subtext');
+  var slideCtaBtn = document.getElementById('stories-cta-btn');
+
+  var SLIDE_DURATION = 6000;
+  var currentSlide   = 0;
+  var autoTimer      = null;
+
+  /* ── Apply availability state ─────────────── */
+  function applyState() {
+    var open = isBusinessHours();
+
+    /* Header ring */
+    ring.classList.toggle('stories-ring--available', open);
+    ring.classList.toggle('stories-ring--away',      !open);
+
+    /* Header dot */
+    dot.classList.toggle('stories-dot--open',   open);
+    dot.classList.toggle('stories-dot--closed', !open);
+
+    /* Header text label */
+    if (label) {
+      label.textContent = open ? 'Available now' : nextOpenText();
+      label.className   = 'text-xs truncate ' + (open ? 'availability-open' : 'availability-closed');
+    }
+
+    /* Slide 0 content */
+    if (open) {
+      slideDot.className  = 'stories-status-indicator stories-status-indicator--open';
+      slideTxt.textContent = 'Available now';
+      slideHead.innerHTML  = 'Available for<br>new work.';
+      slideSub.innerHTML   = 'Mon\u2013Fri \u00b7 9\u202fAM\u20136\u202fPM CT<br>Response within 24 hours.';
+      slideCtaBtn.style.display = '';
+    } else {
+      slideDot.className  = 'stories-status-indicator stories-status-indicator--closed';
+      slideTxt.textContent = 'Currently away';
+      slideHead.innerHTML  = 'Open to new<br>opportunities.';
+      slideSub.innerHTML   = nextOpenText() + '.<br>Leave a message any time.';
+      slideCtaBtn.style.display = '';
+    }
+  }
+
+  /* ── Slide management ─────────────────────── */
+  function showSlide(idx) {
+    slides.forEach(function (s, i) {
+      if (i === idx) { s.removeAttribute('hidden'); }
+      else           { s.setAttribute('hidden', ''); }
+    });
+    fills.forEach(function (f, i) {
+      f.classList.remove('stories-progress-fill--active', 'stories-progress-fill--done');
+      if (i < idx)  f.classList.add('stories-progress-fill--done');
+      if (i === idx) f.classList.add('stories-progress-fill--active');
+    });
+  }
+
+  function goToSlide(idx) {
+    clearTimeout(autoTimer);
+    currentSlide = idx;
+    if (currentSlide >= slides.length) { closeStories(); return; }
+    if (currentSlide < 0) currentSlide = 0;
+    showSlide(currentSlide);
+    autoTimer = setTimeout(function () { goToSlide(currentSlide + 1); }, SLIDE_DURATION);
+  }
+
+  /* ── Open / close ─────────────────────────── */
+  function openStories() {
+    applyState();
+    currentSlide = 0;
+    overlay.classList.add('stories-overlay--open');
+    overlay.removeAttribute('aria-hidden');
+    trigger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    goToSlide(0);
+
+    /* Trap focus inside overlay */
+    setTimeout(function () {
+      var focusable = overlay.querySelector('a, button, [tabindex]:not([tabindex="-1"])');
+      if (focusable) focusable.focus();
+    }, 260);
+  }
+
+  function closeStories() {
+    clearTimeout(autoTimer);
+    overlay.classList.remove('stories-overlay--open');
+    overlay.setAttribute('aria-hidden', 'true');
+    trigger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    fills.forEach(function (f) {
+      f.classList.remove('stories-progress-fill--active', 'stories-progress-fill--done');
+    });
+    trigger.focus();
+  }
+
+  /* ── Event listeners ─────────────────────── */
+  trigger.addEventListener('click', function () {
+    overlay.getAttribute('aria-hidden') === 'false' ? closeStories() : openStories();
+  });
+  closeBtn.addEventListener('click', closeStories);
+  backdrop.addEventListener('click', closeStories);
+  tapPrev.addEventListener('click', function () { goToSlide(currentSlide - 1); });
+  tapNext.addEventListener('click', function () { goToSlide(currentSlide + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (!overlay.classList.contains('stories-overlay--open')) return;
+    if (e.key === 'Escape')     closeStories();
+    if (e.key === 'ArrowRight') goToSlide(currentSlide + 1);
+    if (e.key === 'ArrowLeft')  goToSlide(currentSlide - 1);
+  });
+
+  /* ── Initialise + refresh every minute ────── */
+  applyState();
+  setInterval(applyState, 60000);
+}());
+</script>

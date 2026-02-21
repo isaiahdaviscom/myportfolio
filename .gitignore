@@ -43,4 +43,6 @@ devtools.json
 # Chrome Debug Profile (for DevTools workspace)
 .chrome-debug-profile/
 
+# lighthouse
+.lighthouse/
 

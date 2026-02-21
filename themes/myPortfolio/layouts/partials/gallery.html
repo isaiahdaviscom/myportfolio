@@ -3,12 +3,12 @@
     <div class="row grid gap-6 {{ with .columns }}grid-cols-{{ . }}{{ else }}grid-cols-3{{ end }}">
       {{ $pages := where .Site.RegularPages "Section" "portfolio" }}
       {{ if .featureOnly }}
-        {{ $pages = where $pages ".Params.feature" true }}
+      {{ $pages = where $pages ".Params.feature" true }}
       {{ end }}
       {{ $weightOrder := .weightOrder | default "asc" }}
-       {{ $pages = sort $pages "Weight" }}
+      {{ $pages = sort $pages "Weight" }}
       {{ if eq $weightOrder "desc" }}
-        {{ $pages = collections.Reverse $pages }}
+      {{ $pages = collections.Reverse $pages }}
       {{ end }}
       {{ range $i, $page := $pages }}
       <div class="mb-4">

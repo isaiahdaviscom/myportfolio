@@ -1,4 +1,57 @@
+/*
+  SITE-LEVEL CSS ENTRY POINT (PostCSS Pipeline)
+  =============================================
+  Purpose: Site-specific customizations and component imports
+  Location: src/css/tailwind.css  
+  Build: Compiled to static/css/styles.css via PostCSS/Tailwind
+  
+  IMPORTANT: This file is for SITE-SPECIFIC components that:
+  - Override or extend the base theme
+  - Are unique to THIS portfolio site
+  - Need PostCSS/PurgeCSS optimization
+  - Use advanced CSS features (container queries, etc.)
+  
+  Standards:
+  - Import modular components from src/css/components/
+  - Use @layer for proper cascade control
+  - Focus on site-specific design decisions
+  - Avoid duplicating theme-level base styles
+
+
+  TABLE OF CONTENTS
+  =================
+  1. Tailwind Directives
+  2. Portfolio Components
+     2.1 Badge Component 
+     2.2 Card Component (with Container Queries)
+  3. Utility Extensions
+     3.1 Print Utilities
+*/
+
+/* =============================================
+   1. TAILWIND DIRECTIVES
+   ============================================= */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* =============================================
+   2. PORTFOLIO COMPONENTS
+   ============================================= */
+
+/* 2.1 Portfolio project badges and labels */
+@import './components/badge.css';
+
+/* 2.2 Advanced responsive portfolio cards */
+@import './components/card.css';
+
+/* 2.3 Instagram Stories header – availability ring + modal */
+@import './components/stories.css';
+
+/* =============================================
+   3. UTILITY EXTENSIONS  
+   ============================================= */
+
+/* 3.1 Print media optimizations */
+@import './utilities/print.css';
 

@@ -1,0 +1,161 @@
+/*
+  CSS FILE ORGANIZATION STANDARDS
+  ==============================
+  
+  This project follows a clear separation between THEME assets and SITE assets.
+  Understanding where to put CSS is crucial for maintainability and reusability.
+*/
+
+/* ===========================================
+   THEME ASSETS vs STATIC ASSETS vs SRC ASSETS
+   =========================================== */
+
+/* 
+   🎨 THEME ASSETS (themes/myPortfolio/assets/)
+   -------------------------------------------
+   Purpose: Theme-level components processed by Hugo Pipes
+   Build: Hugo {{ resources.Get }} with minification & fingerprinting
+   When to use: Reusable theme architecture, base styling
+   
+   Example: themes/myPortfolio/assets/css/main.css
+   - Container systems
+   - Typography scales  
+   - Base theme layout
+   - Core component architecture
+*/
+
+/* 
+   📦 STATIC ASSETS (static/)
+   --------------------------
+   Purpose: Direct-serve assets with no processing
+   Build: Copied directly to public/ 
+   When to use: Font files, direct CSS includes, vendor CSS
+   
+   Example: static/css/inter-font.css
+   - Font declarations (@font-face)
+   - Vendor CSS libraries
+   - Direct-include stylesheets
+   - CSS that references static files
+*/
+
+/* 
+   🔧 SRC ASSETS (src/)
+   --------------------
+   Purpose: Site-specific processed assets  
+   Build: PostCSS → static/css/styles.css
+   When to use: Site customizations, advanced CSS features
+   
+   Example: src/css/tailwind.css
+   - Site-specific components
+   - Tailwind customizations
+   - Advanced CSS (container queries)
+   - PostCSS processed styles
+*/
+
+/* ===========================================
+   LAYER ORGANIZATION STANDARDS
+   =========================================== */
+
+/*
+   @layer base
+   -----------
+   - CSS resets
+   - Base element styling
+   - Typography systems
+   - Theme-level foundations
+   
+   Location: Mainly in theme assets
+*/
+
+/*
+   @layer components  
+   -----------------
+   - Reusable UI components
+   - Complex multi-property patterns
+   - Site-specific components
+   - Can be overridden by utilities
+   
+   Location: src/css/components/
+*/
+
+/*
+   @layer utilities
+   ---------------
+   - Single-purpose classes
+   - Override everything else
+   - Tailwind utilities 
+   - Custom utility extensions
+   
+   Location: src/css/utilities/
+*/
+
+/* ===========================================
+   FILE NAMING CONVENTIONS
+   =========================================== */
+
+/*
+   Component Files:
+   - badge.css (specific component)
+   - card.css (specific component)
+   - navigation.css (specific component)
+   
+   Utility Files:
+   - print.css (media-specific)
+   - animations.css (feature-specific)
+   - accessibility.css (purpose-specific)
+   
+   Base Files:
+   - typography.css (system-level)
+   - layout.css (system-level)
+   - reset.css (system-level)
+*/
+
+/* ===========================================
+   COMMENTING STANDARDS
+   =========================================== */
+
+/*
+   File Header Template:
+   
+   [COMPONENT NAME] ([Scope])
+   =========================
+   Purpose: [What this file does]
+   Location: [File path]
+   Layer: [CSS layer used]
+   
+   [Additional context about features, standards, usage]
+   
+   Usage:
+   [Code example]
+*/
+
+/*
+   Section Comments:
+   ================
+   Use for major sections within files
+*/
+
+/* Subsection comments for related groups */
+
+/* ===========================================
+   DECISION TREE: WHERE TO PUT CSS
+   =========================================== */
+
+/*
+   Ask yourself:
+   
+   1. Is this a @font-face or direct static reference?
+      → static/css/ (no processing needed)
+   
+   2. Is this theme-level architecture used by multiple sites?
+      → themes/myPortfolio/assets/css/ (Hugo Pipes)
+   
+   3. Is this site-specific or uses advanced CSS features?
+      → src/css/ (PostCSS processing)
+   
+   4. Does this need PostCSS/PurgeCSS optimization?
+      → src/css/ (PostCSS pipeline)
+   
+   5. Is this a vendor/third-party stylesheet?
+      → static/css/ (direct include)
+*/

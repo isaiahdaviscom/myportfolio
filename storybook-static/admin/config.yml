@@ -1,0 +1,245 @@
+# =============================================================================
+# NETLIFYCMS CONFIGURATION - PORTFOLIO CONTENT MANAGEMENT
+# =============================================================================
+# File: static/admin/config.yml
+# Purpose: NetlifyCMS configuration for content management across environments
+# Environment Support: Development (localhost) & Production (Netlify)
+# Backend: Git Gateway with Netlify Identity for authentication
+# =============================================================================
+
+# BACKEND CONFIGURATION
+# Uses Git Gateway for both local development and production
+# Automatically handles authentication through Netlify Identity
+backend:
+  name: git-gateway
+  branch: master # Change to 'main' if your default branch is 'main'
+
+# LOCAL DEVELOPMENT BACKEND (uncomment for local testing)
+# backend:
+#   name: proxy
+#   proxy_url: http://localhost:8081/api/v1
+#   branch: master
+
+# MEDIA STORAGE CONFIGURATION
+# Uses Netlify Large Media for optimized image handling
+media_folder: "static/images/uploads"
+public_folder: "/images/uploads"
+
+# SITE URL (environment-specific)
+# Production: https://isaiahdavis.com
+# Development: http://localhost:1313
+site_url: https://isaiahdavis.com
+display_url: https://isaiahdavis.com
+
+# EDITORIAL WORKFLOW (enables draft/review/publish workflow)
+publish_mode: editorial_workflow
+
+# =============================================================================
+# COLLECTIONS CONFIGURATION
+# =============================================================================
+
+collections:
+  # ---------------------------------------------------------------------------
+  # PORTFOLIO PROJECTS
+  # ---------------------------------------------------------------------------
+  - name: "portfolio"
+    label: "Portfolio Projects"
+    folder: "content/portfolio"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "/portfolio/{{slug}}"
+    fields:
+      # Basic Metadata
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Weight", name: "weight", widget: "number", default: 1 }
+      
+      # Project Information
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Client", name: "client", widget: "string", required: false }
+      - { label: "Project URL", name: "project_url", widget: "string", required: false }
+      - { label: "Year", name: "year", widget: "string" }
+      
+      # Images
+      - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
+      - label: "Gallery Images"
+        name: "gallery_images"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Image", name: "image", widget: "image" }
+          - { label: "Alt Text", name: "alt", widget: "string" }
+          - { label: "Caption", name: "caption", widget: "string", required: false }
+      
+      # Categories and Tags
+      - label: "Categories"
+        name: "categories"
+        widget: "list"
+        default: []
+        required: false
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        default: []
+        required: false
+      
+      # Technologies Used
+      - label: "Technologies"
+        name: "technologies"
+        widget: "list"
+        default: []
+        required: false
+      
+      # Project Content
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  # ---------------------------------------------------------------------------
+  # BLOG POSTS
+  # ---------------------------------------------------------------------------
+  - name: "posts"
+    label: "Blog Posts"
+    folder: "content/posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "/posts/{{slug}}"
+    fields:
+      # Basic Metadata
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Last Modified", name: "lastmod", widget: "datetime", required: false }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      
+      # Post Information
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Author", name: "author", widget: "string", default: "Isaiah Davis" }
+      - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
+      
+      # SEO and Social
+      - { label: "SEO Keywords", name: "keywords", widget: "list", required: false }
+      - { label: "Social Image", name: "social_image", widget: "image", required: false }
+      
+      # Categories and Tags
+      - label: "Categories"
+        name: "categories"
+        widget: "list"
+        default: []
+        required: false
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        default: []
+        required: false
+      
+      # Post Content
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  # ---------------------------------------------------------------------------
+  # SITE PAGES
+  # ---------------------------------------------------------------------------
+  - name: "pages"
+    label: "Site Pages"
+    files:
+      # Homepage
+      - label: "Homepage"
+        name: "homepage"
+        file: "content/_index.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Date", name: "date", widget: "datetime" }
+          - { label: "Description", name: "description", widget: "text" }
+          - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+      
+      # About Page
+      - label: "About"
+        name: "about"
+        file: "content/about.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Date", name: "date", widget: "datetime" }
+          - { label: "Description", name: "description", widget: "text" }
+          - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+      
+      # Contact Page
+      - label: "Contact"
+        name: "contact"
+        file: "content/contact.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Date", name: "date", widget: "datetime" }
+          - { label: "Description", name: "description", widget: "text" }
+          - { label: "Body", name: "body", widget: "markdown" }
+      
+      # Portfolio Index
+      - label: "Portfolio Index"
+        name: "portfolio_index"
+        file: "content/portfolio.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Date", name: "date", widget: "datetime" }
+          - { label: "Description", name: "description", widget: "text" }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+  # ---------------------------------------------------------------------------
+  # SITE SETTINGS
+  # ---------------------------------------------------------------------------
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      # Hugo Configuration (read-only display)
+      - label: "Hugo Config"
+        name: "hugo_config"
+        file: "hugo.toml"
+        extension: "toml"
+        format: "toml"
+        fields:
+          - { label: "Base URL", name: "baseURL", widget: "string" }
+          - { label: "Language Code", name: "languageCode", widget: "string" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Theme", name: "theme", widget: "string" }
+
+# =============================================================================
+# ADDITIONAL CMS SETTINGS
+# =============================================================================
+
+# Logo for the CMS interface
+logo_url: https://isaiahdavis.com/images/logo.png
+
+# Custom preview styles (optional)
+# editor:
+#   preview: false
+
+# Show preview links
+show_preview_links: true
+
+# Slug configuration
+slug:
+  encoding: "unicode"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+# =============================================================================
+# ENVIRONMENT-SPECIFIC NOTES
+# =============================================================================
+# 
+# PRODUCTION SETUP (Netlify):
+# 1. Enable Identity in Netlify dashboard
+# 2. Enable Git Gateway in Identity settings
+# 3. Set registration to "Invite only" for security
+# 4. Access CMS at: https://isaiahdavis.com/admin/
+# 
+# DEVELOPMENT SETUP (Local):
+# 1. Install netlify-cms-proxy-server: npm install -g netlify-cms-proxy-server
+# 2. Run proxy server: npx netlify-cms-proxy-server
+# 3. Uncomment local backend configuration above
+# 4. Access CMS at: http://localhost:1313/admin/
+# 
+# CONTENT WORKFLOW:
+# 1. Create/edit content in CMS
+# 2. Content saved as drafts initially (editorial workflow)
+# 3. Review and publish when ready
+# 4. Changes automatically deploy via Git integration
+# 
+# =============================================================================

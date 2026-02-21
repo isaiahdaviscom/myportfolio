@@ -1,0 +1,457 @@
+/*
+  INSTAGRAM STORIES HEADER COMPONENT
+  ====================================
+  Purpose: Profile availability ring + business-hours story overlay
+  Inspired by Instagram Stories UI pattern
+  
+  States controlled via JS:
+    • .stories-ring--available   – gradient ring + pulse (business hours)
+    • .stories-ring--away        – gray ring, no pulse
+    • .stories-dot--open         – green dot
+    • .stories-dot--closed       – gray dot
+    • .stories-overlay--open     – modal visible
+*/
+
+@layer components {
+
+  /* ─────────────────────────────────────────
+     INLINE NAV MENU (.inline-menu)
+  ───────────────────────────────────────── */
+
+  .inline-menu {
+    display: flex;
+    align-items: center;
+  }
+
+  .inline-menu ul {
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;       /* 2px gap between items */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .inline-menu li {
+    display: flex;
+    align-items: center;
+  }
+
+  .inline-menu a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.625rem;   /* py-1 px-2.5 */
+    font-size: 0.8125rem;         /* ~13px */
+    font-weight: 500;
+    color: #374151;               /* text-gray-700 */
+    border-radius: 0.5rem;        /* rounded-lg */
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .inline-menu a:hover {
+    background-color: #f3f4f6;   /* bg-gray-100 */
+    color: #111827;               /* text-gray-900 */
+  }
+
+  .inline-menu a.active {
+    font-weight: 700;
+    color: #1d4ed8;               /* text-blue-700 */
+    background-color: #eff6ff;   /* bg-blue-50 */
+    text-decoration: none;
+  }
+
+  .inline-menu a.ancestor {
+    color: #2563eb;               /* text-blue-600 */
+  }
+
+  /* ─────────────────────────────────────────
+     PROFILE RING (in header)
+  ───────────────────────────────────────── */
+
+  .stories-trigger {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
+    line-height: 0;
+  }
+
+  .stories-ring {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    padding: 3px; /* space for gradient ring */
+    background: #d1d5db; /* gray default (away) */
+    transition: background 0.4s ease;
+  }
+
+  /* Available: animated gradient ring */
+  .stories-ring--available {
+    background: linear-gradient(135deg, #f59e0b 0%, #ef4444 28%, #a855f7 62%, #3b82f6 100%);
+    animation: stories-glow 2.5s ease-in-out infinite;
+  }
+
+  @keyframes stories-glow {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.45);
+    }
+    50% {
+      box-shadow: 0 0 0 5px rgba(168, 85, 247, 0);
+    }
+  }
+
+  /* White gap between ring and avatar */
+  .stories-ring-inner {
+    background: white;
+    border-radius: 9999px;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Avatar image */
+  .stories-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Small status dot (bottom-right of ring) */
+  .stories-dot {
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    width: 12px;
+    height: 12px;
+    border-radius: 9999px;
+    border: 2px solid white;
+    background: #9ca3af;
+    transition: background 0.3s ease;
+  }
+
+  .stories-dot--open   { background: #10b981; } /* green  */
+  .stories-dot--closed { background: #9ca3af; } /* gray   */
+
+  /* Availability text label */
+  .availability-open   { color: #10b981; font-weight: 500; }
+  .availability-closed { color: #9ca3af; }
+
+
+  /* ─────────────────────────────────────────
+     STORIES OVERLAY (full-screen modal)
+  ───────────────────────────────────────── */
+
+  .stories-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Hidden by default */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .stories-overlay--open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* Blurred dark backdrop */
+  .stories-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+  }
+
+  /* Card container */
+  .stories-card {
+    position: relative;
+    z-index: 1;
+    width: min(340px, 92vw);
+    height: min(580px, 88svh);
+    border-radius: 18px;
+    overflow: hidden;
+    color: white;
+    transform: scale(0.9);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Subtle card shadow */
+    box-shadow:
+      0 24px 64px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+
+  .stories-overlay--open .stories-card {
+    transform: scale(1);
+  }
+
+  /* ─────────────────────────────────────────
+     SLIDE BACKGROUNDS
+  ───────────────────────────────────────── */
+
+  .stories-slide-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  /* Slide 1 – Availability (dark navy / indigo) */
+  .stories-slide-bg--1 {
+    background:
+      radial-gradient(ellipse at 80% 20%, rgba(99, 102, 241, 0.45) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(59, 130, 246, 0.35) 0%, transparent 60%),
+      linear-gradient(160deg, #0f172a 0%, #1e1b4b 100%);
+  }
+
+  /* Slide 2 – Quick bio (dark teal / navy) */
+  .stories-slide-bg--2 {
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(16, 185, 129, 0.35) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 80%, rgba(59, 130, 246, 0.3) 0%, transparent 55%),
+      linear-gradient(160deg, #0f172a 0%, #064e3b 100%);
+  }
+
+  /* ─────────────────────────────────────────
+     PROGRESS BARS (top of card)
+  ───────────────────────────────────────── */
+
+  .stories-progress-track {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    gap: 4px;
+    z-index: 10;
+  }
+
+  .stories-progress-segment {
+    flex: 1;
+    height: 2px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.28);
+    overflow: hidden;
+  }
+
+  .stories-progress-fill {
+    height: 100%;
+    background: white;
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  .stories-progress-fill--done {
+    transform: scaleX(1);
+    transition: none;
+  }
+
+  .stories-progress-fill--active {
+    animation: story-progress var(--story-dur, 6000ms) linear forwards;
+  }
+
+  @keyframes story-progress {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+
+  /* ─────────────────────────────────────────
+     CLOSE BUTTON
+  ───────────────────────────────────────── */
+
+  .stories-close-btn {
+    position: absolute;
+    top: 22px;
+    right: 12px;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.15s ease;
+  }
+
+  .stories-close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  /* ─────────────────────────────────────────
+     AUTHOR ROW (top of each slide)
+  ───────────────────────────────────────── */
+
+  .stories-author-row {
+    position: absolute;
+    top: 28px;
+    left: 14px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    z-index: 8;
+  }
+
+  .stories-author-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 9999px;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.55);
+  }
+
+  .stories-author-name {
+    font-size: 13px;
+    font-weight: 650;
+    color: white;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+    line-height: 1.2;
+  }
+
+  .stories-author-meta {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1;
+  }
+
+  /* ─────────────────────────────────────────
+     SLIDE CONTENT BODY
+  ───────────────────────────────────────── */
+
+  .stories-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 8;
+    padding: 24px 20px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    /* subtle bottom gradient to ensure readability */
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+  }
+
+  /* Status pill */
+  .stories-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 9999px;
+    padding: 5px 13px;
+    font-size: 12px;
+    font-weight: 500;
+    color: white;
+    align-self: flex-start;
+  }
+
+  .stories-status-indicator {
+    width: 7px;
+    height: 7px;
+    border-radius: 9999px;
+    flex-shrink: 0;
+  }
+
+  .stories-status-indicator--open   { background: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,0.3); }
+  .stories-status-indicator--closed { background: #9ca3af; }
+
+  /* Headline */
+  .stories-headline {
+    font-size: clamp(22px, 6vw, 30px);
+    font-weight: 750;
+    line-height: 1.15;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    margin: 0;
+  }
+
+  /* Subtext */
+  .stories-subtext {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* CTA Button */
+  .stories-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    align-self: flex-start;
+    background: white;
+    color: #0f172a;
+    font-size: 13px;
+    font-weight: 650;
+    padding: 9px 20px;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  }
+
+  .stories-cta:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+  }
+
+  /* ─────────────────────────────────────────
+     INVISIBLE TAP ZONES (advance / go back)
+  ───────────────────────────────────────── */
+
+  .stories-tap-prev,
+  .stories-tap-next {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 38%;
+    z-index: 7;
+    cursor: pointer;
+  }
+
+  .stories-tap-prev { left: 0; }
+  .stories-tap-next { right: 0; }
+
+  /* ─────────────────────────────────────────
+     FOOTER – Homepage Aesthetic
+  ───────────────────────────────────────── */
+
+  .site-footer {
+    background: #f9fafb;             /* light gray, matches bg-gray-50  */
+    border-top: 1px solid #e5e7eb;  /* border-gray-200                 */
+    color: #6b7280;                  /* text-gray-500                   */
+  }
+
+  .site-footer a {
+    color: #374151;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .site-footer a:hover {
+    color: #1d4ed8; /* blue-700 */
+  }
+}

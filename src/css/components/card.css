@@ -1,0 +1,104 @@
+/*
+  CARD COMPONENT WITH CONTAINER QUERIES (Site-Specific)
+  ====================================================== 
+  Purpose: Advanced responsive portfolio project cards
+  Location: src/css/components/card.css
+  Layer: @layer components (overridden by utilities)
+  
+  Features:
+  - CSS Container Queries for true component responsiveness
+  - Responsive typography using container query units (cqi)
+  - Image overlay with gradient for text readability
+  - Print optimization
+  
+  Standards:
+  - Uses modern CSS features (container queries)
+  - Responsive based on CONTAINER size, not viewport
+  - Maintains aspect ratio and accessibility
+  - Optimized for portfolio grid layouts
+  
+  Usage:
+  <a href="/project" class="card">
+    <picture>
+      <img src="project.jpg" alt="Project" />
+    </picture>
+    <div class="card-img-overlay">
+      <h3>Project Title</h3>
+      <p>Description</p>
+    </div>
+  </a>
+*/
+
+@layer components {
+  .card {
+    /* Core card structure */
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    aspect-ratio: 1/1;
+    height: auto;
+    
+    /* Enable container queries - this is the key feature */
+    container: card / inline-size;
+  }
+
+  /* Remove link styling for card links */
+  a.card {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* ======================================
+     CONTAINER QUERY RESPONSIVE LAYOUT
+     ====================================== */
+  
+  /* When card container is 300px+ wide, apply enhanced layout */
+  @container card (min-width: 300px) {
+    .card picture {
+      /* Full-size background image */
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .card picture::before {
+      /* Overlay gradient for text readability */
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, transparent, #000000);
+      z-index: 1;
+    }
+
+    .card .card-img-overlay {
+      /* Text content over image */
+      position: relative;
+      padding: 1em;
+      z-index: 2;
+      
+      /* Position content at bottom */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 100%;
+    }
+
+    .card h3 {
+      /* Responsive typography using container query units */
+      font-size: 10cqi; /* 10% of container inline size */
+      font-weight: 300;
+      line-height: 10cqi;
+      margin: 0;
+      color: white;
+    }
+    
+    .card p {
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0.5em 0 0 0;
+    }
+  }
+}

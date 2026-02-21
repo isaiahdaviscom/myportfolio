@@ -229,7 +229,6 @@ alt: "Mobile view"
     // Load gallery configuration from JSON
     const configScript = document.getElementById('gallery-config');
     if (!configScript) {
-      console.error('Gallery: Configuration not found');
       return;
     }
 
@@ -237,7 +236,6 @@ alt: "Mobile view"
     try {
       galleryConfig = JSON.parse(configScript.textContent);
     } catch (error) {
-      console.error('Gallery: Invalid configuration', error);
       return;
     }
 
@@ -250,9 +248,6 @@ alt: "Mobile view"
     // Helper function to safely get elements
     const safeGetElement = (id) => {
       const element = document.getElementById(id);
-      if (!element) {
-        console.warn(`Gallery: Element with id '${id}' not found`);
-      }
       return element;
     };
 
@@ -260,7 +255,6 @@ alt: "Mobile view"
     const lightbox = {
       open(index) {
         if (index < 0 || index >= galleryImages.length) {
-          console.error('Gallery: Invalid image index', index);
           return;
         }
 
@@ -280,7 +274,7 @@ alt: "Mobile view"
           lightboxEl.classList.add('flex');
           lightboxEl.focus();
         } catch (error) {
-          console.error('Gallery: Error opening lightbox', error);
+          // Error opening lightbox
         }
       },
 

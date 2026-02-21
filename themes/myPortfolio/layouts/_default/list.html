@@ -7,12 +7,12 @@
       <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {{ range .Pages.ByDate.Reverse }}
           <article class="bg-white rounded-xl shadow-lg p-6 flex flex-col h-full border border-blue-100 hover:shadow-2xl transition">
-            <header>
+            <div>
               <h2 class="font-semibold mb-2">
                 <a href="{{ .RelPermalink }}" class="hover:underline">{{ .Title }}</a>
               </h2>
               <time class="block mb-2" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format ":date_long" }}</time>
-            </header>
+            </div>
             <p class="mb-4">{{ with .Params.description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}</p>
             <a href="{{ .RelPermalink }}" class="mt-auto hover:underline font-medium">Read More &rarr;</a>
           </article>
