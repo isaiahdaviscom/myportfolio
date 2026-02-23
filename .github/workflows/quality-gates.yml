@@ -186,8 +186,7 @@ jobs:
       run: |
         echo "🔍 Running axe accessibility tests..."
         axe http://localhost:8080 --exit --tags wcag2a,wcag2aa \
-          --chromium-arg="--no-sandbox" \
-          --chromium-arg="--disable-dev-shm-usage"
+          --chrome-options="--no-sandbox,--disable-dev-shm-usage"
     
     - name: Run pa11y accessibility tests
       run: |
