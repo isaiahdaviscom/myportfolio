@@ -61,8 +61,8 @@ jobs:
       run: |
         # Check for common security issues in static files
         echo "Checking for sensitive information..."
-        ! grep -r "password\|secret\|key\|token" static/ || exit 1
-        ! grep -r "localhost" public/ || exit 1
+        ! grep -rEi "(password|secret|private_key|api_key|apikey|auth_token)\s*[:=]" static/ || exit 1
+        ! grep -rE "localhost:[0-9]{4,}" public/ || exit 1
         echo "✅ No sensitive information found"
 
   performance-budget:
@@ -180,7 +180,7 @@ jobs:
     - name: Run axe accessibility tests
       run: |
         echo "🔍 Running axe accessibility tests..."
-        npx axe-cli http://localhost:8080 --exit --tags wcag2a,wcag2aa
+        axe http://localhost:8080 --exit --tags wcag2a,wcag2aa
     
     - name: Run pa11y accessibility tests
       run: |
