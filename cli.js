@@ -76,6 +76,7 @@ function printHelp() {
   section('Development');
   cmd('serve', 'Hugo dev server with live reload');
   cmd('serve --cms', 'Hugo + CMS proxy (local admin)');
+  cmd('dev:cms', 'Hugo + CMS proxy (alias for serve --cms)', 'http://localhost:1313/admin/');
   cmd('watch', 'Watch & rebuild Tailwind CSS');
 
   section('Build');
@@ -252,6 +253,11 @@ function runStatus() {
       // Dev server
       case 'serve':
         await runServe(hasFlag('--cms'));
+        break;
+
+      // Hugo + CMS proxy together (explicit alias — same as: pf serve --cms)
+      case 'dev:cms':
+        await runServe(true);
         break;
 
       // CSS watch

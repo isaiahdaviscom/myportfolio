@@ -1,0 +1,18 @@
+# Site-wide settings — managed via /admin (Netlify CMS)
+# availability_mode controls the stories ring colour in the header:
+#   auto      → business hours logic  (Mon–Fri 9 AM–6 PM CT)
+#   available → gradient ring on      (force green / colourised)
+#   away      → grey ring             (force closed / grey)
+availability_mode: auto
+away_message: ""
+# ring_color is a MANUAL OVERRIDE for the ring gradient.
+# Leave blank ("") to let the automatic page-type colour map control the ring:
+#   contact page           → orange
+#   portfolio project      → blue
+#   blog post              → purple
+#   about page             → teal
+#   portfolio index        → blue
+#   home                   → gradient
+# Set explicitly only when you want to lock a single colour site-wide.
+#   gradient | blue | green | purple | orange | pink | teal | gold
+ring_color: ""

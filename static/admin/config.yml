@@ -159,6 +159,46 @@ collections:
         }
 
   # ---------------------------------------------------------------------------
+  # SITE SETTINGS  ← appearance & availability controls
+  # ---------------------------------------------------------------------------
+  - name: 'settings'
+    label: 'Site Settings'
+    files:
+      - label: 'Availability'
+        name: 'availability'
+        file: 'data/settings.yaml'
+        fields:
+          - label: 'Availability Mode'
+            name: 'availability_mode'
+            widget: 'select'
+            hint: 'Controls the coloured ring and status dot in the site header'
+            options:
+              - { label: '🕐 Auto — follow business hours (Mon–Fri 9 AM–6 PM CT)', value: 'auto' }
+              - { label: '🟢 Available — force gradient ring on', value: 'available' }
+              - { label: '⚫ Away — force grey ring off', value: 'away' }
+            default: 'auto'
+          - label: 'Ring Color Override'
+            name: 'ring_color'
+            widget: 'select'
+            hint: 'Leave blank to use automatic page-type colours (recommended). Set only to lock a single colour site-wide — this overrides the per-page mapping.'
+            options:
+              - { label: '⬜ Auto — use page-type colour map (recommended)', value: '' }
+              - { label: '🌈 Gradient (amber/red/purple/blue)', value: 'gradient' }
+              - { label: '🔵 Blue', value: 'blue' }
+              - { label: '🟢 Green', value: 'green' }
+              - { label: '🟣 Purple', value: 'purple' }
+              - { label: '🟠 Orange', value: 'orange' }
+              - { label: '🩷 Pink', value: 'pink' }
+              - { label: '🩵 Teal', value: 'teal' }
+              - { label: '🟡 Gold', value: 'gold' }
+            default: ''
+          - label: 'Custom Away Message'
+            name: 'away_message'
+            widget: 'string'
+            required: false
+            hint: 'Optional — overrides the default next-open text in the stories panel. Leave blank to use automatic text.'
+
+  # ---------------------------------------------------------------------------
   # SITE PAGES
   # ---------------------------------------------------------------------------
   - name: 'pages'

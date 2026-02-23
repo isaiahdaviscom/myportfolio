@@ -17,8 +17,30 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
         aria-expanded="false"
         type="button"
       >
-        {{/* Ring (gradient or gray — toggled by JS) */}}
-        <span id="stories-ring" class="stories-ring stories-ring--away" aria-hidden="true">
+        {{/* Ring — state + colour driven by page type and CMS settings */}}
+        {{- $availMode  := site.Data.settings.availability_mode | default "auto" -}}
+        {{- $awayMsg    := site.Data.settings.away_message | default "" -}}
+        {{- $ringColor  := site.Data.settings.ring_color | default "" -}}
+
+        {{/* Derive page type for content-mapped ring colour */}}
+        {{- $pageType := "other" -}}
+        {{- if .IsHome -}}{{- $pageType = "home" -}}
+        {{- else if and (eq .Section "portfolio") .IsSection -}}{{- $pageType = "portfolio_index" -}}
+        {{- else if eq .Section "portfolio" -}}{{- $pageType = "portfolio_project" -}}
+        {{- else if eq .RelPermalink "/about/" -}}{{- $pageType = "about" -}}
+        {{- else if eq .RelPermalink "/contact/" -}}{{- $pageType = "contact" -}}
+        {{- else if eq .Section "posts" -}}{{- $pageType = "blog_post" -}}
+        {{- end -}}
+
+        <span
+          id="stories-ring"
+          class="stories-ring stories-ring--away"
+          aria-hidden="true"
+          data-availability="{{ $availMode }}"
+          data-away-message="{{ $awayMsg }}"
+          data-ring-color="{{ $ringColor }}"
+          data-page-type="{{ $pageType }}"
+        >
           <span class="stories-ring-inner">
             <img
               src="{{ $avatar }}"
@@ -278,11 +300,57 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
 
     /* ── Apply availability state ─────────────── */
     function applyState() {
-      var open = isBusinessHours();
+      /* CMS override: data-availability on the ring element.
+         auto      → use business hours
+         available → force open regardless of time
+         away      → force closed regardless of time */
+      var mode = ring.getAttribute('data-availability') || 'auto';
+      var open = mode === 'available' ? true
+               : mode === 'away'      ? false
+               : isBusinessHours();
 
-      /* Header ring */
+      /* Header ring — base available / away toggle */
       ring.classList.toggle('stories-ring--available', open);
       ring.classList.toggle('stories-ring--away', !open);
+
+      /* Remove any previously applied colour class */
+      ring.className.split(' ').forEach(function (cls) {
+        if (cls.startsWith('stories-ring--color-')) ring.classList.remove(cls);
+      });
+
+      /* Header ring — colour:
+         Colour is ALWAYS applied — availability only controls the glow animation.
+         Resolve colour by priority:
+           1. CMS manual override  (data-ring-color, set in /admin)
+           2. Page-type colour map (each content type has an assigned colour)
+           3. Gradient fallback
+
+         Page-type map (higher priority = more specific context):
+           contact           → orange   — action / get-in-touch
+           portfolio_project → blue     — showcasing work
+           blog_post         → purple   — writing / ideas
+           about             → teal     — personal / identity
+           portfolio_index   → blue     — work overview
+           home              → gradient — brand signature
+           other             → gradient — fallback
+      */
+      var PAGE_COLOR_MAP = {
+        contact:           { color: 'orange',   priority: 6 },
+        portfolio_project: { color: 'blue',     priority: 5 },
+        blog_post:         { color: 'purple',   priority: 4 },
+        about:             { color: 'teal',     priority: 3 },
+        portfolio_index:   { color: 'blue',     priority: 2 },
+        home:              { color: 'gradient', priority: 1 }
+      };
+
+      var cmsOverride = ring.getAttribute('data-ring-color') || '';
+      var pageType    = ring.getAttribute('data-page-type')  || 'other';
+      var mapped      = PAGE_COLOR_MAP[pageType];
+
+      /* CMS override beats everything when explicitly set */
+      var resolvedColor = cmsOverride || (mapped ? mapped.color : 'gradient');
+
+      ring.classList.add('stories-ring--color-' + resolvedColor);
 
       /* Header dot */
       dot.classList.toggle('stories-dot--open', open);
@@ -305,7 +373,9 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
         slideDot.className = 'stories-status-indicator stories-status-indicator--closed';
         slideTxt.textContent = 'Currently away';
         slideHead.innerHTML = 'Open to new<br>opportunities.';
-        slideSub.innerHTML = nextOpenText() + '.<br>Leave a message any time.';
+        var customMsg = ring.getAttribute('data-away-message');
+        var awayLine   = customMsg ? customMsg : nextOpenText() + '.';
+        slideSub.innerHTML = awayLine + '<br>Leave a message any time.';
         slideCtaBtn.style.display = '';
       }
     }

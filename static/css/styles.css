@@ -25,6 +25,53 @@
     text-decoration: none;
     color: inherit;
   }
+  .related-projects__grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  @media (max-width: 640px) {
+    .related-projects__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (min-width: 641px) and (max-width: 900px) {
+    .related-projects__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .related-projects__card {
+    display: block;
+    width: 100%;
+  }
+  .related-projects__role {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 0.25em;
+    line-height: 1.2;
+  }
+  .related-projects__card .card-img-overlay h3.related-projects__title, .related-projects__card h3.related-projects__title {
+    font-size: clamp(0.9rem, 4cqi, 1.4rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: white;
+    margin: 0 0 0.3em;
+  }
+  .related-projects__dates {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+    letter-spacing: 0.03em;
+  }
+  .related-projects__card:hover picture::before {
+    background: linear-gradient(180deg, transparent 20%, rgba(0,0,0,0.85) 100%);
+  }
   @container card (min-width: 300px) {
     .card picture {
       position: absolute;
@@ -126,9 +173,33 @@
     background: linear-gradient(135deg, #f59e0b 0%, #ef4444 28%, #a855f7 62%, #3b82f6 100%);
     animation: stories-glow 2.5s ease-in-out infinite;
   }
+  .stories-ring--color-gradient {
+    background: linear-gradient(135deg, #f59e0b 0%, #ef4444 28%, #a855f7 62%, #3b82f6 100%);
+  }
+  .stories-ring--color-blue {
+    background: linear-gradient(135deg, #60a5fa 0%, #2563eb 50%, #1e40af 100%);
+  }
+  .stories-ring--color-green {
+    background: linear-gradient(135deg, #6ee7b7 0%, #10b981 50%, #047857 100%);
+  }
+  .stories-ring--color-purple {
+    background: linear-gradient(135deg, #c4b5fd 0%, #7c3aed 50%, #4c1d95 100%);
+  }
+  .stories-ring--color-orange {
+    background: linear-gradient(135deg, #fcd34d 0%, #f97316 50%, #c2410c 100%);
+  }
+  .stories-ring--color-pink {
+    background: linear-gradient(135deg, #f9a8d4 0%, #ec4899 50%, #9d174d 100%);
+  }
+  .stories-ring--color-teal {
+    background: linear-gradient(135deg, #5eead4 0%, #0d9488 50%, #0f766e 100%);
+  }
+  .stories-ring--color-gold {
+    background: linear-gradient(135deg, #fde68a 0%, #f59e0b 40%, #b45309 100%);
+  }
   @keyframes stories-glow {
     0%, 100% {
-      box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.45);
+      box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.4);
     }
     50% {
       box-shadow: 0 0 0 5px rgba(168, 85, 247, 0);
@@ -781,6 +852,9 @@
 .leading-none {
   --tw-leading: 1;
   line-height: 1;
+}
+.whitespace-nowrap {
+  white-space: nowrap;
 }
 .capitalize {
   text-transform: capitalize;

@@ -48,6 +48,69 @@
     color: inherit;
   }
 
+  /* ── Related-projects grid ───────────────────────────────────────────────
+     Three equal columns on md+; single column on sm. Each cell is a square
+     card inheriting all .card container-query styles above.               */
+  .related-projects__grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .related-projects__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 900px) {
+    .related-projects__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Card sits inside the grid cell — inherit aspect-ratio from .card */
+  .related-projects__card {
+    display: block;
+    width: 100%;
+  }
+
+  /* Role label above title */
+  .related-projects__role {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 0.25em;
+    line-height: 1.2;
+  }
+
+  /* Override .card h3 cqi sizing — use a readable fixed size in the grid */
+  .related-projects__card .card-img-overlay h3.related-projects__title,
+  .related-projects__card h3.related-projects__title {
+    font-size: clamp(0.9rem, 4cqi, 1.4rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: white;
+    margin: 0 0 0.3em;
+  }
+
+  .related-projects__dates {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+    letter-spacing: 0.03em;
+  }
+
+  /* Hover: lift + tighten the overlay gradient */
+  .related-projects__card:hover picture::before {
+    background: linear-gradient(180deg, transparent 20%, rgba(0,0,0,0.85) 100%);
+  }
+
   /* ======================================
      CONTAINER QUERY RESPONSIVE LAYOUT
      ====================================== */

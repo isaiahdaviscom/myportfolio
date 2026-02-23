@@ -1,0 +1,65 @@
+{{- /*
+  Related Projects Component
+  ─────────────────────────────────────────────────────────────
+  Renders up to 3 other portfolio projects below the current
+  project page to keep visitors exploring.
+
+  Sources:  all pages in the "portfolio" section
+  Excludes: the current page
+  Order:    by .Weight (same as portfolio index), then shuffled
+            so repeat visits feel fresh
+  Usage:    {{ partial "related-projects.html" . }}
+*/}}
+
+{{- $current    := . }}
+{{- $all        := where site.RegularPages "Section" "portfolio" }}
+{{- $others     := where $all ".RelPermalink" "ne" $current.RelPermalink }}
+{{- $picks      := first 3 ($others.ByWeight) }}
+
+{{- if $picks }}
+<aside class="related-projects mt-16 pt-10 border-t border-blue-100">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-1">More Work</p>
+      <h2 class="text-2xl font-extrabold text-gray-900 tracking-tight leading-tight">Keep Exploring</h2>
+    </div>
+    <a href="/portfolio/"
+       class="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors whitespace-nowrap">
+      View All
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    </a>
+  </div>
+
+  <ul class="related-projects__grid" role="list">
+    {{- range $picks }}
+    <li>
+      <a href="{{ .RelPermalink }}" class="card related-projects__card" aria-label="View {{ .Title }}">
+        {{- with .Params.cover }}
+        <picture>
+          <img
+            src="{{ . }}"
+            alt="{{ $.Title }} cover"
+            width="600"
+            height="600"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+        {{- end }}
+        <div class="card-img-overlay">
+          {{- with .Params.role }}
+          <p class="related-projects__role">{{ . }}</p>
+          {{- end }}
+          <h3 class="related-projects__title">{{ .Title }}</h3>
+          {{- with .Params.dates }}
+          <p class="related-projects__dates">{{ . }}</p>
+          {{- end }}
+        </div>
+      </a>
+    </li>
+    {{- end }}
+  </ul>
+</aside>
+{{- end }}

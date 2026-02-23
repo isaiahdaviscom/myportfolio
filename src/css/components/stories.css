@@ -92,16 +92,63 @@
     transition: background 0.4s ease;
   }
 
-  /* Available: animated gradient ring */
+  /* ── Available: sets default gradient + animation ───────────────────────── */
   .stories-ring--available {
     background: linear-gradient(135deg, #f59e0b 0%, #ef4444 28%, #a855f7 62%, #3b82f6 100%);
     animation: stories-glow 2.5s ease-in-out infinite;
   }
 
+  /* ── Ring colour variants ──────────────────────────────────────────────────
+     Single-class selectors placed AFTER .stories-ring--available in source.
+     Same specificity (0,1,0) → source order wins → colour class always wins.
+     Colour is applied regardless of availability; only the glow animation
+     is gated on --available. Gray base is the pre-JS fallback only. */
+
+  /* gradient (explicit) — same as the default above */
+  .stories-ring--color-gradient {
+    background: linear-gradient(135deg, #f59e0b 0%, #ef4444 28%, #a855f7 62%, #3b82f6 100%);
+  }
+
+  /* blue */
+  .stories-ring--color-blue {
+    background: linear-gradient(135deg, #60a5fa 0%, #2563eb 50%, #1e40af 100%);
+  }
+
+  /* green */
+  .stories-ring--color-green {
+    background: linear-gradient(135deg, #6ee7b7 0%, #10b981 50%, #047857 100%);
+  }
+
+  /* purple */
+  .stories-ring--color-purple {
+    background: linear-gradient(135deg, #c4b5fd 0%, #7c3aed 50%, #4c1d95 100%);
+  }
+
+  /* orange */
+  .stories-ring--color-orange {
+    background: linear-gradient(135deg, #fcd34d 0%, #f97316 50%, #c2410c 100%);
+  }
+
+  /* pink */
+  .stories-ring--color-pink {
+    background: linear-gradient(135deg, #f9a8d4 0%, #ec4899 50%, #9d174d 100%);
+  }
+
+  /* teal */
+  .stories-ring--color-teal {
+    background: linear-gradient(135deg, #5eead4 0%, #0d9488 50%, #0f766e 100%);
+  }
+
+  /* gold */
+  .stories-ring--color-gold {
+    background: linear-gradient(135deg, #fde68a 0%, #f59e0b 40%, #b45309 100%);
+  }
+
+  /* ── Shared glow animation (colour-agnostic) ── */
   @keyframes stories-glow {
     0%,
     100% {
-      box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.45);
+      box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.4);
     }
 
     50% {
