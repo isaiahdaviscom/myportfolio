@@ -157,11 +157,8 @@ jobs:
         node-version: '18'
         cache: 'npm'
     
-    - name: Setup Chrome (stable, with matching ChromeDriver)
-      id: setup-chrome
-      uses: browser-actions/setup-chrome@v1
-      with:
-        chrome-version: stable
+    - name: Install matching Chrome and ChromeDriver
+      run: npx browser-driver-manager install chrome
     
     - name: Setup Hugo
       uses: peaceiris/actions-hugo@v2
@@ -187,7 +184,6 @@ jobs:
       run: |
         echo "🔍 Running axe accessibility tests..."
         axe http://localhost:8080 --exit --tags wcag2a,wcag2aa \
-          --chromedriver-path="${{ steps.setup-chrome.outputs.chromedriver-path }}" \
           --chrome-options="--no-sandbox,--disable-dev-shm-usage"
     
     - name: Run pa11y accessibility tests
