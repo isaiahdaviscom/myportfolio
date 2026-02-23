@@ -7,7 +7,6 @@
 
 // Only register and run in production environment
 if (self.location.hostname !== 'localhost' && self.location.hostname !== '127.0.0.1') {
-  
   const CACHE_NAME = 'portfolio-cache-v1.1';
   const urlsToCache = [
     '/',
@@ -21,10 +20,7 @@ if (self.location.hostname !== 'localhost' && self.location.hostname !== '127.0.
 
   // Install service worker and cache assets
   self.addEventListener('install', event => {
-    event.waitUntil(
-      caches.open(CACHE_NAME)
-        .then(cache => cache.addAll(urlsToCache))
-    );
+    event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache)));
   });
 
   // Network-first strategy for better development-like behavior
@@ -34,8 +30,7 @@ if (self.location.hostname !== 'localhost' && self.location.hostname !== '127.0.
         .then(response => {
           // If network request succeeds, update cache and return response
           const responseClone = response.clone();
-          caches.open(CACHE_NAME)
-            .then(cache => cache.put(event.request, responseClone));
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
           return response;
         })
         .catch(() => {
@@ -59,7 +54,6 @@ if (self.location.hostname !== 'localhost' && self.location.hostname !== '127.0.
       })
     );
   });
-
 } else {
   // Development environment - disable service worker
   console.log('Service Worker disabled for development environment');

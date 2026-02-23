@@ -24,14 +24,6 @@
       "@static/*": ["static/*"]
     }
   },
-  "include": [
-    "themes/myPortfolio/assets/**/*",
-    "src/**/*",
-    "static/js/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "public",
-    ".chrome-debug-profile"
-  ]
+  "include": ["themes/myPortfolio/assets/**/*", "src/**/*", "static/js/**/*"],
+  "exclude": ["node_modules", "public", ".chrome-debug-profile"]
 }

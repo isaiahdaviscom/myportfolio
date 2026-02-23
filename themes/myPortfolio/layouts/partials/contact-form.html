@@ -1,56 +1,43 @@
-{{- /*
-Contact Form Component - Reusable contact form with validation
-Usage: {{ partial "contact-form.html" (dict "action" "/contact" "method" "POST" "style" "modern") }}
+{{- /* Contact Form Component - Reusable contact form with validation Usage: {{ partial "contact-form.html" (dict
+"action" "/contact" "method" "POST" "style" "modern") }} Parameters: - action: Form action URL (default: "/contact") -
+method: HTTP method (default: "POST") - style: "modern", "minimal", "card" (default: "modern") - includeMessage: boolean
+to include message field (default: true) - includePhone: boolean to include phone field (default: false) -
+includeSubject: boolean to include subject field (default: true) - submitText: Custom submit button text (default: "Send
+Message") */}} {{- $action := .action | default "/contact" }} {{- $method := .method | default "POST" }} {{- $style :=
+.style | default "modern" }} {{- $includeMessage := .includeMessage | default true }} {{- $includePhone := .includePhone
+| default false }} {{- $includeSubject := .includeSubject | default true }} {{- $submitText := .submitText | default
+"Send Message" }} {{- $formClass := "" }} {{- if eq $style "card" }} {{- $formClass = "bg-white dark:bg-gray-800 p-6
+rounded-lg shadow-lg" }} {{- else if eq $style "minimal" }} {{- $formClass = "space-y-4" }} {{- else }} {{- $formClass =
+"bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 p-8 rounded-xl shadow-lg border
+border-gray-200 dark:border-gray-700" }} {{- end }}
 
-Parameters:
-- action: Form action URL (default: "/contact")
-- method: HTTP method (default: "POST")  
-- style: "modern", "minimal", "card" (default: "modern")
-- includeMessage: boolean to include message field (default: true)
-- includePhone: boolean to include phone field (default: false)
-- includeSubject: boolean to include subject field (default: true)
-- submitText: Custom submit button text (default: "Send Message")
-*/}}
-
-{{- $action := .action | default "/contact" }}
-{{- $method := .method | default "POST" }}
-{{- $style := .style | default "modern" }}
-{{- $includeMessage := .includeMessage | default true }}
-{{- $includePhone := .includePhone | default false }}
-{{- $includeSubject := .includeSubject | default true }}
-{{- $submitText := .submitText | default "Send Message" }}
-
-{{- $formClass := "" }}
-{{- if eq $style "card" }}
-  {{- $formClass = "bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg" }}
-{{- else if eq $style "minimal" }}
-  {{- $formClass = "space-y-4" }}
-{{- else }}
-  {{- $formClass = "bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 p-8 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700" }}
-{{- end }}
-
-<form class="contact-form {{ $formClass }}" 
-      action="{{ $action }}" 
-      method="{{ $method }}"
-      netlify="{{ if .netlify }}true{{ end }}"
-      {{- with .netlifyHoneypot }} netlify-honeypot="{{ . }}"{{- end }}>
-  
+<form
+  class="contact-form {{ $formClass }}"
+  action="{{ $action }}"
+  method="{{ $method }}"
+  netlify="{{ if .netlify }}true{{ end }}"
+  {{-
+  with
+  .netlifyHoneypot
+  }}
+  netlify-honeypot="{{ . }}"
+  {{-
+  end
+  }}
+>
   {{- /* Honeypot for spam prevention */ -}}
   <div class="hidden">
     <label>Don't fill this out: <input name="bot-field" /></label>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    
     {{- /* Name Field */ -}}
     <div class="form-group">
-      <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-        Name *
-      </label>
-      <input 
-        type="text" 
-        id="name" 
-        name="name" 
+      <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"> Name * </label>
+      <input
+        type="text"
+        id="name"
+        name="name"
         required
         class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
         placeholder="Your full name"
@@ -59,86 +46,68 @@ Parameters:
 
     {{- /* Email Field */ -}}
     <div class="form-group">
-      <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-        Email *
-      </label>
-      <input 
-        type="email" 
-        id="email" 
-        name="email" 
+      <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"> Email * </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
         required
         class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
         placeholder="your.email@example.com"
       />
     </div>
-
   </div>
 
-  {{- /* Optional Phone Field */ -}}
-  {{- if $includePhone }}
-    <div class="form-group">
-      <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-        Phone
-      </label>
-      <input 
-        type="tel" 
-        id="phone" 
-        name="phone"
-        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
-        placeholder="(555) 123-4567"
-      />
-    </div>
-  {{- end }}
-
-  {{- /* Optional Subject Field */ -}}
-  {{- if $includeSubject }}
-    <div class="form-group">
-      <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-        Subject *
-      </label>
-      <select 
-        id="subject" 
-        name="subject" 
-        required
-        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
-      >
-        <option value="">Select a subject</option>
-        <option value="project-inquiry">Project Inquiry</option>
-        <option value="collaboration">Collaboration</option>
-        <option value="job-opportunity">Job Opportunity</option>
-        <option value="general">General Question</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
-  {{- end }}
-
-  {{- /* Message Field */ -}}
-  {{- if $includeMessage }}
-    <div class="form-group">
-      <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-        Message *
-      </label>
-      <textarea 
-        id="message" 
-        name="message" 
-        rows="6"
-        required
-        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors resize-vertical"
-        placeholder="Tell me about your project or how I can help you..."
-      ></textarea>
-      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Minimum 10 characters</p>
-    </div>
-  {{- end }}
-
-  {{- /* Submit Button */ -}}
+  {{- /* Optional Phone Field */ -}} {{- if $includePhone }}
   <div class="form-group">
-    <button 
+    <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"> Phone </label>
+    <input
+      type="tel"
+      id="phone"
+      name="phone"
+      class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
+      placeholder="(555) 123-4567"
+    />
+  </div>
+  {{- end }} {{- /* Optional Subject Field */ -}} {{- if $includeSubject }}
+  <div class="form-group">
+    <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"> Subject * </label>
+    <select
+      id="subject"
+      name="subject"
+      required
+      class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
+    >
+      <option value="">Select a subject</option>
+      <option value="project-inquiry">Project Inquiry</option>
+      <option value="collaboration">Collaboration</option>
+      <option value="job-opportunity">Job Opportunity</option>
+      <option value="general">General Question</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+  {{- end }} {{- /* Message Field */ -}} {{- if $includeMessage }}
+  <div class="form-group">
+    <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"> Message * </label>
+    <textarea
+      id="message"
+      name="message"
+      rows="6"
+      required
+      class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors resize-vertical"
+      placeholder="Tell me about your project or how I can help you..."
+    ></textarea>
+    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Minimum 10 characters</p>
+  </div>
+  {{- end }} {{- /* Submit Button */ -}}
+  <div class="form-group">
+    <button
       type="submit"
       class="w-full md:w-auto px-8 py-3 bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
     >
       <span class="flex items-center justify-center">
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
         </svg>
         {{ $submitText }}
       </span>
@@ -150,16 +119,21 @@ Parameters:
     <div id="success-message" class="p-4 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-200 rounded-lg">
       <div class="flex items-center">
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
         Message sent successfully! I'll get back to you soon.
       </div>
     </div>
-    
+
     <div id="error-message" class="p-4 bg-red-100 dark:bg-red-800 text-red-700 dark:text-red-200 rounded-lg">
       <div class="flex items-center">
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
         </svg>
         Something went wrong. Please try again or email me directly.
       </div>
@@ -169,81 +143,83 @@ Parameters:
 
 {{- /* Contact Form JavaScript */ -}}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const form = document.querySelector('.contact-form');
-  const submitButton = form.querySelector('button[type="submit"]');
-  const messagesDiv = document.getElementById('form-messages');
-  const successMessage = document.getElementById('success-message');
-  const errorMessage = document.getElementById('error-message');
-  
-  // Form validation
-  const nameInput = document.getElementById('name');
-  const emailInput = document.getElementById('email');
-  const messageInput = document.getElementById('message');
-  
-  // Real-time validation
-  [nameInput, emailInput, messageInput].forEach(input => {
-    if (input) {
-      input.addEventListener('blur', validateField);
-      input.addEventListener('input', clearValidationError);
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('.contact-form');
+    const submitButton = form.querySelector('button[type="submit"]');
+    const messagesDiv = document.getElementById('form-messages');
+    const successMessage = document.getElementById('success-message');
+    const errorMessage = document.getElementById('error-message');
+
+    // Form validation
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const messageInput = document.getElementById('message');
+
+    // Real-time validation
+    [nameInput, emailInput, messageInput].forEach(input => {
+      if (input) {
+        input.addEventListener('blur', validateField);
+        input.addEventListener('input', clearValidationError);
+      }
+    });
+
+    function validateField(e) {
+      const field = e.target;
+      const value = field.value.trim();
+
+      // Remove existing error styling
+      field.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+
+      // Validate based on field type
+      let isValid = true;
+
+      if (field.type === 'email' && value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        isValid = emailRegex.test(value);
+      } else if (field.id === 'message' && value) {
+        isValid = value.length >= 10;
+      } else if (field.required && !value) {
+        isValid = false;
+      }
+
+      if (!isValid) {
+        field.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+      }
     }
-  });
-  
-  function validateField(e) {
-    const field = e.target;
-    const value = field.value.trim();
-    
-    // Remove existing error styling
-    field.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
-    
-    // Validate based on field type
-    let isValid = true;
-    
-    if (field.type === 'email' && value) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      isValid = emailRegex.test(value);
-    } else if (field.id === 'message' && value) {
-      isValid = value.length >= 10;
-    } else if (field.required && !value) {
-      isValid = false;
+
+    function clearValidationError(e) {
+      e.target.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
     }
-    
-    if (!isValid) {
-      field.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
-    }
-  }
-  
-  function clearValidationError(e) {
-    e.target.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
-  }
-  
-  // Form submission
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Show loading state
-    submitButton.disabled = true;
-    submitButton.innerHTML = '<span class="flex items-center justify-center"><svg class="animate-spin w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Sending...</span>';
-    
-    // Simulate form submission (replace with actual form handling)
-    setTimeout(() => {
-      // Reset button
-      submitButton.disabled = false;
-      submitButton.innerHTML = '<span class="flex items-center justify-center"><svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>{{ $submitText }}</span>';
-      
-      // Show success message
-      messagesDiv.classList.remove('hidden');
-      successMessage.classList.remove('hidden');
-      errorMessage.classList.add('hidden');
-      
-      // Reset form
-      form.reset();
-      
-      // Hide message after 5 seconds
+
+    // Form submission
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Show loading state
+      submitButton.disabled = true;
+      submitButton.innerHTML =
+        '<span class="flex items-center justify-center"><svg class="animate-spin w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Sending...</span>';
+
+      // Simulate form submission (replace with actual form handling)
       setTimeout(() => {
-        messagesDiv.classList.add('hidden');
-      }, 5000);
-    }, 1500);
+        // Reset button
+        submitButton.disabled = false;
+        submitButton.innerHTML =
+          '<span class="flex items-center justify-center"><svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>{{ $submitText }}</span>';
+
+        // Show success message
+        messagesDiv.classList.remove('hidden');
+        successMessage.classList.remove('hidden');
+        errorMessage.classList.add('hidden');
+
+        // Reset form
+        form.reset();
+
+        // Hide message after 5 seconds
+        setTimeout(() => {
+          messagesDiv.classList.add('hidden');
+        }, 5000);
+      }, 1500);
+    });
   });
-});
 </script>

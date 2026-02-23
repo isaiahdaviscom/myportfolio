@@ -4,10 +4,7 @@ module.exports = {
     es2021: true,
     node: true
   },
-  extends: [
-    'eslint:recommended',
-    'prettier'
-  ],
+  extends: ['eslint:recommended', 'prettier'],
   plugins: ['html'],
   parserOptions: {
     ecmaVersion: 'latest',
@@ -21,18 +18,18 @@ module.exports = {
     'no-var': 'error',
     'prefer-const': 'error',
     'prefer-arrow-callback': 'error',
-    'no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
-    
+    'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+
     // Code style (handled by Prettier, but good to have as backup)
-    'semi': ['error', 'always'],
-    'quotes': ['error', 'single', { 'avoidEscape': true }],
+    semi: ['error', 'always'],
+    quotes: ['error', 'single', { avoidEscape: true }],
     'comma-dangle': ['error', 'never'],
-    
+
     // Performance
     'no-implied-eval': 'error',
     'no-new-func': 'error',
     'no-script-url': 'error',
-    
+
     // Accessibility
     'no-implicit-globals': 'error'
   },

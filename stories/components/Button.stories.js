@@ -4,31 +4,31 @@ export default {
   argTypes: {
     text: {
       control: 'text',
-      description: 'Button text content',
+      description: 'Button text content'
     },
     variant: {
       control: { type: 'select' },
       options: ['primary', 'secondary', 'success', 'warning', 'danger', 'ghost', 'link'],
-      description: 'Button style variant',
+      description: 'Button style variant'
     },
     size: {
       control: { type: 'select' },
       options: ['small', 'medium', 'large'],
-      description: 'Button size',
+      description: 'Button size'
     },
     disabled: {
       control: 'boolean',
-      description: 'Disabled state',
+      description: 'Disabled state'
     },
     fullWidth: {
       control: 'boolean',
-      description: 'Full width button',
+      description: 'Full width button'
     },
     loading: {
       control: 'boolean',
-      description: 'Loading state with spinner',
-    },
-  },
+      description: 'Loading state with spinner'
+    }
+  }
 };
 
 /**
@@ -41,15 +41,15 @@ export const Default = {
     size: 'medium',
     disabled: false,
     fullWidth: false,
-    loading: false,
+    loading: false
   },
-  render: (args) => {
+  render: args => {
     const sizeClass = {
       small: 'px-3 py-1.5 text-sm',
       medium: 'px-4 py-2 text-sm',
       large: 'px-6 py-3 text-base'
     }[args.size];
-    
+
     const variantClass = {
       primary: 'bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500',
       secondary: 'bg-gray-500 text-white hover:bg-gray-600 focus:ring-gray-500',
@@ -63,14 +63,19 @@ export const Default = {
     const widthClass = args.fullWidth ? 'w-full' : '';
     const disabledClass = args.disabled ? 'opacity-50 cursor-not-allowed' : 'transition-colors';
     const roundedClass = args.variant === 'link' ? '' : 'rounded-md';
-    const focusClass = args.variant === 'link' ? 'focus:outline-none focus:underline' : 'focus:outline-none focus:ring-2 focus:ring-offset-2';
+    const focusClass =
+      args.variant === 'link'
+        ? 'focus:outline-none focus:underline'
+        : 'focus:outline-none focus:ring-2 focus:ring-offset-2';
 
-    const loadingSpinner = args.loading ? `
+    const loadingSpinner = args.loading
+      ? `
       <svg class="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
       </svg>
-    ` : '';
+    `
+      : '';
 
     return `
       <button 
@@ -81,7 +86,7 @@ export const Default = {
         ${args.text}
       </button>
     `;
-  },
+  }
 };
 
 /**
@@ -91,9 +96,9 @@ export const Secondary = {
   args: {
     ...Default.args,
     text: 'Secondary',
-    variant: 'secondary',
+    variant: 'secondary'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -103,9 +108,9 @@ export const Success = {
   args: {
     ...Default.args,
     text: 'Success',
-    variant: 'success',
+    variant: 'success'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -115,9 +120,9 @@ export const Warning = {
   args: {
     ...Default.args,
     text: 'Warning',
-    variant: 'warning',
+    variant: 'warning'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -127,9 +132,9 @@ export const Danger = {
   args: {
     ...Default.args,
     text: 'Danger',
-    variant: 'danger',
+    variant: 'danger'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -139,9 +144,9 @@ export const Ghost = {
   args: {
     ...Default.args,
     text: 'Ghost',
-    variant: 'ghost',
+    variant: 'ghost'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -151,9 +156,9 @@ export const Link = {
   args: {
     ...Default.args,
     text: 'Link Button',
-    variant: 'link',
+    variant: 'link'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -163,9 +168,9 @@ export const Disabled = {
   args: {
     ...Default.args,
     text: 'Disabled',
-    disabled: true,
+    disabled: true
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -175,9 +180,9 @@ export const Loading = {
   args: {
     ...Default.args,
     text: 'Loading...',
-    loading: true,
+    loading: true
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -196,7 +201,7 @@ export const Sizes = {
         Large
       </button>
     </div>
-  `,
+  `
 };
 
 /**
@@ -206,9 +211,9 @@ export const FullWidth = {
   args: {
     ...Default.args,
     text: 'Full Width Button',
-    fullWidth: true,
+    fullWidth: true
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -239,5 +244,5 @@ export const AllVariants = {
         Link
       </button>
     </div>
-  `,
+  `
 };

@@ -16,7 +16,7 @@ class CSSCleanup {
       path.join(this.projectRoot, 'static', 'css', 'styles.css'),
       path.join(this.projectRoot, 'src', 'css', 'custom.css')
     ];
-    
+
     this.cleanupResults = {
       filesProcessed: 0,
       classesRemoved: 0,
@@ -36,10 +36,10 @@ class CSSCleanup {
     try {
       // Step 1: Load cleanup suggestions
       const suggestions = await this.loadCleanupSuggestions();
-      
+
       // Step 2: Get classes to remove based on confidence level
       const classesToRemove = this.getClassesToRemove(suggestions, confidenceLevel);
-      
+
       if (classesToRemove.length === 0) {
         console.log('✅ No classes to remove at this confidence level');
         return;
@@ -60,7 +60,6 @@ class CSSCleanup {
       await this.generateCleanupReport();
 
       console.log('\n✅ CSS cleanup completed successfully!');
-      
     } catch (error) {
       console.error('❌ Error during CSS cleanup:', error.message);
       process.exit(1);
@@ -72,7 +71,7 @@ class CSSCleanup {
    */
   async loadCleanupSuggestions() {
     const suggestionsPath = path.join(this.projectRoot, 'css-cleanup-suggestions.json');
-    
+
     if (!fs.existsSync(suggestionsPath)) {
       throw new Error('Cleanup suggestions not found. Run "npm run css:unused" first.');
     }
@@ -90,7 +89,11 @@ class CSSCleanup {
       case 'medium':
         return [...(suggestions.highConfidence || []), ...(suggestions.mediumRisk || [])];
       case 'all':
-        return [...(suggestions.highConfidence || []), ...(suggestions.mediumRisk || []), ...(suggestions.preserveClasses || [])];
+        return [
+          ...(suggestions.highConfidence || []),
+          ...(suggestions.mediumRisk || []),
+          ...(suggestions.preserveClasses || [])
+        ];
       default:
         return suggestions.highConfidence || [];
     }
@@ -121,11 +124,11 @@ class CSSCleanup {
 
       for (const className of classesToRemove) {
         const classPatterns = [
-          new RegExp(`\\.${this.escapeRegExp(className)}\\s*{[^}]*}`, 'gi'),  // .class { ... }
-          new RegExp(`\\.${this.escapeRegExp(className)}\\s*,`, 'gi'),       // .class,
-          new RegExp(`\\.${this.escapeRegExp(className)}\\s*\\.`, 'gi'),     // .class.another
+          new RegExp(`\\.${this.escapeRegExp(className)}\\s*{[^}]*}`, 'gi'), // .class { ... }
+          new RegExp(`\\.${this.escapeRegExp(className)}\\s*,`, 'gi'), // .class,
+          new RegExp(`\\.${this.escapeRegExp(className)}\\s*\\.`, 'gi'), // .class.another
           new RegExp(`\\.${this.escapeRegExp(className)}:hover\\s*{[^}]*}`, 'gi'), // .class:hover { ... }
-          new RegExp(`\\.${this.escapeRegExp(className)}:focus\\s*{[^}]*}`, 'gi'), // .class:focus { ... }
+          new RegExp(`\\.${this.escapeRegExp(className)}:focus\\s*{[^}]*}`, 'gi') // .class:focus { ... }
         ];
 
         for (const pattern of classPatterns) {
@@ -158,7 +161,6 @@ class CSSCleanup {
 
       console.log(`   ✓ Removed ${removedClasses} class definitions`);
       console.log(`   ✓ Saved ${this.formatBytes(sizeSaved)} (${linesSaved} lines)`);
-
     } catch (error) {
       console.error(`   ❌ Error processing ${relativePath}: ${error.message}`);
     }
@@ -170,9 +172,9 @@ class CSSCleanup {
   cleanupWhitespace(content) {
     return content
       .replace(/\n\s*\n\s*\n/g, '\n\n') // Remove multiple blank lines
-      .replace(/\s*{\s*/g, ' { ')        // Normalize brace spacing
-      .replace(/;\s*}/g, '; }')          // Normalize closing braces
-      .trim();                           // Remove leading/trailing whitespace
+      .replace(/\s*{\s*/g, ' { ') // Normalize brace spacing
+      .replace(/;\s*}/g, '; }') // Normalize closing braces
+      .trim(); // Remove leading/trailing whitespace
   }
 
   /**
@@ -190,20 +192,25 @@ class CSSCleanup {
       timestamp: new Date().toISOString(),
       mode: this.dryRun ? 'dry-run' : 'actual-cleanup',
       results: this.cleanupResults,
-      recommendations: this.dryRun ? [
-        "This was a dry run - no files were modified",
-        "Review the results and run with --actual to apply changes",
-        "Make sure to backup your files before actual cleanup"
-      ] : [
-        "Cleanup completed successfully",
-        "Test your site thoroughly to ensure no functionality was broken",
-        "Backup files were created with .backup.timestamp extension"
-      ]
+      recommendations: this.dryRun
+        ? [
+            'This was a dry run - no files were modified',
+            'Review the results and run with --actual to apply changes',
+            'Make sure to backup your files before actual cleanup'
+          ]
+        : [
+            'Cleanup completed successfully',
+            'Test your site thoroughly to ensure no functionality was broken',
+            'Backup files were created with .backup.timestamp extension'
+          ]
     };
 
-    const reportPath = path.join(this.projectRoot, `css-cleanup-${this.dryRun ? 'dryrun-' : ''}report.json`);
+    const reportPath = path.join(
+      this.projectRoot,
+      `css-cleanup-${this.dryRun ? 'dryrun-' : ''}report.json`
+    );
     fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
-    
+
     console.log(`\n📋 Cleanup report saved to: ${path.basename(reportPath)}`);
     console.log(`   Files processed: ${this.cleanupResults.filesProcessed}`);
     console.log(`   Classes removed: ${this.cleanupResults.classesRemoved}`);
@@ -225,7 +232,7 @@ class CSSCleanup {
 // CLI execution
 if (require.main === module) {
   const args = process.argv.slice(2);
-  
+
   const confidenceLevel = args.find(arg => ['high', 'medium', 'all'].includes(arg)) || 'high';
   const dryRun = !args.includes('--actual');
   const backupEnabled = !args.includes('--no-backup');

@@ -4,21 +4,21 @@ export default {
   argTypes: {
     title: {
       control: 'text',
-      description: 'Site title',
+      description: 'Site title'
     },
     showNavigation: {
       control: 'boolean',
-      description: 'Show navigation menu',
+      description: 'Show navigation menu'
     },
     sticky: {
       control: 'boolean',
-      description: 'Sticky header',
+      description: 'Sticky header'
     },
     transparent: {
       control: 'boolean',
-      description: 'Transparent background',
-    },
-  },
+      description: 'Transparent background'
+    }
+  }
 };
 
 /**
@@ -29,13 +29,14 @@ export const Default = {
     title: 'Portfolio',
     showNavigation: true,
     sticky: false,
-    transparent: false,
+    transparent: false
   },
-  render: (args) => {
+  render: args => {
     const stickyClass = args.sticky ? 'sticky top-0 z-50' : '';
     const bgClass = args.transparent ? 'bg-transparent' : 'bg-white border-b border-gray-200';
-    
-    const navigationHtml = args.showNavigation ? `
+
+    const navigationHtml = args.showNavigation
+      ? `
       <nav class="hidden md:flex space-x-8">
         <a href="#home" class="text-gray-700 hover:text-blue-500 transition-colors font-medium">Home</a>
         <a href="#about" class="text-gray-700 hover:text-blue-500 transition-colors font-medium">About</a>
@@ -48,7 +49,8 @@ export const Default = {
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
-    ` : '';
+    `
+      : '';
 
     return `
       <header class="${stickyClass} ${bgClass}">
@@ -62,7 +64,7 @@ export const Default = {
         </div>
       </header>
     `;
-  },
+  }
 };
 
 /**
@@ -71,9 +73,9 @@ export const Default = {
 export const Sticky = {
   args: {
     ...Default.args,
-    sticky: true,
+    sticky: true
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -82,9 +84,9 @@ export const Sticky = {
 export const Transparent = {
   args: {
     ...Default.args,
-    transparent: true,
+    transparent: true
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -93,9 +95,9 @@ export const Transparent = {
 export const Simple = {
   args: {
     ...Default.args,
-    showNavigation: false,
+    showNavigation: false
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -132,5 +134,5 @@ export const WithLogo = {
         </div>
       </div>
     </header>
-  `,
+  `
 };

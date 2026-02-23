@@ -1,1 +1,469 @@
-{"v":5,"entries":{"components-badge--docs":{"id":"components-badge--docs","title":"Components/Badge","name":"Docs","importPath":"./stories/components/Badge.stories.js","type":"docs","tags":["dev","test","autodocs"],"storiesImports":[]},"components-badge--default":{"type":"story","id":"components-badge--default","name":"Default","title":"Components/Badge","importPath":"./stories/components/Badge.stories.js","tags":["dev","test","autodocs"]},"components-badge--primary":{"type":"story","id":"components-badge--primary","name":"Primary","title":"Components/Badge","importPath":"./stories/components/Badge.stories.js","tags":["dev","test","autodocs"]},"components-badge--success":{"type":"story","id":"components-badge--success","name":"Success","title":"Components/Badge","importPath":"./stories/components/Badge.stories.js","tags":["dev","test","autodocs"]},"components-badge--warning":{"type":"story","id":"components-badge--warning","name":"Warning","title":"Components/Badge","importPath":"./stories/components/Badge.stories.js","tags":["dev","test","autodocs"]},"components-badge--error":{"type":"story","id":"components-badge--error","name":"Error","title":"Components/Badge","importPath":"./stories/components/Badge.stories.js","tags":["dev","test","autodocs"]},"components-badge--sizes":{"type":"story","id":"components-badge--sizes","name":"Sizes","title":"Components/Badge","importPath":"./stories/components/Badge.stories.js","tags":["dev","test","autodocs"]},"components-badge--all-variants":{"type":"story","id":"components-badge--all-variants","name":"All Variants","title":"Components/Badge","importPath":"./stories/components/Badge.stories.js","tags":["dev","test","autodocs"]},"components-button--docs":{"id":"components-button--docs","title":"Components/Button","name":"Docs","importPath":"./stories/components/Button.stories.js","type":"docs","tags":["dev","test","autodocs"],"storiesImports":[]},"components-button--default":{"type":"story","id":"components-button--default","name":"Default","title":"Components/Button","importPath":"./stories/components/Button.stories.js","tags":["dev","test","autodocs"]},"components-button--secondary":{"type":"story","id":"components-button--secondary","name":"Secondary","title":"Components/Button","importPath":"./stories/components/Button.stories.js","tags":["dev","test","autodocs"]},"components-button--success":{"type":"story","id":"components-button--success","name":"Success","title":"Components/Button","importPath":"./stories/components/Button.stories.js","tags":["dev","test","autodocs"]},"components-button--warning":{"type":"story","id":"components-button--warning","name":"Warning","title":"Components/Button","importPath":"./stories/components/Button.stories.js","tags":["dev","test","autodocs"]},"components-button--danger":{"type":"story","id":"components-button--danger","name":"Danger","title":"Components/Button","importPath":"./stories/components/Button.stories.js","tags":["dev","test","autodocs"]},"components-button--ghost":{"type":"story","id":"components-button--ghost","name":"Ghost","title":"Components/Button","importPath":"./stories/components/Button.stories.js","tags":["dev","test","autodocs"]},"components-button--link":{"type":"story","id":"components-button--link","name":"Link","title":"Components/Button","importPath":"./stories/components/Button.stories.js","tags":["dev","test","autodocs"]},"components-button--disabled":{"type":"story","id":"components-button--disabled","name":"Disabled","title":"Components/Button","importPath":"./stories/components/Button.stories.js","tags":["dev","test","autodocs"]},"components-button--loading":{"type":"story","id":"components-button--loading","name":"Loading","title":"Components/Button","importPath":"./stories/components/Button.stories.js","tags":["dev","test","autodocs"]},"components-button--sizes":{"type":"story","id":"components-button--sizes","name":"Sizes","title":"Components/Button","importPath":"./stories/components/Button.stories.js","tags":["dev","test","autodocs"]},"components-button--full-width":{"type":"story","id":"components-button--full-width","name":"Full Width","title":"Components/Button","importPath":"./stories/components/Button.stories.js","tags":["dev","test","autodocs"]},"components-button--all-variants":{"type":"story","id":"components-button--all-variants","name":"All Variants","title":"Components/Button","importPath":"./stories/components/Button.stories.js","tags":["dev","test","autodocs"]},"components-card--docs":{"id":"components-card--docs","title":"Components/Card","name":"Docs","importPath":"./stories/components/Card.stories.js","type":"docs","tags":["dev","test","autodocs"],"storiesImports":[]},"components-card--default":{"type":"story","id":"components-card--default","name":"Default","title":"Components/Card","importPath":"./stories/components/Card.stories.js","tags":["dev","test","autodocs"]},"components-card--with-image":{"type":"story","id":"components-card--with-image","name":"With Image","title":"Components/Card","importPath":"./stories/components/Card.stories.js","tags":["dev","test","autodocs"]},"components-card--with-actions":{"type":"story","id":"components-card--with-actions","name":"With Actions","title":"Components/Card","importPath":"./stories/components/Card.stories.js","tags":["dev","test","autodocs"]},"components-card--elevated":{"type":"story","id":"components-card--elevated","name":"Elevated","title":"Components/Card","importPath":"./stories/components/Card.stories.js","tags":["dev","test","autodocs"]},"components-card--portfolio-card":{"type":"story","id":"components-card--portfolio-card","name":"Portfolio Card","title":"Components/Card","importPath":"./stories/components/Card.stories.js","tags":["dev","test","autodocs"]},"components-card--all-variants":{"type":"story","id":"components-card--all-variants","name":"All Variants","title":"Components/Card","importPath":"./stories/components/Card.stories.js","tags":["dev","test","autodocs"]},"components-contactform--docs":{"id":"components-contactform--docs","title":"Components/ContactForm","name":"Docs","importPath":"./stories/components/ContactForm.stories.js","type":"docs","tags":["dev","test","autodocs"],"storiesImports":[]},"components-contactform--default":{"type":"story","id":"components-contactform--default","name":"Default","title":"Components/ContactForm","importPath":"./stories/components/ContactForm.stories.js","tags":["dev","test","autodocs"]},"components-contactform--minimal":{"type":"story","id":"components-contactform--minimal","name":"Minimal","title":"Components/ContactForm","importPath":"./stories/components/ContactForm.stories.js","tags":["dev","test","autodocs"]},"components-contactform--card":{"type":"story","id":"components-contactform--card","name":"Card","title":"Components/ContactForm","importPath":"./stories/components/ContactForm.stories.js","tags":["dev","test","autodocs"]},"components-contactform--all-fields":{"type":"story","id":"components-contactform--all-fields","name":"All Fields","title":"Components/ContactForm","importPath":"./stories/components/ContactForm.stories.js","tags":["dev","test","autodocs"]},"components-contactform--simple":{"type":"story","id":"components-contactform--simple","name":"Simple","title":"Components/ContactForm","importPath":"./stories/components/ContactForm.stories.js","tags":["dev","test","autodocs"]},"components-gallery--docs":{"id":"components-gallery--docs","title":"Components/Gallery","name":"Docs","importPath":"./stories/components/Gallery.stories.js","type":"docs","tags":["dev","test","autodocs"],"storiesImports":[]},"components-gallery--default":{"type":"story","id":"components-gallery--default","name":"Default","title":"Components/Gallery","importPath":"./stories/components/Gallery.stories.js","tags":["dev","test","autodocs"]},"components-gallery--two-column":{"type":"story","id":"components-gallery--two-column","name":"Two Column","title":"Components/Gallery","importPath":"./stories/components/Gallery.stories.js","tags":["dev","test","autodocs"]},"components-gallery--no-captions":{"type":"story","id":"components-gallery--no-captions","name":"No Captions","title":"Components/Gallery","importPath":"./stories/components/Gallery.stories.js","tags":["dev","test","autodocs"]},"layout-footer--docs":{"id":"layout-footer--docs","title":"Layout/Footer","name":"Docs","importPath":"./stories/layouts/Footer.stories.js","type":"docs","tags":["dev","test","autodocs"],"storiesImports":[]},"layout-footer--default":{"type":"story","id":"layout-footer--default","name":"Default","title":"Layout/Footer","importPath":"./stories/layouts/Footer.stories.js","tags":["dev","test","autodocs"]},"layout-footer--simple":{"type":"story","id":"layout-footer--simple","name":"Simple","title":"Layout/Footer","importPath":"./stories/layouts/Footer.stories.js","tags":["dev","test","autodocs"]},"layout-footer--minimal":{"type":"story","id":"layout-footer--minimal","name":"Minimal","title":"Layout/Footer","importPath":"./stories/layouts/Footer.stories.js","tags":["dev","test","autodocs"]},"layout-footer--detailed":{"type":"story","id":"layout-footer--detailed","name":"Detailed","title":"Layout/Footer","importPath":"./stories/layouts/Footer.stories.js","tags":["dev","test","autodocs"]},"layout-footer--with-newsletter":{"type":"story","id":"layout-footer--with-newsletter","name":"With Newsletter","title":"Layout/Footer","importPath":"./stories/layouts/Footer.stories.js","tags":["dev","test","autodocs"]},"layout-header--docs":{"id":"layout-header--docs","title":"Layout/Header","name":"Docs","importPath":"./stories/layouts/Header.stories.js","type":"docs","tags":["dev","test","autodocs"],"storiesImports":[]},"layout-header--default":{"type":"story","id":"layout-header--default","name":"Default","title":"Layout/Header","importPath":"./stories/layouts/Header.stories.js","tags":["dev","test","autodocs"]},"layout-header--sticky":{"type":"story","id":"layout-header--sticky","name":"Sticky","title":"Layout/Header","importPath":"./stories/layouts/Header.stories.js","tags":["dev","test","autodocs"]},"layout-header--transparent":{"type":"story","id":"layout-header--transparent","name":"Transparent","title":"Layout/Header","importPath":"./stories/layouts/Header.stories.js","tags":["dev","test","autodocs"]},"layout-header--simple":{"type":"story","id":"layout-header--simple","name":"Simple","title":"Layout/Header","importPath":"./stories/layouts/Header.stories.js","tags":["dev","test","autodocs"]},"layout-header--with-logo":{"type":"story","id":"layout-header--with-logo","name":"With Logo","title":"Layout/Header","importPath":"./stories/layouts/Header.stories.js","tags":["dev","test","autodocs"]},"pages-portfolio--docs":{"id":"pages-portfolio--docs","title":"Pages/Portfolio","name":"Docs","importPath":"./stories/pages/Portfolio.stories.js","type":"docs","tags":["dev","test","autodocs"],"storiesImports":[]},"pages-portfolio--default":{"type":"story","id":"pages-portfolio--default","name":"Default","title":"Pages/Portfolio","importPath":"./stories/pages/Portfolio.stories.js","tags":["dev","test","autodocs"]},"pages-portfolio--grid-layout":{"type":"story","id":"pages-portfolio--grid-layout","name":"Grid Layout","title":"Pages/Portfolio","importPath":"./stories/pages/Portfolio.stories.js","tags":["dev","test","autodocs"]},"pages-portfolio--list-layout":{"type":"story","id":"pages-portfolio--list-layout","name":"List Layout","title":"Pages/Portfolio","importPath":"./stories/pages/Portfolio.stories.js","tags":["dev","test","autodocs"]},"pages-portfolio--masonry-layout":{"type":"story","id":"pages-portfolio--masonry-layout","name":"Masonry Layout","title":"Pages/Portfolio","importPath":"./stories/pages/Portfolio.stories.js","tags":["dev","test","autodocs"]},"pages-portfolio--no-filters":{"type":"story","id":"pages-portfolio--no-filters","name":"No Filters","title":"Pages/Portfolio","importPath":"./stories/pages/Portfolio.stories.js","tags":["dev","test","autodocs"]},"pages-portfolio--minimal":{"type":"story","id":"pages-portfolio--minimal","name":"Minimal","title":"Pages/Portfolio","importPath":"./stories/pages/Portfolio.stories.js","tags":["dev","test","autodocs"]}}}
+{
+  "v": 5,
+  "entries": {
+    "components-badge--docs": {
+      "id": "components-badge--docs",
+      "title": "Components/Badge",
+      "name": "Docs",
+      "importPath": "./stories/components/Badge.stories.js",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-badge--default": {
+      "type": "story",
+      "id": "components-badge--default",
+      "name": "Default",
+      "title": "Components/Badge",
+      "importPath": "./stories/components/Badge.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-badge--primary": {
+      "type": "story",
+      "id": "components-badge--primary",
+      "name": "Primary",
+      "title": "Components/Badge",
+      "importPath": "./stories/components/Badge.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-badge--success": {
+      "type": "story",
+      "id": "components-badge--success",
+      "name": "Success",
+      "title": "Components/Badge",
+      "importPath": "./stories/components/Badge.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-badge--warning": {
+      "type": "story",
+      "id": "components-badge--warning",
+      "name": "Warning",
+      "title": "Components/Badge",
+      "importPath": "./stories/components/Badge.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-badge--error": {
+      "type": "story",
+      "id": "components-badge--error",
+      "name": "Error",
+      "title": "Components/Badge",
+      "importPath": "./stories/components/Badge.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-badge--sizes": {
+      "type": "story",
+      "id": "components-badge--sizes",
+      "name": "Sizes",
+      "title": "Components/Badge",
+      "importPath": "./stories/components/Badge.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-badge--all-variants": {
+      "type": "story",
+      "id": "components-badge--all-variants",
+      "name": "All Variants",
+      "title": "Components/Badge",
+      "importPath": "./stories/components/Badge.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-button--docs": {
+      "id": "components-button--docs",
+      "title": "Components/Button",
+      "name": "Docs",
+      "importPath": "./stories/components/Button.stories.js",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-button--default": {
+      "type": "story",
+      "id": "components-button--default",
+      "name": "Default",
+      "title": "Components/Button",
+      "importPath": "./stories/components/Button.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-button--secondary": {
+      "type": "story",
+      "id": "components-button--secondary",
+      "name": "Secondary",
+      "title": "Components/Button",
+      "importPath": "./stories/components/Button.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-button--success": {
+      "type": "story",
+      "id": "components-button--success",
+      "name": "Success",
+      "title": "Components/Button",
+      "importPath": "./stories/components/Button.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-button--warning": {
+      "type": "story",
+      "id": "components-button--warning",
+      "name": "Warning",
+      "title": "Components/Button",
+      "importPath": "./stories/components/Button.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-button--danger": {
+      "type": "story",
+      "id": "components-button--danger",
+      "name": "Danger",
+      "title": "Components/Button",
+      "importPath": "./stories/components/Button.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-button--ghost": {
+      "type": "story",
+      "id": "components-button--ghost",
+      "name": "Ghost",
+      "title": "Components/Button",
+      "importPath": "./stories/components/Button.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-button--link": {
+      "type": "story",
+      "id": "components-button--link",
+      "name": "Link",
+      "title": "Components/Button",
+      "importPath": "./stories/components/Button.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-button--disabled": {
+      "type": "story",
+      "id": "components-button--disabled",
+      "name": "Disabled",
+      "title": "Components/Button",
+      "importPath": "./stories/components/Button.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-button--loading": {
+      "type": "story",
+      "id": "components-button--loading",
+      "name": "Loading",
+      "title": "Components/Button",
+      "importPath": "./stories/components/Button.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-button--sizes": {
+      "type": "story",
+      "id": "components-button--sizes",
+      "name": "Sizes",
+      "title": "Components/Button",
+      "importPath": "./stories/components/Button.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-button--full-width": {
+      "type": "story",
+      "id": "components-button--full-width",
+      "name": "Full Width",
+      "title": "Components/Button",
+      "importPath": "./stories/components/Button.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-button--all-variants": {
+      "type": "story",
+      "id": "components-button--all-variants",
+      "name": "All Variants",
+      "title": "Components/Button",
+      "importPath": "./stories/components/Button.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-card--docs": {
+      "id": "components-card--docs",
+      "title": "Components/Card",
+      "name": "Docs",
+      "importPath": "./stories/components/Card.stories.js",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-card--default": {
+      "type": "story",
+      "id": "components-card--default",
+      "name": "Default",
+      "title": "Components/Card",
+      "importPath": "./stories/components/Card.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-card--with-image": {
+      "type": "story",
+      "id": "components-card--with-image",
+      "name": "With Image",
+      "title": "Components/Card",
+      "importPath": "./stories/components/Card.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-card--with-actions": {
+      "type": "story",
+      "id": "components-card--with-actions",
+      "name": "With Actions",
+      "title": "Components/Card",
+      "importPath": "./stories/components/Card.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-card--elevated": {
+      "type": "story",
+      "id": "components-card--elevated",
+      "name": "Elevated",
+      "title": "Components/Card",
+      "importPath": "./stories/components/Card.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-card--portfolio-card": {
+      "type": "story",
+      "id": "components-card--portfolio-card",
+      "name": "Portfolio Card",
+      "title": "Components/Card",
+      "importPath": "./stories/components/Card.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-card--all-variants": {
+      "type": "story",
+      "id": "components-card--all-variants",
+      "name": "All Variants",
+      "title": "Components/Card",
+      "importPath": "./stories/components/Card.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-contactform--docs": {
+      "id": "components-contactform--docs",
+      "title": "Components/ContactForm",
+      "name": "Docs",
+      "importPath": "./stories/components/ContactForm.stories.js",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-contactform--default": {
+      "type": "story",
+      "id": "components-contactform--default",
+      "name": "Default",
+      "title": "Components/ContactForm",
+      "importPath": "./stories/components/ContactForm.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-contactform--minimal": {
+      "type": "story",
+      "id": "components-contactform--minimal",
+      "name": "Minimal",
+      "title": "Components/ContactForm",
+      "importPath": "./stories/components/ContactForm.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-contactform--card": {
+      "type": "story",
+      "id": "components-contactform--card",
+      "name": "Card",
+      "title": "Components/ContactForm",
+      "importPath": "./stories/components/ContactForm.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-contactform--all-fields": {
+      "type": "story",
+      "id": "components-contactform--all-fields",
+      "name": "All Fields",
+      "title": "Components/ContactForm",
+      "importPath": "./stories/components/ContactForm.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-contactform--simple": {
+      "type": "story",
+      "id": "components-contactform--simple",
+      "name": "Simple",
+      "title": "Components/ContactForm",
+      "importPath": "./stories/components/ContactForm.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-gallery--docs": {
+      "id": "components-gallery--docs",
+      "title": "Components/Gallery",
+      "name": "Docs",
+      "importPath": "./stories/components/Gallery.stories.js",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "components-gallery--default": {
+      "type": "story",
+      "id": "components-gallery--default",
+      "name": "Default",
+      "title": "Components/Gallery",
+      "importPath": "./stories/components/Gallery.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-gallery--two-column": {
+      "type": "story",
+      "id": "components-gallery--two-column",
+      "name": "Two Column",
+      "title": "Components/Gallery",
+      "importPath": "./stories/components/Gallery.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "components-gallery--no-captions": {
+      "type": "story",
+      "id": "components-gallery--no-captions",
+      "name": "No Captions",
+      "title": "Components/Gallery",
+      "importPath": "./stories/components/Gallery.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "layout-footer--docs": {
+      "id": "layout-footer--docs",
+      "title": "Layout/Footer",
+      "name": "Docs",
+      "importPath": "./stories/layouts/Footer.stories.js",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "layout-footer--default": {
+      "type": "story",
+      "id": "layout-footer--default",
+      "name": "Default",
+      "title": "Layout/Footer",
+      "importPath": "./stories/layouts/Footer.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "layout-footer--simple": {
+      "type": "story",
+      "id": "layout-footer--simple",
+      "name": "Simple",
+      "title": "Layout/Footer",
+      "importPath": "./stories/layouts/Footer.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "layout-footer--minimal": {
+      "type": "story",
+      "id": "layout-footer--minimal",
+      "name": "Minimal",
+      "title": "Layout/Footer",
+      "importPath": "./stories/layouts/Footer.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "layout-footer--detailed": {
+      "type": "story",
+      "id": "layout-footer--detailed",
+      "name": "Detailed",
+      "title": "Layout/Footer",
+      "importPath": "./stories/layouts/Footer.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "layout-footer--with-newsletter": {
+      "type": "story",
+      "id": "layout-footer--with-newsletter",
+      "name": "With Newsletter",
+      "title": "Layout/Footer",
+      "importPath": "./stories/layouts/Footer.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "layout-header--docs": {
+      "id": "layout-header--docs",
+      "title": "Layout/Header",
+      "name": "Docs",
+      "importPath": "./stories/layouts/Header.stories.js",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "layout-header--default": {
+      "type": "story",
+      "id": "layout-header--default",
+      "name": "Default",
+      "title": "Layout/Header",
+      "importPath": "./stories/layouts/Header.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "layout-header--sticky": {
+      "type": "story",
+      "id": "layout-header--sticky",
+      "name": "Sticky",
+      "title": "Layout/Header",
+      "importPath": "./stories/layouts/Header.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "layout-header--transparent": {
+      "type": "story",
+      "id": "layout-header--transparent",
+      "name": "Transparent",
+      "title": "Layout/Header",
+      "importPath": "./stories/layouts/Header.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "layout-header--simple": {
+      "type": "story",
+      "id": "layout-header--simple",
+      "name": "Simple",
+      "title": "Layout/Header",
+      "importPath": "./stories/layouts/Header.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "layout-header--with-logo": {
+      "type": "story",
+      "id": "layout-header--with-logo",
+      "name": "With Logo",
+      "title": "Layout/Header",
+      "importPath": "./stories/layouts/Header.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "pages-portfolio--docs": {
+      "id": "pages-portfolio--docs",
+      "title": "Pages/Portfolio",
+      "name": "Docs",
+      "importPath": "./stories/pages/Portfolio.stories.js",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "pages-portfolio--default": {
+      "type": "story",
+      "id": "pages-portfolio--default",
+      "name": "Default",
+      "title": "Pages/Portfolio",
+      "importPath": "./stories/pages/Portfolio.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "pages-portfolio--grid-layout": {
+      "type": "story",
+      "id": "pages-portfolio--grid-layout",
+      "name": "Grid Layout",
+      "title": "Pages/Portfolio",
+      "importPath": "./stories/pages/Portfolio.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "pages-portfolio--list-layout": {
+      "type": "story",
+      "id": "pages-portfolio--list-layout",
+      "name": "List Layout",
+      "title": "Pages/Portfolio",
+      "importPath": "./stories/pages/Portfolio.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "pages-portfolio--masonry-layout": {
+      "type": "story",
+      "id": "pages-portfolio--masonry-layout",
+      "name": "Masonry Layout",
+      "title": "Pages/Portfolio",
+      "importPath": "./stories/pages/Portfolio.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "pages-portfolio--no-filters": {
+      "type": "story",
+      "id": "pages-portfolio--no-filters",
+      "name": "No Filters",
+      "title": "Pages/Portfolio",
+      "importPath": "./stories/pages/Portfolio.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "pages-portfolio--minimal": {
+      "type": "story",
+      "id": "pages-portfolio--minimal",
+      "name": "Minimal",
+      "title": "Pages/Portfolio",
+      "importPath": "./stories/pages/Portfolio.stories.js",
+      "tags": ["dev", "test", "autodocs"]
+    }
+  }
+}

@@ -18,7 +18,7 @@ class ProjectCleaner {
    */
   async lightClean() {
     console.log('🧹 Light Clean: Removing generated assets...');
-    
+
     const targets = [
       'static/css/styles.css',
       'static/css/styles.min.css',
@@ -36,7 +36,7 @@ class ProjectCleaner {
    */
   async deepClean() {
     console.log('🧹 Deep Clean: Removing all build artifacts...');
-    
+
     const targets = [
       'public',
       'resources',
@@ -58,10 +58,10 @@ class ProjectCleaner {
    */
   async nuclearClean() {
     console.log('☢️ Nuclear Clean: Removing everything...');
-    
+
     const targets = [
       'public',
-      'resources', 
+      'resources',
       'node_modules',
       'static/css/styles.css',
       'static/css/styles.min.css',
@@ -81,7 +81,7 @@ class ProjectCleaner {
    */
   async cacheClean() {
     console.log('🗄️ Cache Clean: Clearing caches and temporary files...');
-    
+
     const targets = [
       'resources',
       '.hugo_build.lock',
@@ -101,20 +101,20 @@ class ProjectCleaner {
    */
   removeTargets(targets) {
     let removed = 0;
-    
+
     for (const target of targets) {
       const fullPath = path.join(this.projectRoot, target);
-      
+
       if (fs.existsSync(fullPath)) {
         try {
           const stats = fs.statSync(fullPath);
-          
+
           if (stats.isDirectory()) {
             fs.rmSync(fullPath, { recursive: true, force: true });
           } else {
             fs.unlinkSync(fullPath);
           }
-          
+
           removed++;
           if (this.verbose) {
             console.log(`   ✓ Removed ${target}`);
@@ -124,7 +124,7 @@ class ProjectCleaner {
         }
       }
     }
-    
+
     console.log(`   Removed ${removed} items`);
   }
 
@@ -134,7 +134,7 @@ class ProjectCleaner {
   getRecommendations() {
     return {
       development: 'Use light clean or cache clean for daily development',
-      debugging: 'Use deep clean when troubleshooting build issues', 
+      debugging: 'Use deep clean when troubleshooting build issues',
       deployment: 'Use deep clean before production builds',
       maintenance: 'Use nuclear clean monthly for full refresh'
     };
@@ -173,7 +173,7 @@ if (require.main === module) {
       console.log('  deep    - Remove all build artifacts (recommended)');
       console.log('  nuclear - Remove everything including node_modules');
       console.log('  cache   - Remove only caches and temporary files');
-      
+
       const recommendations = cleaner.getRecommendations();
       console.log('\nRecommendations:');
       Object.entries(recommendations).forEach(([use, desc]) => {

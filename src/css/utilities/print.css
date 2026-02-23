@@ -24,13 +24,13 @@
       .card picture::before {
         content: none; /* Remove gradient overlay for print */
       }
-      
+
       .card h3,
       .card p {
         color: #000 !important; /* Ensure text is black for print */
       }
     }
-    
+
     /* Additional print optimizations */
     .badge {
       background-color: transparent !important;

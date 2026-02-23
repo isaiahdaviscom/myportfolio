@@ -1,19 +1,34 @@
 {{/* Recursive menu walker for Hugo navigation menus. */}}
 <!-- Note: This Hugo template generates valid li elements within ul context -->
-{{- $page := .page }}
-{{- range .menuEntries }}
-  {{- $isPortfolioSection := and (eq .Identifier "portfolio") (or $page.IsSection (eq $page.Section "portfolio")) }}
-  {{- $isCurrent  := or ($page.IsMenuCurrent .Menu .) $isPortfolioSection }}
-  {{- $isAncestor := and (not $isCurrent) ($page.HasMenuCurrent .Menu .) }}
-  {{- $name := .Name }}
-  {{- with .Identifier }}{{- with T . }}{{- $name = . }}{{- end }}{{- end }}
+{{- $page := .page }} {{- range .menuEntries }} {{- $isPortfolioSection := and (eq .Identifier "portfolio") (or
+$page.IsSection (eq $page.Section "portfolio")) }} {{- $isCurrent := or ($page.IsMenuCurrent .Menu .)
+$isPortfolioSection }} {{- $isAncestor := and (not $isCurrent) ($page.HasMenuCurrent .Menu .) }} {{- $name := .Name }}
+{{- with .Identifier }}{{- with T . }}{{- $name = . }}{{- end }}{{- end }}
 <li>
-  <a href="{{ .URL }}"
-    {{- if $isCurrent }} class="active font-bold" aria-current="page"
-    {{- else if $isAncestor }} class="ancestor" aria-current="true"
-    {{- end }}>{{ $name }}</a>
+  <a
+    href="{{ .URL }}"
+    {{-
+    if
+    $isCurrent
+    }}
+    class="active font-bold"
+    aria-current="page"
+    {{-
+    else
+    if
+    $isAncestor
+    }}
+    class="ancestor"
+    aria-current="true"
+    {{-
+    end
+    }}
+    >{{ $name }}</a
+  >
   {{- with .Children }}
-  <ul>{{ partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) }}</ul>
+  <ul>
+    {{ partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) }}
+  </ul>
   {{- end }}
 </li>
 {{- end }}

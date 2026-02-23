@@ -1,7 +1,7 @@
 // postcss.config.js
-module.exports = (ctx) => {
+module.exports = ctx => {
   const isProduction = process.env.NODE_ENV === 'production' || (ctx && ctx.env === 'production');
-  
+
   const plugins = {
     '@tailwindcss/postcss': {}
   };
@@ -63,15 +63,18 @@ module.exports = (ctx) => {
     };
 
     plugins['autoprefixer'] = {};
-    
+
     plugins['cssnano'] = {
-      preset: ['default', {
-        discardComments: {
-          removeAll: true,
-        },
-      }]
+      preset: [
+        'default',
+        {
+          discardComments: {
+            removeAll: true
+          }
+        }
+      ]
     };
   }
-  
+
   return { plugins };
 };

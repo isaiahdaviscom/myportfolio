@@ -11,9 +11,9 @@ const path = require('path');
 class PerformanceTest {
   constructor() {
     this.limits = {
-      css: 100 * 1024,      // 100KB
-      js: 50 * 1024,        // 50KB
-      image: 1024 * 1024,   // 1MB per image
+      css: 100 * 1024, // 100KB
+      js: 50 * 1024, // 50KB
+      image: 1024 * 1024, // 1MB per image
       total: 50 * 1024 * 1024 // 50MB total
     };
     this.results = {
@@ -53,10 +53,16 @@ class PerformanceTest {
     const passed = size <= limit;
 
     if (passed) {
-      this.log('success', `${description}: ${this.formatBytes(size)} (limit: ${this.formatBytes(limit)})`);
+      this.log(
+        'success',
+        `${description}: ${this.formatBytes(size)} (limit: ${this.formatBytes(limit)})`
+      );
       this.results.passed++;
     } else {
-      this.log('error', `${description}: ${this.formatBytes(size)} exceeds limit of ${this.formatBytes(limit)}`);
+      this.log(
+        'error',
+        `${description}: ${this.formatBytes(size)} exceeds limit of ${this.formatBytes(limit)}`
+      );
       this.results.failed++;
     }
 
@@ -74,10 +80,16 @@ class PerformanceTest {
     const passed = totalSize <= limit;
 
     if (passed) {
-      this.log('success', `${description}: ${this.formatBytes(totalSize)} (limit: ${this.formatBytes(limit)})`);
+      this.log(
+        'success',
+        `${description}: ${this.formatBytes(totalSize)} (limit: ${this.formatBytes(limit)})`
+      );
       this.results.passed++;
     } else {
-      this.log('error', `${description}: ${this.formatBytes(totalSize)} exceeds limit of ${this.formatBytes(limit)}`);
+      this.log(
+        'error',
+        `${description}: ${this.formatBytes(totalSize)} exceeds limit of ${this.formatBytes(limit)}`
+      );
       this.results.failed++;
     }
 
@@ -90,7 +102,7 @@ class PerformanceTest {
     const files = fs.readdirSync(dirPath, { withFileTypes: true });
     for (const file of files) {
       const fullPath = path.join(dirPath, file.name);
-      
+
       if (file.isDirectory()) {
         totalSize += this.calculateDirectorySize(fullPath);
       } else {
@@ -104,10 +116,10 @@ class PerformanceTest {
 
   checkImages() {
     this.log('info', 'Checking image optimization...');
-    
+
     const imageDirs = ['static/images', 'public/images'];
     let imageCount = 0;
-    
+
     imageDirs.forEach(dir => {
       if (fs.existsSync(dir)) {
         this.checkImagesInDirectory(dir);
@@ -123,18 +135,14 @@ class PerformanceTest {
 
   checkImagesInDirectory(dirPath) {
     const files = fs.readdirSync(dirPath, { withFileTypes: true });
-    
+
     for (const file of files) {
       const fullPath = path.join(dirPath, file.name);
-      
+
       if (file.isDirectory()) {
         this.checkImagesInDirectory(fullPath);
       } else if (this.isImageFile(file.name)) {
-        this.checkFileSize(
-          fullPath, 
-          this.limits.image, 
-          `Image: ${path.relative('.', fullPath)}`
-        );
+        this.checkFileSize(fullPath, this.limits.image, `Image: ${path.relative('.', fullPath)}`);
       }
     }
   }
@@ -147,10 +155,10 @@ class PerformanceTest {
 
   checkBundleSizes() {
     this.log('info', 'Checking bundle sizes...');
-    
+
     // Check CSS bundle
     this.checkFileSize('static/css/styles.css', this.limits.css, 'CSS Bundle');
-    
+
     // Check JS bundle
     this.checkFileSize('static/js/main.js', this.limits.js, 'JS Bundle');
   }
@@ -162,7 +170,7 @@ class PerformanceTest {
 
   checkAssetOptimization() {
     this.log('info', 'Checking asset optimization...');
-    
+
     // Check for unminified files in production
     const publicDir = 'public';
     if (fs.existsSync(publicDir)) {
@@ -172,20 +180,25 @@ class PerformanceTest {
 
   findUnoptimizedAssets(dirPath) {
     const files = fs.readdirSync(dirPath, { withFileTypes: true });
-    
+
     for (const file of files) {
       const fullPath = path.join(dirPath, file.name);
-      
+
       if (file.isDirectory()) {
         this.findUnoptimizedAssets(fullPath);
       } else {
         // Check for unminified JS/CSS files
-        if ((file.name.endsWith('.js') || file.name.endsWith('.css')) && 
-            !file.name.includes('.min.')) {
-          
+        if (
+          (file.name.endsWith('.js') || file.name.endsWith('.css')) &&
+          !file.name.includes('.min.')
+        ) {
           const stats = fs.statSync(fullPath);
-          if (stats.size > 10 * 1024) { // Files larger than 10KB should be minified
-            this.log('warning', `Large unminified asset: ${path.relative('.', fullPath)} (${this.formatBytes(stats.size)})`);
+          if (stats.size > 10 * 1024) {
+            // Files larger than 10KB should be minified
+            this.log(
+              'warning',
+              `Large unminified asset: ${path.relative('.', fullPath)} (${this.formatBytes(stats.size)})`
+            );
             this.results.warnings++;
           }
         }
@@ -212,7 +225,7 @@ class PerformanceTest {
       console.log('• Consider code splitting for large bundles');
       console.log('• Remove unused CSS/JS code');
       console.log('• Enable gzip compression on your server');
-      
+
       process.exit(1);
     } else if (this.results.warnings > 0) {
       console.log('\n✅ All critical checks passed, but consider addressing warnings');

@@ -15,13 +15,12 @@ backend:
   branch: master # Change to 'main' if your default branch is 'main'
 
 # MEDIA STORAGE CONFIGURATION (Local Development)
-media_folder: "static/images/uploads"
-public_folder: "/images/uploads"
+media_folder: 'static/images/uploads'
+public_folder: '/images/uploads'
 
 # SITE URL (Local Development)
 site_url: http://localhost:1313
 display_url: http://localhost:1313
-
 # LOCAL WORKFLOW (no editorial workflow for faster development)
 # Uncomment the line below to disable editorial workflow locally
 # publish_mode: simple

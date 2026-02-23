@@ -4,19 +4,19 @@ export default {
   argTypes: {
     text: {
       control: 'text',
-      description: 'Badge text content',
+      description: 'Badge text content'
     },
     variant: {
       control: { type: 'select' },
       options: ['default', 'primary', 'secondary', 'success', 'warning', 'error'],
-      description: 'Badge style variant',
+      description: 'Badge style variant'
     },
     size: {
       control: { type: 'select' },
       options: ['small', 'medium', 'large'],
-      description: 'Badge size',
-    },
-  },
+      description: 'Badge size'
+    }
+  }
 };
 
 /**
@@ -26,15 +26,15 @@ export const Default = {
   args: {
     text: 'Default Badge',
     variant: 'default',
-    size: 'medium',
+    size: 'medium'
   },
-  render: (args) => {
+  render: args => {
     const sizeClass = {
       small: 'text-xs px-2 py-1',
       medium: 'text-sm px-3 py-1',
       large: 'text-base px-4 py-2'
     }[args.size];
-    
+
     const variantClass = {
       default: 'bg-gray-100 text-gray-800',
       primary: 'bg-blue-100 text-blue-800',
@@ -49,7 +49,7 @@ export const Default = {
         ${args.text}
       </span>
     `;
-  },
+  }
 };
 
 /**
@@ -59,9 +59,9 @@ export const Primary = {
   args: {
     text: 'Primary',
     variant: 'primary',
-    size: 'medium',
+    size: 'medium'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -71,9 +71,9 @@ export const Success = {
   args: {
     text: 'Success',
     variant: 'success',
-    size: 'medium',
+    size: 'medium'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -83,9 +83,9 @@ export const Warning = {
   args: {
     text: 'Warning',
     variant: 'warning',
-    size: 'medium',
+    size: 'medium'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -95,9 +95,9 @@ export const Error = {
   args: {
     text: 'Error',
     variant: 'error',
-    size: 'medium',
+    size: 'medium'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -116,7 +116,7 @@ export const Sizes = {
         Large Badge
       </span>
     </div>
-  `,
+  `
 };
 
 /**
@@ -144,5 +144,5 @@ export const AllVariants = {
         Error
       </span>
     </div>
-  `,
+  `
 };

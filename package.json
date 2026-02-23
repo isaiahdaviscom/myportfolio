@@ -84,6 +84,7 @@
     "esbuild": "^0.25.5",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-html": "^8.1.4",
     "http-server": "^14.1.1",
     "markdownlint-cli": "^0.37.0",
     "postcss": "^8.5.3",
@@ -99,12 +100,7 @@
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead",
-    "not ie 11"
-  ],
+  "browserslist": ["> 1%", "last 2 versions", "not dead", "not ie 11"],
   "bin": {
     "pf": "./cli.js",
     "portfolio": "./cli.js"

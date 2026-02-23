@@ -7,11 +7,11 @@ const preview = {
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/,
-      },
+        date: /Date$/
+      }
     },
     docs: {
-      toc: true,
+      toc: true
     },
     viewport: {
       viewports: {
@@ -19,51 +19,51 @@ const preview = {
           name: 'Mobile',
           styles: {
             width: '375px',
-            height: '667px',
-          },
+            height: '667px'
+          }
         },
         tablet: {
-          name: 'Tablet', 
+          name: 'Tablet',
           styles: {
             width: '768px',
-            height: '1024px',
-          },
+            height: '1024px'
+          }
         },
         desktop: {
           name: 'Desktop',
           styles: {
             width: '1200px',
-            height: '800px',
-          },
+            height: '800px'
+          }
         },
         desktopLarge: {
           name: 'Desktop Large',
           styles: {
             width: '1440px',
-            height: '900px',
-          },
-        },
-      },
+            height: '900px'
+          }
+        }
+      }
     },
     backgrounds: {
       default: 'light',
       values: [
         {
           name: 'light',
-          value: '#ffffff',
+          value: '#ffffff'
         },
         {
           name: 'dark',
-          value: '#1a1a1a',
+          value: '#1a1a1a'
         },
         {
           name: 'gray',
-          value: '#f5f5f5',
-        },
-      ],
-    },
+          value: '#f5f5f5'
+        }
+      ]
+    }
   },
-  
+
   globalTypes: {
     theme: {
       description: 'Global theme for components',
@@ -72,10 +72,10 @@ const preview = {
         title: 'Theme',
         icon: 'paintbrush',
         items: ['light', 'dark'],
-        dynamicTitle: true,
-      },
-    },
-  },
+        dynamicTitle: true
+      }
+    }
+  }
 };
 
 export default preview;

@@ -1,67 +1,55 @@
-{{/*
-  Renders JSON-LD structured data for SEO using schema.org.
-  Usage: {{ partial "structured-data.html" . }}
-  Automatically detects page type (homepage, post, portfolio, etc.) and outputs appropriate schema.
-*/}}
-
-{{- $isHome := .IsHome -}}
-{{- $isSection := .IsSection -}}
-{{- $isPage := .IsPage -}}
-{{- $site := .Site -}}
-{{- $params := .Params -}}
-{{- $author := or $params.author $site.Params.author }}
-{{- $desc := or $params.description $site.Params.description }}
-{{- $logo := or $site.Params.logo "/images/logo.png" }}
-{{- $url := .Permalink }}
-{{- $image := (cond (isset $params "cover") $params.cover (index (or $params.images $site.Params.images) 0)) }}
-
-{{- if $isHome }}
+{{/* Renders JSON-LD structured data for SEO using schema.org. Usage: {{ partial "structured-data.html" . }}
+Automatically detects page type (homepage, post, portfolio, etc.) and outputs appropriate schema. */}} {{- $isHome :=
+.IsHome -}} {{- $isSection := .IsSection -}} {{- $isPage := .IsPage -}} {{- $site := .Site -}} {{- $params := .Params
+-}} {{- $author := or $params.author $site.Params.author }} {{- $desc := or $params.description $site.Params.description
+}} {{- $logo := or $site.Params.logo "/images/logo.png" }} {{- $url := .Permalink }} {{- $image := (cond (isset $params
+"cover") $params.cover (index (or $params.images $site.Params.images) 0)) }} {{- if $isHome }}
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "url": "{{ $site.BaseURL }}",
-  "name": "{{ $site.Title }}",
-  "description": "{{ $desc }}",
-  "publisher": {
-    "@type": "Organization",
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "{{ $site.BaseURL }}",
     "name": "{{ $site.Title }}",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "{{ $logo }}"
+    "description": "{{ $desc }}",
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ $site.Title }}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ $logo }}"
+      }
     }
   }
-}
 </script>
 {{- else if $isSection }}
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "url": "{{ $url }}",
-  "name": "{{ .Title }}",
-  "description": "{{ $desc }}"
-}
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "url": "{{ $url }}",
+    "name": "{{ .Title }}",
+    "description": "{{ $desc }}"
+  }
 </script>
 {{- else if $isPage }}
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "{{ if eq .Section "portfolio" }}CreativeWork{{ else }}Article{{ end }}",
-  "headline": "{{ .Title }}",
-  "description": "{{ $desc }}",
-  "author": {
-    "@type": "Person",
-    "name": "{{ $author }}"
-  },
-  "datePublished": "{{ .Date.Format "2006-01-02" }}",
-  "url": "{{ $url }}",
-  {{- with $image }}"image": "{{ . }}",
-  {{- end }}
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "{{ $url }}"
+  {
+    "@context": "https://schema.org",
+    "@type": "{{ if eq .Section "portfolio" }}CreativeWork{{ else }}Article{{ end }}",
+    "headline": "{{ .Title }}",
+    "description": "{{ $desc }}",
+    "author": {
+      "@type": "Person",
+      "name": "{{ $author }}"
+    },
+    "datePublished": "{{ .Date.Format "2006-01-02" }}",
+    "url": "{{ $url }}",
+    {{- with $image }}"image": "{{ . }}",
+    {{- end }}
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{ $url }}"
+    }
   }
-}
 </script>
 {{- end }}

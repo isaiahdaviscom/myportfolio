@@ -22,8 +22,8 @@ local_backend: true
 
 # MEDIA STORAGE CONFIGURATION
 # Uses Netlify Large Media for optimized image handling
-media_folder: "static/images/uploads"
-public_folder: "/images/uploads"
+media_folder: 'static/images/uploads'
+public_folder: '/images/uploads'
 
 # SITE URL (environment-specific)
 # Production: https://isaiahdavis.com
@@ -44,137 +44,172 @@ collections:
   # ---------------------------------------------------------------------------
   # BLOG POSTS  ← primary content area
   # ---------------------------------------------------------------------------
-  - name: "posts"
-    label: "Blog Posts"
-    label_singular: "Blog Post"
-    folder: "content/posts"
+  - name: 'posts'
+    label: 'Blog Posts'
+    label_singular: 'Blog Post'
+    folder: 'content/posts'
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    preview_path: "/posts/{{slug}}"
-    summary: "{{title}} — {{date}}"
-    sortable_fields: ["date", "title", "draft"]
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    preview_path: '/posts/{{slug}}'
+    summary: '{{title}} — {{date}}'
+    sortable_fields: ['date', 'title', 'draft']
     view_filters:
-      - label: "Drafts"
+      - label: 'Drafts'
         field: draft
         pattern: true
-      - label: "Published"
+      - label: 'Published'
         field: draft
         pattern: false
     fields:
       # Writing essentials — shown at the top of the editor
-      - { label: "Title",       name: "title",       widget: "string" }
-      - { label: "Description", name: "description", widget: "text",     hint: "Shown in cards, search results, and social previews" }
-      - { label: "Body",        name: "body",        widget: "markdown" }
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - {
+          label: 'Description',
+          name: 'description',
+          widget: 'text',
+          hint: 'Shown in cards, search results, and social previews'
+        }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
 
       # Metadata
-      - { label: "Date Published",  name: "date",    widget: "datetime" }
-      - { label: "Last Modified",   name: "lastmod", widget: "datetime", required: false }
-      - { label: "Draft",           name: "draft",   widget: "boolean",  default: true }
-      - { label: "Author",          name: "author",  widget: "string",   default: "Isaiah Davis", required: false }
+      - { label: 'Date Published', name: 'date', widget: 'datetime' }
+      - { label: 'Last Modified', name: 'lastmod', widget: 'datetime', required: false }
+      - { label: 'Draft', name: 'draft', widget: 'boolean', default: true }
+      - {
+          label: 'Author',
+          name: 'author',
+          widget: 'string',
+          default: 'Isaiah Davis',
+          required: false
+        }
 
       # Taxonomy
-      - { label: "Categories", name: "categories", widget: "list", default: [], required: false }
-      - { label: "Tags",        name: "tags",       widget: "list", default: [], required: false }
-      - { label: "Series",      name: "series",     widget: "string", required: false, hint: "Group related posts under a series name" }
+      - { label: 'Categories', name: 'categories', widget: 'list', default: [], required: false }
+      - { label: 'Tags', name: 'tags', widget: 'list', default: [], required: false }
+      - {
+          label: 'Series',
+          name: 'series',
+          widget: 'string',
+          required: false,
+          hint: 'Group related posts under a series name'
+        }
 
       # Media
-      - { label: "Featured Image", name: "featured_image", widget: "image",  required: false }
-      - { label: "Social Image",   name: "social_image",   widget: "image",  required: false, hint: "Falls back to featured image if omitted" }
+      - { label: 'Featured Image', name: 'featured_image', widget: 'image', required: false }
+      - {
+          label: 'Social Image',
+          name: 'social_image',
+          widget: 'image',
+          required: false,
+          hint: 'Falls back to featured image if omitted'
+        }
 
       # SEO
-      - { label: "SEO Keywords", name: "keywords", widget: "list", required: false }
+      - { label: 'SEO Keywords', name: 'keywords', widget: 'list', required: false }
 
   # ---------------------------------------------------------------------------
   # PORTFOLIO PROJECTS
   # ---------------------------------------------------------------------------
-  - name: "portfolio"
-    label: "Portfolio Projects"
-    label_singular: "Project"
-    folder: "content/portfolio"
+  - name: 'portfolio'
+    label: 'Portfolio Projects'
+    label_singular: 'Project'
+    folder: 'content/portfolio'
     create: true
-    slug: "{{slug}}"
-    preview_path: "/portfolio/{{slug}}"
-    summary: "{{title}} — {{year}}"
-    sortable_fields: ["title", "weight", "date"]
+    slug: '{{slug}}'
+    preview_path: '/portfolio/{{slug}}'
+    summary: '{{title}} — {{year}}'
+    sortable_fields: ['title', 'weight', 'date']
     fields:
-      - { label: "Title",       name: "title",       widget: "string" }
-      - { label: "Description", name: "description", widget: "text" }
-      - { label: "Body",        name: "body",        widget: "markdown" }
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Description', name: 'description', widget: 'text' }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
 
-      - { label: "Date",   name: "date",   widget: "datetime" }
-      - { label: "Draft",  name: "draft",  widget: "boolean", default: false }
-      - { label: "Weight", name: "weight", widget: "number",  default: 1, hint: "Lower = displayed first" }
+      - { label: 'Date', name: 'date', widget: 'datetime' }
+      - { label: 'Draft', name: 'draft', widget: 'boolean', default: false }
+      - {
+          label: 'Weight',
+          name: 'weight',
+          widget: 'number',
+          default: 1,
+          hint: 'Lower = displayed first'
+        }
 
-      - { label: "Client",      name: "client",      widget: "string", required: false }
-      - { label: "Project URL", name: "project_url", widget: "string", required: false }
-      - { label: "Year",        name: "year",        widget: "string" }
+      - { label: 'Client', name: 'client', widget: 'string', required: false }
+      - { label: 'Project URL', name: 'project_url', widget: 'string', required: false }
+      - { label: 'Year', name: 'year', widget: 'string' }
 
-      - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
-      - label: "Gallery Images"
-        name: "gallery_images"
-        widget: "list"
+      - { label: 'Featured Image', name: 'featured_image', widget: 'image', required: false }
+      - label: 'Gallery Images'
+        name: 'gallery_images'
+        widget: 'list'
         required: false
         fields:
-          - { label: "Image",   name: "image",   widget: "image" }
-          - { label: "Alt Text", name: "alt",    widget: "string" }
-          - { label: "Caption", name: "caption", widget: "string", required: false }
+          - { label: 'Image', name: 'image', widget: 'image' }
+          - { label: 'Alt Text', name: 'alt', widget: 'string' }
+          - { label: 'Caption', name: 'caption', widget: 'string', required: false }
 
-      - { label: "Categories",  name: "categories",  widget: "list", default: [], required: false }
-      - { label: "Tags",         name: "tags",         widget: "list", default: [], required: false }
-      - { label: "Technologies", name: "technologies", widget: "list", default: [], required: false }
+      - { label: 'Categories', name: 'categories', widget: 'list', default: [], required: false }
+      - { label: 'Tags', name: 'tags', widget: 'list', default: [], required: false }
+      - {
+          label: 'Technologies',
+          name: 'technologies',
+          widget: 'list',
+          default: [],
+          required: false
+        }
 
   # ---------------------------------------------------------------------------
   # SITE PAGES
   # ---------------------------------------------------------------------------
-  - name: "pages"
-    label: "Site Pages"
+  - name: 'pages'
+    label: 'Site Pages'
     files:
-      - label: "Blog Index"
-        name: "blog_index"
-        file: "content/posts/_index.md"
+      - label: 'Blog Index'
+        name: 'blog_index'
+        file: 'content/posts/_index.md'
         fields:
-          - { label: "Title",       name: "title",       widget: "string" }
-          - { label: "Date",        name: "date",        widget: "datetime" }
-          - { label: "Description", name: "description", widget: "text" }
-          - { label: "Body",        name: "body",        widget: "markdown", required: false }
+          - { label: 'Title', name: 'title', widget: 'string' }
+          - { label: 'Date', name: 'date', widget: 'datetime' }
+          - { label: 'Description', name: 'description', widget: 'text' }
+          - { label: 'Body', name: 'body', widget: 'markdown', required: false }
 
-      - label: "Homepage"
-        name: "homepage"
-        file: "content/_index.md"
+      - label: 'Homepage'
+        name: 'homepage'
+        file: 'content/_index.md'
         fields:
-          - { label: "Title",          name: "title",          widget: "string" }
-          - { label: "Date",           name: "date",           widget: "datetime" }
-          - { label: "Description",    name: "description",    widget: "text" }
-          - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
-          - { label: "Body",           name: "body",           widget: "markdown" }
+          - { label: 'Title', name: 'title', widget: 'string' }
+          - { label: 'Date', name: 'date', widget: 'datetime' }
+          - { label: 'Description', name: 'description', widget: 'text' }
+          - { label: 'Featured Image', name: 'featured_image', widget: 'image', required: false }
+          - { label: 'Body', name: 'body', widget: 'markdown' }
 
-      - label: "About"
-        name: "about"
-        file: "content/about.md"
+      - label: 'About'
+        name: 'about'
+        file: 'content/about.md'
         fields:
-          - { label: "Title",          name: "title",          widget: "string" }
-          - { label: "Date",           name: "date",           widget: "datetime" }
-          - { label: "Description",    name: "description",    widget: "text" }
-          - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
-          - { label: "Body",           name: "body",           widget: "markdown" }
+          - { label: 'Title', name: 'title', widget: 'string' }
+          - { label: 'Date', name: 'date', widget: 'datetime' }
+          - { label: 'Description', name: 'description', widget: 'text' }
+          - { label: 'Featured Image', name: 'featured_image', widget: 'image', required: false }
+          - { label: 'Body', name: 'body', widget: 'markdown' }
 
-      - label: "Contact"
-        name: "contact"
-        file: "content/contact.md"
+      - label: 'Contact'
+        name: 'contact'
+        file: 'content/contact.md'
         fields:
-          - { label: "Title",       name: "title",       widget: "string" }
-          - { label: "Date",        name: "date",        widget: "datetime" }
-          - { label: "Description", name: "description", widget: "text" }
-          - { label: "Body",        name: "body",        widget: "markdown" }
+          - { label: 'Title', name: 'title', widget: 'string' }
+          - { label: 'Date', name: 'date', widget: 'datetime' }
+          - { label: 'Description', name: 'description', widget: 'text' }
+          - { label: 'Body', name: 'body', widget: 'markdown' }
 
-      - label: "Portfolio Index"
-        name: "portfolio_index"
-        file: "content/portfolio.md"
+      - label: 'Portfolio Index'
+        name: 'portfolio_index'
+        file: 'content/portfolio.md'
         fields:
-          - { label: "Title",       name: "title",       widget: "string" }
-          - { label: "Date",        name: "date",        widget: "datetime" }
-          - { label: "Description", name: "description", widget: "text" }
-          - { label: "Body",        name: "body",        widget: "markdown" }
+          - { label: 'Title', name: 'title', widget: 'string' }
+          - { label: 'Date', name: 'date', widget: 'datetime' }
+          - { label: 'Description', name: 'description', widget: 'text' }
+          - { label: 'Body', name: 'body', widget: 'markdown' }
 
 # =============================================================================
 # ADDITIONAL CMS SETTINGS
@@ -192,10 +227,9 @@ show_preview_links: true
 
 # Slug configuration
 slug:
-  encoding: "unicode"
+  encoding: 'unicode'
   clean_accents: true
-  sanitize_replacement: "-"
-
+  sanitize_replacement: '-'
 # =============================================================================
 # ENVIRONMENT-SPECIFIC NOTES
 # =============================================================================

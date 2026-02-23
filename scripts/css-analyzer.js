@@ -13,8 +13,9 @@ class CSSAnalyzer {
   constructor(options = {}) {
     this.projectRoot = options.projectRoot || process.cwd();
     this.outputDir = options.outputDir || path.join(this.projectRoot, 'static', 'css');
-    this.sourceCSS = options.sourceCSS || path.join(this.projectRoot, 'static', 'css', 'styles.css');
-    
+    this.sourceCSS =
+      options.sourceCSS || path.join(this.projectRoot, 'static', 'css', 'styles.css');
+
     // Hugo-specific file patterns
     this.scanPaths = [
       path.join(this.projectRoot, 'layouts'),
@@ -25,15 +26,15 @@ class CSSAnalyzer {
 
     // CSS class extraction patterns
     this.classPatterns = [
-      /class\s*=\s*["']([^"']+)["']/gi,        // class="..."
-      /class\s*=\s*`([^`]+)`/gi,               // class=`...`
+      /class\s*=\s*["']([^"']+)["']/gi, // class="..."
+      /class\s*=\s*`([^`]+)`/gi, // class=`...`
       /classList\.(add|remove|toggle)\(["']([^"']+)["']\)/gi, // classList methods
-      /@apply\s+([^;]+);?/gi,                  // Tailwind @apply
-      /hover:([a-zA-Z][\w-]*)/gi,             // Tailwind hover states
-      /focus:([a-zA-Z][\w-]*)/gi,             // Tailwind focus states
-      /active:([a-zA-Z][\w-]*)/gi,            // Tailwind active states
-      /group-hover:([a-zA-Z][\w-]*)/gi,       // Tailwind group states
-      /\b([a-z]+:[a-zA-Z][\w-]*)/gi,          // Tailwind responsive/state prefixes
+      /@apply\s+([^;]+);?/gi, // Tailwind @apply
+      /hover:([a-zA-Z][\w-]*)/gi, // Tailwind hover states
+      /focus:([a-zA-Z][\w-]*)/gi, // Tailwind focus states
+      /active:([a-zA-Z][\w-]*)/gi, // Tailwind active states
+      /group-hover:([a-zA-Z][\w-]*)/gi, // Tailwind group states
+      /\b([a-z]+:[a-zA-Z][\w-]*)/gi, // Tailwind responsive/state prefixes
       /\b(sm|md|lg|xl|2xl):([a-zA-Z][\w-]*)/gi // Tailwind responsive breakpoints
     ];
 
@@ -52,23 +53,23 @@ class CSSAnalyzer {
    */
   async run() {
     console.log('🚀 Starting CSS Analysis...\n');
-    
+
     try {
       // Step 1: Discover all relevant files
       await this.discoverFiles();
-      
+
       // Step 2: Extract classes from all files
       await this.extractClasses();
-      
+
       // Step 3: Analyze current CSS file
       await this.analyzeCSS();
-      
+
       // Step 4: Generate production CSS using PostCSS
       await this.generateProductionCSS();
-      
+
       // Step 5: Generate report
       await this.generateReport();
-      
+
       console.log('\n✅ CSS Analysis completed successfully!');
     } catch (error) {
       console.error('❌ Error during CSS analysis:', error.message);
@@ -81,7 +82,7 @@ class CSSAnalyzer {
    */
   async discoverFiles() {
     console.log('📁 Discovering files to scan...');
-    
+
     for (const scanPath of this.scanPaths) {
       if (fs.existsSync(scanPath)) {
         this.walkDirectory(scanPath);
@@ -97,10 +98,10 @@ class CSSAnalyzer {
   walkDirectory(dir) {
     try {
       const items = fs.readdirSync(dir, { withFileTypes: true });
-      
+
       for (const item of items) {
         const fullPath = path.join(dir, item.name);
-        
+
         if (item.isDirectory()) {
           // Skip node_modules, .git, etc.
           if (!['node_modules', '.git', 'public', '.vscode'].includes(item.name)) {
@@ -111,11 +112,11 @@ class CSSAnalyzer {
           if (['.html', '.md', '.js'].includes(ext)) {
             const relativePath = path.relative(this.projectRoot, fullPath);
             let type = 'other';
-            
+
             if (relativePath.includes('layouts')) type = 'templates';
             else if (relativePath.includes('content')) type = 'content';
             else if (relativePath.includes('static')) type = 'static';
-            
+
             this.allFiles.push({ path: fullPath, type, relativePath });
           }
         }
@@ -130,15 +131,15 @@ class CSSAnalyzer {
    */
   async extractClasses() {
     console.log('\n🔍 Extracting CSS classes...');
-    
+
     for (const file of this.allFiles) {
       try {
         const content = fs.readFileSync(file.path, 'utf8');
         const classes = this.extractClassesFromContent(content);
-        
+
         classes.forEach(cls => this.usedClasses.add(cls));
         this.stats.filesScanned++;
-        
+
         if (classes.length > 0) {
           console.log(`   ${file.type}: ${file.relativePath} (${classes.length} classes)`);
         }
@@ -156,26 +157,27 @@ class CSSAnalyzer {
    */
   extractClassesFromContent(content) {
     const classes = new Set();
-    
+
     for (const pattern of this.classPatterns) {
       let match;
       const regex = new RegExp(pattern.source, pattern.flags);
-      
+
       while ((match = regex.exec(content)) !== null) {
         // Handle different capture groups
         const classString = match[1] || match[2] || match[0];
-        
+
         if (classString) {
           // Split multiple classes and clean them
-          const classList = classString.split(/\s+/)
+          const classList = classString
+            .split(/\s+/)
             .map(cls => cls.trim())
             .filter(cls => cls.length > 0 && this.isValidCSSClass(cls));
-          
+
           classList.forEach(cls => classes.add(cls));
         }
       }
     }
-    
+
     return Array.from(classes);
   }
 
@@ -184,10 +186,12 @@ class CSSAnalyzer {
    */
   isValidCSSClass(cls) {
     // Basic validation for CSS class names
-    return /^[a-zA-Z][\w-]*$/.test(cls) || 
-           /^[a-z]+:[\w-]+$/.test(cls) || // Tailwind prefixes
-           cls.includes('-') || // Allow hyphenated classes
-           cls.includes(':'); // Allow pseudo-classes
+    return (
+      /^[a-zA-Z][\w-]*$/.test(cls) ||
+      /^[a-z]+:[\w-]+$/.test(cls) || // Tailwind prefixes
+      cls.includes('-') || // Allow hyphenated classes
+      cls.includes(':')
+    ); // Allow pseudo-classes
   }
 
   /**
@@ -195,7 +199,7 @@ class CSSAnalyzer {
    */
   async analyzeCSS() {
     console.log('\n📊 Analyzing current CSS...');
-    
+
     try {
       const cssStats = fs.statSync(this.sourceCSS);
       this.stats.originalSize = cssStats.size;
@@ -211,16 +215,16 @@ class CSSAnalyzer {
    */
   async generateProductionCSS() {
     console.log('\n⚡ Generating production CSS...');
-    
+
     try {
       // Set production environment and run PostCSS
       process.env.NODE_ENV = 'production';
-      
+
       const cmd = 'npx postcss src/css/tailwind.css -o static/css/styles.min.css --env production';
       console.log('   Running PostCSS with PurgeCSS...');
-      
+
       execSync(cmd, { stdio: 'inherit' });
-      
+
       // Analyze optimized file
       const optimizedPath = path.join(this.outputDir, 'styles.min.css');
       if (fs.existsSync(optimizedPath)) {
@@ -228,7 +232,6 @@ class CSSAnalyzer {
         this.stats.optimizedSize = optimizedStats.size;
         console.log(`   Production CSS size: ${this.formatBytes(this.stats.optimizedSize)}`);
       }
-      
     } catch (error) {
       console.error('   ❌ Error generating production CSS:', error.message);
     }
@@ -240,10 +243,10 @@ class CSSAnalyzer {
   async generateReport() {
     const report = this.createReport();
     const reportPath = path.join(this.projectRoot, 'css-optimization-report.md');
-    
+
     fs.writeFileSync(reportPath, report);
     console.log(`\n📋 Optimization report saved to: css-optimization-report.md`);
-    
+
     // Also create a used-classes.json for reference
     const usedClassesPath = path.join(this.projectRoot, 'used-classes.json');
     const classData = {
@@ -255,7 +258,7 @@ class CSSAnalyzer {
         type: f.type
       }))
     };
-    
+
     fs.writeFileSync(usedClassesPath, JSON.stringify(classData, null, 2));
     console.log(`   Used classes data saved to: used-classes.json`);
   }
@@ -265,8 +268,8 @@ class CSSAnalyzer {
    */
   createReport() {
     const savings = this.stats.originalSize - this.stats.optimizedSize;
-    const percentSaved = this.stats.originalSize > 0 ? 
-      ((savings / this.stats.originalSize) * 100).toFixed(2) : 0;
+    const percentSaved =
+      this.stats.originalSize > 0 ? ((savings / this.stats.originalSize) * 100).toFixed(2) : 0;
 
     return `# CSS Optimization Report
 
@@ -328,11 +331,16 @@ See \`used-classes.json\` for complete list of detected classes.
   getClassPatternAnalysis() {
     const classes = Array.from(this.usedClasses);
     const patterns = {
-      'Tailwind Utilities': classes.filter(c => /^(text-|bg-|p-|m-|w-|h-|flex|grid|border)/.test(c)).length,
+      'Tailwind Utilities': classes.filter(c => /^(text-|bg-|p-|m-|w-|h-|flex|grid|border)/.test(c))
+        .length,
       'Responsive Classes': classes.filter(c => /^(sm:|md:|lg:|xl:|2xl:)/.test(c)).length,
       'Hover States': classes.filter(c => c.startsWith('hover:')).length,
       'Focus States': classes.filter(c => c.startsWith('focus:')).length,
-      'Custom Classes': classes.filter(c => !/^(sm:|md:|lg:|xl:|2xl:|hover:|focus:|active:|group-)/.test(c) && !/^(text-|bg-|p-|m-|w-|h-|flex|grid|border)/.test(c)).length
+      'Custom Classes': classes.filter(
+        c =>
+          !/^(sm:|md:|lg:|xl:|2xl:|hover:|focus:|active:|group-)/.test(c) &&
+          !/^(text-|bg-|p-|m-|w-|h-|flex|grid|border)/.test(c)
+      ).length
     };
 
     return Object.entries(patterns)

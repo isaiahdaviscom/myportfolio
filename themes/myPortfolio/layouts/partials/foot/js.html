@@ -1,15 +1,15 @@
 <script>
   ((i, e) => {
     // <stdin>
-    e.addEventListener("DOMContentLoaded", () => {
+    e.addEventListener('DOMContentLoaded', () => {
       const currentYear = new Date().getFullYear();
-      const footerYear = document.getElementById("footer-year");
+      const footerYear = document.getElementById('footer-year');
       if (footerYear) {
         footerYear.textContent = currentYear;
       }
-      const footerVersion = document.getElementById("footer-version");
+      const footerVersion = document.getElementById('footer-version');
       if (footerVersion) {
-        footerVersion.textContent = "v1.0.0"; // Replace with actual version if available
+        footerVersion.textContent = 'v1.0.0'; // Replace with actual version if available
       }
     });
   })(window, document);

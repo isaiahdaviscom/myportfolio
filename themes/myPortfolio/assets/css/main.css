@@ -41,26 +41,26 @@
    2. BASE LAYER - Theme Architecture
    ============================================= */
 @layer base {
-  
   /* ========================================
      2.1 Container System
      ======================================== */
+
   /* Large desktop containers */
-  @media (min-width: 1200px) {
+  @media (width >= 1200px) {
     .container {
       width: 1170px;
     }
   }
 
   /* Desktop containers */
-  @media (min-width: 992px) {
+  @media (width >= 992px) {
     .container {
       width: 970px;
     }
   }
 
   /* Tablet containers */
-  @media (min-width: 768px) {
+  @media (width >= 768px) {
     .container {
       width: 750px;
     }
@@ -76,9 +76,11 @@
   /* ========================================
      2.2 Typography System
      ======================================== */
+
   /* Body typography foundation */
   body {
     --font-sans: 'Inter', sans-serif;
+
     color: #333;
     font-family: var(--font-sans);
     line-height: 1.75;
@@ -88,8 +90,13 @@
   }
 
   /* Heading typography hierarchy */
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', sans-serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: Inter, sans-serif;
     color: #222;
     margin-bottom: 1rem;
   }
@@ -106,13 +113,13 @@
    ============================================= */
 @layer base {
   /* Site banner only — scoped to role=banner so article <header> tags are unaffected */
-  header[role="banner"] {
-    background-color: #ffffff;
+  header[role='banner'] {
+    background-color: #fff;
     border-bottom: 1px solid #e5e5e5;
   }
 
   /* Primary navigation inside banner */
-  header[role="banner"] nav ul {
+  header[role='banner'] nav ul {
     display: flex;
     gap: 1.5rem;
     list-style: none;
@@ -120,14 +127,14 @@
     padding: 0;
   }
 
-  header[role="banner"] nav ul li a {
+  header[role='banner'] nav ul li a {
     color: #374151;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease;
   }
 
-  header[role="banner"] nav ul li a:hover {
+  header[role='banner'] nav ul li a:hover {
     color: #1d4ed8;
   }
 }
@@ -135,6 +142,7 @@
 /* =============================================
    4. HERO SECTION COMPONENTS  
    ============================================= */
+
 /* Main hero section with gradient background */
 .hero {
   background: linear-gradient(135deg, #007acc, #50e3c2);
@@ -159,19 +167,21 @@
 /* Hero call-to-action button */
 .hero a {
   display: inline-block;
-  background-color: #ffffff;
+  background-color: #fff;
   color: #007acc;
   padding: 0.75rem 1.5rem;
   border-radius: 5px;
   text-decoration: none;
   font-weight: 600;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Hero button hover state */
 .hero a:hover {
   background-color: #007acc;
-  color: #ffffff;
+  color: #fff;
 }
 
 /* =============================================
@@ -200,6 +210,8 @@
 
 .card {
   @media print {
-    h3 { color: red;}
+    h3 {
+      color: red;
+    }
   }
 }

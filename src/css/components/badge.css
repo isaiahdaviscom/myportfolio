@@ -18,12 +18,12 @@
 @layer components {
   .badge {
     /* Core badge styling - portfolio specific */
-    background-color: #000000;
-    color: #ffffff;
+    background-color: #000;
+    color: #fff;
     padding: 0.25em 1em;
     font-size: 0.85em;
     border-radius: 4px;
-    
+
     /* Ensure good contrast and readability */
     font-weight: 500;
     display: inline-block;

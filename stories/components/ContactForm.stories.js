@@ -5,25 +5,25 @@ export default {
     style: {
       control: { type: 'select' },
       options: ['modern', 'minimal', 'card'],
-      description: 'Form style variant',
+      description: 'Form style variant'
     },
     includePhone: {
       control: 'boolean',
-      description: 'Include phone number field',
+      description: 'Include phone number field'
     },
     includeSubject: {
       control: 'boolean',
-      description: 'Include subject field',
+      description: 'Include subject field'
     },
     includeMessage: {
       control: 'boolean',
-      description: 'Include message field',
+      description: 'Include message field'
     },
     submitText: {
       control: 'text',
-      description: 'Submit button text',
-    },
-  },
+      description: 'Submit button text'
+    }
+  }
 };
 
 /**
@@ -35,41 +35,47 @@ export const Default = {
     includePhone: false,
     includeSubject: true,
     includeMessage: true,
-    submitText: 'Send Message',
+    submitText: 'Send Message'
   },
-  render: (args) => {
+  render: args => {
     const containerClass = {
       modern: 'bg-white p-8 rounded-lg shadow-lg border border-gray-200',
       minimal: 'bg-transparent p-6',
       card: 'bg-gray-50 p-8 rounded-xl shadow-md'
     }[args.style];
-    
-    const phoneField = args.includePhone ? `
+
+    const phoneField = args.includePhone
+      ? `
       <div>
         <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
         <input type="tel" id="phone" name="phone" 
                class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" 
                placeholder="+1 (555) 123-4567" />
       </div>
-    ` : '';
-    
-    const subjectField = args.includeSubject ? `
+    `
+      : '';
+
+    const subjectField = args.includeSubject
+      ? `
       <div>
         <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
         <input type="text" id="subject" name="subject" required
                class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" 
                placeholder="What's this about?" />
       </div>
-    ` : '';
-    
-    const messageField = args.includeMessage ? `
+    `
+      : '';
+
+    const messageField = args.includeMessage
+      ? `
       <div>
         <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>
         <textarea id="message" name="message" rows="5" required
                   class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-vertical" 
                   placeholder="Tell me about your project..."></textarea>
       </div>
-    ` : '';
+    `
+      : '';
 
     return `
       <div class="max-w-2xl mx-auto">
@@ -110,7 +116,7 @@ export const Default = {
         </div>
       </div>
     `;
-  },
+  }
 };
 
 /**
@@ -119,9 +125,9 @@ export const Default = {
 export const Minimal = {
   args: {
     ...Default.args,
-    style: 'minimal',
+    style: 'minimal'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -130,9 +136,9 @@ export const Minimal = {
 export const Card = {
   args: {
     ...Default.args,
-    style: 'card',
+    style: 'card'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -143,9 +149,9 @@ export const AllFields = {
     ...Default.args,
     includePhone: true,
     includeSubject: true,
-    includeMessage: true,
+    includeMessage: true
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -157,7 +163,7 @@ export const Simple = {
     includePhone: false,
     includeSubject: false,
     includeMessage: true,
-    style: 'minimal',
+    style: 'minimal'
   },
-  render: Default.render,
+  render: Default.render
 };

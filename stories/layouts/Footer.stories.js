@@ -4,22 +4,22 @@ export default {
   argTypes: {
     companyName: {
       control: 'text',
-      description: 'Company/person name',
+      description: 'Company/person name'
     },
     showSocial: {
       control: 'boolean',
-      description: 'Show social media links',
+      description: 'Show social media links'
     },
     showNewsletter: {
       control: 'boolean',
-      description: 'Show newsletter signup',
+      description: 'Show newsletter signup'
     },
     variant: {
       control: { type: 'select' },
       options: ['simple', 'detailed', 'minimal'],
-      description: 'Footer variant',
-    },
-  },
+      description: 'Footer variant'
+    }
+  }
 };
 
 /**
@@ -30,10 +30,11 @@ export const Default = {
     companyName: 'Your Portfolio',
     showSocial: true,
     showNewsletter: false,
-    variant: 'simple',
+    variant: 'simple'
   },
-  render: (args) => {
-    const socialLinksHtml = args.showSocial ? `
+  render: args => {
+    const socialLinksHtml = args.showSocial
+      ? `
       <div class="flex space-x-6">
         <a href="#" class="text-gray-400 hover:text-gray-500 transition-colors">
           <span class="sr-only">Twitter</span>
@@ -54,9 +55,11 @@ export const Default = {
           </svg>
         </a>
       </div>
-    ` : '';
+    `
+      : '';
 
-    const newsletterHtml = args.showNewsletter ? `
+    const newsletterHtml = args.showNewsletter
+      ? `
       <div class="mt-8 pt-8 border-t border-gray-200">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
           <div>
@@ -75,7 +78,8 @@ export const Default = {
           </div>
         </div>
       </div>
-    ` : '';
+    `
+      : '';
 
     if (args.variant === 'minimal') {
       return `
@@ -153,7 +157,7 @@ export const Default = {
         </div>
       </footer>
     `;
-  },
+  }
 };
 
 /**
@@ -163,9 +167,9 @@ export const Simple = {
   args: {
     ...Default.args,
     variant: 'simple',
-    showSocial: true,
+    showSocial: true
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -175,9 +179,9 @@ export const Minimal = {
   args: {
     ...Default.args,
     variant: 'minimal',
-    showSocial: false,
+    showSocial: false
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -187,9 +191,9 @@ export const Detailed = {
   args: {
     ...Default.args,
     variant: 'detailed',
-    showSocial: true,
+    showSocial: true
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -198,7 +202,7 @@ export const Detailed = {
 export const WithNewsletter = {
   args: {
     ...Default.args,
-    showNewsletter: true,
+    showNewsletter: true
   },
-  render: Default.render,
+  render: Default.render
 };

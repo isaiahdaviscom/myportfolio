@@ -3,12 +3,10 @@
   <div class="container mx-auto px-4">
     <h1 class="font-extrabold mb-3 tracking-tight">{{ .Title }}</h1>
     {{- with .Description }}
-      <p class="mb-6 text-gray-600">{{ . }}</p>
-    {{- end }}
-    {{- with .Content }}
-      <div class="prose prose-lg mb-4">{{ . }}</div>
+    <p class="mb-6 text-gray-600">{{ . }}</p>
+    {{- end }} {{- with .Content }}
+    <div class="prose prose-lg mb-4">{{ . }}</div>
     {{- end }}
   </div>
 </section>
-{{ partial "gallery.html" (dict "columns" 3 "Site" .Site "featureOnly" true) }}
-{{ end }}
+{{ partial "gallery.html" (dict "columns" 3 "Site" .Site "featureOnly" true) }} {{ end }}

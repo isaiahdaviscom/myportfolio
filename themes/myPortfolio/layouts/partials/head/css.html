@@ -1,17 +1,17 @@
-{{- with resources.Get "css/main.css" }}
-  {{- if eq hugo.Environment "development" }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}?v={{ now.Unix }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
-
-{{- /* Inter font with cache busting for development */ -}}
-{{ if eq hugo.Environment "production" }}
+{{- with resources.Get "css/main.css" }} {{- if eq hugo.Environment "development" }}
+<link rel="stylesheet" href="{{ .RelPermalink }}?v={{ now.Unix }}" />
+{{- else }} {{- with . | minify | fingerprint }}
+<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
+{{- end }} {{- end }} {{- end }} {{- /* Inter font with cache busting for development */ -}} {{ if eq hugo.Environment
+"production" }}
 <link rel="stylesheet" href="/css/inter-font.css" />
 {{ else }}
 <link rel="stylesheet" href="/css/inter-font.css?v={{ now.Unix }}" />
 {{ end }}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>

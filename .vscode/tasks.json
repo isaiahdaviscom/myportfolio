@@ -1,134 +1,131 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"type": "shell",
-			"label": "Clean, Build, and Preview Static Site (No Live Reload)",
-			"command": "if (Test-Path public) { Remove-Item -Recurse -Force public }; npm run build:css; npm run build:hugo; pwsh -Command \"Start-Process http://localhost:8080; cd public; python -m http.server 8080\"",
-			"args": [],
-			"group": "build",
-			"isBackground": true,
-			"problemMatcher": []
-		},
-		{
-			"label": "Hugo Server with DevTools",
-			"type": "shell",
-			"command": "hugo",
-			"args": ["server", "-D", "--port=1313", "--bind=0.0.0.0"],
-			"group": {
-				"kind": "build",
-				"isDefault": false
-			},
-			"isBackground": true,
-			"problemMatcher": {
-				"owner": "hugo",
-				"fileLocation": "relative",
-				"pattern": {
-					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-					"file": 1,
-					"line": 2,
-					"column": 3,
-					"severity": 4,
-					"message": 5
-				}
-			},
-			"presentation": {
-				"echo": true,
-				"reveal": "always",
-				"focus": false,
-				"panel": "new",
-				"showReuseMessage": true,
-				"clear": false
-			}
-		},
-		{
-			"label": "Start Chrome with Remote Debugging",
-			"type": "shell",
-			"command": "start",
-			"args": [
-				"chrome",
-				"--remote-debugging-port=9222",
-				"--user-data-dir=${workspaceFolder}\\.chrome-debug-profile",
-				// "--disable-web-security",
-				"--disable-features=VizDisplayCompositor",
-				"http://localhost:1313"
-			],
-			"group": "test",
-			"isBackground": true,
-			"presentation": {
-				"echo": true,
-				"reveal": "never",
-				"focus": false,
-				"panel": "shared"
-			}
-		},
-		{
-			"label": "Watch CSS Changes",
-			"type": "shell",
-			"command": "npm",
-			"args": ["run", "watch"],
-			"group": "build",
-			"isBackground": true,
-			"presentation": {
-				"echo": true,
-				"reveal": "silent",
-				"focus": false,
-				"panel": "shared"
-			}
-		},
-		{
-			"label": "Full Development with DevTools",
-			"dependsOrder": "sequence",
-			"dependsOn": [
-				"Hugo Server with DevTools",
-				"Start Chrome with Remote Debugging"
-			],
-			"group": "build"
-		}
-	],
-	"inputs": [
-		{
-			"id": "partialName",
-			"type": "promptString",
-			"description": "Enter the new partial name (without .html)"
-		},
-		{
-			"id": "pageTitle",
-			"type": "promptString",
-			"description": "Enter the new page title (e.g. About Me)"
-		},
-		{
-			"id": "pageDescription",
-			"type": "promptString",
-			"description": "Enter a short description for the page"
-		},
-		{
-			"id": "pageDestination",
-			"type": "pickString",
-			"description": "Select the destination folder for the new page",
-			"options": [
-				"${workspaceFolder}/content",
-				"${workspaceFolder}/content/portfolio",
-				"${workspaceFolder}/content/posts"
-			],
-			"default": "${workspaceFolder}/content"
-		},
-		{
-			"id": "subdomainName",
-			"type": "promptString",
-			"description": "Enter the subdomain (e.g. blog.yoursite.com)"
-		},
-		{
-			"id": "subdomainType",
-			"type": "pickString",
-			"description": "Is this a subdomain or a redirect?",
-			"options": ["subdomain", "redirect"]
-		},
-		{
-			"id": "redirectTarget",
-			"type": "promptString",
-			"description": "If redirect, enter the target URL (leave blank for subdomain)",
-			"default": ""
-		}
-	]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "Clean, Build, and Preview Static Site (No Live Reload)",
+      "command": "if (Test-Path public) { Remove-Item -Recurse -Force public }; npm run build:css; npm run build:hugo; pwsh -Command \"Start-Process http://localhost:8080; cd public; python -m http.server 8080\"",
+      "args": [],
+      "group": "build",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Hugo Server with DevTools",
+      "type": "shell",
+      "command": "hugo",
+      "args": ["server", "-D", "--port=1313", "--bind=0.0.0.0"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "hugo",
+        "fileLocation": "relative",
+        "pattern": {
+          "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "Start Chrome with Remote Debugging",
+      "type": "shell",
+      "command": "start",
+      "args": [
+        "chrome",
+        "--remote-debugging-port=9222",
+        "--user-data-dir=${workspaceFolder}\\.chrome-debug-profile",
+        // "--disable-web-security",
+        "--disable-features=VizDisplayCompositor",
+        "http://localhost:1313"
+      ],
+      "group": "test",
+      "isBackground": true,
+      "presentation": {
+        "echo": true,
+        "reveal": "never",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Watch CSS Changes",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "watch"],
+      "group": "build",
+      "isBackground": true,
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Full Development with DevTools",
+      "dependsOrder": "sequence",
+      "dependsOn": ["Hugo Server with DevTools", "Start Chrome with Remote Debugging"],
+      "group": "build"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "partialName",
+      "type": "promptString",
+      "description": "Enter the new partial name (without .html)"
+    },
+    {
+      "id": "pageTitle",
+      "type": "promptString",
+      "description": "Enter the new page title (e.g. About Me)"
+    },
+    {
+      "id": "pageDescription",
+      "type": "promptString",
+      "description": "Enter a short description for the page"
+    },
+    {
+      "id": "pageDestination",
+      "type": "pickString",
+      "description": "Select the destination folder for the new page",
+      "options": [
+        "${workspaceFolder}/content",
+        "${workspaceFolder}/content/portfolio",
+        "${workspaceFolder}/content/posts"
+      ],
+      "default": "${workspaceFolder}/content"
+    },
+    {
+      "id": "subdomainName",
+      "type": "promptString",
+      "description": "Enter the subdomain (e.g. blog.yoursite.com)"
+    },
+    {
+      "id": "subdomainType",
+      "type": "pickString",
+      "description": "Is this a subdomain or a redirect?",
+      "options": ["subdomain", "redirect"]
+    },
+    {
+      "id": "redirectTarget",
+      "type": "promptString",
+      "description": "If redirect, enter the target URL (leave blank for subdomain)",
+      "default": ""
+    }
+  ]
 }

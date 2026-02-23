@@ -23,7 +23,7 @@ const projectRoot = process.cwd();
 const args = new Set(process.argv.slice(2));
 const isDeploy = args.has('--deploy');
 const isStatus = args.has('--status');
-const dryRun   = !isDeploy && !isStatus;
+const dryRun = !isDeploy && !isStatus;
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -80,7 +80,12 @@ function gitSyncStatus() {
   const result = runSafe('git log --oneline origin/master..HEAD 2>nul');
   if (result.ok && result.stdout.trim()) {
     console.log('\n📦 Commits not yet on master:');
-    console.log(result.stdout.split('\n').map(l => `   ${l}`).join('\n'));
+    console.log(
+      result.stdout
+        .split('\n')
+        .map(l => `   ${l}`)
+        .join('\n')
+    );
   } else {
     console.log('\n✅ Branch is in sync with origin/master.');
   }

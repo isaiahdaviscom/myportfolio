@@ -13,7 +13,6 @@
 */
 
 @layer components {
-
   /* ─────────────────────────────────────────
      INLINE NAV MENU (.inline-menu)
   ───────────────────────────────────────── */
@@ -26,7 +25,7 @@
   .inline-menu ul {
     display: flex;
     align-items: center;
-    gap: 0.125rem;       /* 2px gap between items */
+    gap: 0.125rem; /* 2px gap between items */
     list-style: none;
     margin: 0;
     padding: 0;
@@ -40,30 +39,32 @@
   .inline-menu a {
     display: inline-flex;
     align-items: center;
-    padding: 0.25rem 0.625rem;   /* py-1 px-2.5 */
-    font-size: 0.8125rem;         /* ~13px */
+    padding: 0.25rem 0.625rem; /* py-1 px-2.5 */
+    font-size: 0.8125rem; /* ~13px */
     font-weight: 500;
-    color: #374151;               /* text-gray-700 */
-    border-radius: 0.5rem;        /* rounded-lg */
+    color: #374151; /* text-gray-700 */
+    border-radius: 0.5rem; /* rounded-lg */
     text-decoration: none;
     white-space: nowrap;
-    transition: background-color 0.15s ease, color 0.15s ease;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
   }
 
   .inline-menu a:hover {
-    background-color: #f3f4f6;   /* bg-gray-100 */
-    color: #111827;               /* text-gray-900 */
+    background-color: #f3f4f6; /* bg-gray-100 */
+    color: #111827; /* text-gray-900 */
   }
 
   .inline-menu a.active {
     font-weight: 700;
-    color: #1d4ed8;               /* text-blue-700 */
-    background-color: #eff6ff;   /* bg-blue-50 */
+    color: #1d4ed8; /* text-blue-700 */
+    background-color: #eff6ff; /* bg-blue-50 */
     text-decoration: none;
   }
 
   .inline-menu a.ancestor {
-    color: #2563eb;               /* text-blue-600 */
+    color: #2563eb; /* text-blue-600 */
   }
 
   /* ─────────────────────────────────────────
@@ -98,9 +99,11 @@
   }
 
   @keyframes stories-glow {
-    0%, 100% {
+    0%,
+    100% {
       box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.45);
     }
+
     50% {
       box-shadow: 0 0 0 5px rgba(168, 85, 247, 0);
     }
@@ -138,13 +141,22 @@
     transition: background 0.3s ease;
   }
 
-  .stories-dot--open   { background: #10b981; } /* green  */
-  .stories-dot--closed { background: #9ca3af; } /* gray   */
+  .stories-dot--open {
+    background: #10b981;
+  } /* green  */
+  .stories-dot--closed {
+    background: #9ca3af;
+  } /* gray   */
 
   /* Availability text label */
-  .availability-open   { color: #10b981; font-weight: 500; }
-  .availability-closed { color: #9ca3af; }
+  .availability-open {
+    color: #10b981;
+    font-weight: 500;
+  }
 
+  .availability-closed {
+    color: #9ca3af;
+  }
 
   /* ─────────────────────────────────────────
      STORIES OVERLAY (full-screen modal)
@@ -266,8 +278,13 @@
   }
 
   @keyframes story-progress {
-    from { transform: scaleX(0); }
-    to   { transform: scaleX(1); }
+    from {
+      transform: scaleX(0);
+    }
+
+    to {
+      transform: scaleX(1);
+    }
   }
 
   /* ─────────────────────────────────────────
@@ -348,8 +365,9 @@
     display: flex;
     flex-direction: column;
     gap: 14px;
+
     /* subtle bottom gradient to ensure readability */
-    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
   }
 
   /* Status pill */
@@ -375,8 +393,14 @@
     flex-shrink: 0;
   }
 
-  .stories-status-indicator--open   { background: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,0.3); }
-  .stories-status-indicator--closed { background: #9ca3af; }
+  .stories-status-indicator--open {
+    background: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+  }
+
+  .stories-status-indicator--closed {
+    background: #9ca3af;
+  }
 
   /* Headline */
   .stories-headline {
@@ -409,7 +433,9 @@
     padding: 9px 20px;
     border-radius: 9999px;
     text-decoration: none;
-    transition: opacity 0.15s ease, transform 0.15s ease;
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
   }
 
@@ -432,17 +458,22 @@
     cursor: pointer;
   }
 
-  .stories-tap-prev { left: 0; }
-  .stories-tap-next { right: 0; }
+  .stories-tap-prev {
+    left: 0;
+  }
+
+  .stories-tap-next {
+    right: 0;
+  }
 
   /* ─────────────────────────────────────────
      FOOTER – Homepage Aesthetic
   ───────────────────────────────────────── */
 
   .site-footer {
-    background: #f9fafb;             /* light gray, matches bg-gray-50  */
-    border-top: 1px solid #e5e7eb;  /* border-gray-200                 */
-    color: #6b7280;                  /* text-gray-500                   */
+    background: #f9fafb; /* light gray, matches bg-gray-50  */
+    border-top: 1px solid #e5e7eb; /* border-gray-200                 */
+    color: #6b7280; /* text-gray-500                   */
   }
 
   .site-footer a {

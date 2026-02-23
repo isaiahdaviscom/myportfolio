@@ -9,3 +9,6 @@ public/
 package-lock.json
 themes/myPortfolio/exampleSite/
 **/*.md
+# Hugo Go-template HTML files — Prettier cannot parse Go template syntax
+themes/myPortfolio/layouts/**/*.html
+layouts/**/*.html

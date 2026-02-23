@@ -4,36 +4,36 @@ export default {
   argTypes: {
     title: {
       control: 'text',
-      description: 'Card title',
+      description: 'Card title'
     },
     content: {
       control: 'text',
-      description: 'Card content',
+      description: 'Card content'
     },
     variant: {
       control: { type: 'select' },
       options: ['default', 'bordered', 'elevated', 'flat'],
-      description: 'Card style variant',
+      description: 'Card style variant'
     },
     padding: {
       control: { type: 'select' },
       options: ['small', 'medium', 'large'],
-      description: 'Card padding size',
+      description: 'Card padding size'
     },
     hasImage: {
       control: 'boolean',
-      description: 'Include image in card',
+      description: 'Include image in card'
     },
     imageUrl: {
       control: 'text',
       description: 'Card image URL',
-      if: { arg: 'hasImage', eq: true },
+      if: { arg: 'hasImage', eq: true }
     },
     hasAction: {
       control: 'boolean',
-      description: 'Include action buttons',
-    },
-  },
+      description: 'Include action buttons'
+    }
+  }
 };
 
 /**
@@ -42,19 +42,20 @@ export default {
 export const Default = {
   args: {
     title: 'Card Title',
-    content: 'This is the card content. It can contain any HTML content including text, images, and other components.',
+    content:
+      'This is the card content. It can contain any HTML content including text, images, and other components.',
     variant: 'default',
     padding: 'medium',
     hasImage: false,
-    hasAction: false,
+    hasAction: false
   },
-  render: (args) => {
+  render: args => {
     const paddingClass = {
       small: 'p-4',
       medium: 'p-6',
       large: 'p-8'
     }[args.padding];
-    
+
     const variantClass = {
       default: 'bg-white border border-gray-200 rounded-lg',
       bordered: 'bg-white border-2 border-gray-300 rounded-lg',
@@ -62,13 +63,16 @@ export const Default = {
       flat: 'bg-gray-50 rounded-lg'
     }[args.variant];
 
-    const imageHtml = args.hasImage ? `
+    const imageHtml = args.hasImage
+      ? `
       <img class="w-full h-48 object-cover rounded-t-lg" 
            src="${args.imageUrl || '/images/placeholder.jpg'}" 
            alt="${args.title}" />
-    ` : '';
+    `
+      : '';
 
-    const actionHtml = args.hasAction ? `
+    const actionHtml = args.hasAction
+      ? `
       <div class="flex gap-3 mt-4">
         <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
           Primary Action
@@ -77,7 +81,8 @@ export const Default = {
           Secondary
         </button>
       </div>
-    ` : '';
+    `
+      : '';
 
     return `
       <div class="${variantClass} max-w-md">
@@ -89,7 +94,7 @@ export const Default = {
         </div>
       </div>
     `;
-  },
+  }
 };
 
 /**
@@ -101,9 +106,9 @@ export const WithImage = {
     hasImage: true,
     imageUrl: 'https://images.unsplash.com/photo-1557683311-eac922347aa1?w=400&h=200&fit=crop',
     title: 'Beautiful Card',
-    content: 'This card includes an image at the top, perfect for showcasing visual content.',
+    content: 'This card includes an image at the top, perfect for showcasing visual content.'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -114,9 +119,9 @@ export const WithActions = {
     ...Default.args,
     hasAction: true,
     title: 'Interactive Card',
-    content: 'This card includes action buttons at the bottom for user interaction.',
+    content: 'This card includes action buttons at the bottom for user interaction.'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -127,9 +132,9 @@ export const Elevated = {
     ...Default.args,
     variant: 'elevated',
     title: 'Elevated Card',
-    content: 'This card uses shadow styling to appear elevated above the surface.',
+    content: 'This card uses shadow styling to appear elevated above the surface.'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -143,9 +148,9 @@ export const PortfolioCard = {
     padding: 'medium',
     hasImage: true,
     hasAction: true,
-    imageUrl: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -186,5 +191,5 @@ export const AllVariants = {
         </div>
       </div>
     </div>
-  `,
+  `
 };

@@ -4,26 +4,26 @@ export default {
   argTypes: {
     title: {
       control: 'text',
-      description: 'Page title',
+      description: 'Page title'
     },
     description: {
       control: 'text',
-      description: 'Page description',
+      description: 'Page description'
     },
     projectCount: {
       control: { type: 'number', min: 1, max: 12 },
-      description: 'Number of portfolio projects to display',
+      description: 'Number of portfolio projects to display'
     },
     showFilters: {
       control: 'boolean',
-      description: 'Show category filters',
+      description: 'Show category filters'
     },
     layout: {
       control: { type: 'select' },
       options: ['grid', 'masonry', 'list'],
-      description: 'Portfolio layout style',
-    },
-  },
+      description: 'Portfolio layout style'
+    }
+  }
 };
 
 /**
@@ -32,12 +32,13 @@ export default {
 export const Default = {
   args: {
     title: 'My Portfolio',
-    description: 'A collection of projects showcasing my skills and experience in web development and design.',
+    description:
+      'A collection of projects showcasing my skills and experience in web development and design.',
     projectCount: 6,
     showFilters: true,
-    layout: 'grid',
+    layout: 'grid'
   },
-  render: (args) => {
+  render: args => {
     const projects = [
       {
         title: 'E-commerce Platform',
@@ -83,22 +84,28 @@ export const Default = {
       }
     ].slice(0, args.projectCount);
 
-    const filtersHtml = args.showFilters ? `
+    const filtersHtml = args.showFilters
+      ? `
       <div class="flex flex-wrap gap-3 mb-8">
         <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">All</button>
         <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">Web Apps</button>
         <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">Websites</button>
         <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">Design</button>
       </div>
-    ` : '';
+    `
+      : '';
 
-    const gridClass = args.layout === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8' : 
-                     args.layout === 'list' ? 'space-y-8' : 
-                     'columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8';
+    const gridClass =
+      args.layout === 'grid'
+        ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
+        : args.layout === 'list'
+          ? 'space-y-8'
+          : 'columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8';
 
-    const projectsHtml = projects.map(project => {
-      if (args.layout === 'list') {
-        return `
+    const projectsHtml = projects
+      .map(project => {
+        if (args.layout === 'list') {
+          return `
           <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
             <div class="md:flex">
               <div class="md:w-1/3">
@@ -108,11 +115,15 @@ export const Default = {
                 <h3 class="text-xl font-semibold text-gray-900 mb-2">${project.title}</h3>
                 <p class="text-gray-600 mb-4">${project.description}</p>
                 <div class="flex flex-wrap gap-2 mb-4">
-                  ${project.tags.map(tag => `
+                  ${project.tags
+                    .map(
+                      tag => `
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                       ${tag}
                     </span>
-                  `).join('')}
+                  `
+                    )
+                    .join('')}
                 </div>
                 <div class="flex gap-3">
                   <a href="#" class="text-blue-500 hover:text-blue-600 transition-colors">View Project</a>
@@ -122,19 +133,23 @@ export const Default = {
             </div>
           </div>
         `;
-      } else {
-        return `
+        } else {
+          return `
           <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow ${args.layout === 'masonry' ? 'break-inside-avoid' : ''}">
             <img class="w-full h-48 object-cover" src="${project.image}" alt="${project.title}" />
             <div class="p-6">
               <h3 class="text-xl font-semibold text-gray-900 mb-2">${project.title}</h3>
               <p class="text-gray-600 mb-4">${project.description}</p>
               <div class="flex flex-wrap gap-2 mb-4">
-                ${project.tags.map(tag => `
+                ${project.tags
+                  .map(
+                    tag => `
                   <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                     ${tag}
                   </span>
-                `).join('')}
+                `
+                  )
+                  .join('')}
               </div>
               <div class="flex gap-3">
                 <a href="#" class="text-blue-500 hover:text-blue-600 transition-colors">View Project</a>
@@ -143,8 +158,9 @@ export const Default = {
             </div>
           </div>
         `;
-      }
-    }).join('');
+        }
+      })
+      .join('');
 
     return `
       <div class="min-h-screen bg-gray-50">
@@ -165,7 +181,7 @@ export const Default = {
         </div>
       </div>
     `;
-  },
+  }
 };
 
 /**
@@ -174,9 +190,9 @@ export const Default = {
 export const GridLayout = {
   args: {
     ...Default.args,
-    layout: 'grid',
+    layout: 'grid'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -185,9 +201,9 @@ export const GridLayout = {
 export const ListLayout = {
   args: {
     ...Default.args,
-    layout: 'list',
+    layout: 'list'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -196,9 +212,9 @@ export const ListLayout = {
 export const MasonryLayout = {
   args: {
     ...Default.args,
-    layout: 'masonry',
+    layout: 'masonry'
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -207,9 +223,9 @@ export const MasonryLayout = {
 export const NoFilters = {
   args: {
     ...Default.args,
-    showFilters: false,
+    showFilters: false
   },
-  render: Default.render,
+  render: Default.render
 };
 
 /**
@@ -221,7 +237,7 @@ export const Minimal = {
     projectCount: 3,
     showFilters: false,
     title: 'Featured Work',
-    description: 'Selected projects that showcase my expertise and creativity.',
+    description: 'Selected projects that showcase my expertise and creativity.'
   },
-  render: Default.render,
+  render: Default.render
 };
