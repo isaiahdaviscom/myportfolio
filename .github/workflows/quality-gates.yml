@@ -158,6 +158,7 @@ jobs:
         cache: 'npm'
     
     - name: Setup Chrome (stable, with matching ChromeDriver)
+      id: setup-chrome
       uses: browser-actions/setup-chrome@v1
       with:
         chrome-version: stable
