@@ -76,11 +76,18 @@ default "dots" }} {{- if $items }}
                   "Jan 2006" $endDate }}{{ end }}
                 </div>
 
-                {{- if $showDuration }} {{- $duration := "" }} {{- if .current }} {{- $duration = "Current position" }}
-                {{- else if and $startDate $endDate (ne $endDate "Present") }} {{- /* Calculate duration (simplified) */
-                -}} {{- $duration = "Multiple years" }} {{- end }} {{- with $duration }}
-                <div class="text-xs text-gray-400">{{ . }}</div>
-                {{- end }} {{- end }}
+                {{- if $showDuration }}
+                  {{- $duration := "" }}
+                  {{- if .current }}
+                    {{- $duration = "Current position" }}
+                  {{- else if and $startDate $endDate (ne $endDate "Present") }}
+                    {{- /* Calculate duration (simplified) */ -}}
+                    {{- $duration = "Multiple years" }}
+                  {{- end }}
+                  {{- with $duration }}
+                  <div class="text-xs text-gray-400">{{ . }}</div>
+                  {{- end }}
+                {{- end }}
               </div>
             </div>
 

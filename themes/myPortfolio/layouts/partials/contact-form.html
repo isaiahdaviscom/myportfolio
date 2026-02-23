@@ -1,31 +1,45 @@
-{{- /* Contact Form Component - Reusable contact form with validation Usage: {{ partial "contact-form.html" (dict
-"action" "/contact" "method" "POST" "style" "modern") }} Parameters: - action: Form action URL (default: "/contact") -
-method: HTTP method (default: "POST") - style: "modern", "minimal", "card" (default: "modern") - includeMessage: boolean
-to include message field (default: true) - includePhone: boolean to include phone field (default: false) -
-includeSubject: boolean to include subject field (default: true) - submitText: Custom submit button text (default: "Send
-Message") */}} {{- $action := .action | default "/contact" }} {{- $method := .method | default "POST" }} {{- $style :=
-.style | default "modern" }} {{- $includeMessage := .includeMessage | default true }} {{- $includePhone := .includePhone
-| default false }} {{- $includeSubject := .includeSubject | default true }} {{- $submitText := .submitText | default
-"Send Message" }} {{- $formClass := "" }} {{- if eq $style "card" }} {{- $formClass = "bg-white dark:bg-gray-800 p-6
-rounded-lg shadow-lg" }} {{- else if eq $style "minimal" }} {{- $formClass = "space-y-4" }} {{- else }} {{- $formClass =
-"bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 p-8 rounded-xl shadow-lg border
-border-gray-200 dark:border-gray-700" }} {{- end }}
+{{/*
+Contact Form Component - Reusable contact form with validation
+
+Usage:
+  partial "contact-form.html" (dict "action" "/contact" "method" "POST" "style" "modern")
+
+Parameters:
+  - action:         Form action URL (default: "/contact")
+  - method:         HTTP method (default: "POST")
+  - style:          "modern" | "minimal" | "card" (default: "modern")
+  - includeMessage: boolean to include message field (default: true)
+  - includePhone:   boolean to include phone field (default: false)
+  - includeSubject: boolean to include subject field (default: true)
+  - submitText:     Custom submit button text (default: "Send Message")
+*/}}
+
+{{- $action := .action | default "/contact" }}
+{{- $method := .method | default "POST" }}
+{{- $style := .style | default "modern" }}
+{{- $includeMessage := .includeMessage | default true }}
+{{- $includePhone := .includePhone | default false }}
+{{- $includeSubject := .includeSubject | default true }}
+{{- $submitText := .submitText | default "Send Message" }}
+{{- $formClass := "" }}
+{{- if eq $style "card" }}
+  {{- $formClass = "bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg" }}
+{{- else if eq $style "minimal" }}
+  {{- $formClass = "space-y-4" }}
+{{- else }}
+  {{- $formClass = "bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 p-8 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700" }}
+{{- end }}
 
 <form
   class="contact-form {{ $formClass }}"
   action="{{ $action }}"
   method="{{ $method }}"
   netlify="{{ if .netlify }}true{{ end }}"
-  {{-
-  with
-  .netlifyHoneypot
-  }}
+  {{- with .netlifyHoneypot }}
   netlify-honeypot="{{ . }}"
-  {{-
-  end
-  }}
+  {{- end }}
 >
-  {{- /* Honeypot for spam prevention */ -}}
+
   <div class="hidden">
     <label>Don't fill this out: <input name="bot-field" /></label>
   </div>
