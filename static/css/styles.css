@@ -479,9 +479,6 @@
   --tw-outline-style: none;
   outline-style: none;
 }
-.\[xml\:lang\] {
-  xml: lang;
-}
 .group-hover\:scale-105 {
   &:is(:where(.group):hover *) {
     @media (hover: hover) {

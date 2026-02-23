@@ -153,6 +153,12 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Service worker must never be cached
+[[headers]]
+  for = "/service-worker.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
 # NetlifyCMS Admin Interface Headers
 [[headers]]
   for = "/admin/*"

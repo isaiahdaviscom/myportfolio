@@ -46,3 +46,10 @@ devtools.json
 # lighthouse
 .lighthouse/
 
+# Hugo build lock (generated, not needed in source control)
+.hugo_build.lock
+
+# Generated CSS/JS analysis reports
+css-cleanup-dryrun-report.json
+used-classes.json
+

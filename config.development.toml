@@ -15,6 +15,11 @@ buildExpired = true
 [params]
   noindex = true
   environment = "development"
+  # GTM — dev/staging environment
+  # Get these values from: GTM → Admin → Environments → (your dev env) → Actions → Get snippet
+  gtmId      = "GTM-W3VQVDR"
+  gtmAuth    = "6UN9jq3VJFKVhPybI-zE2g"
+  gtmPreview = "26"   # e.g. "env-2"
 
 [markup]
   [markup.goldmark]

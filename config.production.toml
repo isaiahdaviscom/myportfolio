@@ -12,6 +12,10 @@ buildExpired = false
 [params]
   noindex = false
   environment = "production"
+  gtmId = "GTM-W3VQVDR"
+  # GTM environment auth (from GTM > Admin > Environments > Get snippet)
+  gtmAuth    = "GMsuu1ip1hXipaQfWCwZjg"
+  gtmPreview = "env-1"
 
 # Enable sitemap and RSS for production
 enableRobotsTXT = true
