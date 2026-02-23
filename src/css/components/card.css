@@ -108,7 +108,7 @@
 
   /* Hover: lift + tighten the overlay gradient */
   .related-projects__card:hover picture::before {
-    background: linear-gradient(180deg, transparent 20%, rgba(0,0,0,0.85) 100%);
+    background: linear-gradient(180deg, transparent 20%, rgba(0, 0, 0, 0.85) 100%);
   }
 
   /* ======================================
