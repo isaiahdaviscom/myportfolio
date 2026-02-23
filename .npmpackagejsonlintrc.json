@@ -6,9 +6,6 @@
     "require-description": "warning",
     "require-license": "warning",
     "no-duplicate-properties": "error",
-    "valid-values-license": [
-      "warning",
-      ["MIT", "ISC", "Apache-2.0", "UNLICENSED"]
-    ]
+    "valid-values-license": ["warning", ["MIT", "ISC", "Apache-2.0", "UNLICENSED"]]
   }
 }
