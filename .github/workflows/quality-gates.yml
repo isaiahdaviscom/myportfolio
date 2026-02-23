@@ -157,6 +157,11 @@ jobs:
         node-version: '18'
         cache: 'npm'
     
+    - name: Setup Chrome (stable, with matching ChromeDriver)
+      uses: browser-actions/setup-chrome@v1
+      with:
+        chrome-version: stable
+    
     - name: Setup Hugo
       uses: peaceiris/actions-hugo@v2
       with:
@@ -180,7 +185,9 @@ jobs:
     - name: Run axe accessibility tests
       run: |
         echo "🔍 Running axe accessibility tests..."
-        axe http://localhost:8080 --exit --tags wcag2a,wcag2aa
+        axe http://localhost:8080 --exit --tags wcag2a,wcag2aa \
+          --chromium-arg="--no-sandbox" \
+          --chromium-arg="--disable-dev-shm-usage"
     
     - name: Run pa11y accessibility tests
       run: |
