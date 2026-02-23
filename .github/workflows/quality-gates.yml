@@ -187,6 +187,7 @@ jobs:
       run: |
         echo "🔍 Running axe accessibility tests..."
         axe http://localhost:8080 --exit --tags wcag2a,wcag2aa \
+          --chromedriver-path="${{ steps.setup-chrome.outputs.chromedriver-path }}" \
           --chrome-options="--no-sandbox,--disable-dev-shm-usage"
     
     - name: Run pa11y accessibility tests
