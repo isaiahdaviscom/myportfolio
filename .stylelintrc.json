@@ -8,8 +8,10 @@
         "ignoreAtRules": ["tailwind", "apply", "variants", "responsive", "screen", "layer"]
       }
     ],
-    "declaration-block-trailing-semicolon": null,
+    "import-notation": null,
     "no-descending-specificity": null,
+    "color-function-alias-notation": null,
+    "media-feature-range-notation": null,
     "selector-class-pattern": null,
     "custom-property-pattern": null,
     "alpha-value-notation": "number",

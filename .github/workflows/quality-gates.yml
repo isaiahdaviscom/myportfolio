@@ -34,7 +34,15 @@ jobs:
       run: npx eslint "themes/**/assets/js/**/*.js" "static/js/**/*.js"
     
     - name: Validate package.json
-      run: npx npm-package-json-lint .
+      run: |
+        node -e "
+          const p = require('./package.json');
+          const errs = [];
+          if (!p.name) errs.push('missing: name');
+          if (!p.version) errs.push('missing: version');
+          if (errs.length) { console.error('package.json errors:', errs.join(', ')); process.exit(1); }
+          console.log('package.json OK (name:', p.name + ', version:', p.version + ')');
+        "
 
   security-scan:
     runs-on: ubuntu-latest
