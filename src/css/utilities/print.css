@@ -1,189 +1,161 @@
 /*
   PRINT UTILITIES (Site-Specific)
   ==============================
-  Purpose: Print-specific optimizations + LinkedIn-style resume layout
-  Location: src/css/utilities/print.css
-  Layer: @layer utilities (highest specificity)
+  Purpose: LinkedIn-style print resume from the existing gallery cards.
 
-  On screen : hides .print-cv entirely.
-  On print  : hides the visual card gallery; renders .print-cv as a
-              LinkedIn "Experience" style resume page.
+  Screen : .gallery-print-header and .print-entry are invisible.
+           The visual .card grid is completely unchanged.
+
+  Print  : Site chrome + visual cards hide.
+           .gallery-print-header shows as a LinkedIn profile header.
+           Each .print-entry shows as a LinkedIn Experience row — same
+           data that already lives in the card, plus skills/location/
+           employment-type added to the frontmatter.
 */
 
 @layer utilities {
-  /* ── Screen: hide the print-only resume ──────────────────────────────── */
+  /* ── Screen: hide print-only elements ──────────────────────────────── */
+  .gallery-print-header,
+  .print-entry,
   .print-cv {
     display: none;
   }
 
   /* ══════════════════════════════════════════════════════════════════════
-     PRINT MEDIA QUERY
-     Everything below only applies when the page is printed / saved as PDF
+     PRINT
      ══════════════════════════════════════════════════════════════════════ */
   @media print {
-    /* ── Page setup ───────────────────────────────────────────────────── */
+    /* ── Page setup ─────────────────────────────────────────────────── */
     @page {
-      margin: 0.65in 0.6in;
+      margin: 0.6in 0.65in;
       size: letter portrait;
     }
 
-    /* ── Hide screen-only chrome ──────────────────────────────────────── */
+    /* ── Hide site chrome + the visual card ─────────────────────────── */
     header,
     footer,
     nav,
-    .home-intro,
-    #gallery {
+    .card {
       display: none !important;
     }
 
-    /* ── Legacy card/badge overrides (kept from original) ─────────────── */
-    @container card (min-width: 300px) {
-      .card picture::before {
-        content: none;
-      }
-      .card h3,
-      .card p {
-        color: #000 !important;
-      }
+    /* ── Gallery: drop the multi-column grid, become a single column ── */
+    #gallery {
+      padding: 0 !important;
     }
 
-    .badge {
-      background-color: transparent !important;
-      color: #000 !important;
-      border: 1px solid #000 !important;
+    #gallery .mx-auto {
+      padding: 0 !important;
+    }
+
+    #gallery .row {
+      display: block !important;
+    }
+
+    /* Each wrapper is just a block row now */
+    .gallery-item {
+      display: block;
+      margin: 0;
+      padding: 0;
     }
 
     /* ══════════════════════════════════════════════════════════════════
-       PRINT CV — LinkedIn "Experience" resume layout
+       RESUME HEADER
        ══════════════════════════════════════════════════════════════════ */
-    .print-cv {
-      display: block;
-      font-family:
-        -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 10pt;
-      line-height: 1.5;
-      color: #000;
-      background: #fff;
-      max-width: 100%;
-    }
-
-    /* ── Resume header ─────────────────────────────────────────────────── */
-    .print-cv__header {
+    .gallery-print-header {
       display: flex;
       align-items: flex-start;
       gap: 14pt;
       padding-bottom: 12pt;
       border-bottom: 2pt solid #0a66c2;
       margin-bottom: 14pt;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
     }
 
-    /* LinkedIn-blue profile circle with initials */
-    .print-cv__avatar {
+    /* LinkedIn-blue profile circle */
+    .gallery-print-header__avatar {
       width: 56pt;
       height: 56pt;
       border-radius: 50%;
       background-color: #0a66c2;
-      print-color-adjust: exact;
-      -webkit-print-color-adjust: exact;
       color: #fff;
+      font-size: 20pt;
+      font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18pt;
-      font-weight: 700;
       flex-shrink: 0;
-      letter-spacing: -0.02em;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
     }
 
-    .print-cv__name {
+    .gallery-print-header__name {
       font-size: 20pt;
       font-weight: 700;
+      color: #000;
+      margin: 0 0 3pt;
       line-height: 1.1;
-      margin: 0 0 3pt;
-      color: #000;
     }
 
-    .print-cv__tagline {
+    .gallery-print-header__title {
       font-size: 10.5pt;
-      font-weight: 400;
       color: #000;
       margin: 0 0 3pt;
     }
 
-    .print-cv__meta {
+    .gallery-print-header__meta {
       font-size: 8.5pt;
       color: #555;
       margin: 0;
     }
 
-    /* ── Section wrapper ─────────────────────────────────────────────── */
-    .print-cv__section {
-      margin-bottom: 12pt;
-    }
-
-    .print-cv__section-title {
-      font-size: 13pt;
-      font-weight: 600;
-      color: #000;
-      margin: 0 0 6pt;
-      padding-bottom: 3pt;
-      border-bottom: 1pt solid #ccc;
-    }
-
-    /* ── About paragraph ─────────────────────────────────────────────── */
-    .print-cv__about {
-      font-size: 9.5pt;
-      color: #222;
-      margin: 0;
-      line-height: 1.55;
-    }
-
-    /* ── Experience list ─────────────────────────────────────────────── */
-    .print-cv__list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    /* ── Single experience entry ──────────────────────────────────────── */
-    .print-cv__entry {
+    /* ══════════════════════════════════════════════════════════════════
+       EXPERIENCE ENTRIES  (LinkedIn format)
+       ══════════════════════════════════════════════════════════════════ */
+    .print-entry {
       display: flex;
       gap: 10pt;
       padding: 9pt 0;
       border-bottom: 0.5pt solid #e0e0e0;
       break-inside: avoid;
       page-break-inside: avoid;
+      font-family:
+        -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-size: 10pt;
+      line-height: 1.5;
+      color: #000;
     }
 
-    .print-cv__entry:last-child {
+    .gallery-item:last-child .print-entry {
       border-bottom: none;
     }
 
-    /* Rounded-square company initial badge — matches LinkedIn's logo tile */
-    .print-cv__entry-icon {
-      width: 36pt;
-      height: 36pt;
+    /* Rounded-square company initial — mirrors LinkedIn's company logo tile */
+    .print-entry__icon {
+      width: 38pt;
+      height: 38pt;
       border-radius: 5pt;
       border: 1pt solid #ccc;
       background: #f4f4f4;
-      print-color-adjust: exact;
-      -webkit-print-color-adjust: exact;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14pt;
+      font-size: 16pt;
       font-weight: 700;
       color: #333;
       flex-shrink: 0;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
     }
 
-    .print-cv__entry-body {
+    .print-entry__body {
       flex: 1;
       min-width: 0;
     }
 
-    /* Role title — equivalent to LinkedIn's bold job title */
-    .print-cv__job-title {
+    /* Role title — bold, largest line */
+    .print-entry__role {
       font-size: 10.5pt;
       font-weight: 700;
       color: #000;
@@ -192,42 +164,42 @@
     }
 
     /* Company · Employment type */
-    .print-cv__company {
+    .print-entry__company {
       font-size: 9.5pt;
       font-weight: 500;
       color: #000;
-      margin: 0 0 1.5pt;
+      margin: 0 0 1pt;
     }
 
-    .print-cv__emp-type {
+    .print-entry__emp-type {
       font-weight: 400;
       color: #444;
     }
 
     /* Date range */
-    .print-cv__dates {
+    .print-entry__dates {
       font-size: 8.5pt;
       color: #555;
       margin: 0 0 1pt;
     }
 
-    /* Location · Work modality */
-    .print-cv__location {
+    /* Location · work modality */
+    .print-entry__location {
       font-size: 8.5pt;
       color: #555;
       margin: 0 0 5pt;
     }
 
-    /* Auto-generated excerpt */
-    .print-cv__summary {
+    /* First ~70-word excerpt of page body */
+    .print-entry__summary {
       font-size: 9pt;
       color: #222;
-      margin: 0 0 5pt;
       line-height: 1.5;
+      margin: 0 0 5pt;
     }
 
-    /* ── Skills tag row ──────────────────────────────────────────────── */
-    .print-cv__skills {
+    /* ── Skill tags ─────────────────────────────────────────────────── */
+    .print-entry__skills {
       list-style: none;
       margin: 0 0 4pt;
       padding: 0;
@@ -236,23 +208,21 @@
       gap: 3pt;
     }
 
-    .print-cv__skill-tag {
+    .print-entry__skill-tag {
       font-size: 7.5pt;
       border: 0.5pt solid #aaa;
       border-radius: 3pt;
       padding: 1pt 5pt;
       color: #333;
-      background: transparent;
-      white-space: nowrap;
     }
 
-    /* ── Case study URL ────────────────────────────────────────────── */
-    .print-cv__link-wrap {
+    /* ── Case-study URL ─────────────────────────────────────────────── */
+    .print-entry__url {
       margin: 0;
+      font-size: 7.5pt;
     }
 
-    .print-cv__link {
-      font-size: 7.5pt;
+    .print-entry__url a {
       color: #0a66c2;
       text-decoration: none;
     }
