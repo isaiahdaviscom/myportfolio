@@ -26,7 +26,7 @@ const procs = commands.map((cmd, i) => {
     ? spawn('cmd', ['/c', cmd], { stdio: 'inherit', shell: false })
     : spawn('sh', ['-c', cmd], { stdio: 'inherit', shell: false });
 
-  p.on('exit', (code) => {
+  p.on('exit', code => {
     if (code !== 0 && code !== null) {
       console.error(`${color}${label}${reset} Process exited with code ${code}: ${cmd}`);
     }
@@ -36,7 +36,7 @@ const procs = commands.map((cmd, i) => {
 });
 
 function shutdown() {
-  procs.forEach((p) => {
+  procs.forEach(p => {
     try {
       p.kill('SIGINT');
     } catch (_) {}
