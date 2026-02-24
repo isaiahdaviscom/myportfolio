@@ -1,0 +1,114 @@
+{{- /*
+  Print CV Partial — LinkedIn "Experience" resume format
+  ======================================================
+  Screen : hidden entirely (.print-cv { display: none } via print.css)
+  Print  : full-page LinkedIn-style resume drawn from portfolio pages
+
+  Data pulled per portfolio page:
+    .Title              → company / project name
+    .Params.role        → job title
+    .Params.employment_type → Full-time | Freelance | Contract
+    .Params.dates       → date range string
+    .Params.location    → "City, ST · Work type"
+    .Params.skills      → []string — skill tags
+    .Summary            → auto-excerpt (first ~70 words of body)
+    .Permalink          → printed URL for "View case study"
+*/}}
+
+<div class="print-cv" aria-hidden="true">
+
+  {{- /* ── Resume Header ───────────────────────────────────────────────── */}}
+  <header class="print-cv__header">
+    <div class="print-cv__avatar" aria-hidden="true">ID</div>
+    <div class="print-cv__identity">
+      <h1 class="print-cv__name">Isaiah Davis</h1>
+      <p class="print-cv__tagline">
+        Frontend Developer &middot; UX Designer &middot; Creative Director
+      </p>
+      <p class="print-cv__meta">
+        Chicago, IL
+        &nbsp;&bull;&nbsp;
+        isaiahdavis.com
+        &nbsp;&bull;&nbsp;
+        linkedin.com/in/isaiah-davis
+      </p>
+    </div>
+  </header>
+
+  {{- /* ── Summary ───────────────────────────────────────────────────────── */}}
+  <section class="print-cv__section">
+    <h2 class="print-cv__section-title">About</h2>
+    <p class="print-cv__about">
+      Frontend Developer and UX Designer with 7+ years building performant, accessible
+      web experiences across B2B SaaS, retail, and nonprofit sectors. Fluent across the
+      full design-to-deployment pipeline — from Figma wireframes and brand systems to
+      Hugo static sites, PostCSS build pipelines, and CI/CD on Netlify. Passionate about
+      design systems, Core Web Vitals, and turning ambiguous briefs into measurable
+      results.
+    </p>
+  </section>
+
+  {{- /* ── Experience Section ───────────────────────────────────────────── */}}
+  <section class="print-cv__section">
+    <h2 class="print-cv__section-title">Experience</h2>
+    <ol class="print-cv__list">
+      {{- $pages := where .Site.RegularPages "Section" "portfolio" }}
+      {{- $pages = where $pages ".Params.feature" true }}
+      {{- $pages = sort $pages "Weight" "asc" }}
+      {{- range $pages }}
+      <li class="print-cv__entry">
+
+        {{- /* Company initial badge — mirrors LinkedIn's rounded-square logo */}}
+        <div class="print-cv__entry-icon" aria-hidden="true">
+          {{- substr .Title 0 1 -}}
+        </div>
+
+        <div class="print-cv__entry-body">
+
+          {{- /* Job title — bold, largest text in the entry */}}
+          <h3 class="print-cv__job-title">{{ .Params.role }}</h3>
+
+          {{- /* Company · Employment type */}}
+          <p class="print-cv__company">
+            {{ .Title -}}
+            {{- with .Params.employment_type }}
+              <span class="print-cv__emp-type">&nbsp;&middot;&nbsp;{{ . }}</span>
+            {{- end }}
+          </p>
+
+          {{- /* Date range */}}
+          {{- with .Params.dates }}
+          <p class="print-cv__dates">{{ . }}</p>
+          {{- end }}
+
+          {{- /* Location · Work modality */}}
+          {{- with .Params.location }}
+          <p class="print-cv__location">{{ . }}</p>
+          {{- end }}
+
+          {{- /* Auto-excerpt of page body — first ~70 words */}}
+          <p class="print-cv__summary">{{ .Summary }}</p>
+
+          {{- /* Skill tags */}}
+          {{- with .Params.skills }}
+          <ul class="print-cv__skills" aria-label="Skills used">
+            {{- range . }}
+            <li class="print-cv__skill-tag">{{ . }}</li>
+            {{- end }}
+          </ul>
+          {{- end }}
+
+          {{- /* Printed URL so paper readers can follow up */}}
+          <p class="print-cv__link-wrap">
+            <a class="print-cv__link" href="{{ .Permalink }}">
+              View case study: {{ .Permalink }}
+            </a>
+          </p>
+
+        </div>
+      </li>
+      {{- end }}
+    </ol>
+  </section>
+
+</div>

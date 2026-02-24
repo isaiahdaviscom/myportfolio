@@ -1,4 +1,4 @@
----
+﻿---
 title: "Love is Like a Candle"
 cover: "/images/514/sandc-cover.jpg"
 role: "Creative Director"
@@ -7,6 +7,14 @@ heading: "Creative Direction & Brand Refresh for Love is Like a Candle"
 bgcolor: "bg-gray-900"
 feature: true
 weight: 50
+employment_type: "Freelance"
+location: "Chicago, IL · Remote"
+skills:
+  - Art Direction
+  - Visual Identity
+  - Social Content Strategy
+  - Shopify
+  - Figma
 ---
 
 Love is Like a Candle is an artisan candle brand rooted in warmth, storytelling, and intentional gifting. When I took on the creative direction, the brand had a strong product and a loyal niche following — but no unified visual language or strategy to scale that love into a broader audience online.

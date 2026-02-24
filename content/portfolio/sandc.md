@@ -1,4 +1,4 @@
----
+﻿---
 title: "S&C Electric Company"
 cover: "/images/514/sandc-cover.jpg"
 role: "Frontend Developer"
@@ -7,9 +7,18 @@ heading: "Modernizing Internal Web Tools at S&C Electric Company"
 bgcolor: "bg-gray-900"
 feature: true 
 weight: 10
+employment_type: "Full-time"
+location: "Chicago, IL · Hybrid"
+skills:
+  - TypeScript
+  - Hugo
+  - Tailwind CSS
+  - Google Tag Manager
+  - Git
+  - Accessibility
+  - CI/CD
+  - Performance Optimization
 ---
-
-S&C Electric Company manufactures some of the world's most advanced electrical switchgear and distribution equipment. When I joined the web team in June 2021, their internal tooling portal was a patchwork of legacy markup that hadn't been meaningfully updated in years — slowing down engineers who relied on it daily.
 
 ## The Challenge
 

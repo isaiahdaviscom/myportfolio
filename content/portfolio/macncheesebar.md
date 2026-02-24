@@ -1,4 +1,4 @@
----
+﻿---
 title: "Mac N Cheese Bar"
 cover: "/images/514/pdbgroup-cover.jpg"
 role: "Designer + Developer"
@@ -7,6 +7,14 @@ heading: "Designing & Launching Mac N Cheese Bar's Digital Presence"
 bgcolor: "bg-gray-900"
 feature: true
 weight: 60
+employment_type: "Freelance"
+location: "Chicago, IL · Remote"
+skills:
+  - Web Design
+  - E-commerce UX
+  - Brand Design
+  - SEO
+  - Squarespace
 ---
 
 Mac N Cheese Bar is a Chicago-area comfort food concept built around a simple, joyful premise: really good mac and cheese, customized your way. The brand had a great concept and a loyal in-person following but no digital presence capable of supporting growth beyond its original location.

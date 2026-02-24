@@ -1,4 +1,4 @@
----
+﻿---
 title: "Empire Magazine"
 cover: "/images/514/independent-grocers-alliance-cover.jpg"
 role: "Web Designer"
@@ -7,6 +7,14 @@ heading: "Editorial Web Design & UX Redesign for Empire Magazine"
 bgcolor: "bg-white"
 feature: true
 weight: 80
+employment_type: "Freelance"
+location: "Chicago, IL · Remote"
+skills:
+  - Editorial Design
+  - CSS Grid
+  - UX Research
+  - Newsletter Design
+  - CMS
 ---
 
 Empire Magazine is a cultural publication covering music, style, and creative entrepreneurship — a voice for artists who build their own lanes. When I worked with the Empire team between 2019 and 2021, the challenge was making a digitally-native magazine feel as intentional and curated as a print publication.

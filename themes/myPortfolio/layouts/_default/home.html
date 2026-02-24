@@ -1,5 +1,5 @@
 {{ define "main" }}
-<section class="py-12 bg-gradient-to-br from-blue-50 via-white to-gray-100">
+<section class="home-intro py-12 bg-gradient-to-br from-blue-50 via-white to-gray-100">
   <div class="container mx-auto px-4">
     <h1 class="font-extrabold mb-3 tracking-tight">{{ .Title }}</h1>
     {{- with .Description }}
@@ -9,4 +9,6 @@
     {{- end }}
   </div>
 </section>
-{{ partial "gallery.html" (dict "columns" 3 "Site" .Site "featureOnly" true) }} {{ end }}
+{{ partial "gallery.html" (dict "columns" 3 "Site" .Site "featureOnly" true) }}
+{{ partial "print-cv.html" . }}
+{{ end }}

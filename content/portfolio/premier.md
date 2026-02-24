@@ -1,4 +1,4 @@
----
+﻿---
 title: "Premier Design + Build Group"
 cover: "/images/514/pdbgroup-cover.jpg"
 role: "Graphic Designer + Marketing Specialist"
@@ -7,6 +7,15 @@ heading: "Brand Identity & Digital Marketing for Premier Design + Build Group"
 bgcolor: "bg-gray-900"
 feature: true
 weight: 30
+employment_type: "Full-time"
+location: "Chicago, IL · On-site"
+skills:
+  - Adobe Creative Suite
+  - Brand Identity
+  - Print Design
+  - Meta Ads
+  - Photography Direction
+  - Marketing Strategy
 ---
 
 Premier Design + Build Group is a full-service construction and remodeling firm serving residential and commercial clients across the greater Chicago area. When I came on board, the brand had strong word-of-mouth but virtually no digital marketing infrastructure to convert that reputation into measurable leads online.

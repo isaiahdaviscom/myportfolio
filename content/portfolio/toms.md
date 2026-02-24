@@ -1,4 +1,4 @@
----
+﻿---
 title: "Toms"
 cover: "/images/514/pdbgroup-cover.jpg"
 role: "Graphic Designer + Marketing Specialist"
@@ -7,6 +7,14 @@ heading: "Multi-Platform Campaign Design & Marketing for Toms"
 bgcolor: "bg-gray-900"
 feature: true
 weight: 70
+employment_type: "Freelance"
+location: "Chicago, IL · Remote"
+skills:
+  - Campaign Design
+  - Adobe Illustrator
+  - Social Media Graphics
+  - Brand Strategy
+  - Meta Ads
 ---
 
 Toms is a globally recognized brand built on a mission of giving — known for its one-for-one model that's since evolved into a broader commitment to grassroots good. When I engaged with Toms' marketing work, the focus was on translating that mission-driven identity into campaign materials and digital graphics that felt current without losing the brand's approachable roots.

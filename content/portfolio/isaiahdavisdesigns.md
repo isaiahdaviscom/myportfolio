@@ -1,4 +1,4 @@
----
+﻿---
 title: "Isaiah Davis Designs"
 cover: "/images/514/sandc-cover.jpg"
 role: "Frontend Developer"
@@ -7,6 +7,16 @@ heading: "Designing & Building My Own Studio: Isaiah Davis Designs"
 bgcolor: "bg-gray-900"
 feature: true
 weight: 40
+employment_type: "Freelance"
+location: "Chicago, IL · Remote"
+skills:
+  - Hugo
+  - Tailwind CSS
+  - PostCSS
+  - Netlify
+  - Figma
+  - Performance Optimization
+  - Accessibility
 ---
 
 Isaiah Davis Designs is my personal design and development studio — the through-line connecting every client engagement, side project, and experiment I've shipped. Building it wasn't a single sprint; it's an ongoing commitment to practicing what I preach about thoughtful, performance-first web craft.

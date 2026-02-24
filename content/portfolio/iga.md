@@ -1,4 +1,4 @@
----
+﻿---
 title: "IGA"
 cover: "/images/514/independent-grocers-alliance-cover.jpg"
 role: "Web Designer"
@@ -7,6 +7,15 @@ heading: "Unifying the Digital Brand Experience for Independent Grocers Alliance
 bgcolor: "bg-white"
 feature: true
 weight: 20
+employment_type: "Full-time"
+location: "Greater Chicago Area · On-site"
+skills:
+  - HubSpot
+  - HTML/CSS
+  - Responsive Design
+  - Campaign Landing Pages
+  - CMS Development
+  - Brand Guidelines
 ---
 
 Independent Grocers Alliance (IGA) is a global network of independently owned grocery stores united under a shared brand. Between January 2019 and April 2021 I worked within the marketing team supporting IGA's digital presence across regional member sites.

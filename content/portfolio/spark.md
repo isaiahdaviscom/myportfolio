@@ -1,4 +1,4 @@
----
+﻿---
 title: "Spark Conference"
 cover: "/images/514/independent-grocers-alliance-cover.jpg"
 role: "Web Designer"
@@ -7,6 +7,14 @@ heading: "Redesigning the Spark Conference Website to Drive Registrations"
 bgcolor: "bg-white"
 feature: true
 weight: 90
+employment_type: "Contract"
+location: "Chicago, IL · Remote"
+skills:
+  - Event UX
+  - Figma
+  - Registration Funnel Design
+  - Information Architecture
+  - Webflow
 ---
 
 Spark Conference is an annual gathering for creative professionals, entrepreneurs, and community builders — a space designed to ignite new ideas through talks, workshops, and curated networking. When I came on board the web team, the conference was growing fast but its digital presence hadn't kept pace.
