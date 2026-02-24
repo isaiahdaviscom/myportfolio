@@ -20,7 +20,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '20'
         cache: 'npm'
     
     - name: Setup Hugo
@@ -28,6 +28,9 @@ jobs:
       with:
         hugo-version: '0.132.2'
         extended: true
+    
+    - name: Install dependencies
+      run: npm ci
     
     - name: Set environment variables
       run: |
@@ -38,9 +41,6 @@ jobs:
         else
           echo "HUGO_BASEURL=https://myportfolio-staging.netlify.app" >> $GITHUB_ENV
         fi
-    
-    - name: Install dependencies
-      run: npm ci
     
     - name: Build CSS
       run: npm run build:css
