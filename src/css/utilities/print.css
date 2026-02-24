@@ -3,233 +3,221 @@
   ==============================
   Purpose: LinkedIn-style print resume from the existing gallery cards.
 
-  Screen : .gallery-print-header and .print-entry are invisible.
-           The visual .card grid is completely unchanged.
+  These rules are intentionally OUTSIDE @layer so they are "unlayered"
+  and therefore have higher cascade priority than all Tailwind layer
+  rules (theme / base / components / utilities). This guarantees the
+  print layout renders correctly in Chrome / Firefox / Safari print
+  preview regardless of layer-merge order.
 
-  Print  : Site chrome + visual cards hide.
-           .gallery-print-header shows as a LinkedIn profile header.
-           Each .print-entry shows as a LinkedIn Experience row — same
-           data that already lives in the card, plus skills/location/
-           employment-type added to the frontmatter.
+  Screen : @media screen hides .gallery-print-header and .print-entry.
+  Print  : @media print shows them as a LinkedIn Experience resume and
+           hides the visual card grid and site chrome.
 */
 
-@layer utilities {
-  /* ── Screen only: hide print-only elements ───────────────────────────
-     Using @media not print so these rules simply don't exist during
-     printing — avoids any cascade conflict with the display: flex rules
-     in the @media print block below.                                    */
-  @media not print {
-    .gallery-print-header,
-    .print-entry,
-    .print-cv {
-      display: none;
-    }
+/* -- Screen: hide print-only elements ---------------------------------------- */
+@media screen {
+  .gallery-print-header,
+  .print-entry,
+  .print-cv {
+    display: none !important;
+  }
+}
+
+/* =============================================================================
+   PRINT
+   ============================================================================= */
+@media print {
+  /* -- Page setup ------------------------------------------------------------ */
+  @page {
+    margin: 0.6in 0.65in;
+    size: letter portrait;
   }
 
-  /* ══════════════════════════════════════════════════════════════════════
-     PRINT
-     ══════════════════════════════════════════════════════════════════════ */
-  @media print {
-    /* ── Page setup ─────────────────────────────────────────────────── */
-    @page {
-      margin: 0.6in 0.65in;
-      size: letter portrait;
-    }
+  /* -- Hide site chrome + visual cards --------------------------------------- */
+  header,
+  footer,
+  nav,
+  .card {
+    display: none !important;
+  }
 
-    /* ── Hide site chrome + the visual card ─────────────────────────── */
-    header,
-    footer,
-    nav,
-    .card {
-      display: none !important;
-    }
+  /* -- Gallery: collapse multi-column grid into a single column -------------- */
+  #gallery {
+    padding: 0 !important;
+  }
 
-    /* ── Gallery: drop the multi-column grid, become a single column ── */
-    #gallery {
-      padding: 0 !important;
-    }
+  #gallery .mx-auto {
+    padding: 0 !important;
+  }
 
-    #gallery .mx-auto {
-      padding: 0 !important;
-    }
+  #gallery .row {
+    display: block !important;
+  }
 
-    #gallery .row {
-      display: block !important;
-    }
+  .gallery-item {
+    display: block !important;
+    margin: 0;
+    padding: 0;
+  }
 
-    /* Each wrapper is just a block row now */
-    .gallery-item {
-      display: block;
-      margin: 0;
-      padding: 0;
-    }
+  /* ==========================================================================
+     RESUME HEADER
+     ========================================================================== */
+  .gallery-print-header {
+    display: flex !important;
+    align-items: flex-start;
+    gap: 14pt;
+    padding-bottom: 12pt;
+    border-bottom: 2pt solid #0a66c2;
+    margin-bottom: 14pt;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
 
-    /* ══════════════════════════════════════════════════════════════════
-       RESUME HEADER
-       ══════════════════════════════════════════════════════════════════ */
-    .gallery-print-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 14pt;
-      padding-bottom: 12pt;
-      border-bottom: 2pt solid #0a66c2;
-      margin-bottom: 14pt;
-      print-color-adjust: exact;
-      -webkit-print-color-adjust: exact;
-    }
+  .gallery-print-header__avatar {
+    width: 56pt;
+    height: 56pt;
+    border-radius: 50%;
+    background-color: #0a66c2;
+    color: #fff;
+    font-size: 20pt;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
 
-    /* LinkedIn-blue profile circle */
-    .gallery-print-header__avatar {
-      width: 56pt;
-      height: 56pt;
-      border-radius: 50%;
-      background-color: #0a66c2;
-      color: #fff;
-      font-size: 20pt;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      print-color-adjust: exact;
-      -webkit-print-color-adjust: exact;
-    }
+  .gallery-print-header__name {
+    font-size: 20pt;
+    font-weight: 700;
+    color: #000;
+    margin: 0 0 3pt;
+    line-height: 1.1;
+  }
 
-    .gallery-print-header__name {
-      font-size: 20pt;
-      font-weight: 700;
-      color: #000;
-      margin: 0 0 3pt;
-      line-height: 1.1;
-    }
+  .gallery-print-header__title {
+    font-size: 10.5pt;
+    color: #000;
+    margin: 0 0 3pt;
+  }
 
-    .gallery-print-header__title {
-      font-size: 10.5pt;
-      color: #000;
-      margin: 0 0 3pt;
-    }
+  .gallery-print-header__meta {
+    font-size: 8.5pt;
+    color: #555;
+    margin: 0;
+  }
 
-    .gallery-print-header__meta {
-      font-size: 8.5pt;
-      color: #555;
-      margin: 0;
-    }
+  /* ==========================================================================
+     EXPERIENCE ENTRIES (LinkedIn format)
+     ========================================================================== */
+  .print-entry {
+    display: flex !important;
+    gap: 10pt;
+    padding: 9pt 0;
+    border-bottom: 0.5pt solid #e0e0e0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    font-family:
+      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.5;
+    color: #000;
+  }
 
-    /* ══════════════════════════════════════════════════════════════════
-       EXPERIENCE ENTRIES  (LinkedIn format)
-       ══════════════════════════════════════════════════════════════════ */
-    .print-entry {
-      display: flex;
-      gap: 10pt;
-      padding: 9pt 0;
-      border-bottom: 0.5pt solid #e0e0e0;
-      break-inside: avoid;
-      page-break-inside: avoid;
-      font-family:
-        -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 10pt;
-      line-height: 1.5;
-      color: #000;
-    }
+  .gallery-item:last-child .print-entry {
+    border-bottom: none;
+  }
 
-    .gallery-item:last-child .print-entry {
-      border-bottom: none;
-    }
+  .print-entry__icon {
+    width: 38pt;
+    height: 38pt;
+    border-radius: 5pt;
+    border: 1pt solid #ccc;
+    background: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16pt;
+    font-weight: 700;
+    color: #333;
+    flex-shrink: 0;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
 
-    /* Rounded-square company initial — mirrors LinkedIn's company logo tile */
-    .print-entry__icon {
-      width: 38pt;
-      height: 38pt;
-      border-radius: 5pt;
-      border: 1pt solid #ccc;
-      background: #f4f4f4;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16pt;
-      font-weight: 700;
-      color: #333;
-      flex-shrink: 0;
-      print-color-adjust: exact;
-      -webkit-print-color-adjust: exact;
-    }
+  .print-entry__body {
+    flex: 1;
+    min-width: 0;
+  }
 
-    .print-entry__body {
-      flex: 1;
-      min-width: 0;
-    }
+  .print-entry__role {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #000;
+    margin: 0 0 1.5pt;
+    line-height: 1.3;
+  }
 
-    /* Role title — bold, largest line */
-    .print-entry__role {
-      font-size: 10.5pt;
-      font-weight: 700;
-      color: #000;
-      margin: 0 0 1.5pt;
-      line-height: 1.3;
-    }
+  .print-entry__company {
+    font-size: 9.5pt;
+    font-weight: 500;
+    color: #000;
+    margin: 0 0 1pt;
+  }
 
-    /* Company · Employment type */
-    .print-entry__company {
-      font-size: 9.5pt;
-      font-weight: 500;
-      color: #000;
-      margin: 0 0 1pt;
-    }
+  .print-entry__emp-type {
+    font-weight: 400;
+    color: #444;
+  }
 
-    .print-entry__emp-type {
-      font-weight: 400;
-      color: #444;
-    }
+  .print-entry__dates {
+    font-size: 8.5pt;
+    color: #555;
+    margin: 0 0 1pt;
+  }
 
-    /* Date range */
-    .print-entry__dates {
-      font-size: 8.5pt;
-      color: #555;
-      margin: 0 0 1pt;
-    }
+  .print-entry__location {
+    font-size: 8.5pt;
+    color: #555;
+    margin: 0 0 5pt;
+  }
 
-    /* Location · work modality */
-    .print-entry__location {
-      font-size: 8.5pt;
-      color: #555;
-      margin: 0 0 5pt;
-    }
+  .print-entry__summary {
+    font-size: 9pt;
+    color: #222;
+    line-height: 1.5;
+    margin: 0 0 5pt;
+  }
 
-    /* First ~70-word excerpt of page body */
-    .print-entry__summary {
-      font-size: 9pt;
-      color: #222;
-      line-height: 1.5;
-      margin: 0 0 5pt;
-    }
+  /* -- Skill tags ------------------------------------------------------------ */
+  .print-entry__skills {
+    list-style: none;
+    margin: 0 0 4pt;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3pt;
+  }
 
-    /* ── Skill tags ─────────────────────────────────────────────────── */
-    .print-entry__skills {
-      list-style: none;
-      margin: 0 0 4pt;
-      padding: 0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 3pt;
-    }
+  .print-entry__skill-tag {
+    font-size: 7.5pt;
+    border: 0.5pt solid #aaa;
+    border-radius: 3pt;
+    padding: 1pt 5pt;
+    color: #333;
+  }
 
-    .print-entry__skill-tag {
-      font-size: 7.5pt;
-      border: 0.5pt solid #aaa;
-      border-radius: 3pt;
-      padding: 1pt 5pt;
-      color: #333;
-    }
+  /* -- Case-study URL -------------------------------------------------------- */
+  .print-entry__url {
+    margin: 0;
+    font-size: 7.5pt;
+  }
 
-    /* ── Case-study URL ─────────────────────────────────────────────── */
-    .print-entry__url {
-      margin: 0;
-      font-size: 7.5pt;
-    }
-
-    .print-entry__url a {
-      color: #0a66c2;
-      text-decoration: none;
-    }
+  .print-entry__url a {
+    color: #0a66c2;
+    text-decoration: none;
   }
 }
