@@ -496,10 +496,12 @@
   }
 }
 @layer utilities {
-  .gallery-print-header,
-  .print-entry,
-  .print-cv {
-    display: none;
+  @media not print {
+    .gallery-print-header,
+    .print-entry,
+    .print-cv {
+      display: none;
+    }
   }
   @media print {
     @page {

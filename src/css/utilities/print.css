@@ -14,11 +14,16 @@
 */
 
 @layer utilities {
-  /* ── Screen: hide print-only elements ──────────────────────────────── */
-  .gallery-print-header,
-  .print-entry,
-  .print-cv {
-    display: none;
+  /* ── Screen only: hide print-only elements ───────────────────────────
+     Using @media not print so these rules simply don't exist during
+     printing — avoids any cascade conflict with the display: flex rules
+     in the @media print block below.                                    */
+  @media not print {
+    .gallery-print-header,
+    .print-entry,
+    .print-cv {
+      display: none;
+    }
   }
 
   /* ══════════════════════════════════════════════════════════════════════
