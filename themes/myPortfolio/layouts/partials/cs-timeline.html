@@ -1,0 +1,17 @@
+{{- /*
+  Case Study — Timeline partial
+  ──────────────────────────────────────────────────────────────
+  Renders an ordered process timeline from .Params.timeline[]
+  Each step: { phase: string, desc: string }
+  Usage: {{ partial "cs-timeline.html" . }}
+*/}}
+{{- with .Params.timeline }}
+<div class="cs-timeline" role="list" aria-label="Project phases">
+  {{- range $i, $step := . }}
+  <div class="cs-timeline__step" role="listitem">
+    <p class="cs-timeline__phase" aria-label="Phase {{ add $i 1 }}">{{ $step.phase }}</p>
+    <p class="cs-timeline__desc">{{ $step.desc }}</p>
+  </div>
+  {{- end }}
+</div>
+{{- end }}
