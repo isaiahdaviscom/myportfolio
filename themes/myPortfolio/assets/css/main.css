@@ -187,31 +187,7 @@
 /* =============================================
    5. FOOTER COMPONENTS
    ============================================= */
-@layer base {
-  /* Site footer — .site-footer class in stories.css controls appearance */
-  footer {
-    text-align: center;
-  }
 
-  /* Footer links */
-  footer a {
-    text-decoration: none;
-  }
+/* Styles handled by src/css/layout/footer.css (PostCSS pipeline). */
 
-  /* Footer link hover state */
-  footer a:hover {
-    text-decoration: underline;
-  }
-}
-
-.gap-6 {
-  gap: 1.5em;
-}
-
-.card {
-  @media print {
-    h3 {
-      color: red;
-    }
-  }
-}
+/* Nothing to declare here — avoid duplicating or overriding footer.css. */

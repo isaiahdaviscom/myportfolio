@@ -1,0 +1,381 @@
+/*
+  PORTFOLIO LIST PAGE — EDITORIAL CARD SYSTEM
+  ============================================================
+  Purpose: pf-* component classes for the portfolio list page.
+           Featured hero card + responsive project grid.
+  Tokens:  Consumes design tokens from theme/tokens.css.
+*/
+
+@layer components {
+  /* ──────────────────────────────────────────────────────────────
+     FEATURED HERO CARD
+  ────────────────────────────────────────────────────────────── */
+
+
+  /* Grid section wrapper */
+  .pf-grid-section {
+    background: var(--color-bg);
+    padding-block: var(--space-16);
+  }
+
+  /* Card grid */
+  .pf-card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .pf-card-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .pf-card-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .pf-hero {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: var(--radius-2xl);
+    margin-bottom: var(--space-12);
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+    cursor: pointer;
+    transition: box-shadow var(--duration-base) var(--ease-out);
+  }
+
+  .pf-hero:hover {
+    box-shadow: var(--shadow-xl);
+  }
+
+  .pf-hero:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-surface), 0 0 0 6px var(--color-accent);
+  }
+
+  /* Full-bleed gradient overlay: transparent top → heavy near bottom */
+  .pf-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(5, 10, 25, 0.95)  0%,
+      rgba(5, 10, 25, 0.55)  45%,
+      rgba(5, 10, 25, 0.10)  100%
+    );
+    pointer-events: none;
+  }
+
+
+  /* ──────────────────────────────────────────────────────────────
+     PROJECT GRID CARD
+  ────────────────────────────────────────────────────────────── */
+
+  .pf-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-xs);
+    transition:
+      box-shadow  var(--duration-base) var(--ease-out),
+      transform   var(--duration-base) var(--ease-out);
+  }
+
+  .pf-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+  }
+
+  .pf-card:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-surface), 0 0 0 6px var(--color-accent);
+  }
+
+  /* Hover image shimmer overlay */
+  .pf-card__hover-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 81, 224, 0.25) 0%,
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity var(--duration-base) var(--ease-out);
+    pointer-events: none;
+  }
+
+  .pf-card:hover .pf-card__hover-overlay {
+    opacity: 1;
+  }
+
+  /* Hero image & overlay structure */
+  .pf-hero__img {
+    width: 100%;
+    height: 18rem;
+    object-fit: cover;
+    display: block;
+    transition: transform 700ms var(--ease-out);
+  }
+
+  @media (min-width: 640px) {
+    .pf-hero__img {
+      height: 28rem;
+    }
+  }
+
+  .pf-hero:hover .pf-hero__img {
+    transform: scale(1.02);
+  }
+
+  .pf-hero__img-fallback {
+    width: 100%;
+    height: 18rem;
+    background: linear-gradient(135deg, #0f2952, #0c1a38);
+  }
+
+  @media (min-width: 640px) {
+    .pf-hero__img-fallback {
+      height: 28rem;
+    }
+  }
+
+  .pf-hero__content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: var(--space-8);
+  }
+
+  @media (min-width: 640px) {
+    .pf-hero__content {
+      padding: var(--space-10);
+    }
+  }
+
+  .pf-hero__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .pf-hero__title {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-extrabold);
+    color: #fff;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-tight);
+    max-width: 40ch;
+    margin-bottom: var(--space-2);
+  }
+
+  @media (min-width: 640px) {
+    .pf-hero__title {
+      font-size: var(--text-3xl);
+    }
+  }
+
+  .pf-hero__meta-text {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: var(--space-5);
+  }
+
+  .pf-hero__stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1_5);
+    margin-bottom: var(--space-6);
+  }
+
+  /* Title transitions colour on hover */
+  .pf-card__title {
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    line-height: var(--leading-snug);
+    margin-bottom: var(--space-1);
+    color: var(--color-text-primary);
+    transition: color var(--duration-base) var(--ease-out);
+  }
+
+  .pf-card:hover .pf-card__title {
+    color: var(--color-accent);
+  }
+
+  /* Card image area */
+  .pf-card__image {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+  }
+
+  .pf-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 500ms var(--ease-out);
+  }
+
+  .pf-card:hover .pf-card__img {
+    transform: scale(1.04);
+  }
+
+  .pf-card__fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-accent-soft), var(--color-surface-subtle));
+  }
+
+  .pf-card__fallback-letter {
+    font-size: 3rem;
+    font-weight: var(--font-extrabold);
+    opacity: 0.2;
+    color: var(--color-accent);
+    line-height: 1;
+  }
+
+  /* Card body */
+  .pf-card__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: var(--space-5);
+  }
+
+  .pf-card__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1_5);
+    margin-bottom: var(--space-3);
+  }
+
+  .pf-card__dates {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .pf-card__skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-top: auto;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+  }
+
+
+  /* ──────────────────────────────────────────────────────────────
+     CHIP / BADGE LABELS
+  ────────────────────────────────────────────────────────────── */
+
+  /* Base chip — white text on semi-transparent dark bg (for use on images) */
+  .pf-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2em 0.65em;
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+    border-radius: var(--radius-full);
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    white-space: nowrap;
+    line-height: 1.4;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+
+  /* Accent chip — solid brand blue (Featured badge) */
+  .pf-chip--accent {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+    font-weight: var(--font-semibold);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  /* Muted chip — slightly more opaque dark (on images) */
+  .pf-chip--muted {
+    background: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  /* Accent-soft chip — for use on white card bg */
+  .pf-chip--accent-soft {
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent-border);
+    color: var(--color-accent);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  /* Small variant — card grid chips */
+  .pf-chip--sm {
+    font-size: 0.6875rem;
+    padding: 0.15em 0.55em;
+  }
+
+  /* Extra-small — skill tags at card bottom */
+  .pf-chip--xs {
+    font-size: 0.625rem;
+    padding: 0.1em 0.5em;
+    color: var(--color-text-muted);
+    background: var(--color-surface-subtle);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  /* On white/light card background, override the glass chip */
+  .pf-card .pf-chip--sm:not(.pf-chip--accent-soft) {
+    background: var(--color-surface-subtle);
+    border-color: var(--color-border);
+    color: var(--color-text-secondary);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+
+  /* ──────────────────────────────────────────────────────────────
+     HERO CTA LINK
+  ────────────────────────────────────────────────────────────── */
+
+  .pf-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: #fff;
+    letter-spacing: var(--tracking-wide);
+    text-underline-offset: 3px;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.4);
+    transition: text-decoration-color var(--duration-base) var(--ease-out);
+  }
+
+  .pf-hero:hover .pf-cta {
+    text-decoration-color: rgba(255, 255, 255, 0.9);
+  }
+
+}

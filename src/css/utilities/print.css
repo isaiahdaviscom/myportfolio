@@ -70,8 +70,8 @@
     padding-bottom: 12pt;
     border-bottom: 2pt solid #0a66c2;
     margin-bottom: 14pt;
-    print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   .gallery-print-header__avatar {
@@ -86,8 +86,8 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   .gallery-print-header__name {
@@ -143,8 +143,8 @@
     font-weight: 700;
     color: #333;
     flex-shrink: 0;
-    print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   .print-entry__body {

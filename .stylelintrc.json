@@ -21,12 +21,20 @@
       {
         "ignorePseudoClasses": ["global"]
       }
+    ],
+    "property-no-vendor-prefix": [
+      true,
+      {
+        "ignoreProperties": ["backdrop-filter", "appearance", "print-color-adjust"]
+      }
     ]
   },
   "ignoreFiles": [
     "node_modules/**/*",
     "public/**/*",
+    "static/css/**/*",
     ".chrome-debug-profile/**/*",
-    "themes/myPortfolio/exampleSite/**/*"
+    "themes/myPortfolio/exampleSite/**/*",
+    "themes/myPortfolio/assets/css/**/*"
   ]
 }

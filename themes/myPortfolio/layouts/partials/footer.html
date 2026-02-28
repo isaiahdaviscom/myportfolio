@@ -1,3 +1,140 @@
-<footer class="site-footer text-center py-5 text-sm">
-  <p class="text-gray-500">&copy; <span id="footer-year">{{ now.Year }}</span> Isaiah Davis. All rights reserved.</p>
-</footer>
+{{/*
+  Site Footer — Dark navy, complementary to the light gradient pages above
+  ──────────────────────────────────────────────────────────────────────────────
+  Layout:   Pre-footer CTA strip | Brand / Navigate / Built With | Bottom bar
+  Design:   Always-dark so it grounds the page regardless of light/dark mode.
+*/}}
+
+{{/* ═══════════════  PRE-FOOTER CTA STRIP  ═══════════════ */}}
+<div class="site-footer__cta">
+  <div class="site-footer__cta-inner">
+    <div>
+      <p class="site-footer__cta-eyebrow">Currently available</p>
+      <h2 class="site-footer__cta-heading">Open to new work — let's build something.</h2>
+    </div>
+    <a href="/contact/" class="site-footer__cta-btn">
+      Get in touch
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </a>
+  </div>
+</div>
+
+{{/* ══════════════════  MAIN FOOTER BODY  ══════════════════ */}}
+<div class="site-footer__body">
+  <div class="site-footer__inner">
+
+    <div class="site-footer__cols">
+
+      {{/* ── Brand column ── */}}
+      <div class="site-footer__col">
+        <div>
+          <a href="/" class="site-footer__brand-name">Isaiah Davis</a>
+          <p class="site-footer__brand-tagline">
+            Frontend Developer &amp; UI Engineer<br>
+            Chicago, IL &middot; Available for freelance &amp; contract work
+          </p>
+        </div>
+        <div class="site-footer__avail">
+          <span class="site-footer__avail-dot" aria-hidden="true"></span>
+          <span>Open to work — typical response: 1 business day</span>
+        </div>
+        <nav aria-label="Social links" class="site-footer__social-nav">
+          <a href="https://www.linkedin.com/in/isaiahdavis/" target="_blank" rel="noopener noreferrer"
+             aria-label="LinkedIn" class="site-footer__social-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+          </a>
+          <a href="https://github.com/isaiahdaviscom" target="_blank" rel="noopener noreferrer"
+             aria-label="GitHub" class="site-footer__social-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+          </a>
+          <a href="mailto:isaiah@isaiahdavis.com" aria-label="Email me" class="site-footer__social-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </a>
+        </nav>
+      </div>
+
+      {{/* ── Navigate column ── */}}
+      <div>
+        <h2 class="site-footer__col-heading">Navigate</h2>
+        <ul class="site-footer__nav-list">
+          <li><a href="/"           class="footer-nav-link">Home</a></li>
+          <li><a href="/portfolio/" class="footer-nav-link">Portfolio</a></li>
+          <li><a href="/posts/"     class="footer-nav-link">Blog</a></li>
+          <li><a href="/about/"     class="footer-nav-link">About</a></li>
+          <li><a href="/contact/"   class="footer-nav-link">Contact</a></li>
+        </ul>
+      </div>
+
+      {{/* ── Built with column ── */}}
+      <div>
+        <h2 class="site-footer__col-heading">Built With</h2>
+        <ul class="site-footer__tech-list">
+          <li class="site-footer__tech-item">
+            <span class="site-footer__tech-dot site-footer__tech-dot--hugo" aria-hidden="true"></span>
+            <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer" class="footer-tech-link">Hugo</a>
+            <span class="site-footer__tech-desc">Static Site Generator</span>
+          </li>
+          <li class="site-footer__tech-item">
+            <span class="site-footer__tech-dot site-footer__tech-dot--tailwind" aria-hidden="true"></span>
+            <a href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer" class="footer-tech-link">Tailwind CSS v4</a>
+            <span class="site-footer__tech-desc">Utility-first CSS</span>
+          </li>
+          <li class="site-footer__tech-item">
+            <span class="site-footer__tech-dot site-footer__tech-dot--netlify" aria-hidden="true"></span>
+            <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer" class="footer-tech-link">Netlify</a>
+            <span class="site-footer__tech-desc">Deploy &amp; Forms</span>
+          </li>
+          <li class="site-footer__tech-item">
+            <span class="site-footer__tech-dot site-footer__tech-dot--postcss" aria-hidden="true"></span>
+            <span class="footer-tech-label">PostCSS</span>
+            <span class="site-footer__tech-desc">CSS Pipeline</span>
+          </li>
+          <li class="site-footer__tech-item">
+            <span class="site-footer__tech-dot site-footer__tech-dot--ts" aria-hidden="true"></span>
+            <span class="footer-tech-label">TypeScript</span>
+            <span class="site-footer__tech-desc">Logic &amp; Interactivity</span>
+          </li>
+          <li class="site-footer__tech-item">
+            <span class="site-footer__tech-dot site-footer__tech-dot--pwa" aria-hidden="true"></span>
+            <span class="footer-tech-label">PWA</span>
+            <span class="site-footer__tech-desc">Offline &amp; Installable</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    {{/* ── Bottom bar ── */}}
+    <div class="site-footer__bottom">
+      <p>
+        &copy; <span id="footer-year">{{ now.Year }}</span> Isaiah Davis
+        &middot;
+        <abbr title="Site version" class="no-underline cursor-default">v{{ .Site.Params.version | default "1.0.0" }}</abbr>
+      </p>
+      <p class="site-footer__crafted">Handcrafted with care in Chicago &#127750;</p>
+      <a href="#main-content" class="site-footer__back-to-top" aria-label="Back to top">
+        Back to top
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="12" y1="19" x2="12" y2="5"/>
+          <polyline points="5 12 12 5 19 12"/>
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</div>

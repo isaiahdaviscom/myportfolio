@@ -1,36 +1,66 @@
 ---
 title: "About"
-description: "About Isaiah Davis."
+description: "Isaiah Davis is a Frontend Developer and UI Engineer based in Chicago, IL, specializing in performance-focused, accessible web experiences."
 url: "/about/"
+type: "about"
+heading: "Turning complex problems into clean, performant web experiences."
+tagline: "Frontend Developer · UI Engineer · Chicago, IL"
+
+skills:
+  frontend:
+    - TypeScript
+    - JavaScript (ES2025)
+    - HTML5 / Semantic markup
+    - CSS3 / Custom Properties
+    - Tailwind CSS
+    - React
+  tooling:
+    - Hugo
+    - PostCSS / PurgeCSS
+    - esbuild
+    - Git / GitHub
+    - Docker
+    - CI/CD (Netlify, GitHub Actions)
+  design:
+    - Figma
+    - Accessibility (WCAG 2.1 AA)
+    - Performance Optimization
+    - Responsive Design
+    - Design Systems
+  backend:
+    - Node.js
+    - Express.js
+    - PostgreSQL
+    - MongoDB
+
+values:
+  - icon: "⚡"
+    title: "Performance first"
+    desc: "Every millisecond matters. I measure before and after every change."
+  - icon: "♿"
+    title: "Accessible by default"
+    desc: "WCAG 2.1 AA compliance is a baseline, not an afterthought."
+  - icon: "🧹"
+    title: "Clean, maintainable code"
+    desc: "Future-you (and future teammates) will thank present-you."
+  - icon: "🔁"
+    title: "Iterative delivery"
+    desc: "Ship small, measure impact, and improve continuously."
 ---
 
-This page contains information about Isaiah Davis.
+Hello! I'm Isaiah Davis — a Frontend Developer and UI Engineer with deep experience building modern,
+accessible, and performant web products. I've worked across internal enterprise tooling and
+consumer-facing applications, always with a focus on measurable results.
 
-## About Me
+At S&C Electric Company I led the modernization of three dashboards, cutting page load times by 72%,
+reducing asset weight by 41%, and achieving full WCAG 2.1 AA compliance across every updated view.
+That project is a template for how I approach all my work: audit first, architect thoughtfully,
+ship iteratively, document thoroughly.
 
-Hello! I'm Isaiah Davis, a passionate software developer and technology enthusiast. I specialize in building modern, responsive websites and applications that deliver exceptional user experiences.
+I'm comfortable owning the full frontend stack — from design-token-driven CSS systems to CI/CD
+pipeline configuration — and I collaborate closely with designers, backend engineers, and stakeholders
+to deliver outcomes that matter to the business.
 
-## My Background
+**Currently:** Open to new full-time, contract, and freelance opportunities. Chicago-based;
+remote-friendly.
 
-With a strong foundation in computer science and years of hands-on experience, I have worked on a variety of projects ranging from personal portfolio websites to full-scale e-commerce platforms. My expertise lies in combining creativity with technical skills to solve complex problems and bring ideas to life.
-
-## Skills and Expertise
-
-- **Frontend Development**: HTML, CSS, JavaScript, React, Tailwind CSS
-- **Backend Development**: Node.js, Django, Express.js
-- **Database Management**: MongoDB, PostgreSQL, MySQL
-- **Other Tools**: Git, Docker, Hugo, Figma
-
-## My Philosophy
-
-I believe in continuous learning and staying updated with the latest technologies. My goal is to create impactful solutions that not only meet client needs but also exceed expectations.
-
-## Fun Facts
-
-- I enjoy exploring new programming languages and frameworks.
-- In my free time, I love hiking, photography, and playing chess.
-- I'm always up for a good tech discussion or brainstorming session.
-
----
-
-If you'd like to learn more about me or discuss a potential project, feel free to [contact me](/contact).

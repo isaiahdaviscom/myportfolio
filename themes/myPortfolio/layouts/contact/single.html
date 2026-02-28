@@ -1,0 +1,121 @@
+{{/*
+  Contact Page Layout
+  ──────────────────────────────────────────────────────────────────────────────
+  Two-column layout: info panel (left) + Netlify form (right)
+  Uses the contact-form partial with data-netlify="true" wired in.
+*/}}
+{{ define "main" }}
+<div class="contact-page">
+
+  {{/* ── Hero header ── */}}
+  <section class="page-hero">
+    <div class="container mx-auto px-4">
+      {{ partial "breadcrumb.html" . }}
+      <div class="mt-6">
+        <p class="page-eyebrow mb-2">
+          {{ .Params.tagline | default "Get in touch" }}
+        </p>
+        <h1 class="page-h1 max-w-2xl">
+          {{ .Params.heading | default .Title }}
+        </h1>
+      </div>
+    </div>
+  </section>
+
+  {{/* ── Two-column body ── */}}
+  <section class="contact-body">
+    <div class="container mx-auto px-4">
+      <div class="contact-split">
+
+        {{/* ── LEFT: contact info ── */}}
+        <aside class="contact-info">
+
+          {{/* What to expect */}}
+          <div>
+            <h2 class="contact-info__section-heading">What to expect</h2>
+            <p class="contact-info__text">
+              I typically respond within one business day. For urgent enquiries 
+              feel free to email or message me directly on LinkedIn.
+            </p>
+          </div>
+
+          {{/* Contact details */}}
+          <div>
+            <h2 class="contact-info__section-heading">Contact details</h2>
+            <ul class="contact-detail-list">
+              <li class="contact-detail-item">
+                <span class="icon-badge" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                </span>
+                <div class="contact-detail-text">
+                  <p class="contact-detail-label">Email</p>
+                  <a href="mailto:isaiah@isaiahdavis.com"
+                     class="contact-detail-link">isaiah@isaiahdavis.com</a>
+                </div>
+              </li>
+              <li class="contact-detail-item">
+                <span class="icon-badge" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                    <rect x="2" y="9" width="4" height="12"/>
+                    <circle cx="4" cy="4" r="2"/>
+                  </svg>
+                </span>
+                <div class="contact-detail-text">
+                  <p class="contact-detail-label">LinkedIn</p>
+                  <a href="https://linkedin.com/in/isaiahdavis"
+                     target="_blank" rel="noopener noreferrer"
+                     class="contact-detail-link">linkedin.com/in/isaiahdavis</a>
+                </div>
+              </li>
+              <li class="contact-detail-item">
+                <span class="icon-badge" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                </span>
+                <div class="contact-detail-text">
+                  <p class="contact-detail-label">Location</p>
+                  <p class="contact-detail-muted">Chicago, IL · Remote-friendly</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          {{/* Availability */}}
+          <div class="availability-badge">
+            <div class="availability-badge__header">
+              <span class="availability-badge__dot" aria-hidden="true"></span>
+              <p class="availability-badge__label">Open to new work</p>
+            </div>
+            <p class="availability-badge__body">
+              Currently accepting freelance, contract, and full-time opportunities.
+              Typical response time: <strong>1 business day</strong>.
+            </p>
+          </div>
+
+        </aside>
+
+        {{/* ── RIGHT: Netlify form ── */}}
+        <div class="contact-form-wrap">
+          <h2 class="contact-form-wrap__heading">Send a message</h2>
+          {{ partial "contact-form.html" (dict
+              "style"          "bare"
+              "includePhone"   false
+              "includeSubject" true
+              "submitText"     "Send Message"
+          ) }}
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+{{ end }}

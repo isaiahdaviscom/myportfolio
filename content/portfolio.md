@@ -1,10 +1,8 @@
 ---
 title: "Portfolio"
-description: "A selection of my professional and creative work."
-url: "/portfolio/"
+draft: true
 ---
 
-Welcome to my portfolio! Here you'll find a selection of my projects and case studies.
 
 ## Featured Projects
 

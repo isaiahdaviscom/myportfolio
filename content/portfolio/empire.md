@@ -15,6 +15,47 @@ skills:
   - UX Research
   - Newsletter Design
   - CMS
+
+metrics:
+  - value: "+48s"
+    label: "Longer sessions"
+    detail: "Session duration increase post-launch"
+  - value: "25%"
+    label: "Lower bounce rate"
+    detail: "Article pages: 68% → 51%"
+  - value: "138%"
+    label: "Signup lift"
+    detail: "Newsletter conversion: 0.8% → 1.9%"
+  - value: "6wk"
+    label: "Full delivery"
+    detail: "All page designs, mobile + desktop"
+
+stack:
+  - Figma
+  - CSS Grid
+  - HTML5
+  - Newsletter HTML
+  - CMS Templates
+
+timeline:
+  - phase: "Discovery"
+    desc: "Audited 3 years of editorial content, benchmarked competitor publications, and mapped reader journeys to identify the highest-leverage layout changes."
+  - phase: "Design"
+    desc: "Defined a modular article layout system — feature, photo essay, and quick-hit — with a shared typography and color foundation that worked across all editorial formats."
+  - phase: "Handoff"
+    desc: "Delivered developer-ready specs with annotated Figma files, responsive breakpoints documented, and CMS field mapping for every template variant."
+  - phase: "QA & Launch"
+    desc: "Ran a two-week QA pass with the backend team, addressed rendering bugs found on real content, and coordinated launch timing with the editorial calendar."
+  - phase: "Measurement"
+    desc: "Tracked session duration and bounce rate weekly for 90 days post-launch, confirming both targets were exceeded within the measurement window."
+
+lessons:
+  - insight: "Editorial hierarchy is a performance tool"
+    detail: "Every layout decision that made articles easier to scan also kept readers longer. Clear hierarchy and generous whitespace reduced bounce rate more than any technical optimization."
+  - insight: "Modular systems prevent template sprawl"
+    detail: "Designing three article templates instead of one per story type let the editorial team move fast without requesting custom layouts — the real measure of a reusable system."
+  - insight: "Measure what matters before you start"
+    detail: "Setting the 30-second session-duration and 15% bounce-rate targets before design began meant every decision had a clear success criterion to evaluate against."
 ---
 
 Empire Magazine is a cultural publication covering music, style, and creative entrepreneurship — a voice for artists who build their own lanes. When I worked with the Empire team between 2019 and 2021, the challenge was making a digitally-native magazine feel as intentional and curated as a print publication.

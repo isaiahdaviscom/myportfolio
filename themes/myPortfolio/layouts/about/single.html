@@ -1,0 +1,184 @@
+{{/*
+  About Page Layout
+  ──────────────────────────────────────────────────────────────────────────────
+  A structured, professional single page:
+    1. Hero – avatar, name, tagline, CTA
+    2. Bio prose
+    3. Skills grid (4 categories)
+    4. Values/philosophy cards
+    5. CTA strip
+*/}}
+{{ define "main" }}
+<div class="about-page">
+
+  {{/* ══════════════════════════════════════════════════════════════
+       1. HERO
+       ══════════════════════════════════════════════════════════════ */}}
+  <section class="page-hero">
+    <div class="container mx-auto px-4">
+      {{ partial "breadcrumb.html" . }}
+
+      <div class="mt-6 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12">
+
+        {{/* Avatar */}}
+        <div class="about-avatar">
+          <div class="about-avatar__frame">
+            <img src="/images/profile-branded.png"
+                 alt="Isaiah Davis"
+                 width="144" height="144"
+                 class="about-avatar__img"
+                 loading="eager">
+          </div>
+        </div>
+
+        {{/* Headline */}}
+        <div>
+          <p class="page-eyebrow mb-2">
+            {{ .Params.tagline | default "Frontend Developer · Chicago, IL" }}
+          </p>
+          <h1 class="page-h1 mb-4 max-w-2xl">
+            {{ .Params.heading | default .Title }}
+          </h1>
+          <div class="flex flex-wrap gap-3">
+            <a href="/contact/" class="btn-primary">
+              Get in touch
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.5" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+            <a href="/portfolio/" class="btn-secondary">
+              View my work
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {{/* ══════════════════════════════════════════════════════════════
+       2. BIO
+       ══════════════════════════════════════════════════════════════ */}}
+  <section class="about-bio">
+    <div class="container mx-auto px-4">
+      <div class="about-bio__inner">
+        <div class="about-bio__prose">
+          {{ .Content }}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {{/* ══════════════════════════════════════════════════════════════
+       3. SKILLS
+       ══════════════════════════════════════════════════════════════ */}}
+  {{- with .Params.skills }}
+  <section class="about-skills">
+    <div class="container mx-auto px-4">
+      <h2 class="page-section-heading mb-8">Skills &amp; Expertise</h2>
+      <div class="about-skills__grid">
+
+        {{- with .frontend }}
+        <div class="page-card">
+          <h3 class="skill-card__category skill-card__category--frontend">Frontend</h3>
+          <ul class="skill-card__list">
+            {{- range . -}}
+            <li class="skill-card__item">
+              <span class="skill-card__dot skill-card__dot--frontend" aria-hidden="true"></span>{{ . }}
+            </li>
+            {{- end -}}
+          </ul>
+        </div>
+        {{- end }}
+
+        {{- with .tooling }}
+        <div class="page-card">
+          <h3 class="skill-card__category skill-card__category--tooling">Tooling &amp; DevOps</h3>
+          <ul class="skill-card__list">
+            {{- range . -}}
+            <li class="skill-card__item">
+              <span class="skill-card__dot skill-card__dot--tooling" aria-hidden="true"></span>{{ . }}
+            </li>
+            {{- end -}}
+          </ul>
+        </div>
+        {{- end }}
+
+        {{- with .design }}
+        <div class="page-card">
+          <h3 class="skill-card__category skill-card__category--design">Design &amp; UX</h3>
+          <ul class="skill-card__list">
+            {{- range . -}}
+            <li class="skill-card__item">
+              <span class="skill-card__dot skill-card__dot--design" aria-hidden="true"></span>{{ . }}
+            </li>
+            {{- end -}}
+          </ul>
+        </div>
+        {{- end }}
+
+        {{- with .backend }}
+        <div class="page-card">
+          <h3 class="skill-card__category skill-card__category--backend">Backend &amp; Data</h3>
+          <ul class="skill-card__list">
+            {{- range . -}}
+            <li class="skill-card__item">
+              <span class="skill-card__dot skill-card__dot--backend" aria-hidden="true"></span>{{ . }}
+            </li>
+            {{- end -}}
+          </ul>
+        </div>
+        {{- end }}
+
+      </div>
+    </div>
+  </section>
+  {{- end }}
+
+  {{/* ══════════════════════════════════════════════════════════════
+       4. VALUES / PHILOSOPHY
+       ══════════════════════════════════════════════════════════════ */}}
+  {{- with .Params.values }}
+  <section class="about-values">
+    <div class="container mx-auto px-4">
+      <h2 class="page-section-heading mb-8">How I Work</h2>
+      <div class="about-values__grid">
+        {{- range . }}
+        <div class="page-card page-card--accent">
+          <div class="value-card__icon" aria-hidden="true">{{ .icon }}</div>
+          <h3 class="value-card__title">{{ .title }}</h3>
+          <p class="value-card__desc">{{ .desc }}</p>
+        </div>
+        {{- end }}
+      </div>
+    </div>
+  </section>
+  {{- end }}
+
+  {{/* ══════════════════════════════════════════════════════════════
+       5. CTA STRIP
+       ══════════════════════════════════════════════════════════════ */}}
+  <section class="cta-strip">
+    <div class="container mx-auto px-4 cta-strip__inner">
+      <h2 class="cta-strip__heading">
+        Ready to build something great?
+      </h2>
+      <p class="cta-strip__body">
+        I'm currently available for freelance projects, contract roles, and full-time opportunities.
+        Let's talk.
+      </p>
+      <a href="/contact/" class="cta-strip__btn">
+        Contact me
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+</div>
+{{ end }}

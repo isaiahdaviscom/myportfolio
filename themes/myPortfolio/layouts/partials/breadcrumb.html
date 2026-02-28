@@ -1,25 +1,28 @@
 {{/*
-  Breadcrumb — site-level partial (overrides theme).
-  Uses BEM classes styled in src/css/layout/breadcrumb.css.
+  Breadcrumb Partial
+  ──────────────────────────────────────────────────────────────────────────────
+  Renders an accessible, SEO-friendly breadcrumb trail.
   Skipped on the home page.
+
+  Usage:  {{ partial "breadcrumb.html" . }}
 */}}
 
 {{- if not .IsHome -}}
 
-{{- /* Build crumb slice: Home → (Section) → Current page */ -}}
+{{- /* Build the crumb slice — Home → (Section) → Page */ -}}
 {{- $crumbs := slice (dict "title" "Home" "url" "/" "current" false) -}}
 
-{{- /* Add section crumb when inside a section page (not on the section index itself) */ -}}
+{{- /* Add section crumb if we're inside a named section */ -}}
 {{- if and .Section (not .IsSection) -}}
   {{- $sectionTitle := .Section | humanize | title -}}
   {{- $sectionURL   := printf "/%s/" .Section -}}
   {{- $crumbs = $crumbs | append (dict "title" $sectionTitle "url" $sectionURL "current" false) -}}
 {{- end -}}
 
-{{- /* Current page — no URL, aria-current */ -}}
-{{- $crumbs = $crumbs | append (dict "title" .Title "url" "" "current" true) -}}
+{{- /* Current page crumb — no URL, aria-current="page" */ -}}
+{{- $crumbs = $crumbs | append (dict "title" (.Params.heading | default .Title) "url" "" "current" true) -}}
 
-{{/* Structured Data (BreadcrumbList) */}}
+{{/* ── Structured Data (BreadcrumbList) ── */}}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -38,6 +41,7 @@
 }
 </script>
 
+{{/* ── Visible breadcrumb nav ── */}}
 <nav class="breadcrumb" aria-label="Breadcrumb">
   <ol class="breadcrumb__list" role="list">
     {{- range $i, $c := $crumbs -}}

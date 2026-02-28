@@ -18,6 +18,7 @@ skills:
   - Accessibility
   - CI/CD
   - Performance Optimization
+  - Search Engine Optimization (SEO)
 
 # ── Design-system data ────────────────────────────────────────────────────────
 # Displayed as metric tiles in the case study hero section.

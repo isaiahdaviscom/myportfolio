@@ -12,6 +12,7 @@ theme = 'myPortfolio'
   theme = "system"
   themeColor = "#4a90e2"
   title = "Isaiah Davis - My Portfolio"
+  version = "1.0.0"
   # Google Tag Manager container ID — override per environment in config.*.toml
   gtmId = "GTM-W3VQVDR"
   

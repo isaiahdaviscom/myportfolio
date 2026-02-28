@@ -1,9 +1,5 @@
 ---
-title: "Home"
-description: "Welcome to my portfolio homepage."
+title: "Isaiah Davis"
+description: "Frontend Developer & UI Engineer based in Chicago, IL. Building fast, accessible, and beautifully detailed digital experiences."
 url: "/"
 ---
-
-## Hi, I'm Isaiah Davis, a designer, developer, and craftsman
-
-### Currently based in Chicago, IL

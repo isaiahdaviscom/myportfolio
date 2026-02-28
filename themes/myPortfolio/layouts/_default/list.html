@@ -1,38 +1,165 @@
 {{ define "main" }}
 {{ if eq .Section "posts" }}
-  <section class="py-12 min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-100">
+  <section class="page-hero">
     <div class="container mx-auto px-4">
-      <h1 class="font-extrabold mb-6 tracking-tight">Blog</h1>
-      <p class="mb-8">My latest posts and articles.</p>
-      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {{ range .Pages.ByDate.Reverse }}
-          <article class="bg-white rounded-xl shadow-lg p-6 flex flex-col h-full border border-blue-100 hover:shadow-2xl transition">
-            <div>
-              <h2 class="font-semibold mb-2">
-                <a href="{{ .RelPermalink }}" class="hover:underline">{{ .Title }}</a>
-              </h2>
-              <time class="block mb-2" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format ":date_long" }}</time>
-            </div>
-            <p class="mb-4">{{ with .Params.description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}</p>
-            <a href="{{ .RelPermalink }}" class="mt-auto hover:underline font-medium">Read More &rarr;</a>
-          </article>
-        {{ end }}
+      {{ partial "breadcrumb.html" . }}
+      <div class="mt-6">
+        <h1 class="page-h1 mb-2">Blog</h1>
+        <p class="blog-list__intro">Thoughts on frontend development, design systems, accessibility, and building for the web.</p>
       </div>
     </div>
   </section>
-{{ else if eq .Section "portfolio" }}
-  <section class="py-12 min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-100">
+  <section class="blog-list">
     <div class="container mx-auto px-4">
-      <h1 class="font-extrabold mb-6 tracking-tight">Portfolio</h1>
-      <p class="mb-8">A selection of my professional and creative work.</p>
-      {{ partial "gallery.html" (dict "columns" 3 "Site" .Site) }}
+      {{ if .Pages }}
+      <div class="blog-list__grid">
+        {{ range .Pages.ByDate.Reverse }}
+          <article class="blog-card">
+            {{/* Cover image if available */}}
+            {{- with .Params.cover }}
+            <a href="{{ $.RelPermalink }}" tabindex="-1" aria-hidden="true">
+              <img src="{{ . }}" alt="{{ $.Title }} cover"
+                   class="blog-card__cover" width="514" height="160" loading="lazy">
+            </a>
+            {{- end }}
+            <div class="blog-card__body">
+              {{/* Category badges */}}
+              {{- with .Params.categories }}
+              <div class="blog-card__categories">
+                {{- range first 2 . }}
+                <span class="blog-card__category">{{ . }}</span>
+                {{- end }}
+              </div>
+              {{- end }}
+              <h2 class="blog-card__title">
+                <a href="{{ .RelPermalink }}" class="blog-card__title-link">{{ .Title }}</a>
+              </h2>
+              <time class="blog-card__date" datetime="{{ .Date.Format "2006-01-02" }}">
+                {{ time.Format ":date_long" .Date }}
+              </time>
+              <p class="blog-card__summary">
+                {{ with .Params.description }}{{ . }}{{ else }}{{ .Summary | truncate 120 }}{{ end }}
+              </p>
+              <a href="{{ .RelPermalink }}" class="blog-card__read-more">
+                Read more
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2.5" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+            </div>
+          </article>
+        {{ end }}
+      </div>
+      {{ else }}
+      <p class="blog-list__empty">No posts yet — check back soon.</p>
+      {{ end }}
+    </div>
+  </section>
+{{ else if eq .Section "portfolio" }}
+  {{- $pages := sort .Pages "Weight" }}
+  {{- $featured := index $pages 0 }}
+  {{- $rest := after 1 $pages }}
+
+  {{/* ── Hero band ── */}}
+  <section class="page-hero">
+    <div class="container mx-auto px-4">
+      {{ partial "breadcrumb.html" . }}
+      <div class="mt-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+        <div>
+          <h1 class="page-h1">Portfolio</h1>
+          <p class="mt-2 text-sm max-w-xl page-hero__description">
+            A curated selection of client work, internal tools, and side projects — each with a full case study.
+          </p>
+        </div>
+        <p class="text-sm font-medium shrink-0 page-hero__count">{{ len $pages }} projects</p>
+      </div>
+    </div>
+  </section>
+
+  {{/* ── Cards ── */}}
+  <section class="pf-grid-section">
+    <div class="container mx-auto px-4">
+
+      {{/* ── Featured hero card (first by weight) ── */}}
+      {{- with $featured }}
+      <a href="{{ .RelPermalink }}" class="pf-hero">
+        {{- with .Params.cover }}
+        <img src="{{ . }}" alt="{{ $featured.Title }} cover"
+             class="pf-hero__img"
+             width="1200" height="450" loading="eager">
+        {{- else }}
+        <div class="pf-hero__img-fallback"></div>
+        {{- end }}
+        <div class="pf-hero__overlay"></div>
+        <div class="pf-hero__content">
+          <div class="pf-hero__chips">
+            <span class="pf-chip pf-chip--accent">Featured</span>
+            {{- with .Params.role }}<span class="pf-chip">{{ . }}</span>{{- end }}
+            {{- with .Params.employment_type }}<span class="pf-chip pf-chip--muted">{{ . }}</span>{{- end }}
+          </div>
+          <h2 class="pf-hero__title">{{ .Params.heading | default .Title }}</h2>
+          <p class="pf-hero__meta-text">
+            {{ .Params.dates }}{{ with .Params.location }} &middot; {{ . }}{{ end }}
+          </p>
+          {{- with first 3 .Params.stack }}
+          <div class="pf-hero__stack">
+            {{- range . }}<span class="pf-chip pf-chip--sm">{{ . }}</span>{{- end }}
+          </div>
+          {{- end }}
+          <span class="pf-cta">View case study &#8594;</span>
+        </div>
+      </a>
+      {{- end }}
+
+      {{/* ── Remaining projects grid ── */}}
+      {{- if $rest }}
+      <div class="pf-card-grid">
+        {{- range $rest }}
+        <a href="{{ .RelPermalink }}" class="pf-card">
+
+          {{/* Cover image */}}
+          <div class="pf-card__image">
+            {{- with .Params.cover }}
+            <img src="{{ . }}" alt="{{ $.Title }} cover"
+                 class="pf-card__img"
+                 width="514" height="290" loading="lazy">
+            {{- else }}
+            <div class="pf-card__fallback">
+              <span class="pf-card__fallback-letter">{{ substr .Title 0 1 }}</span>
+            </div>
+            {{- end }}
+            <div class="pf-card__hover-overlay"></div>
+          </div>
+
+          {{/* Body */}}
+          <div class="pf-card__body">
+            <div class="pf-card__chips">
+              {{- with .Params.role }}<span class="pf-chip pf-chip--sm pf-chip--accent-soft">{{ . }}</span>{{- end }}
+              {{- with .Params.employment_type }}<span class="pf-chip pf-chip--sm">{{ . }}</span>{{- end }}
+            </div>
+            <h2 class="pf-card__title">{{ .Title }}</h2>
+            <p class="pf-card__dates">{{ .Params.dates }}</p>
+            {{- with first 3 .Params.skills }}
+            <div class="pf-card__skills">
+              {{- range . }}<span class="pf-chip pf-chip--xs">{{ . }}</span>{{- end }}
+            </div>
+            {{- end }}
+          </div>
+        </a>
+        {{- end }}
+      </div>
+      {{- end }}
+
     </div>
   </section>
 {{ else }}
-  <section class="py-12 min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-100">
+  <section class="page-hero">
     <div class="container mx-auto px-4">
-      <h1 class="font-extrabold mb-6 tracking-tight">{{ .Title }}</h1>
-      <div class="prose prose-lg max-w-3xl mx-auto">{{ .Content }}</div>
+      {{ partial "breadcrumb.html" . }}
+      <h1 class="page-h1 mt-4 mb-6">{{ .Title }}</h1>
+      <div class="prose prose-lg max-w-3xl">{{ .Content }}</div>
     </div>
   </section>
 {{ end }}

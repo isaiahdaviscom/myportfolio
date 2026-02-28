@@ -447,6 +447,7 @@
 /* ── 10. RELATED PROJECTS ───────────────────────────────────────────────────── */
 .cs-related {
   padding-block: var(--space-16) var(--space-20);
+  border-top: 1px solid var(--color-border);
 }
 
 .cs-related__header {

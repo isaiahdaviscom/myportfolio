@@ -15,6 +15,47 @@ skills:
   - Registration Funnel Design
   - Information Architecture
   - Webflow
+
+metrics:
+  - value: "27%"
+    label: "More registrations"
+    detail: "Early-bird tickets in first 30 days"
+  - value: "35%"
+    label: "Fewer support emails"
+    detail: "Speaker info questions post-redesign"
+  - value: "89"
+    label: "Lighthouse score"
+    detail: "Mobile: 54 → 89 after optimization"
+  - value: "4wk"
+    label: "Design system"
+    detail: "Full component library, tokens, type scale"
+
+stack:
+  - Figma
+  - Webflow
+  - Design Tokens
+  - Information Architecture
+  - UX Audit
+
+timeline:
+  - phase: "UX Audit"
+    desc: "Analyzed the existing site's registration funnel drop-off, identified friction points through heuristic evaluation, and benchmarked against leading conference sites."
+  - phase: "Information Architecture"
+    desc: "Restructured the site map to prioritize registration, speakers, and schedule — the three most user-sought destinations — reducing average clicks-to-register from 4 to 2."
+  - phase: "Design System"
+    desc: "Built a full component library in Figma — buttons, cards, schedule rows, speaker tiles, sponsor tiers — with a shared color token and type scale within 4 weeks."
+  - phase: "Page Design"
+    desc: "Designed all key page templates at desktop and mobile fidelity: homepage, speaker profiles, multi-track schedule, and sponsorship tier display."
+  - phase: "Handoff & QA"
+    desc: "Delivered annotated Figma specs to the dev team, ran two QA passes on the Webflow implementation, and monitored registration analytics for 30 days post-launch."
+
+lessons:
+  - insight: "Registration funnels are conversion funnels — design them the same way"
+    detail: "Every page of a conference site is either moving someone toward buying a ticket or not. Treating the redesign as a conversion problem, not a visual refresh, is what drove the 27% registration lift."
+  - insight: "A design system built for content editors is more valuable than one built for designers"
+    detail: "The 4-week design system's real test was whether the events team could update it solo during launch week. They could — that's the measure of success, not the token documentation."
+  - insight: "Good information architecture reduces support volume"
+    detail: "The 35% drop in speaker support emails came entirely from better IA on the speaker profile pages — not redesigned visuals. Finding the right answer is a design problem."
 ---
 
 Spark Conference is an annual gathering for creative professionals, entrepreneurs, and community builders — a space designed to ignite new ideas through talks, workshops, and curated networking. When I came on board the web team, the conference was growing fast but its digital presence hadn't kept pace.

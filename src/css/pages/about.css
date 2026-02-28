@@ -1,0 +1,233 @@
+/*
+  ABOUT PAGE
+  ============================================================
+  Purpose: Token-driven styles for the /about/ page — hero,
+           avatar, bio, skills grid, values cards.
+
+  Sections:
+    1. Avatar
+    2. Bio prose wrapper
+    3. Skills section & cards
+    4. Values / philosophy section & cards
+    5. Dark-mode overrides
+
+  Note: hero band → .page-hero (page.css)
+        section headings → .page-section-heading (page.css)
+        CTA strip → .cta-strip* (page.css)
+        skill/value card shells → .page-card / .page-card--accent (page.css)
+*/
+
+/* ──────────────────────────────────────────────────────────────────────────
+   CATEGORY COLOR PALETTE (local vars — about page only)
+   These complement --color-accent (brand blue) used for Frontend.
+───────────────────────────────────────────────────────────────────────────── */
+.about-page {
+  --cat-frontend-fg:  var(--color-accent);
+  --cat-frontend-dot: color-mix(in srgb, var(--color-accent) 65%, white);
+  --cat-tooling-fg:   #c2410c;
+  --cat-tooling-dot:  #fb923c;
+  --cat-design-fg:    #6d28d9;
+  --cat-design-dot:   #a78bfa;
+  --cat-backend-fg:   #15803d;
+  --cat-backend-dot:  #4ade80;
+}
+
+@layer components {
+  /* ────────────────────────────────────────────────────────────
+     1. AVATAR
+  ──────────────────────────────────────────────────────────── */
+  .about-avatar {
+    flex-shrink: 0;
+  }
+
+  .about-avatar__frame {
+    width: 7rem;
+    height: 7rem;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    outline: 4px solid var(--color-surface);
+    box-shadow: var(--shadow-xl);
+  }
+
+  @media (min-width: 768px) {
+    .about-avatar__frame {
+      width: 9rem;
+      height: 9rem;
+    }
+  }
+
+  .about-avatar__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+
+  /* ────────────────────────────────────────────────────────────
+     2. BIO PROSE WRAPPER
+  ──────────────────────────────────────────────────────────── */
+  .about-bio {
+    background: var(--color-surface);
+    padding-block: var(--space-14);
+  }
+
+  .about-bio__inner {
+    max-width: 48rem;
+    margin-inline: auto;
+  }
+
+  /* Prose text — token-driven so dark mode works automatically */
+  .about-bio__prose {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+  .about-bio__prose p {
+    margin-bottom: var(--space-5);
+  }
+
+  .about-bio__prose strong {
+    font-weight: var(--font-semibold);
+    color: var(--color-text-primary);
+  }
+
+
+  /* ────────────────────────────────────────────────────────────
+     3. SKILLS SECTION
+  ──────────────────────────────────────────────────────────── */
+  .about-skills {
+    background: var(--color-surface-subtle);
+    padding-block: var(--space-14);
+  }
+
+  .about-skills__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .about-skills__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .about-skills__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* Skill card — extends .page-card */
+  .skill-card__category {
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    margin-bottom: var(--space-3);
+  }
+
+  /* Category colour modifiers */
+  .skill-card__category--frontend { color: var(--cat-frontend-fg); }
+  .skill-card__category--tooling  { color: var(--cat-tooling-fg);  }
+  .skill-card__category--design   { color: var(--cat-design-fg);   }
+  .skill-card__category--backend  { color: var(--cat-backend-fg);  }
+
+  .skill-card__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1_5);
+  }
+
+  .skill-card__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .skill-card__dot {
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+  }
+
+  /* Dot colour modifiers */
+  .skill-card__dot--frontend { background: var(--cat-frontend-dot); }
+  .skill-card__dot--tooling  { background: var(--cat-tooling-dot);  }
+  .skill-card__dot--design   { background: var(--cat-design-dot);   }
+  .skill-card__dot--backend  { background: var(--cat-backend-dot);  }
+
+
+  /* ────────────────────────────────────────────────────────────
+     4. VALUES / PHILOSOPHY SECTION
+  ──────────────────────────────────────────────────────────── */
+  .about-values {
+    background: var(--color-surface);
+    padding-block: var(--space-14);
+  }
+
+  .about-values__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .about-values__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .about-values__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* Value card — extends .page-card--accent */
+  .value-card__icon {
+    font-size: 1.875rem; /* 30px */
+    line-height: 1;
+    margin-bottom: var(--space-3);
+  }
+
+  .value-card__title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .value-card__desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+
+  /* ────────────────────────────────────────────────────────────
+     5. DARK-MODE OVERRIDES
+  ──────────────────────────────────────────────────────────── */
+  [data-theme='dark'] .about-page {
+    --cat-tooling-fg:  #fb923c;
+    --cat-tooling-dot: #fdba74;
+    --cat-design-fg:   #a78bfa;
+    --cat-design-dot:  #c4b5fd;
+    --cat-backend-fg:  #4ade80;
+    --cat-backend-dot: #86efac;
+  }
+
+  [data-theme='dark'] .about-avatar__frame {
+    outline-color: transparent; /* fallback: Chrome < 111 */
+    outline-color: color-mix(in srgb, var(--color-surface) 80%, transparent);
+  }
+
+}
