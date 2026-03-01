@@ -1,138 +1,123 @@
+/**
+ * Header component stories
+ * Reflects .site-header BEM structure with glassmorphism sticky bar,
+ * Instagram-Stories availability ring, inline-menu nav pills, and social links.
+ *
+ * Availability states set at runtime by JS — here shown as static props:
+ *   available: true  → .stories-ring--available  gradient ring + .stories-dot--open
+ *   available: false → .stories-ring--away        grey ring  + .stories-dot--closed
+ */
 export default {
   title: 'Layout/Header',
   tags: ['autodocs'],
+  parameters: { layout: 'fullscreen' },
   argTypes: {
-    title: {
-      control: 'text',
-      description: 'Site title'
-    },
-    showNavigation: {
+    available: {
       control: 'boolean',
-      description: 'Show navigation menu'
+      description: 'Availability state — gradient ring + green dot (Mon–Fri 9 AM–6 PM CT)'
     },
-    sticky: {
-      control: 'boolean',
-      description: 'Sticky header'
-    },
-    transparent: {
-      control: 'boolean',
-      description: 'Transparent background'
+    activePage: {
+      control: { type: 'select' },
+      options: ['home', 'portfolio', 'about', 'contact'],
+      description: 'Active page — sets aria-current + .active class on nav link'
     }
   }
 };
 
-/**
- * Default header component
- */
-export const Default = {
-  args: {
-    title: 'Portfolio',
-    showNavigation: true,
-    sticky: false,
-    transparent: false
-  },
-  render: args => {
-    const stickyClass = args.sticky ? 'sticky top-0 z-50' : '';
-    const bgClass = args.transparent ? 'bg-transparent' : 'bg-white border-b border-gray-200';
+const NAV = [
+  { href: '/',           label: 'Home',      id: 'home' },
+  { href: '/portfolio/', label: 'Portfolio', id: 'portfolio' },
+  { href: '/about/',     label: 'About',     id: 'about' },
+  { href: '/contact/',   label: 'Contact',   id: 'contact' }
+];
 
-    const navigationHtml = args.showNavigation
-      ? `
-      <nav class="hidden md:flex space-x-8">
-        <a href="#home" class="text-gray-700 hover:text-blue-500 transition-colors font-medium">Home</a>
-        <a href="#about" class="text-gray-700 hover:text-blue-500 transition-colors font-medium">About</a>
-        <a href="#portfolio" class="text-gray-700 hover:text-blue-500 transition-colors font-medium">Portfolio</a>
-        <a href="#contact" class="text-gray-700 hover:text-blue-500 transition-colors font-medium">Contact</a>
-      </nav>
-      <!-- Mobile menu button -->
-      <button class="md:hidden p-2" aria-label="Toggle menu">
-        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-    `
-      : '';
+function renderHeader(args) {
+  const ringMod = args.available ? 'stories-ring--available' : 'stories-ring--away';
+  const dotMod  = args.available ? 'stories-dot--open'       : 'stories-dot--closed';
+  const navHtml = NAV.map(({ href, label, id }) => {
+    const active = id === args.activePage;
+    return `<li><a href="${href}" class="${active ? 'active' : ''}" ${active ? 'aria-current="page"' : ''}>${label}</a></li>`;
+  }).join('');
 
-    return `
-      <header class="${stickyClass} ${bgClass}">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex justify-between items-center py-4">
-            <div class="flex items-center">
-              <h1 class="text-2xl font-bold text-gray-900">${args.title}</h1>
-            </div>
-            ${navigationHtml}
-          </div>
-        </div>
-      </header>
-    `;
-  }
-};
-
-/**
- * Sticky header
- */
-export const Sticky = {
-  args: {
-    ...Default.args,
-    sticky: true
-  },
-  render: Default.render
-};
-
-/**
- * Transparent header
- */
-export const Transparent = {
-  args: {
-    ...Default.args,
-    transparent: true
-  },
-  render: Default.render
-};
-
-/**
- * Simple header without navigation
- */
-export const Simple = {
-  args: {
-    ...Default.args,
-    showNavigation: false
-  },
-  render: Default.render
-};
-
-/**
- * Complete header with logo and CTA
- */
-export const WithLogo = {
-  render: () => `
-    <header class="bg-white border-b border-gray-200">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center py-4">
-          <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
-              <span class="text-white font-bold text-lg">P</span>
-            </div>
-            <h1 class="text-2xl font-bold text-gray-900">Portfolio</h1>
-          </div>
-          
-          <nav class="hidden md:flex items-center space-x-8">
-            <a href="#home" class="text-gray-700 hover:text-blue-500 transition-colors font-medium">Home</a>
-            <a href="#about" class="text-gray-700 hover:text-blue-500 transition-colors font-medium">About</a>
-            <a href="#portfolio" class="text-gray-700 hover:text-blue-500 transition-colors font-medium">Portfolio</a>
-            <a href="#contact" class="text-gray-700 hover:text-blue-500 transition-colors font-medium">Contact</a>
-            <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors font-medium">
-              Get In Touch
-            </button>
-          </nav>
-          
-          <!-- Mobile menu button -->
-          <button class="md:hidden p-2" aria-label="Toggle menu">
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
+  return `
+    <header class="site-header">
+      <div class="site-header__inner">
+        <div class="site-header__left">
+          <button class="stories-trigger"
+                  aria-label="View my availability — opens a stories panel"
+                  aria-haspopup="dialog"
+                  aria-expanded="false"
+                  type="button">
+            <span class="stories-ring ${ringMod}" aria-hidden="true">
+              <span class="stories-ring-inner">
+                <img src="/images/profile-branded.png" alt="Isaiah Davis"
+                     class="stories-avatar" width="40" height="40" />
+              </span>
+            </span>
+            <span class="stories-dot ${dotMod}" title="Availability status"></span>
           </button>
+          <nav class="inline-menu" aria-label="Primary navigation">
+            <ul>${navHtml}</ul>
+          </nav>
         </div>
+        <nav aria-label="Social links" class="site-header__social">
+          <a href="https://www.linkedin.com/in/isaiahdavis/" target="_blank" rel="noopener noreferrer"
+             aria-label="LinkedIn profile"
+             class="site-header__social-link site-header__social-link--linkedin">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+          </a>
+          <a href="https://github.com/isaiahdaviscom" target="_blank" rel="noopener noreferrer"
+             aria-label="GitHub profile"
+             class="site-header__social-link site-header__social-link--github">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+          </a>
+          <a href="/contact/" aria-label="Contact me"
+             class="site-header__social-link site-header__social-link--contact">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </a>
+        </nav>
       </div>
     </header>
-  `
+  `;
+}
+
+/** Available — business hours, gradient ring, green dot */
+export const Available = {
+  args: { available: true, activePage: 'home' },
+  render: renderHeader
+};
+
+/** Away — off-hours, grey ring, grey dot */
+export const Away = {
+  args: { available: false, activePage: 'home' },
+  render: renderHeader
+};
+
+/** Portfolio page — nav pill active */
+export const PortfolioActive = {
+  args: { available: true, activePage: 'portfolio' },
+  render: renderHeader
+};
+
+/** About page — nav pill active */
+export const AboutActive = {
+  args: { available: true, activePage: 'about' },
+  render: renderHeader
+};
+
+/** Contact page — nav pill active */
+export const ContactActive = {
+  args: { available: true, activePage: 'contact' },
+  render: renderHeader
 };

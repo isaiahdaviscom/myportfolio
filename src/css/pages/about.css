@@ -73,7 +73,7 @@
   }
 
   .about-bio__inner {
-    max-width: 48rem;
+    max-width: var(--width-container);
     margin-inline: auto;
   }
 

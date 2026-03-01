@@ -74,10 +74,11 @@ function printHelp() {
     );
 
   section('Development');
-  cmd('serve', 'Hugo dev server with live reload');
-  cmd('serve --cms', 'Hugo + CMS proxy (local admin)');
-  cmd('dev:cms', 'Hugo + CMS proxy (alias for serve --cms)', 'http://localhost:1313/admin/');
-  cmd('watch', 'Watch & rebuild Tailwind CSS');
+  cmd('serve', 'Hugo + CSS watch (full dev mode)', 'http://localhost:1313');
+  cmd('serve --cms', 'Hugo + CSS watch + CMS proxy', 'http://localhost:1313/admin/');
+  cmd('serve --no-css', 'Hugo server only (skip CSS watch)');
+  cmd('dev:cms', 'Alias for serve --cms', 'http://localhost:1313/admin/');
+  cmd('watch', 'Watch & rebuild Tailwind CSS only');
 
   section('Build');
   cmd('dev', 'Full development build');
@@ -94,6 +95,11 @@ function printHelp() {
   cmd('migrate', 'Production build dry-run');
   cmd('migrate --deploy', 'Build + deploy to Netlify');
   cmd('netlify status', 'Show Netlify site link & env vars');
+
+  section('Storybook');
+  cmd('storybook', 'Start Storybook component dev server', 'http://localhost:6006');
+  cmd('storybook:build', 'Build static Storybook to storybook-static/');
+  cmd('design', 'CSS watch + Storybook together (design workflow)');
 
   section('Maintenance');
   cmd('clean [level]', 'Remove build artifacts', 'light|deep|nuclear|cache');
@@ -147,27 +153,48 @@ async function runClean(level) {
   await cleaner[method]();
 }
 
-async function runServe(withCms = false) {
-  if (withCms) {
-    // Run both concurrently — spawn them both, let them share stdio
-    const hugo = spawn('hugo', ['server', '-D', '--config', 'hugo.toml,config.development.toml'], {
-      stdio: 'inherit',
-      shell: true,
-      cwd: projectRoot
-    });
-    const proxy = spawn('npx', ['netlify-cms-proxy-server'], {
-      stdio: 'inherit',
-      shell: true,
-      cwd: projectRoot
-    });
-    console.log(col('cyan', '\n🖥️  Hugo:  http://localhost:1313'));
-    console.log(col('cyan', '📝 Admin: http://localhost:1313/admin/\n'));
-    await Promise.all([
-      new Promise(r => hugo.on('close', r)),
-      new Promise(r => proxy.on('close', r))
-    ]);
+async function runServe(withCms = false, noCss = false) {
+  const hugoCmd = 'hugo server -D --config hugo.toml,config.development.toml';
+  const cssCmd  = 'npm run watch';
+  const cmsCmd  = 'npx netlify-cms-proxy-server';
+
+  const commands = [hugoCmd];
+  if (!noCss) commands.push(cssCmd);
+  if (withCms) commands.push(cmsCmd);
+
+  console.log(col('cyan', '\n🚀 Starting dev server...'));
+  if (!noCss) console.log(col('dim', '   🎨 CSS watch active'));
+  console.log(col('dim',  '   🖥️  Hugo:  http://localhost:1313'));
+  if (withCms) console.log(col('dim', '   📝 Admin: http://localhost:1313/admin/'));
+  console.log();
+
+  const isWin = process.platform === 'win32';
+  const procs = commands.map(cmd => {
+    return isWin
+      ? spawn('cmd', ['/c', cmd], { stdio: 'inherit', shell: false, cwd: projectRoot })
+      : spawn('sh',  ['-c', cmd], { stdio: 'inherit', shell: false, cwd: projectRoot });
+  });
+
+  function shutdown() {
+    procs.forEach(p => { try { p.kill('SIGINT'); } catch (_) {} });
+    process.exit(0);
+  }
+  process.on('SIGINT',  shutdown);
+  process.on('SIGTERM', shutdown);
+
+  await Promise.all(procs.map(p => new Promise(r => p.on('close', r))));
+}
+
+async function runStorybook(build = false) {
+  if (build) {
+    console.log(col('cyan', '\n📦 Building Storybook → storybook-static/ ...\n'));
+    await runNpm('storybook:build');
+    console.log(col('green', '\n✅ Storybook built to storybook-static/'));
+    console.log(col('dim', '   Preview: pf storybook:serve\n'));
   } else {
-    await runProcess('hugo', ['server', '-D', '--config', 'hugo.toml,config.development.toml']);
+    console.log(col('cyan', '\n🎨 Starting Storybook dev server...'));
+    console.log(col('dim', '   http://localhost:6006\n'));
+    await runNpm('storybook');
   }
 }
 
@@ -252,12 +279,12 @@ function runStatus() {
 
       // Dev server
       case 'serve':
-        await runServe(hasFlag('--cms'));
+        await runServe(hasFlag('--cms'), hasFlag('--no-css'));
         break;
 
       // Hugo + CMS proxy together (explicit alias — same as: pf serve --cms)
       case 'dev:cms':
-        await runServe(true);
+        await runServe(true, false);
         break;
 
       // CSS watch
@@ -322,6 +349,32 @@ function runStatus() {
         break;
       case 'format':
         await runNpm('format');
+        break;
+
+      // Storybook
+      case 'storybook':
+      case 'story': {
+        const sub = positionals[0];
+        if (sub === 'build') {
+          await runStorybook(true);
+        } else if (sub === 'serve') {
+          await runNpm('storybook:serve');
+        } else {
+          await runStorybook(false);
+        }
+        break;
+      }
+      case 'storybook:build':
+      case 'story:build':
+        await runStorybook(true);
+        break;
+      case 'storybook:serve':
+      case 'story:serve':
+        await runNpm('storybook:serve');
+        break;
+      case 'design':
+        console.log(col('cyan', '\n🎨 Design workflow: CSS watch + Storybook ...\n'));
+        await runNpm('workflow:design');
         break;
 
       // CSS tools

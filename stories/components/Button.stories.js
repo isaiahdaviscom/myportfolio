@@ -1,248 +1,167 @@
+/**
+ * Button stories.
+ *
+ * Mirrors the BEM classes defined in src/css/layout/page.css:
+ *   .btn-primary   — filled accent, used for primary CTA actions
+ *   .btn-secondary — ghost/outline, used for secondary actions
+ *
+ * Both classes handle hover, active, focus-visible, and transition states.
+ * The classes are scoped inside a @media (prefers-color-scheme) block, so
+ * they will respond to the Storybook dark/light background toggle.
+ */
 export default {
   title: 'Components/Button',
   tags: ['autodocs'],
   argTypes: {
-    text: {
+    label: {
       control: 'text',
-      description: 'Button text content'
+      description: 'Button label text'
     },
     variant: {
       control: { type: 'select' },
-      options: ['primary', 'secondary', 'success', 'warning', 'danger', 'ghost', 'link'],
-      description: 'Button style variant'
-    },
-    size: {
-      control: { type: 'select' },
-      options: ['small', 'medium', 'large'],
-      description: 'Button size'
+      options: ['primary', 'secondary'],
+      description: '.btn-primary (filled accent) or .btn-secondary (ghost/outline)'
     },
     disabled: {
       control: 'boolean',
-      description: 'Disabled state'
+      description: 'Disabled state — adds aria-disabled and pointer-events: none'
     },
-    fullWidth: {
+    asAnchor: {
       control: 'boolean',
-      description: 'Full width button'
+      description: 'Render as an <a> tag instead of <button> (used for navigation CTAs)'
     },
-    loading: {
+    withIcon: {
       control: 'boolean',
-      description: 'Loading state with spinner'
+      description: 'Append an arrow SVG icon (matches hero CTA usage)'
     }
   }
 };
 
+/* ─── Shared helpers ───────────────────────────────────────── */
+
+const ARROW_ICON = `
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+
+const renderButton = ({ label, variant, disabled, asAnchor, withIcon }) => {
+  const cls = variant === 'secondary' ? 'btn-secondary' : 'btn-primary';
+  const icon = withIcon ? ARROW_ICON : '';
+  const disabledAttr = disabled ? ' disabled aria-disabled="true"' : '';
+  const tag = asAnchor ? 'a' : 'button';
+  const href = asAnchor ? ' href="#"' : '';
+  return `<${tag} class="${cls}"${href}${disabledAttr}>${label}${icon}</${tag}>`;
+};
+
+/* ─── Stories ──────────────────────────────────────────────── */
+
 /**
- * Default primary button
+ * Primary CTA button — filled accent colour, used for the most important action on a page.
  */
-export const Default = {
+export const Primary = {
   args: {
-    text: 'Button',
+    label: 'View my work',
     variant: 'primary',
-    size: 'medium',
     disabled: false,
-    fullWidth: false,
-    loading: false
+    asAnchor: false,
+    withIcon: false
   },
-  render: args => {
-    const sizeClass = {
-      small: 'px-3 py-1.5 text-sm',
-      medium: 'px-4 py-2 text-sm',
-      large: 'px-6 py-3 text-base'
-    }[args.size];
-
-    const variantClass = {
-      primary: 'bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500',
-      secondary: 'bg-gray-500 text-white hover:bg-gray-600 focus:ring-gray-500',
-      success: 'bg-green-500 text-white hover:bg-green-600 focus:ring-green-500',
-      warning: 'bg-yellow-500 text-white hover:bg-yellow-600 focus:ring-yellow-500',
-      danger: 'bg-red-500 text-white hover:bg-red-600 focus:ring-red-500',
-      ghost: 'border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-500',
-      link: 'text-blue-500 hover:text-blue-600 hover:underline'
-    }[args.variant];
-
-    const widthClass = args.fullWidth ? 'w-full' : '';
-    const disabledClass = args.disabled ? 'opacity-50 cursor-not-allowed' : 'transition-colors';
-    const roundedClass = args.variant === 'link' ? '' : 'rounded-md';
-    const focusClass =
-      args.variant === 'link'
-        ? 'focus:outline-none focus:underline'
-        : 'focus:outline-none focus:ring-2 focus:ring-offset-2';
-
-    const loadingSpinner = args.loading
-      ? `
-      <svg class="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-      </svg>
-    `
-      : '';
-
-    return `
-      <button 
-        class="${sizeClass} ${variantClass} ${widthClass} ${disabledClass} ${roundedClass} ${focusClass} font-medium inline-flex items-center justify-center"
-        ${args.disabled || args.loading ? 'disabled' : ''}
-      >
-        ${loadingSpinner}
-        ${args.text}
-      </button>
-    `;
-  }
+  render: renderButton
 };
 
 /**
- * Secondary button variant
+ * Secondary CTA button — ghost/outline style, paired with Primary.
  */
 export const Secondary = {
   args: {
-    ...Default.args,
-    text: 'Secondary',
-    variant: 'secondary'
+    label: 'Learn more',
+    variant: 'secondary',
+    disabled: false,
+    asAnchor: false,
+    withIcon: false
   },
-  render: Default.render
+  render: renderButton
 };
 
 /**
- * Success button variant
+ * Primary button rendered as an anchor tag — common for page-level navigation CTAs.
  */
-export const Success = {
+export const PrimaryAnchor = {
   args: {
-    ...Default.args,
-    text: 'Success',
-    variant: 'success'
+    label: 'Start a project',
+    variant: 'primary',
+    disabled: false,
+    asAnchor: true,
+    withIcon: true
   },
-  render: Default.render
+  render: renderButton
 };
 
 /**
- * Warning button variant
+ * Secondary anchor with arrow (e.g. "See all work →").
  */
-export const Warning = {
+export const SecondaryAnchor = {
   args: {
-    ...Default.args,
-    text: 'Warning',
-    variant: 'warning'
+    label: 'See case study',
+    variant: 'secondary',
+    disabled: false,
+    asAnchor: true,
+    withIcon: true
   },
-  render: Default.render
+  render: renderButton
 };
 
 /**
- * Danger button variant
- */
-export const Danger = {
-  args: {
-    ...Default.args,
-    text: 'Danger',
-    variant: 'danger'
-  },
-  render: Default.render
-};
-
-/**
- * Ghost button variant
- */
-export const Ghost = {
-  args: {
-    ...Default.args,
-    text: 'Ghost',
-    variant: 'ghost'
-  },
-  render: Default.render
-};
-
-/**
- * Link button variant
- */
-export const Link = {
-  args: {
-    ...Default.args,
-    text: 'Link Button',
-    variant: 'link'
-  },
-  render: Default.render
-};
-
-/**
- * Disabled button state
+ * Disabled state — pointer-events none, reduced opacity via browser default on `disabled`.
  */
 export const Disabled = {
   args: {
-    ...Default.args,
-    text: 'Disabled',
-    disabled: true
+    label: 'Unavailable',
+    variant: 'primary',
+    disabled: true,
+    asAnchor: false,
+    withIcon: false
   },
-  render: Default.render
+  render: renderButton
 };
 
 /**
- * Loading button state
+ * Side-by-side pair — the typical hero CTA layout: Primary + Secondary.
  */
-export const Loading = {
-  args: {
-    ...Default.args,
-    text: 'Loading...',
-    loading: true
-  },
-  render: Default.render
-};
-
-/**
- * Different button sizes
- */
-export const Sizes = {
+export const HeroPair = {
   render: () => `
-    <div class="flex items-center gap-4">
-      <button class="px-3 py-1.5 text-sm bg-blue-500 text-white hover:bg-blue-600 transition-colors rounded-md font-medium">
-        Small
-      </button>
-      <button class="px-4 py-2 text-sm bg-blue-500 text-white hover:bg-blue-600 transition-colors rounded-md font-medium">
-        Medium
-      </button>
-      <button class="px-6 py-3 text-base bg-blue-500 text-white hover:bg-blue-600 transition-colors rounded-md font-medium">
-        Large
-      </button>
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
+      <a href="#" class="btn-primary">
+        Start a project
+        ${ARROW_ICON}
+      </a>
+      <a href="#" class="btn-secondary">See all work</a>
     </div>
   `
 };
 
 /**
- * Full width button
+ * Both variants in all interactive states for visual regression testing.
  */
-export const FullWidth = {
-  args: {
-    ...Default.args,
-    text: 'Full Width Button',
-    fullWidth: true
-  },
-  render: Default.render
-};
-
-/**
- * All button variants
- */
-export const AllVariants = {
+export const AllStates = {
   render: () => `
-    <div class="flex flex-wrap gap-3">
-      <button class="px-4 py-2 text-sm bg-blue-500 text-white hover:bg-blue-600 transition-colors rounded-md font-medium">
-        Primary
-      </button>
-      <button class="px-4 py-2 text-sm bg-gray-500 text-white hover:bg-gray-600 transition-colors rounded-md font-medium">
-        Secondary
-      </button>
-      <button class="px-4 py-2 text-sm bg-green-500 text-white hover:bg-green-600 transition-colors rounded-md font-medium">
-        Success
-      </button>
-      <button class="px-4 py-2 text-sm bg-yellow-500 text-white hover:bg-yellow-600 transition-colors rounded-md font-medium">
-        Warning
-      </button>
-      <button class="px-4 py-2 text-sm bg-red-500 text-white hover:bg-red-600 transition-colors rounded-md font-medium">
-        Danger
-      </button>
-      <button class="px-4 py-2 text-sm border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors rounded-md font-medium">
-        Ghost
-      </button>
-      <button class="text-blue-500 hover:text-blue-600 hover:underline font-medium">
-        Link
-      </button>
+    <div style="display:grid;gap:1.5rem;">
+      <div>
+        <p style="font-size:0.75rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.5rem;opacity:0.5;">btn-primary</p>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
+          <button class="btn-primary">Default</button>
+          <button class="btn-primary" style="background:var(--color-accent-hover);transform:translateY(-1px);">Hovered</button>
+          <button class="btn-primary" disabled aria-disabled="true">Disabled</button>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:0.75rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.5rem;opacity:0.5;">btn-secondary</p>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
+          <button class="btn-secondary">Default</button>
+          <button class="btn-secondary" style="background:var(--color-surface-subtle);transform:translateY(-1px);">Hovered</button>
+          <button class="btn-secondary" disabled aria-disabled="true">Disabled</button>
+        </div>
+      </div>
     </div>
   `
 };

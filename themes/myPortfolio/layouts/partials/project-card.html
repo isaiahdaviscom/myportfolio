@@ -34,16 +34,19 @@ Parameters:
     <div class="relative overflow-hidden">
       {{- $alt := printf "%s cover image" $project.Title }}
       {{- with $project.Params.coverAlt }}{{ $alt = . }}{{- end }}
+      {{- $imgClass := "w-full h-48 object-cover transition-transform duration-300 hover:scale-105" }}
+      {{- $imgH := 192 }}
+      {{- if eq $size "small" }}{{- $imgClass = "w-full h-32 object-cover transition-transform duration-300 hover:scale-105" }}{{- $imgH = 128 }}
+      {{- else if eq $size "large" }}{{- $imgClass = "w-full h-64 object-cover transition-transform duration-300 hover:scale-105" }}{{- $imgH = 256 }}{{- end }}
       
       <img 
         src="{{ . }}" 
         alt="{{ $alt }}" 
-        class="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
-        {{- if eq $size "small" }} 
-        class="w-full h-32 object-cover transition-transform duration-300 hover:scale-105"
-        {{- else if eq $size "large" }}
-        class="w-full h-64 object-cover transition-transform duration-300 hover:scale-105"
-        {{- end }}
+        class="{{ $imgClass }}"
+        width="800"
+        height="{{ $imgH }}"
+        loading="lazy"
+        decoding="async"
       />
       
       {{- /* Project Status Badge */ -}}

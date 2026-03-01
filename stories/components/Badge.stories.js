@@ -1,148 +1,71 @@
+/**
+ * Badge component stories
+ * Reflects the actual .badge class from src/css/components/badge.css:
+ *   .badge  — black bg, white text, small pill (0.85em, border-radius 4px)
+ *
+ * Color and size are overridden via Tailwind utility classes on top of .badge.
+ */
 export default {
   title: 'Components/Badge',
   tags: ['autodocs'],
   argTypes: {
     text: {
       control: 'text',
-      description: 'Badge text content'
+      description: 'Badge label text'
     },
-    variant: {
+    colorClass: {
       control: { type: 'select' },
-      options: ['default', 'primary', 'secondary', 'success', 'warning', 'error'],
-      description: 'Badge style variant'
-    },
-    size: {
-      control: { type: 'select' },
-      options: ['small', 'medium', 'large'],
-      description: 'Badge size'
+      options: ['', 'text-blue-400', 'text-green-400', 'text-amber-400', 'text-red-400', 'text-purple-400'],
+      description: 'Optional Tailwind text-color override (bg stays black)'
     }
   }
 };
 
-/**
- * Default badge component with standard styling
- */
+/** Default badge — black background, white text */
 export const Default = {
-  args: {
-    text: 'Default Badge',
-    variant: 'default',
-    size: 'medium'
-  },
-  render: args => {
-    const sizeClass = {
-      small: 'text-xs px-2 py-1',
-      medium: 'text-sm px-3 py-1',
-      large: 'text-base px-4 py-2'
-    }[args.size];
-
-    const variantClass = {
-      default: 'bg-gray-100 text-gray-800',
-      primary: 'bg-blue-100 text-blue-800',
-      secondary: 'bg-gray-100 text-gray-600',
-      success: 'bg-green-100 text-green-800',
-      warning: 'bg-yellow-100 text-yellow-800',
-      error: 'bg-red-100 text-red-800'
-    }[args.variant];
-
-    return `
-      <span class="inline-flex items-center rounded-full font-medium ${sizeClass} ${variantClass}">
-        ${args.text}
-      </span>
-    `;
-  }
+  args: { text: 'Brand & Identity', colorClass: '' },
+  render: args => `<span class="badge ${args.colorClass}">${args.text}</span>`
 };
 
-/**
- * Primary badge for important information
- */
-export const Primary = {
-  args: {
-    text: 'Primary',
-    variant: 'primary',
-    size: 'medium'
-  },
+/** Blue tinted label */
+export const Blue = {
+  args: { text: 'Web Development', colorClass: 'text-blue-400' },
   render: Default.render
 };
 
-/**
- * Success badge for positive status
- */
-export const Success = {
-  args: {
-    text: 'Success',
-    variant: 'success',
-    size: 'medium'
-  },
+/** Green tinted label */
+export const Green = {
+  args: { text: 'Available', colorClass: 'text-green-400' },
   render: Default.render
 };
 
-/**
- * Warning badge for caution states
- */
-export const Warning = {
-  args: {
-    text: 'Warning',
-    variant: 'warning',
-    size: 'medium'
-  },
+/** Amber tinted label */
+export const Amber = {
+  args: { text: 'In Progress', colorClass: 'text-amber-400' },
   render: Default.render
 };
 
-/**
- * Error badge for error states
- */
-export const Error = {
-  args: {
-    text: 'Error',
-    variant: 'error',
-    size: 'medium'
-  },
-  render: Default.render
-};
-
-/**
- * Different badge sizes
- */
-export const Sizes = {
+/** All variants side by side */
+export const AllVariants = {
   render: () => `
-    <div class="flex items-center gap-4">
-      <span class="inline-flex items-center rounded-full font-medium text-xs px-2 py-1 bg-blue-100 text-blue-800">
-        Small Badge
-      </span>
-      <span class="inline-flex items-center rounded-full font-medium text-sm px-3 py-1 bg-blue-100 text-blue-800">
-        Medium Badge
-      </span>
-      <span class="inline-flex items-center rounded-full font-medium text-base px-4 py-2 bg-blue-100 text-blue-800">
-        Large Badge
-      </span>
+    <div class="flex flex-wrap gap-3 p-4">
+      <span class="badge">Brand &amp; Identity</span>
+      <span class="badge text-blue-400">Web Development</span>
+      <span class="badge text-green-400">Digital Strategy</span>
+      <span class="badge text-amber-400">UI / UX Design</span>
+      <span class="badge text-purple-400">E-commerce</span>
+      <span class="badge text-red-400">Featured</span>
     </div>
   `
 };
 
-/**
- * All badge variants displayed together
- */
-export const AllVariants = {
+/** Badge in context — displayed over a dark card image */
+export const OnCard = {
   render: () => `
-    <div class="flex flex-wrap gap-2">
-      <span class="inline-flex items-center rounded-full font-medium text-sm px-3 py-1 bg-gray-100 text-gray-800">
-        Default
-      </span>
-      <span class="inline-flex items-center rounded-full font-medium text-sm px-3 py-1 bg-blue-100 text-blue-800">
-        Primary
-      </span>
-      <span class="inline-flex items-center rounded-full font-medium text-sm px-3 py-1 bg-gray-100 text-gray-600">
-        Secondary
-      </span>
-      <span class="inline-flex items-center rounded-full font-medium text-sm px-3 py-1 bg-green-100 text-green-800">
-        Success
-      </span>
-      <span class="inline-flex items-center rounded-full font-medium text-sm px-3 py-1 bg-yellow-100 text-yellow-800">
-        Warning
-      </span>
-      <span class="inline-flex items-center rounded-full font-medium text-sm px-3 py-1 bg-red-100 text-red-800">
-        Error
-      </span>
+    <div style="width:320px; background:#111; border-radius:8px; overflow:hidden; position:relative; padding:1rem;">
+      <span class="badge text-blue-400" style="margin-bottom:.75rem; display:inline-block;">Web Development</span>
+      <h3 style="color:#fff; font-size:1.1rem; font-weight:700; margin:0 0 .25rem;">Empire State Building</h3>
+      <p style="color:rgba(255,255,255,.6); font-size:.8rem; margin:0;">Rebranding &middot; 2025</p>
     </div>
   `
 };

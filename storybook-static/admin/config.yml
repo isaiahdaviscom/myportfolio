@@ -8,17 +8,17 @@
 # =============================================================================
 
 # BACKEND CONFIGURATION
-# Uses Git Gateway for both local development and production
-# Automatically handles authentication through Netlify Identity
+# Uses Git Gateway for production. local_backend: true auto-switches to the
+# proxy server (netlify-cms-proxy-server on :8081) when accessed from localhost.
+# No manual file swapping needed — run: npm run cms:local  to start the proxy.
 backend:
   name: git-gateway
   branch: master # Change to 'main' if your default branch is 'main'
 
-# LOCAL DEVELOPMENT BACKEND (uncomment for local testing)
-# backend:
-#   name: proxy
-#   proxy_url: http://localhost:8081/api/v1
-#   branch: master
+# LOCAL DEVELOPMENT BACKEND
+# Automatically activates when site is accessed from localhost.
+# Requires: npx netlify-cms-proxy-server (or npm run cms:local)
+local_backend: true
 
 # MEDIA STORAGE CONFIGURATION
 # Uses Netlify Large Media for optimized image handling
@@ -37,31 +37,107 @@ publish_mode: editorial_workflow
 # =============================================================================
 # COLLECTIONS CONFIGURATION
 # =============================================================================
+# Collections are ordered by update frequency.
+# Blog Posts is first — it loads as the default CMS landing screen.
 
 collections:
+  # ---------------------------------------------------------------------------
+  # BLOG POSTS  ← primary content area
+  # ---------------------------------------------------------------------------
+  - name: 'posts'
+    label: 'Blog Posts'
+    label_singular: 'Blog Post'
+    folder: 'content/posts'
+    create: true
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    preview_path: '/posts/{{slug}}'
+    summary: '{{title}} — {{date}}'
+    sortable_fields: ['date', 'title', 'draft']
+    view_filters:
+      - label: 'Drafts'
+        field: draft
+        pattern: true
+      - label: 'Published'
+        field: draft
+        pattern: false
+    fields:
+      # Writing essentials — shown at the top of the editor
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - {
+          label: 'Description',
+          name: 'description',
+          widget: 'text',
+          hint: 'Shown in cards, search results, and social previews'
+        }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
+
+      # Metadata
+      - { label: 'Date Published', name: 'date', widget: 'datetime' }
+      - { label: 'Last Modified', name: 'lastmod', widget: 'datetime', required: false }
+      - { label: 'Draft', name: 'draft', widget: 'boolean', default: true }
+      - {
+          label: 'Author',
+          name: 'author',
+          widget: 'string',
+          default: 'Isaiah Davis',
+          required: false
+        }
+
+      # Taxonomy
+      - { label: 'Categories', name: 'categories', widget: 'list', default: [], required: false }
+      - { label: 'Tags', name: 'tags', widget: 'list', default: [], required: false }
+      - {
+          label: 'Series',
+          name: 'series',
+          widget: 'string',
+          required: false,
+          hint: 'Group related posts under a series name'
+        }
+
+      # Media
+      - { label: 'Featured Image', name: 'featured_image', widget: 'image', required: false }
+      - {
+          label: 'Social Image',
+          name: 'social_image',
+          widget: 'image',
+          required: false,
+          hint: 'Falls back to featured image if omitted'
+        }
+
+      # SEO
+      - { label: 'SEO Keywords', name: 'keywords', widget: 'list', required: false }
+
   # ---------------------------------------------------------------------------
   # PORTFOLIO PROJECTS
   # ---------------------------------------------------------------------------
   - name: 'portfolio'
     label: 'Portfolio Projects'
+    label_singular: 'Project'
     folder: 'content/portfolio'
     create: true
     slug: '{{slug}}'
     preview_path: '/portfolio/{{slug}}'
+    summary: '{{title}} — {{year}}'
+    sortable_fields: ['title', 'weight', 'date']
     fields:
-      # Basic Metadata
       - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Description', name: 'description', widget: 'text' }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
+
       - { label: 'Date', name: 'date', widget: 'datetime' }
       - { label: 'Draft', name: 'draft', widget: 'boolean', default: false }
-      - { label: 'Weight', name: 'weight', widget: 'number', default: 1 }
+      - {
+          label: 'Weight',
+          name: 'weight',
+          widget: 'number',
+          default: 1,
+          hint: 'Lower = displayed first'
+        }
 
-      # Project Information
-      - { label: 'Description', name: 'description', widget: 'text' }
       - { label: 'Client', name: 'client', widget: 'string', required: false }
       - { label: 'Project URL', name: 'project_url', widget: 'string', required: false }
       - { label: 'Year', name: 'year', widget: 'string' }
 
-      # Images
       - { label: 'Featured Image', name: 'featured_image', widget: 'image', required: false }
       - label: 'Gallery Images'
         name: 'gallery_images'
@@ -72,67 +148,55 @@ collections:
           - { label: 'Alt Text', name: 'alt', widget: 'string' }
           - { label: 'Caption', name: 'caption', widget: 'string', required: false }
 
-      # Categories and Tags
-      - label: 'Categories'
-        name: 'categories'
-        widget: 'list'
-        default: []
-        required: false
-      - label: 'Tags'
-        name: 'tags'
-        widget: 'list'
-        default: []
-        required: false
-
-      # Technologies Used
-      - label: 'Technologies'
-        name: 'technologies'
-        widget: 'list'
-        default: []
-        required: false
-
-      # Project Content
-      - { label: 'Body', name: 'body', widget: 'markdown' }
+      - { label: 'Categories', name: 'categories', widget: 'list', default: [], required: false }
+      - { label: 'Tags', name: 'tags', widget: 'list', default: [], required: false }
+      - {
+          label: 'Technologies',
+          name: 'technologies',
+          widget: 'list',
+          default: [],
+          required: false
+        }
 
   # ---------------------------------------------------------------------------
-  # BLOG POSTS
+  # SITE SETTINGS  ← appearance & availability controls
   # ---------------------------------------------------------------------------
-  - name: 'posts'
-    label: 'Blog Posts'
-    folder: 'content/posts'
-    create: true
-    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
-    preview_path: '/posts/{{slug}}'
-    fields:
-      # Basic Metadata
-      - { label: 'Title', name: 'title', widget: 'string' }
-      - { label: 'Date', name: 'date', widget: 'datetime' }
-      - { label: 'Last Modified', name: 'lastmod', widget: 'datetime', required: false }
-      - { label: 'Draft', name: 'draft', widget: 'boolean', default: false }
-
-      # Post Information
-      - { label: 'Description', name: 'description', widget: 'text' }
-      - { label: 'Author', name: 'author', widget: 'string', default: 'Isaiah Davis' }
-      - { label: 'Featured Image', name: 'featured_image', widget: 'image', required: false }
-
-      # SEO and Social
-      - { label: 'SEO Keywords', name: 'keywords', widget: 'list', required: false }
-      - { label: 'Social Image', name: 'social_image', widget: 'image', required: false }
-
-      # Categories and Tags
-      - label: 'Categories'
-        name: 'categories'
-        widget: 'list'
-        default: []
-        required: false
-      - label: 'Tags'
-        name: 'tags'
-        widget: 'list'
-        default: []
-        required: false
-
-      # Post Content
-      - { label: 'Body', name: 'body', widget: 'markdown' }
+  - name: 'settings'
+    label: 'Site Settings'
+    files:
+      - label: 'Availability'
+        name: 'availability'
+        file: 'data/settings.yaml'
+        fields:
+          - label: 'Availability Mode'
+            name: 'availability_mode'
+            widget: 'select'
+            hint: 'Controls the coloured ring and status dot in the site header'
+            options:
+              - { label: '🕐 Auto — follow business hours (Mon–Fri 9 AM–6 PM CT)', value: 'auto' }
+              - { label: '🟢 Available — force gradient ring on', value: 'available' }
+              - { label: '⚫ Away — force grey ring off', value: 'away' }
+            default: 'auto'
+          - label: 'Ring Color Override'
+            name: 'ring_color'
+            widget: 'select'
+            hint: 'Leave blank to use automatic page-type colours (recommended). Set only to lock a single colour site-wide — this overrides the per-page mapping.'
+            options:
+              - { label: '⬜ Auto — use page-type colour map (recommended)', value: '' }
+              - { label: '🌈 Gradient (amber/red/purple/blue)', value: 'gradient' }
+              - { label: '🔵 Blue', value: 'blue' }
+              - { label: '🟢 Green', value: 'green' }
+              - { label: '🟣 Purple', value: 'purple' }
+              - { label: '🟠 Orange', value: 'orange' }
+              - { label: '🩷 Pink', value: 'pink' }
+              - { label: '🩵 Teal', value: 'teal' }
+              - { label: '🟡 Gold', value: 'gold' }
+            default: ''
+          - label: 'Custom Away Message'
+            name: 'away_message'
+            widget: 'string'
+            required: false
+            hint: 'Optional — overrides the default next-open text in the stories panel. Leave blank to use automatic text.'
 
   # ---------------------------------------------------------------------------
   # SITE PAGES
@@ -140,7 +204,15 @@ collections:
   - name: 'pages'
     label: 'Site Pages'
     files:
-      # Homepage
+      - label: 'Blog Index'
+        name: 'blog_index'
+        file: 'content/posts/_index.md'
+        fields:
+          - { label: 'Title', name: 'title', widget: 'string' }
+          - { label: 'Date', name: 'date', widget: 'datetime' }
+          - { label: 'Description', name: 'description', widget: 'text' }
+          - { label: 'Body', name: 'body', widget: 'markdown', required: false }
+
       - label: 'Homepage'
         name: 'homepage'
         file: 'content/_index.md'
@@ -151,7 +223,6 @@ collections:
           - { label: 'Featured Image', name: 'featured_image', widget: 'image', required: false }
           - { label: 'Body', name: 'body', widget: 'markdown' }
 
-      # About Page
       - label: 'About'
         name: 'about'
         file: 'content/about.md'
@@ -162,7 +233,6 @@ collections:
           - { label: 'Featured Image', name: 'featured_image', widget: 'image', required: false }
           - { label: 'Body', name: 'body', widget: 'markdown' }
 
-      # Contact Page
       - label: 'Contact'
         name: 'contact'
         file: 'content/contact.md'
@@ -172,7 +242,6 @@ collections:
           - { label: 'Description', name: 'description', widget: 'text' }
           - { label: 'Body', name: 'body', widget: 'markdown' }
 
-      # Portfolio Index
       - label: 'Portfolio Index'
         name: 'portfolio_index'
         file: 'content/portfolio.md'
@@ -181,24 +250,6 @@ collections:
           - { label: 'Date', name: 'date', widget: 'datetime' }
           - { label: 'Description', name: 'description', widget: 'text' }
           - { label: 'Body', name: 'body', widget: 'markdown' }
-
-  # ---------------------------------------------------------------------------
-  # SITE SETTINGS
-  # ---------------------------------------------------------------------------
-  - name: 'settings'
-    label: 'Site Settings'
-    files:
-      # Hugo Configuration (read-only display)
-      - label: 'Hugo Config'
-        name: 'hugo_config'
-        file: 'hugo.toml'
-        extension: 'toml'
-        format: 'toml'
-        fields:
-          - { label: 'Base URL', name: 'baseURL', widget: 'string' }
-          - { label: 'Language Code', name: 'languageCode', widget: 'string' }
-          - { label: 'Title', name: 'title', widget: 'string' }
-          - { label: 'Theme', name: 'theme', widget: 'string' }
 
 # =============================================================================
 # ADDITIONAL CMS SETTINGS
@@ -229,16 +280,17 @@ slug:
 # 3. Set registration to "Invite only" for security
 # 4. Access CMS at: https://isaiahdavis.com/admin/
 #
-# DEVELOPMENT SETUP (Local):
-# 1. Install netlify-cms-proxy-server: npm install -g netlify-cms-proxy-server
-# 2. Run proxy server: npx netlify-cms-proxy-server
-# 3. Uncomment local backend configuration above
-# 4. Access CMS at: http://localhost:1313/admin/
+# DEVELOPMENT SETUP (Local) — no config changes needed:
+# 1. Terminal 1: hugo server -D --config hugo.toml,config.development.toml
+# 2. Terminal 2: npm run cms:local
+# 3. Access CMS at: http://localhost:1313/admin/
+#    (local_backend: true handles the proxy switch automatically)
 #
 # CONTENT WORKFLOW:
-# 1. Create/edit content in CMS
-# 2. Content saved as drafts initially (editorial workflow)
-# 3. Review and publish when ready
-# 4. Changes automatically deploy via Git integration
+# 1. Create/edit content in CMS (Blog Posts is the default landing screen)
+# 2. New posts saved as drafts by default (draft: true)
+# 3. Change draft → false to publish
+# 4. Changes deploy automatically via Netlify Git integration
+#    Or manually: npm run migrate:deploy
 #
 # =============================================================================

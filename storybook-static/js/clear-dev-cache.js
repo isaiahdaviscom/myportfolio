@@ -5,8 +5,8 @@ console.log('🧹 Clearing development cache...');
 
 // Clear all browser caches
 if ('caches' in window) {
-  caches.keys().then(function (names) {
-    names.forEach(function (name) {
+  caches.keys().then(names => {
+    names.forEach(name => {
       caches.delete(name);
       console.log('✅ Deleted cache:', name);
     });
@@ -15,8 +15,8 @@ if ('caches' in window) {
 
 // Clear service worker
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(function (registrations) {
-    for (let registration of registrations) {
+  navigator.serviceWorker.getRegistrations().then(registrations => {
+    for (const registration of registrations) {
       registration.unregister();
       console.log('✅ Unregistered service worker');
     }

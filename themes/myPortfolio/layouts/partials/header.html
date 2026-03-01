@@ -3,12 +3,11 @@
 Stories overlay panel (2 slides) Business hours (All times Chicago / Central): Available: Mon–Fri, 9:00 AM – 6:00 PM CT
 */}} {{/* ── Profile image path (set once here) ─── */}} {{- $avatar := "/images/profile-branded.png" -}}
 
-<section class="container mx-auto px-4">
-  <div class="flex items-center gap-4">
-    {{/* ══ LEFT: ring trigger + nav ══ */}}
-    <div class="flex items-center gap-3 flex-1 min-w-0">
-      {{/* ── Stories ring trigger button ── */}}
-      <button
+<div class="site-header__inner">
+  {{/* ══ LEFT: ring trigger + nav ══ */}}
+  <div class="site-header__left">
+    {{/* ── Stories ring trigger button ── */}}
+    <button
         id="stories-trigger"
         class="stories-trigger"
         aria-label="View my availability — opens a stories panel"
@@ -58,7 +57,7 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
       </button>
 
       {{/* ── Name + availability label ── */}}
-      <div class="leading-tight min-w-0">
+      <div class="site-header__identity">
         {{/*
         <p class="text-sm font-semibold text-gray-900 truncate">Isaiah Davis</p>
         */}} {{/*
@@ -69,39 +68,38 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
       {{/* ── Primary nav ── */}} {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
     </div>
 
-    {{/* ══ RIGHT: social icons ══ */}}
-    <nav id="social" aria-label="Social links" class="flex items-center gap-1 shrink-0">
+  {{/* ══ RIGHT: social icons ══ */}}
+  <nav id="social" aria-label="Social links" class="site-header__social">
       <a
         href="https://www.linkedin.com/in/isaiahdavis/"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="LinkedIn profile"
-        class="flex items-center p-1.5 hover:bg-blue-50 rounded-lg transition"
+        class="site-header__social-link site-header__social-link--linkedin"
       >
         <img height="22" width="22" src="/vendors/fontawesome/linkedin-brands-solid.svg" alt="LinkedIn" />
-        <span class="hidden print:inline ml-2 text-xs italic text-gray-600">linkedin.com/in/isaiahdavis</span>
+        <span class="site-header__social-link-label">linkedin.com/in/isaiahdavis</span>
       </a>
       <a
         href="https://github.com/isaiahdaviscom"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="GitHub profile"
-        class="flex items-center p-1.5 hover:bg-gray-100 rounded-lg transition"
+        class="site-header__social-link site-header__social-link--github"
       >
         <img height="22" width="22" src="/vendors/fontawesome/github-brands.svg" alt="GitHub" />
-        <span class="hidden print:inline ml-2 text-xs italic text-gray-600">github.com/isaiahdaviscom</span>
+        <span class="site-header__social-link-label">github.com/isaiahdaviscom</span>
       </a>
       <a
         href="/contact"
         aria-label="Contact me"
-        class="flex items-center p-1.5 hover:bg-green-50 rounded-lg transition"
+        class="site-header__social-link site-header__social-link--contact"
       >
         <img height="20" width="20" src="/vendors/fontawesome/paper-plane-solid.svg" alt="Contact" />
-        <span class="hidden print:inline ml-2 text-xs italic text-gray-600">isaiah.davisx@gmail.com</span>
+        <span class="site-header__social-link-label">isaiah.davisx@gmail.com</span>
       </a>
-    </nav>
-  </div>
-</section>
+  </nav>
+</div>
 
 {{/* ════════════════════════════════════════════ STORIES OVERLAY MODAL ════════════════════════════════════════════
 */}}
@@ -125,6 +123,12 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
       </div>
       <div class="stories-progress-segment">
         <div class="stories-progress-fill" id="stories-fill-1"></div>
+      </div>
+      <div class="stories-progress-segment">
+        <div class="stories-progress-fill" id="stories-fill-2"></div>
+      </div>
+      <div class="stories-progress-segment">
+        <div class="stories-progress-fill" id="stories-fill-3"></div>
       </div>
     </div>
 
@@ -236,6 +240,106 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
       </div>
     </div>
 
+    {{/* ── SLIDE 2 — Services ── */}}
+    <div class="stories-slide" id="stories-slide-2" aria-live="polite" hidden>
+      <div class="stories-slide-bg stories-slide-bg--3"></div>
+
+      {{/* Author chip */}}
+      <div class="stories-author-row">
+        <img src="{{ $avatar }}" alt="" class="stories-author-avatar" width="34" height="34" aria-hidden="true" />
+        <div>
+          <p class="stories-author-name">Isaiah Davis</p>
+          <p class="stories-author-meta">What I Do</p>
+        </div>
+      </div>
+
+      {{/* Body content */}}
+      <div class="stories-body">
+        <span class="stories-status-pill">
+          <span class="stories-status-indicator" style="background: #a78bfa; box-shadow: 0 0 0 3px rgba(167,139,250,0.3);"></span>
+          Services
+        </span>
+        <h2 class="stories-headline">What I<br />create.</h2>
+        <ul class="stories-service-list" aria-label="Services offered">
+          <li class="stories-service-item">
+            <svg class="stories-service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />
+            </svg>
+            Brand &amp; Visual Design
+          </li>
+          <li class="stories-service-item">
+            <svg class="stories-service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
+            </svg>
+            Web Development
+          </li>
+          <li class="stories-service-item">
+            <svg class="stories-service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+            </svg>
+            Digital Strategy
+          </li>
+        </ul>
+        <a href="/contact" class="stories-cta">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="14" height="14" aria-hidden="true">
+            <path d="M3.478 2.41a.75.75 0 00-.926.941l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.41z" />
+          </svg>
+          Work with me
+        </a>
+      </div>
+    </div>
+
+    {{/* ── SLIDE 3 — Portfolio / Work ── */}}
+    <div class="stories-slide" id="stories-slide-3" aria-live="polite" hidden>
+      <div class="stories-slide-bg stories-slide-bg--4"></div>
+
+      {{/* Author chip */}}
+      <div class="stories-author-row">
+        <img src="{{ $avatar }}" alt="" class="stories-author-avatar" width="34" height="34" aria-hidden="true" />
+        <div>
+          <p class="stories-author-name">Isaiah Davis</p>
+          <p class="stories-author-meta">Recent Work</p>
+        </div>
+      </div>
+
+      {{/* Body content */}}
+      <div class="stories-body">
+        <span class="stories-status-pill">
+          <span class="stories-status-indicator" style="background: #fbbf24; box-shadow: 0 0 0 3px rgba(251,191,36,0.3);"></span>
+          Portfolio
+        </span>
+        <h2 class="stories-headline">9+ projects<br />shipped.</h2>
+        <div class="stories-stat-row" aria-label="Portfolio highlights">
+          <div class="stories-stat">
+            <span class="stories-stat__value">9+</span>
+            <span class="stories-stat__label">Projects</span>
+          </div>
+          <div class="stories-stat">
+            <span class="stories-stat__value">5+</span>
+            <span class="stories-stat__label">Industries</span>
+          </div>
+          <div class="stories-stat">
+            <span class="stories-stat__value">100</span>
+            <span class="stories-stat__label">Lighthouse</span>
+          </div>
+        </div>
+        <a href="/portfolio" class="stories-cta">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="14" height="14" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0118 9.375v9.375a3 3 0 003-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 00-.673-.05A3 3 0 0015 1.5h-1.5a3 3 0 00-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6zM13.5 3A1.5 1.5 0 0012 4.5h4.5A1.5 1.5 0 0015 3h-1.5z" clip-rule="evenodd" />
+            <path fill-rule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 013 20.625V9.375zm9.586 4.594a.75.75 0 00-1.172-.938l-2.476 3.096-.908-.907a.75.75 0 00-1.06 1.06l1.5 1.5a.75.75 0 001.116-.062l3-3.75z" clip-rule="evenodd" />
+          </svg>
+          View my work
+        </a>
+      </div>
+    </div>
+
+    {{/* ── Pause indicator ── */}}
+    <div class="stories-pause-indicator" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="white" width="20" height="20">
+        <path d="M6 4h3v16H6zM15 4h3v16h-3z" />
+      </svg>
+    </div>
+
     {{/* ── Invisible tap zones ── */}}
     <div class="stories-tap-prev" id="stories-tap-prev" role="button" aria-label="Previous slide" tabindex="-1"></div>
     <div class="stories-tap-next" id="stories-tap-next" role="button" aria-label="Next slide" tabindex="-1"></div>
@@ -274,28 +378,42 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
     }
 
     /* ── DOM refs ─────────────────────────────── */
-    var ring = document.getElementById('stories-ring');
-    var dot = document.getElementById('stories-dot');
-    var label = document.getElementById('availability-label');
-    var overlay = document.getElementById('stories-overlay');
-    var trigger = document.getElementById('stories-trigger');
-    var closeBtn = document.getElementById('stories-close');
-    var backdrop = document.getElementById('stories-backdrop');
-    var tapPrev = document.getElementById('stories-tap-prev');
-    var tapNext = document.getElementById('stories-tap-next');
-    var slides = [document.getElementById('stories-slide-0'), document.getElementById('stories-slide-1')];
-    var fills = [document.getElementById('stories-fill-0'), document.getElementById('stories-fill-1')];
+    var ring      = document.getElementById('stories-ring');
+    var dot       = document.getElementById('stories-dot');
+    var label     = document.getElementById('availability-label');
+    var overlay   = document.getElementById('stories-overlay');
+    var card      = document.getElementById('stories-card');
+    var trigger   = document.getElementById('stories-trigger');
+    var closeBtn  = document.getElementById('stories-close');
+    var backdrop  = document.getElementById('stories-backdrop');
+    var tapPrev   = document.getElementById('stories-tap-prev');
+    var tapNext   = document.getElementById('stories-tap-next');
+    var slides    = [
+      document.getElementById('stories-slide-0'),
+      document.getElementById('stories-slide-1'),
+      document.getElementById('stories-slide-2'),
+      document.getElementById('stories-slide-3')
+    ];
+    var fills     = [
+      document.getElementById('stories-fill-0'),
+      document.getElementById('stories-fill-1'),
+      document.getElementById('stories-fill-2'),
+      document.getElementById('stories-fill-3')
+    ];
 
     /* Slide 0 dynamic refs */
-    var slideDot = document.getElementById('slide-status-dot');
-    var slideTxt = document.getElementById('slide-status-text');
-    var slideHead = document.getElementById('stories-headline');
-    var slideSub = document.getElementById('stories-subtext');
+    var slideDot    = document.getElementById('slide-status-dot');
+    var slideTxt    = document.getElementById('slide-status-text');
+    var slideHead   = document.getElementById('stories-headline');
+    var slideSub    = document.getElementById('stories-subtext');
     var slideCtaBtn = document.getElementById('stories-cta-btn');
 
     var SLIDE_DURATION = 6000;
-    var currentSlide = 0;
-    var autoTimer = null;
+    var currentSlide   = 0;
+    var autoTimer      = null;
+    var isPaused       = false;
+    var pauseStart     = 0;
+    var remaining      = SLIDE_DURATION;
 
     /* ── Apply availability state ─────────────── */
     function applyState() {
@@ -382,31 +500,58 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
     /* ── Slide management ─────────────────────── */
     function showSlide(idx) {
       slides.forEach(function (s, i) {
-        if (i === idx) {
-          s.removeAttribute('hidden');
-        } else {
-          s.setAttribute('hidden', '');
-        }
+        if (i === idx) s.removeAttribute('hidden');
+        else           s.setAttribute('hidden', '');
       });
       fills.forEach(function (f, i) {
         f.classList.remove('stories-progress-fill--active', 'stories-progress-fill--done');
-        if (i < idx) f.classList.add('stories-progress-fill--done');
+        f.style.animationPlayState = '';
+        if (i < idx)   f.classList.add('stories-progress-fill--done');
         if (i === idx) f.classList.add('stories-progress-fill--active');
       });
+      overlay.setAttribute('aria-label',
+        'Isaiah Davis — Story ' + (idx + 1) + ' of ' + slides.length);
     }
 
     function goToSlide(idx) {
       clearTimeout(autoTimer);
+      isPaused  = false;
+      remaining = SLIDE_DURATION;
       currentSlide = idx;
-      if (currentSlide >= slides.length) {
-        closeStories();
-        return;
-      }
+      if (currentSlide >= slides.length) { closeStories(); return; }
       if (currentSlide < 0) currentSlide = 0;
       showSlide(currentSlide);
       autoTimer = setTimeout(function () {
         goToSlide(currentSlide + 1);
       }, SLIDE_DURATION);
+    }
+
+    /* ── Pause / resume ───────────────────────── */
+    function pauseSlide() {
+      if (isPaused || !overlay.classList.contains('stories-overlay--open')) return;
+      isPaused   = true;
+      pauseStart = Date.now();
+      clearTimeout(autoTimer);
+      card.classList.add('stories-card--paused');
+      fills.forEach(function (f) {
+        if (f.classList.contains('stories-progress-fill--active'))
+          f.style.animationPlayState = 'paused';
+      });
+    }
+
+    function resumeSlide() {
+      if (!isPaused) return;
+      isPaused  = false;
+      remaining = remaining - (Date.now() - pauseStart);
+      if (remaining < 0) remaining = 0;
+      card.classList.remove('stories-card--paused');
+      fills.forEach(function (f) {
+        if (f.classList.contains('stories-progress-fill--active'))
+          f.style.animationPlayState = 'running';
+      });
+      autoTimer = setTimeout(function () {
+        goToSlide(currentSlide + 1);
+      }, remaining);
     }
 
     /* ── Open / close ─────────────────────────── */
@@ -418,25 +563,76 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
       trigger.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
       goToSlide(0);
-
-      /* Trap focus inside overlay */
       setTimeout(function () {
-        var focusable = overlay.querySelector('a, button, [tabindex]:not([tabindex="-1"])');
+        var focusable = overlay.querySelector(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
         if (focusable) focusable.focus();
-      }, 260);
+      }, 300);
     }
 
     function closeStories() {
       clearTimeout(autoTimer);
+      isPaused = false;
+      card.classList.remove('stories-card--paused');
       overlay.classList.remove('stories-overlay--open');
       overlay.setAttribute('aria-hidden', 'true');
       trigger.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
       fills.forEach(function (f) {
         f.classList.remove('stories-progress-fill--active', 'stories-progress-fill--done');
+        f.style.animationPlayState = '';
       });
       trigger.focus();
     }
+
+    /* ── Focus trap ───────────────────────────── */
+    function getFocusable() {
+      return Array.from(overlay.querySelectorAll(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      ));
+    }
+    overlay.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+      var focusable = getFocusable();
+      if (!focusable.length) return;
+      var first = focusable[0];
+      var last  = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    /* ── Touch / swipe (mobile) ───────────────── */
+    var touchStartX = 0, touchStartY = 0, touchStartTime = 0;
+    card.addEventListener('touchstart', function (e) {
+      touchStartX    = e.touches[0].clientX;
+      touchStartY    = e.touches[0].clientY;
+      touchStartTime = Date.now();
+      pauseSlide();
+    }, { passive: true });
+    card.addEventListener('touchend', function (e) {
+      var dx      = e.changedTouches[0].clientX - touchStartX;
+      var dy      = e.changedTouches[0].clientY - touchStartY;
+      var elapsed = Date.now() - touchStartTime;
+      if (Math.abs(dx) < 12 && Math.abs(dy) < 12 && elapsed < 300) { resumeSlide(); return; }
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+        if (dx < 0) goToSlide(currentSlide + 1);
+        else        goToSlide(currentSlide - 1);
+      } else { resumeSlide(); }
+    }, { passive: true });
+
+    /* ── Pause on hover (desktop) ─────────────── */
+    card.addEventListener('mouseenter', pauseSlide);
+    card.addEventListener('mouseleave', resumeSlide);
+
+    /* ── Pause on focus-within (keyboard users) ── */
+    card.addEventListener('focusin',  pauseSlide);
+    card.addEventListener('focusout', function (e) {
+      if (!card.contains(e.relatedTarget)) resumeSlide();
+    });
 
     /* ── Event listeners ─────────────────────── */
     trigger.addEventListener('click', function () {
@@ -453,9 +649,13 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
 
     document.addEventListener('keydown', function (e) {
       if (!overlay.classList.contains('stories-overlay--open')) return;
-      if (e.key === 'Escape') closeStories();
-      if (e.key === 'ArrowRight') goToSlide(currentSlide + 1);
-      if (e.key === 'ArrowLeft') goToSlide(currentSlide - 1);
+      if (e.key === 'Escape') { closeStories(); return; }
+      if (e.key === 'ArrowRight') { goToSlide(currentSlide + 1); return; }
+      if (e.key === 'ArrowLeft')  { goToSlide(currentSlide - 1); return; }
+      if (e.key === ' ' || e.key === 'p' || e.key === 'P') {
+        e.preventDefault();
+        if (isPaused) resumeSlide(); else pauseSlide();
+      }
     });
 
     /* ── Initialise + refresh every minute ────── */

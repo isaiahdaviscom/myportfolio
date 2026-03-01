@@ -86,9 +86,10 @@
          aria-label="{{ $p.Title }}">
         {{- if $p.Params.cover }}
         <img src="{{ $p.Params.cover }}" alt="{{ $p.Title }}" class="home-work-card__img"
-             width="514" height="321"
+             width="800" height="500"
              loading="{{ if eq $i 0 }}eager{{ else }}lazy{{ end }}"
-             decoding="async">
+             {{- if eq $i 0 }} fetchpriority="high"{{ end }}
+             decoding="{{ if eq $i 0 }}sync{{ else }}async{{ end }}">
         {{- else }}
         <div class="home-work-card__fallback" aria-hidden="true">{{ substr $p.Title 0 1 }}</div>
         {{- end }}

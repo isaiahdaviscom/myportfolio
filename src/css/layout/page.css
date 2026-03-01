@@ -256,6 +256,8 @@
   }
 
   .cta-strip__inner {
+    max-width: var(--width-container);
+    margin-inline: auto;
     text-align: center;
   }
 
@@ -319,5 +321,14 @@
   /* Description text and project count in Portfolio hero band */
   .page-hero__description { color: var(--color-text-secondary); }
   .page-hero__count        { color: var(--color-text-muted); }
+
+  /* ── Shared container cap ─────────────────────────────────────────────
+     Ensures every `container mx-auto px-4` element on interior pages
+     respects the 1500px site width set by --width-container.
+     (Tailwind's .container only sets width:100% — this adds the cap.)
+  ──────────────────────────────────────────────────────────────────── */
+  .container {
+    max-width: var(--width-container);
+  }
 
 }

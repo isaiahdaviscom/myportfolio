@@ -51,6 +51,13 @@
   {{ end }}
 
   <link rel="canonical" href="{{ .Permalink }}">
+  {{- if .IsHome }}
+  {{- /* Preload the first featured portfolio image — it is the LCP element on the home page */}}
+  {{- $lcp := where (where .Site.RegularPages "Section" "portfolio") ".Params.feature" true | first 1 }}
+  {{- range $lcp }}{{- with .Params.cover }}
+  <link rel="preload" as="image" href="{{ . }}" fetchpriority="high">
+  {{- end }}{{- end }}
+  {{- end }}
   <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title | htmlEscape }} Feed"
     href="{{ .Site.BaseURL }}index.xml">
   <meta name="author" content="{{ .Site.Params.author | htmlEscape }}">
@@ -178,7 +185,7 @@
   </a>
 
   <!-- Site Header -->
-  <header class="bg-white py-2 sticky top-0 z-50 w-full shadow" role="banner">
+  <header class="site-header" role="banner">
     {{ partial "header.html" . }}
   </header>
 

@@ -1,169 +1,181 @@
+/**
+ * Contact form stories.
+ *
+ * Mirrors the BEM classes from:
+ *   partials/contact-form.html  — Netlify form with JS validation
+ *   src/css/pages/contact.css   — .contact-form / .contact-form__row /
+ *                                 .form-group / .form-label / .form-input /
+ *                                 .form-select / .form-textarea /
+ *                                 .form-hint / .form-submit / .form-feedback
+ */
 export default {
   title: 'Components/ContactForm',
   tags: ['autodocs'],
   argTypes: {
-    style: {
-      control: { type: 'select' },
-      options: ['modern', 'minimal', 'card'],
-      description: 'Form style variant'
-    },
     includePhone: {
       control: 'boolean',
-      description: 'Include phone number field'
+      description: 'Add optional phone field'
     },
     includeSubject: {
       control: 'boolean',
-      description: 'Include subject field'
+      description: 'Add subject <select> field'
     },
     includeMessage: {
       control: 'boolean',
-      description: 'Include message field'
+      description: 'Add message <textarea>'
     },
     submitText: {
       control: 'text',
-      description: 'Submit button text'
+      description: 'Submit button label'
+    },
+    showSuccess: {
+      control: 'boolean',
+      description: 'Preview the success feedback banner'
+    },
+    showError: {
+      control: 'boolean',
+      description: 'Preview the error feedback banner'
     }
   }
 };
 
+/* ─── Shared render helper ─────────────────────────────────── */
+
+const SEND_ICON = `<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+  </svg>`;
+
+const renderForm = ({ includePhone, includeSubject, includeMessage, submitText, showSuccess, showError }) => {
+  const phoneField = includePhone ? `
+    <div class="form-group">
+      <label for="phone" class="form-label">Phone</label>
+      <input type="tel" id="phone" name="phone" class="form-input" placeholder="(555) 123-4567" />
+    </div>` : '';
+
+  const subjectField = includeSubject ? `
+    <div class="form-group">
+      <label for="subject" class="form-label">Subject <span aria-hidden="true">*</span></label>
+      <select id="subject" name="subject" required class="form-select">
+        <option value="">Select a subject</option>
+        <option value="project-inquiry">Project Inquiry</option>
+        <option value="collaboration">Collaboration</option>
+        <option value="job-opportunity">Job Opportunity</option>
+        <option value="general">General Question</option>
+        <option value="other">Other</option>
+      </select>
+    </div>` : '';
+
+  const messageField = includeMessage ? `
+    <div class="form-group">
+      <label for="message" class="form-label">Message <span aria-hidden="true">*</span></label>
+      <textarea id="message" name="message" rows="6" required class="form-textarea"
+        placeholder="Tell me about your project or how I can help you..."></textarea>
+      <p class="form-hint">Minimum 10 characters</p>
+    </div>` : '';
+
+  const successBanner = showSuccess ? `
+    <div class="form-feedback form-feedback--success">
+      <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+      </svg>
+      Message sent successfully! I'll get back to you soon.
+    </div>` : '';
+
+  const errorBanner = showError ? `
+    <div class="form-feedback form-feedback--error">
+      <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      Something went wrong. Please try again or email me directly.
+    </div>` : '';
+
+  return `
+    <form class="contact-form" name="contact" action="/contact/success/" method="POST">
+      <div class="contact-form__row">
+        <div class="form-group">
+          <label for="name" class="form-label">Name <span aria-hidden="true">*</span></label>
+          <input type="text" id="name" name="name" required
+                 class="form-input" placeholder="Your full name" />
+        </div>
+        <div class="form-group">
+          <label for="email" class="form-label">Email <span aria-hidden="true">*</span></label>
+          <input type="email" id="email" name="email" required
+                 class="form-input" placeholder="your.email@example.com" />
+        </div>
+      </div>
+      ${phoneField}
+      ${subjectField}
+      ${messageField}
+      <div class="form-group">
+        <button type="submit" class="form-submit">
+          ${SEND_ICON}
+          ${submitText}
+        </button>
+      </div>
+      ${successBanner}
+      ${errorBanner}
+    </form>
+  `;
+};
+
+/* ─── Stories ──────────────────────────────────────────────── */
+
 /**
- * Default modern contact form
+ * Default — full form with subject select and message textarea (matches contact page default).
  */
 export const Default = {
   args: {
-    style: 'modern',
     includePhone: false,
     includeSubject: true,
     includeMessage: true,
-    submitText: 'Send Message'
+    submitText: 'Send Message',
+    showSuccess: false,
+    showError: false
   },
-  render: args => {
-    const containerClass = {
-      modern: 'bg-white p-8 rounded-lg shadow-lg border border-gray-200',
-      minimal: 'bg-transparent p-6',
-      card: 'bg-gray-50 p-8 rounded-xl shadow-md'
-    }[args.style];
-
-    const phoneField = args.includePhone
-      ? `
-      <div>
-        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-        <input type="tel" id="phone" name="phone" 
-               class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" 
-               placeholder="+1 (555) 123-4567" />
-      </div>
-    `
-      : '';
-
-    const subjectField = args.includeSubject
-      ? `
-      <div>
-        <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
-        <input type="text" id="subject" name="subject" required
-               class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" 
-               placeholder="What's this about?" />
-      </div>
-    `
-      : '';
-
-    const messageField = args.includeMessage
-      ? `
-      <div>
-        <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>
-        <textarea id="message" name="message" rows="5" required
-                  class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-vertical" 
-                  placeholder="Tell me about your project..."></textarea>
-      </div>
-    `
-      : '';
-
-    return `
-      <div class="max-w-2xl mx-auto">
-        <div class="${containerClass}">
-          <div class="mb-8 text-center">
-            <h2 class="text-2xl font-bold text-gray-900 mb-2">Get In Touch</h2>
-            <p class="text-gray-600">I'd love to hear about your project. Send me a message and I'll get back to you soon.</p>
-          </div>
-          
-          <form class="space-y-6" action="/contact" method="POST">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                <input type="text" id="name" name="name" required
-                       class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" 
-                       placeholder="Your full name" />
-              </div>
-              
-              <div>
-                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                <input type="email" id="email" name="email" required
-                       class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" 
-                       placeholder="your@email.com" />
-              </div>
-            </div>
-            
-            ${phoneField}
-            ${subjectField}
-            ${messageField}
-            
-            <div class="text-center">
-              <button type="submit" 
-                      class="bg-blue-500 text-white px-8 py-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors font-medium">
-                ${args.submitText}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    `;
-  }
+  render: renderForm
 };
 
 /**
- * Minimal form style
- */
-export const Minimal = {
-  args: {
-    ...Default.args,
-    style: 'minimal'
-  },
-  render: Default.render
-};
-
-/**
- * Card form style
- */
-export const Card = {
-  args: {
-    ...Default.args,
-    style: 'card'
-  },
-  render: Default.render
-};
-
-/**
- * Form with all fields
- */
-export const AllFields = {
-  args: {
-    ...Default.args,
-    includePhone: true,
-    includeSubject: true,
-    includeMessage: true
-  },
-  render: Default.render
-};
-
-/**
- * Simple contact form
+ * Simple — name + email + message only, no subject select.
  */
 export const Simple = {
   args: {
     ...Default.args,
-    includePhone: false,
-    includeSubject: false,
-    includeMessage: true,
-    style: 'minimal'
+    includeSubject: false
   },
-  render: Default.render
+  render: renderForm
 };
+
+/**
+ * All fields — includes optional phone number field.
+ */
+export const AllFields = {
+  args: {
+    ...Default.args,
+    includePhone: true
+  },
+  render: renderForm
+};
+
+/**
+ * Success feedback — shows the success banner after submission.
+ */
+export const SuccessFeedback = {
+  args: {
+    ...Default.args,
+    showSuccess: true
+  },
+  render: renderForm
+};
+
+/**
+ * Error feedback — shows the error banner after a failed submission.
+ */
+export const ErrorFeedback = {
+  args: {
+    ...Default.args,
+    showError: true
+  },
+  render: renderForm
+};
+

@@ -1,243 +1,212 @@
+/**
+ * Portfolio page stories.
+ *
+ * Mirrors the BEM classes used in:
+ *  - layouts/partials/project-card.html  (.card / .card-img-overlay / .badge)
+ *  - src/css/pages/portfolio.css          (.pf-grid / .pf-hero-*)
+ *  - src/css/layout/page.css              (.btn-primary / .btn-secondary)
+ */
 export default {
   title: 'Pages/Portfolio',
   tags: ['autodocs'],
   argTypes: {
     title: {
       control: 'text',
-      description: 'Page title'
+      description: 'Page hero heading'
     },
     description: {
       control: 'text',
-      description: 'Page description'
+      description: 'Page hero sub-copy'
     },
     projectCount: {
-      control: { type: 'number', min: 1, max: 12 },
-      description: 'Number of portfolio projects to display'
+      control: { type: 'number', min: 1, max: 9 },
+      description: 'Number of project cards to render'
     },
     showFilters: {
       control: 'boolean',
-      description: 'Show category filters'
-    },
-    layout: {
-      control: { type: 'select' },
-      options: ['grid', 'masonry', 'list'],
-      description: 'Portfolio layout style'
+      description: 'Show category filter tabs'
     }
   }
 };
 
+/* ─── Shared sample data ───────────────────────────────────── */
+const PROJECTS = [
+  {
+    title: 'Empire Creative Co.',
+    role: 'Brand Identity · Web Design',
+    cover: 'https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?w=800&h=500&fit=crop',
+    tags: ['Branding', 'Hugo', 'Tailwind'],
+    href: '#'
+  },
+  {
+    title: 'IGA Supermarkets',
+    role: 'UI Design · Front-end Dev',
+    cover: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop',
+    tags: ['React', 'TypeScript', 'CSS'],
+    href: '#'
+  },
+  {
+    title: 'Isaiah Davis Designs',
+    role: 'Portfolio · Motion',
+    cover: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=500&fit=crop',
+    tags: ['Hugo', 'GSAP', 'Tailwind'],
+    href: '#'
+  },
+  {
+    title: 'Spark Digital Agency',
+    role: 'Web Design · Development',
+    cover: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=500&fit=crop',
+    tags: ['Next.js', 'Sanity', 'Vercel'],
+    href: '#'
+  },
+  {
+    title: 'Love Is Like A Candle',
+    role: 'E-commerce · Shopify',
+    cover: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop',
+    tags: ['Shopify', 'Liquid', 'JS'],
+    href: '#'
+  },
+  {
+    title: "Tom's Automotive",
+    role: 'Corporate Website',
+    cover: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop',
+    tags: ['WordPress', 'PHP', 'ACF'],
+    href: '#'
+  },
+  {
+    title: 'Mac N Cheese Bar',
+    role: 'Restaurant · Booking',
+    cover: 'https://images.unsplash.com/photo-1634942537034-2531766767d1?w=800&h=500&fit=crop',
+    tags: ['Hugo', 'Netlify', 'Tailwind'],
+    href: '#'
+  },
+  {
+    title: 'Premier Pools',
+    role: 'Lead Gen · Landing Page',
+    cover: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800&h=500&fit=crop',
+    tags: ['HTML', 'CSS', 'Netlify Forms'],
+    href: '#'
+  },
+  {
+    title: 'S&C Constructions',
+    role: 'Corporate · Portfolio',
+    cover: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=500&fit=crop',
+    tags: ['Hugo', 'Tailwind', 'Alpine.js'],
+    href: '#'
+  }
+];
+
+/** Render a single .card project tile (mirrors project-card.html output) */
+const renderCard = ({ title, role, cover, tags, href }) => `
+  <a href="${href}" class="card" aria-label="${title}">
+    <div class="card-img-overlay">
+      <img
+        src="${cover}"
+        alt="${title} cover"
+        class="w-full h-48 object-cover"
+        width="800" height="500"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+    <div class="card__body">
+      ${tags.map(t => `<span class="badge">${t}</span>`).join(' ')}
+      <p class="card__role">${role}</p>
+      <h3 class="card__title">${title}</h3>
+    </div>
+  </a>
+`;
+
+/* ─── Stories ──────────────────────────────────────────────── */
+
 /**
- * Portfolio page with project grid
+ * Default portfolio grid — 6 projects, filters visible.
  */
 export const Default = {
   args: {
-    title: 'My Portfolio',
-    description:
-      'A collection of projects showcasing my skills and experience in web development and design.',
+    title: 'My Work',
+    description: 'A selection of projects across branding, web design, and front-end development.',
     projectCount: 6,
-    showFilters: true,
-    layout: 'grid'
+    showFilters: true
   },
   render: args => {
-    const projects = [
-      {
-        title: 'E-commerce Platform',
-        description: 'Modern e-commerce solution with React and Node.js',
-        image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=300&fit=crop',
-        tags: ['React', 'Node.js', 'MongoDB'],
-        category: 'web-app'
-      },
-      {
-        title: 'Portfolio Website',
-        description: 'Responsive portfolio website built with Hugo and Tailwind CSS',
-        image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=400&h=300&fit=crop',
-        tags: ['Hugo', 'Tailwind', 'JavaScript'],
-        category: 'website'
-      },
-      {
-        title: 'Mobile App Design',
-        description: 'UI/UX design for a productivity mobile application',
-        image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=300&fit=crop',
-        tags: ['Figma', 'Mobile', 'UI/UX'],
-        category: 'design'
-      },
-      {
-        title: 'Data Dashboard',
-        description: 'Analytics dashboard with real-time data visualization',
-        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop',
-        tags: ['D3.js', 'React', 'PostgreSQL'],
-        category: 'web-app'
-      },
-      {
-        title: 'Brand Identity',
-        description: 'Complete brand identity design for a tech startup',
-        image: 'https://images.unsplash.com/photo-1634942537034-2531766767d1?w=400&h=300&fit=crop',
-        tags: ['Branding', 'Logo Design', 'Adobe CC'],
-        category: 'design'
-      },
-      {
-        title: 'Corporate Website',
-        description: 'Professional website for a consulting company',
-        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop',
-        tags: ['WordPress', 'PHP', 'MySQL'],
-        category: 'website'
-      }
-    ].slice(0, args.projectCount);
+    const projects = PROJECTS.slice(0, args.projectCount);
 
     const filtersHtml = args.showFilters
       ? `
-      <div class="flex flex-wrap gap-3 mb-8">
-        <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">All</button>
-        <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">Web Apps</button>
-        <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">Websites</button>
-        <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">Design</button>
-      </div>
-    `
+        <div class="pf-filters" role="tablist" aria-label="Filter by category">
+          <button class="pf-filter pf-filter--active" role="tab" aria-selected="true">All</button>
+          <button class="pf-filter" role="tab" aria-selected="false">Branding</button>
+          <button class="pf-filter" role="tab" aria-selected="false">Web Design</button>
+          <button class="pf-filter" role="tab" aria-selected="false">Development</button>
+          <button class="pf-filter" role="tab" aria-selected="false">E-commerce</button>
+        </div>
+      `
       : '';
 
-    const gridClass =
-      args.layout === 'grid'
-        ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
-        : args.layout === 'list'
-          ? 'space-y-8'
-          : 'columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8';
-
-    const projectsHtml = projects
-      .map(project => {
-        if (args.layout === 'list') {
-          return `
-          <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-            <div class="md:flex">
-              <div class="md:w-1/3">
-                <img class="w-full h-48 md:h-full object-cover" src="${project.image}" alt="${project.title}" />
-              </div>
-              <div class="p-6 md:w-2/3">
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">${project.title}</h3>
-                <p class="text-gray-600 mb-4">${project.description}</p>
-                <div class="flex flex-wrap gap-2 mb-4">
-                  ${project.tags
-                    .map(
-                      tag => `
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      ${tag}
-                    </span>
-                  `
-                    )
-                    .join('')}
-                </div>
-                <div class="flex gap-3">
-                  <a href="#" class="text-blue-500 hover:text-blue-600 transition-colors">View Project</a>
-                  <a href="#" class="text-gray-500 hover:text-gray-600 transition-colors">Live Demo</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-        } else {
-          return `
-          <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow ${args.layout === 'masonry' ? 'break-inside-avoid' : ''}">
-            <img class="w-full h-48 object-cover" src="${project.image}" alt="${project.title}" />
-            <div class="p-6">
-              <h3 class="text-xl font-semibold text-gray-900 mb-2">${project.title}</h3>
-              <p class="text-gray-600 mb-4">${project.description}</p>
-              <div class="flex flex-wrap gap-2 mb-4">
-                ${project.tags
-                  .map(
-                    tag => `
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                    ${tag}
-                  </span>
-                `
-                  )
-                  .join('')}
-              </div>
-              <div class="flex gap-3">
-                <a href="#" class="text-blue-500 hover:text-blue-600 transition-colors">View Project</a>
-                <a href="#" class="text-gray-500 hover:text-gray-600 transition-colors">Live Demo</a>
-              </div>
-            </div>
-          </div>
-        `;
-        }
-      })
-      .join('');
-
     return `
-      <div class="min-h-screen bg-gray-50">
-        <!-- Hero Section -->
-        <div class="bg-white py-16">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">${args.title}</h1>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto">${args.description}</p>
+      <div class="pf-page">
+        <!-- Hero -->
+        <section class="pf-hero page-hero" aria-label="Portfolio introduction">
+          <div class="pf-hero__inner page-hero__inner">
+            <h1 class="pf-hero__heading page-hero__heading">${args.title}</h1>
+            <p class="pf-hero__sub page-hero__sub">${args.description}</p>
+            <div class="pf-hero__cta">
+              <a href="#contact" class="btn-primary">Start a project</a>
+              <a href="#work"    class="btn-secondary">See all work</a>
+            </div>
           </div>
-        </div>
+        </section>
 
-        <!-- Portfolio Section -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          ${filtersHtml}
-          <div class="${gridClass}">
-            ${projectsHtml}
+        <!-- Grid -->
+        <section class="pf-section" id="work">
+          <div class="pf-section__inner">
+            ${filtersHtml}
+            <ul class="pf-grid" role="list">
+              ${projects.map(p => `<li>${renderCard(p)}</li>`).join('\n              ')}
+            </ul>
           </div>
-        </div>
+        </section>
       </div>
     `;
   }
 };
 
 /**
- * Portfolio with grid layout
+ * Full grid — all 9 sample projects, no filters.
  */
-export const GridLayout = {
+export const FullGrid = {
   args: {
     ...Default.args,
-    layout: 'grid'
-  },
-  render: Default.render
-};
-
-/**
- * Portfolio with list layout
- */
-export const ListLayout = {
-  args: {
-    ...Default.args,
-    layout: 'list'
-  },
-  render: Default.render
-};
-
-/**
- * Portfolio with masonry layout
- */
-export const MasonryLayout = {
-  args: {
-    ...Default.args,
-    layout: 'masonry'
-  },
-  render: Default.render
-};
-
-/**
- * Portfolio without filters
- */
-export const NoFilters = {
-  args: {
-    ...Default.args,
+    title: 'All Projects',
+    description: 'Every project in the portfolio.',
+    projectCount: 9,
     showFilters: false
   },
   render: Default.render
 };
 
 /**
- * Minimal portfolio with fewer projects
+ * Minimal — 3 featured projects, no filters. Useful for the home page "Work" section preview.
  */
 export const Minimal = {
   args: {
     ...Default.args,
-    projectCount: 3,
-    showFilters: false,
     title: 'Featured Work',
-    description: 'Selected projects that showcase my expertise and creativity.'
+    description: 'Selected projects that showcase my expertise and creativity.',
+    projectCount: 3,
+    showFilters: false
+  },
+  render: Default.render
+};
+
+/**
+ * With filters visible but no active selection (all categories shown).
+ */
+export const WithFilters = {
+  args: {
+    ...Default.args,
+    showFilters: true
   },
   render: Default.render
 };

@@ -314,9 +314,9 @@
 
   /* CTA inner container */
   .site-footer__cta-inner {
-    max-width: 1200px;
+    max-width: var(--width-container);
     margin-inline: auto;
-    padding-inline: 1rem;
+    padding-inline: 1.25rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -333,9 +333,10 @@
 
   /* Main body inner container */
   .site-footer__inner {
-    max-width: 1200px;
+    max-width: var(--width-container);
     margin-inline: auto;
-    padding: 3.5rem 1rem 2rem;
+    padding-block: 3.5rem 2rem;
+    padding-inline: 1.25rem;
   }
 
   /* Three-column grid */

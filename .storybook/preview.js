@@ -32,15 +32,15 @@ const preview = {
         desktop: {
           name: 'Desktop',
           styles: {
-            width: '1200px',
-            height: '800px'
-          }
-        },
-        desktopLarge: {
-          name: 'Desktop Large',
-          styles: {
             width: '1440px',
             height: '900px'
+          }
+        },
+        desktopXL: {
+          name: 'Desktop XL',
+          styles: {
+            width: '1920px',
+            height: '1080px'
           }
         }
       }

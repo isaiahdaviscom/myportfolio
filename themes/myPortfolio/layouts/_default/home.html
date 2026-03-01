@@ -5,7 +5,7 @@
      ═══════════════════════════════════════════════════════════════ */}}
 <section class="home-hero" aria-label="Introduction">
 
-  <div class="home-hero__inner">
+  <div class="home-hero__inner container">
 
     {{/* ── Content column ── */}}
     <div class="home-hero__content">
@@ -41,7 +41,7 @@
 
   {{/* ── Stats band ── */}}
   <div class="home-hero__stats" aria-label="Quick stats">
-    <dl class="home-hero__stats-list">
+    <dl class="home-hero__stats-list container">
       <div class="home-hero__stat">
         <dd class="home-hero__stat-value">8+</dd>
         <dt class="home-hero__stat-label">Years Experience</dt>
@@ -70,7 +70,7 @@
 {{- $featured := where (where .Site.RegularPages "Section" "portfolio") ".Params.feature" true | first 3 }}
 {{- if $featured }}
 <section class="home-work" aria-labelledby="home-work-heading">
-  <div class="home-work__inner">
+  <div class="home-work__inner container">
 
     <header class="home-work__header">
       <div>
@@ -110,7 +110,7 @@
      ABOUT TEASER
      ═══════════════════════════════════════════════════════════════ */}}
 <section class="home-about" aria-labelledby="home-about-heading">
-  <div class="home-about__inner">
+  <div class="home-about__inner container">
 
     <div class="home-about__content">
       <p class="home-section-eyebrow">About Me</p>
@@ -184,7 +184,7 @@
 {{- $posts := where .Site.RegularPages "Section" "posts" | first 3 }}
 {{- if $posts }}
 <section class="home-posts" aria-labelledby="home-posts-heading">
-  <div class="home-posts__inner">
+  <div class="home-posts__inner container">
 
     <header class="home-posts__header">
       <div>
