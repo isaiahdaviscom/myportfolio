@@ -23,7 +23,7 @@
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
   <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
   <meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-  <meta name="environment" content="{{ hugo.Environment }}">
+
   {{ end }}
   <meta name="description"
     content="{{ with .Params.description }}{{ . | htmlEscape }}{{ else }}{{ .Site.Params.description | htmlEscape }}{{ end }}">
@@ -188,6 +188,10 @@
   <header class="site-header" role="banner">
     {{ partial "header.html" . }}
   </header>
+
+  <!-- Stories overlay — direct <body> child so position:fixed is never constrained
+       by a stacking context on <header>, and role="dialog" sits outside role="banner" -->
+  {{ partial "stories-overlay.html" . }}
 
   <!-- Main Content -->
   <main id="main-content" role="main">

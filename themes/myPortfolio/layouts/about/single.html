@@ -15,7 +15,7 @@
        1. HERO
        ══════════════════════════════════════════════════════════════ */}}
   <section class="page-hero">
-    <div class="container mx-auto px-4">
+    <div class="container">
       {{ partial "breadcrumb.html" . }}
 
       <div class="mt-6 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12">
@@ -62,11 +62,9 @@
        2. BIO
        ══════════════════════════════════════════════════════════════ */}}
   <section class="about-bio">
-    <div class="container mx-auto px-4">
-      <div class="about-bio__inner">
-        <div class="about-bio__prose">
-          {{ .Content }}
-        </div>
+    <div class="container">
+      <div class="about-bio__prose">
+        {{ .Content }}
       </div>
     </div>
   </section>
@@ -76,7 +74,7 @@
        ══════════════════════════════════════════════════════════════ */}}
   {{- with .Params.skills }}
   <section class="about-skills">
-    <div class="container mx-auto px-4">
+    <div class="container">
       <h2 class="page-section-heading mb-8">Skills &amp; Expertise</h2>
       <div class="about-skills__grid">
 
@@ -142,7 +140,7 @@
        ══════════════════════════════════════════════════════════════ */}}
   {{- with .Params.values }}
   <section class="about-values">
-    <div class="container mx-auto px-4">
+    <div class="container">
       <h2 class="page-section-heading mb-8">How I Work</h2>
       <div class="about-values__grid">
         {{- range . }}
@@ -161,7 +159,7 @@
        5. CTA STRIP
        ══════════════════════════════════════════════════════════════ */}}
   <section class="cta-strip">
-    <div class="container mx-auto px-4 cta-strip__inner">
+    <div class="container cta-strip__inner">
       <h2 class="cta-strip__heading">
         Ready to build something great?
       </h2>

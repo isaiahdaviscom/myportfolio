@@ -7,6 +7,16 @@
   NODE_VERSION = "18"
   NPM_VERSION = "9"
 
+# Local development — `netlify dev` uses this instead of the build command.
+# Runs Hugo's dev server on 1313; netlify dev proxies it on 8888 with
+# full Forms / Identity / redirects emulation.
+[dev]
+  command    = "hugo server -D --port 1313 --config hugo.toml,config.development.toml"
+  port       = 8888
+  targetPort = 1313
+  publish    = "public"
+  autoLaunch = false
+
 # Development/Staging environment (develop branch)
 [context.develop]
   command = "npm run build:dev"
@@ -83,10 +93,11 @@
   [headers.values]
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
-    X-XSS-Protection = "1; mode=block"
+    X-XSS-Protection = "0"
     Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://identity.netlify.com https://cdn.acsbapp.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://identity.netlify.com https://api.netlify.com https://cdn.acsbapp.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self';"
 
 # Development environment headers
 [[headers]]
@@ -165,7 +176,8 @@
   [headers.values]
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
-    X-XSS-Protection = "1; mode=block"
+    X-XSS-Protection = "0"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://identity.netlify.com https://unpkg.com blob:; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' data: https: blob:; font-src 'self' https://unpkg.com; connect-src 'self' https://identity.netlify.com https://api.netlify.com https://unpkg.com blob:; worker-src blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self';"
 
 # Netlify Identity Widget Headers
 [[headers]]

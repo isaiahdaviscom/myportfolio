@@ -68,20 +68,18 @@
      2. BIO PROSE WRAPPER
   ──────────────────────────────────────────────────────────── */
   .about-bio {
+    display: grid;
+    grid-template-columns: var(--grid-template);  /* 3-track: gutter | content | gutter */
+    grid-auto-rows: minmax(var(--row-baseline), auto);
     background: var(--color-surface);
     padding-block: var(--space-14);
   }
 
-  .about-bio__inner {
-    max-width: var(--width-container);
-    margin-inline: auto;
-  }
-
   /* Prose text — token-driven so dark mode works automatically */
   .about-bio__prose {
-    font-size: var(--text-lg);
+    font-size: var(--comfort-body);    /* clamp(base, 1.8cqi, lg) — scales with content-col */
     color: var(--color-text-secondary);
-    line-height: var(--leading-relaxed);
+    line-height: var(--leading-comfort);  /* 1.75 — generous for bio reading */
   }
 
   .about-bio__prose p {
@@ -98,6 +96,9 @@
      3. SKILLS SECTION
   ──────────────────────────────────────────────────────────── */
   .about-skills {
+    display: grid;
+    grid-template-columns: var(--grid-template);  /* 3-track: gutter | content | gutter */
+    grid-auto-rows: minmax(var(--row-baseline), auto);
     background: var(--color-surface-subtle);
     padding-block: var(--space-14);
   }
@@ -105,18 +106,18 @@
   .about-skills__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-6);
+    gap: var(--grid-gutter);
   }
 
   @media (min-width: 640px) {
     .about-skills__grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: var(--grid-cols-2);
     }
   }
 
   @media (min-width: 1024px) {
     .about-skills__grid {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: var(--grid-cols-4);
     }
   }
 
@@ -139,17 +140,21 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1_5);
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: minmax(var(--row-baseline), auto);  /* each skill row ≥ 24px baseline */
+    row-gap: var(--space-1_5);
   }
 
   .skill-card__item {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr;  /* [dot] [skill text] */
+    grid-template-rows: auto;
+    column-gap: var(--space-2);
     align-items: center;
-    gap: var(--space-2);
-    font-size: var(--text-sm);
+    font-size: var(--compact-body);    /* clamp(0.75rem, 1.8cqi, sm) — scales with page-card */
     color: var(--color-text-secondary);
+    min-width: 0;
   }
 
   .skill-card__dot {
@@ -170,6 +175,9 @@
      4. VALUES / PHILOSOPHY SECTION
   ──────────────────────────────────────────────────────────── */
   .about-values {
+    display: grid;
+    grid-template-columns: var(--grid-template);  /* 3-track: gutter | content | gutter */
+    grid-auto-rows: minmax(var(--row-baseline), auto);
     background: var(--color-surface);
     padding-block: var(--space-14);
   }
@@ -177,18 +185,18 @@
   .about-values__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-6);
+    gap: var(--grid-gutter);
   }
 
   @media (min-width: 640px) {
     .about-values__grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: var(--grid-cols-2);
     }
   }
 
   @media (min-width: 1024px) {
     .about-values__grid {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: var(--grid-cols-4);
     }
   }
 

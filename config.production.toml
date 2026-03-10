@@ -1,7 +1,6 @@
 # Hugo configuration for production environment
 # This file overrides hugo.toml settings for production builds
-contai
-baseURL = "https://isaiahdavis.com"
+baseurl = "https://isaiahdavis.com"
 
 # Enable all content types for production
 buildDrafts = false

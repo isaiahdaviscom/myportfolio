@@ -68,7 +68,7 @@ Parameters:
 
   {{- /* Content Container */ -}}
   <div class="relative z-10 {{ if eq $style "fullscreen" }}min-h-screen{{ else }}min-h-96{{ end }} flex items-center">
-    <div class="container mx-auto px-4 {{ if eq $style "split" }}grid md:grid-cols-2 gap-12 items-center{{ end }}">
+    <div class="container {{ if eq $style "split" }}grid md:grid-cols-2 gap-12 items-center{{ end }}">
       
       {{- if eq $style "centered" }}
         {{- /* Centered Layout */ -}}

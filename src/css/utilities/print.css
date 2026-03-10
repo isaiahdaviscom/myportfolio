@@ -17,8 +17,7 @@
 /* -- Screen: hide print-only elements ---------------------------------------- */
 @media screen {
   .gallery-print-header,
-  .print-entry,
-  .print-cv {
+  .print-entry {
     display: none !important;
   }
 }

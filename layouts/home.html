@@ -80,7 +80,10 @@
       <a href="/portfolio/" class="home-work__view-all">View all projects &#8594;</a>
     </header>
 
-    <div class="home-work__grid">
+    {{- $count   := len $featured }}
+    {{- $showCTA := or (eq $count 3) (and (eq (mod $count 2) 1) (gt $count 3)) }}
+    {{- $useTrio := and (eq $count 3) (not $showCTA) }}
+    <div class="home-work__grid{{ if $useTrio }} home-work__grid--trio{{ end }}">
       {{- range $i, $p := $featured }}
       <a href="{{ $p.RelPermalink }}" class="home-work-card{{ if eq $i 0 }} home-work-card--featured{{ end }}"
          aria-label="{{ $p.Title }}">
@@ -99,6 +102,11 @@
           {{- with $p.Params.dates }}<p class="home-work-card__dates">{{ . }}</p>{{- end }}
         </div>
       </a>
+      {{- end }}
+
+      {{/* ── CTA card — fills the empty cell on odd project counts ── */}}
+      {{- if $showCTA }}
+      {{ partial "home-work-cta-card.html" . }}
       {{- end }}
     </div>
 

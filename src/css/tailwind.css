@@ -78,8 +78,14 @@
 /* 2.4 Home page */
 @import './pages/home.css';
 
+/* 2.5 Scroll story — Apple-style case study narrative pages */
+@import './pages/scroll-story.css';
+
 /* 1.7 Print media optimizations */
 @import './utilities/print.css';
+
+/* 2.6 Scroll & motion enhancements (smooth scroll, reveal, selection, scrollbar, focus-ring) */
+@import './utilities/motion.css';
 
 /* =============================================
    2. TAILWIND DIRECTIVES
@@ -87,3 +93,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   OVERFLOW & MEDIA SAFETY GUARDS
+   Deliberately UNLAYERED — cascade position beats all @layer (base /
+   components / utilities) rules, so these win even over Tailwind preflight.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Prevent any overflowing element from creating a horizontal page scrollbar.
+   `clip` (vs `hidden`) avoids side-effects on scroll-position and sticky bars. */
+html { overflow-x: clip; }
+
+/* Cap embedded media to their containers — covers cases where Tailwind preflight
+   has been reordered or tree-shaken away. */
+img,
+video,
+picture > img,
+canvas,
+iframe {
+  max-width: 100%;
+  height: auto;     /* preserve aspect ratio when width is constrained */
+}
+
+/* Scoped scrollable tables — lets prose / content tables scroll horizontally
+   on mobile instead of forcing the page width to grow. */
+.container table,
+.cs-container table,
+article table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}

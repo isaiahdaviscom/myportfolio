@@ -140,7 +140,7 @@ class BuildPipeline {
       let cmd = 'hugo --gc --minify';
 
       if (this.environment === 'development') {
-        cmd += ' --config hugo.toml,config.development.toml';
+        cmd += ' --environment development --config hugo.toml,config.development.toml';
       } else if (this.environment === 'production') {
         cmd += ' --config hugo.toml,config.production.toml';
       }

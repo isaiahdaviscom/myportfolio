@@ -1,7 +1,7 @@
 {{ define "main" }}
 {{ if eq .Section "posts" }}
   <section class="page-hero">
-    <div class="container mx-auto px-4">
+    <div class="container">
       {{ partial "breadcrumb.html" . }}
       <div class="mt-6">
         <h1 class="page-h1 mb-2">Blog</h1>
@@ -10,7 +10,7 @@
     </div>
   </section>
   <section class="blog-list">
-    <div class="container mx-auto px-4">
+    <div class="container">
       {{ if .Pages }}
       <div class="blog-list__grid">
         {{ range .Pages.ByDate.Reverse }}
@@ -64,51 +64,66 @@
 
   {{/* ── Hero band ── */}}
   <section class="page-hero">
-    <div class="container mx-auto px-4">
+    <div class="container">
       {{ partial "breadcrumb.html" . }}
-      <div class="mt-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+      <div class="pf-hero-band">
         <div>
-          <h1 class="page-h1">Portfolio</h1>
-          <p class="mt-2 text-sm max-w-xl page-hero__description">
-            A curated selection of client work, internal tools, and side projects — each with a full case study.
-          </p>
+          <h1 class="pf-hero-band__heading">{{ .Params.heading | default "Portfolio" }}</h1>
+          <p class="pf-hero-band__sub">{{ .Params.subheading | default .Params.description }}</p>
         </div>
-        <p class="text-sm font-medium shrink-0 page-hero__count">{{ len $pages }} projects</p>
+        <p class="pf-hero-band__count"><span>{{ len $pages }}</span> projects</p>
       </div>
     </div>
   </section>
 
   {{/* ── Cards ── */}}
   <section class="pf-grid-section">
-    <div class="container mx-auto px-4">
+    <div class="container">
 
-      {{/* ── Featured hero card (first by weight) ── */}}
+      {{/* ── Featured split hero card ── */}}
       {{- with $featured }}
-      <a href="{{ .RelPermalink }}" class="pf-hero">
-        {{- with .Params.cover }}
-        <img src="{{ . }}" alt="{{ $featured.Title }} cover"
-             class="pf-hero__img"
-             width="1200" height="450" loading="eager">
-        {{- else }}
-        <div class="pf-hero__img-fallback"></div>
-        {{- end }}
-        <div class="pf-hero__overlay"></div>
-        <div class="pf-hero__content">
-          <div class="pf-hero__chips">
-            <span class="pf-chip pf-chip--accent">Featured</span>
-            {{- with .Params.role }}<span class="pf-chip">{{ . }}</span>{{- end }}
-            {{- with .Params.employment_type }}<span class="pf-chip pf-chip--muted">{{ . }}</span>{{- end }}
-          </div>
-          <h2 class="pf-hero__title">{{ .Params.heading | default .Title }}</h2>
-          <p class="pf-hero__meta-text">
-            {{ .Params.dates }}{{ with .Params.location }} &middot; {{ . }}{{ end }}
-          </p>
-          {{- with first 3 .Params.stack }}
-          <div class="pf-hero__stack">
-            {{- range . }}<span class="pf-chip pf-chip--sm">{{ . }}</span>{{- end }}
-          </div>
+      <a href="{{ .RelPermalink }}" class="pf-split" aria-label="{{ .Title }} — view case study">
+
+        {{/* Left: cover image */}}
+        <div class="pf-split__image">
+          {{- with .Params.cover }}
+          <img src="{{ . }}" alt="{{ $featured.Title }} cover"
+               class="pf-split__img"
+               width="900" height="680" loading="eager">
+          {{- else }}
+          <div class="pf-split__img-fallback"></div>
           {{- end }}
-          <span class="pf-cta">View case study &#8594;</span>
+        </div>
+
+        {{/* Right: text panel */}}
+        <div class="pf-split__body">
+
+          {{/* Eyebrow — client / company name */}}
+          <p class="pf-split__eyebrow">{{ .Title }}</p>
+
+          {{/* Heading */}}
+          <h2 class="pf-split__heading">{{ .Params.heading | default .Title }}</h2>
+
+          {{/* Short summary from page body */}}
+          <p class="pf-split__desc">{{ .Summary | truncate 180 "&hellip;" }}</p>
+
+          {{/* Skills / service types — listed vertically */}}
+          {{- with .Params.skills }}
+          <ul class="pf-split__skills" aria-label="Skills &amp; services">
+            {{- range first 5 . }}<li>{{ . }}</li>{{- end }}
+          </ul>
+          {{- end }}
+
+          {{/* CTA */}}
+          <span class="pf-split__cta">
+            View case study
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.5" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </span>
+
         </div>
       </a>
       {{- end }}
@@ -141,9 +156,9 @@
             </div>
             <h2 class="pf-card__title">{{ .Title }}</h2>
             <p class="pf-card__dates">{{ .Params.dates }}</p>
-            {{- with first 3 .Params.skills }}
+            {{- with .Params.skills }}
             <div class="pf-card__skills">
-              {{- range . }}<span class="pf-chip pf-chip--xs">{{ . }}</span>{{- end }}
+              {{- range first 3 . }}<span class="pf-chip pf-chip--xs">{{ . }}</span>{{- end }}
             </div>
             {{- end }}
           </div>
@@ -156,7 +171,7 @@
   </section>
 {{ else }}
   <section class="page-hero">
-    <div class="container mx-auto px-4">
+    <div class="container">
       {{ partial "breadcrumb.html" . }}
       <h1 class="page-h1 mt-4 mb-6">{{ .Title }}</h1>
       <div class="prose prose-lg max-w-3xl">{{ .Content }}</div>

@@ -25,6 +25,9 @@
   ────────────────────────────────────────────────────────────── */
 
   .page-hero {
+    display: grid;
+    grid-template-columns: var(--grid-template);  /* 3-track: gutter | content | gutter */
+    grid-auto-rows: minmax(var(--row-baseline), auto);  /* baseline grid — rows ≥ 24px, grow to fit content */
     background: linear-gradient(
       135deg,
       var(--color-accent-soft)   0%,
@@ -47,17 +50,11 @@
 
   /* Page-level H1 — standardised across every route */
   .page-h1 {
-    font-size: var(--text-3xl);
+    font-size: var(--comfort-h1);  /* clamp(3xl → 5xl) via content-col container — breakpoint not needed */
     font-weight: var(--font-extrabold);
     color: var(--color-text-primary);
     letter-spacing: var(--tracking-tight);
     line-height: var(--leading-tight);
-  }
-
-  @media (min-width: 768px) {
-    .page-h1 {
-      font-size: var(--text-4xl);
-    }
   }
 
   /* Eyebrow label — small uppercase accent line above the H1 */
@@ -87,7 +84,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    padding: var(--space-2_5) var(--space-5);
+    padding: var(--space-3) var(--space-5);   /* 12px×20px → ~45px tall; meets 44px touch target */
     background: var(--color-accent);
     color: var(--color-text-invert);
     font-size: var(--text-sm);
@@ -130,7 +127,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    padding: var(--space-2_5) var(--space-5);
+    padding: var(--space-3) var(--space-5);   /* 12px×20px → ~45px tall; meets 44px touch target */
     background: var(--color-surface);
     color: var(--color-text-secondary);
     font-size: var(--text-sm);
@@ -189,6 +186,7 @@
     border: 1px solid var(--color-border);
     padding: var(--space-5);
     box-shadow: var(--shadow-xs);
+    container: page-card / inline-size;  /* enables cqi for skill/value card typography */
   }
 
   /* Tinted page card — values / philosophy (soft accent tint) */
@@ -211,10 +209,13 @@
   }
 
   .availability-badge__header {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr;  /* [dot] [label] */
+    grid-template-rows: auto;
     align-items: center;
-    gap: var(--space-2);
+    column-gap: var(--space-2);
     margin-bottom: var(--space-1_5);
+    min-width: 0;
   }
 
   .availability-badge__dot {
@@ -251,13 +252,15 @@
   ────────────────────────────────────────────────────────────── */
 
   .cta-strip {
+    display: grid;
+    grid-template-columns: var(--grid-template);  /* 3-track: gutter | content | gutter */
+    grid-auto-rows: minmax(var(--row-baseline), auto);  /* baseline grid — rows ≥ 24px, grow to fit content */
     background: var(--color-accent);
     padding-block: var(--space-16);
   }
 
   .cta-strip__inner {
-    max-width: var(--width-container);
-    margin-inline: auto;
+    grid-column: 2 / -2;  /* content tracks — gutters handled by parent --grid-template */
     text-align: center;
   }
 
@@ -322,13 +325,23 @@
   .page-hero__description { color: var(--color-text-secondary); }
   .page-hero__count        { color: var(--color-text-muted); }
 
+  /* ── Gallery section — outer grid wrapper for the legacy gallery partial ── */
+  .gallery-section {
+    display: grid;
+    grid-template-columns: var(--grid-template);  /* 3-track: gutter | content | gutter */
+    grid-auto-rows: minmax(var(--row-baseline), auto);  /* baseline grid — rows ≥ 24px, grow to fit content */
+  }
+
   /* ── Shared container cap ─────────────────────────────────────────────
-     Ensures every `container mx-auto px-4` element on interior pages
-     respects the 1500px site width set by --width-container.
-     (Tailwind's .container only sets width:100% — this adds the cap.)
+     Children of any --grid-template section use grid-column: 2 / -2 to
+     slot into the 24 content tracks.  No width or margin-inline needed.
   ──────────────────────────────────────────────────────────────────── */
   .container {
-    max-width: var(--width-container);
+    grid-column: 2 / -2;          /* slots into the content track of the parent --grid-template */
+    min-width: 0;                 /* grid items default to min-width:auto — this prevents the track from
+                                     being stretched beyond min(1200px, …) by long words or wide media */
+    container-type: inline-size;  /* makes this column queryable — descendants can use cqi */
+    container-name: content-col;  /* named ref: @container content-col (min-width: N) { … } */
   }
 
 }

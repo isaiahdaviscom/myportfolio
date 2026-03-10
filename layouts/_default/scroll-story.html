@@ -1,0 +1,347 @@
+{{ define "main" }}
+{{/*
+  SCROLL STORY — Apple-style product narrative
+  Used by content/portfolio/*-story.md pages.
+  Chapters driven by front-matter; JS handles IntersectionObserver + counters.
+
+  Front matter expected:
+    title, description, cover (image path)
+    Optionally: project_slug (used to link back to main case study)
+*/}}
+
+{{- $params := .Params -}}
+
+<!-- ── Progress bar ── -->
+<div class="ss-progress" id="ssProgress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Reading progress"></div>
+
+<!-- ── Side nav dots ── -->
+<nav class="ss-nav" aria-label="Chapter navigation">
+  {{ $chapters := slice "Cover" "Problem" "Speed" "Architecture" "Weight" "Delivery" "Quality" "Accessibility" "Outcome" }}
+  {{ range $i, $ch := $chapters }}
+  <button class="ss-nav__dot{{ if eq $i 0 }} is-active{{ end }}"
+          data-chapter="{{ $i }}"
+          aria-label="Jump to chapter {{ add $i 1 }}: {{ $ch }}"
+          title="{{ $ch }}"></button>
+  {{ end }}
+</nav>
+
+<!-- ════════════════════════════════════
+     CHAPTER 0 — COVER
+     ════════════════════════════════════ -->
+<section class="ss-chapter ss-chapter--cover" id="ss-ch-0" data-chapter="0" aria-label="Cover">
+  <div class="ss-chapter__inner">
+    <div class="ss-reveal ss-reveal--up">
+      <span class="ss-eyebrow">Case Study</span>
+    </div>
+    <h1 class="ss-cover-title ss-reveal ss-reveal--up" style="--delay:.1s">
+      S&amp;C Electric
+    </h1>
+    <p class="ss-cover-tagline ss-reveal ss-reveal--up" style="--delay:.22s">
+      A story of three dashboards,<br>rebuilt from zero.
+    </p>
+    <div class="ss-reveal ss-reveal--up" style="--delay:.34s">
+      <a href="{{ $params.project_slug | default "/portfolio/sandc" | absURL }}/"
+         class="ss-cover-link">
+        Read the full case study
+      </a>
+    </div>
+    <div class="ss-scroll-hint ss-reveal ss-reveal--fade" style="--delay:.55s" aria-hidden="true">
+      <span>Scroll</span>
+      <svg width="16" height="24" viewBox="0 0 16 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="1" y="1" width="14" height="22" rx="7"/>
+        <circle cx="8" cy="7" r="2" class="ss-scroll-dot"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     CHAPTER 1 — PROBLEM
+     ════════════════════════════════════ -->
+<section class="ss-chapter ss-chapter--slate" id="ss-ch-1" data-chapter="1" aria-label="The problem">
+  <div class="ss-chapter__inner ss-chapter__inner--text">
+    <span class="ss-label ss-reveal ss-reveal--up">The challenge</span>
+    <h2 class="ss-headline ss-reveal ss-reveal--up" style="--delay:.1s">
+      Three dashboards.<br>Years of technical debt.
+    </h2>
+    <p class="ss-body ss-reveal ss-reveal--up" style="--delay:.22s">
+      Three separate internal products — built at different times, by different teams,
+      on different stacks — had drifted into visual and functional chaos.
+      Engineers spent more time matching inconsistent UI than building features.
+      Support tickets rolled in every sprint.
+    </p>
+    <p class="ss-body ss-reveal ss-reveal--up" style="--delay:.32s">
+      The goal: one unified design system, deployed across all three products,
+      with zero framework lock-in and a first-load budget under 2 seconds.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     CHAPTER 2 — METRIC: SPEED
+     ════════════════════════════════════ -->
+<section class="ss-chapter ss-chapter--navy" id="ss-ch-2" data-chapter="2" aria-label="Speed improvement">
+  <div class="ss-chapter__inner ss-chapter__inner--metric">
+    <p class="ss-metric-context ss-reveal ss-reveal--up">Average first load: before</p>
+    <div class="ss-metric-before ss-reveal ss-reveal--up" style="--delay:.1s" aria-hidden="true">6 s</div>
+    <div class="ss-metric-arrow ss-reveal ss-reveal--fade" style="--delay:.25s" aria-hidden="true">↓</div>
+    <div class="ss-metric-number ss-reveal ss-reveal--up" style="--delay:.35s"
+         aria-label="1.7 seconds">
+      <span class="ss-counter" data-target="1.7" data-suffix="s" data-decimals="1">0s</span>
+    </div>
+    <p class="ss-metric-label ss-reveal ss-reveal--up" style="--delay:.48s">
+      <strong>72% faster</strong> across all three dashboards
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     CHAPTER 3 — ARCHITECTURE
+     ════════════════════════════════════ -->
+<section class="ss-chapter ss-chapter--dark" id="ss-ch-3" data-chapter="3" aria-label="Architecture approach">
+  <div class="ss-chapter__inner ss-chapter__inner--text">
+    <span class="ss-label ss-reveal ss-reveal--up">How we got there</span>
+    <h2 class="ss-headline ss-reveal ss-reveal--up" style="--delay:.12s">
+      Token-driven.<br>Zero framework dependencies.
+    </h2>
+    <p class="ss-body ss-reveal ss-reveal--up" style="--delay:.24s">
+      Rather than wrapping everything in a heavy component library,
+      we built the system on a foundation of CSS custom properties —
+      a single set of design tokens that every product imported.
+      Components were plain HTML + CSS. No runtime overhead, no build coupling.
+    </p>
+    <div class="ss-stack-row ss-reveal ss-reveal--up" style="--delay:.38s">
+      {{ $stack := slice "TypeScript" "Hugo" "Tailwind CSS" "CSS Custom Properties" "Vanilla JS" "Git / CI" }}
+      {{ range $stack }}
+      <span class="badge">{{ . }}</span>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     CHAPTER 4 — METRIC: WEIGHT
+     ════════════════════════════════════ -->
+<section class="ss-chapter ss-chapter--green" id="ss-ch-4" data-chapter="4" aria-label="Asset size improvement">
+  <div class="ss-chapter__inner ss-chapter__inner--metric">
+    <p class="ss-metric-context ss-reveal ss-reveal--up">Uncompressed CSS weight: reduction</p>
+    <div class="ss-metric-number ss-reveal ss-reveal--up" style="--delay:.2s"
+         aria-label="41 percent">
+      <span class="ss-counter" data-target="41" data-suffix="%" data-decimals="0">0%</span>
+    </div>
+    <p class="ss-metric-label ss-reveal ss-reveal--up" style="--delay:.38s">
+      <strong>Smaller assets</strong> shipped to every user, every page load
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     CHAPTER 5 — DELIVERY
+     ════════════════════════════════════ -->
+<section class="ss-chapter ss-chapter--slate" id="ss-ch-5" data-chapter="5" aria-label="Delivery timeline">
+  <div class="ss-chapter__inner ss-chapter__inner--text">
+    <span class="ss-label ss-reveal ss-reveal--up">Execution</span>
+    <h2 class="ss-headline ss-reveal ss-reveal--up" style="--delay:.12s">
+      Six months.<br>Zero downtime.
+    </h2>
+    <p class="ss-body ss-reveal ss-reveal--up" style="--delay:.24s">
+      Migration happened incrementally — one product at a time —
+      with a shared token layer ensuring visual parity from day one.
+      No big-bang rewrite. Engineering teams kept shipping features
+      throughout the transition.
+    </p>
+    <div class="ss-timeline ss-reveal ss-reveal--up" style="--delay:.38s">
+      {{ $phases := slice "Audit & Tokens" "Architecture" "Build" "Launch" "Adoption" }}
+      {{ range $i, $ph := $phases }}
+      <div class="ss-timeline__step">
+        <div class="ss-timeline__num">{{ add $i 1 }}</div>
+        <span class="ss-timeline__label">{{ $ph }}</span>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     CHAPTER 6 — METRIC: QUALITY
+     ════════════════════════════════════ -->
+<section class="ss-chapter ss-chapter--purple" id="ss-ch-6" data-chapter="6" aria-label="Quality improvement">
+  <div class="ss-chapter__inner ss-chapter__inner--metric">
+    <p class="ss-metric-context ss-reveal ss-reveal--up">UI-related support tickets: quarter post-launch</p>
+    <div class="ss-metric-number ss-reveal ss-reveal--up" style="--delay:.2s"
+         aria-label="30 percent fewer">
+      <span class="ss-counter" data-target="30" data-suffix="%" data-decimals="0">0%</span>
+    </div>
+    <p class="ss-metric-label ss-reveal ss-reveal--up" style="--delay:.38s">
+      <strong>Fewer UI tickets</strong> — more time building product
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     CHAPTER 7 — ACCESSIBILITY
+     ════════════════════════════════════ -->
+<section class="ss-chapter ss-chapter--dark" id="ss-ch-7" data-chapter="7" aria-label="Accessibility">
+  <div class="ss-chapter__inner ss-chapter__inner--text">
+    <span class="ss-label ss-reveal ss-reveal--up">Inclusion by design</span>
+    <h2 class="ss-headline ss-reveal ss-reveal--up" style="--delay:.12s">
+      WCAG AA.<br>Every view.
+    </h2>
+    <p class="ss-body ss-reveal ss-reveal--up" style="--delay:.24s">
+      Accessibility wasn't a checklist item — it was a token-level constraint.
+      Color contrast ratios, focus rings, keyboard navigation, and ARIA patterns
+      were built into the system itself, not bolted on afterward.
+      Every component ships AA-compliant out of the box.
+    </p>
+    <div class="ss-a11y-badges ss-reveal ss-reveal--up" style="--delay:.38s">
+      <span class="badge">WCAG 2.1 AA</span>
+      <span class="badge">Keyboard Nav</span>
+      <span class="badge">Focus Management</span>
+      <span class="badge">ARIA Patterns</span>
+      <span class="badge">Color Contrast</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     CHAPTER 8 — OUTCOME
+     ════════════════════════════════════ -->
+<section class="ss-chapter ss-chapter--cover" id="ss-ch-8" data-chapter="8" aria-label="Outcomes">
+  <div class="ss-chapter__inner ss-chapter__inner--outcome">
+    <span class="ss-label ss-reveal ss-reveal--up">The results</span>
+    <h2 class="ss-headline ss-reveal ss-reveal--up" style="--delay:.1s">
+      One system.<br>Three products.<br>Measurable impact.
+    </h2>
+    <div class="ss-outcome-metrics ss-reveal ss-reveal--up" style="--delay:.25s">
+      <div class="ss-outcome-tile">
+        <span class="ss-outcome-tile__value">72%</span>
+        <span class="ss-outcome-tile__label">Faster loads</span>
+      </div>
+      <div class="ss-outcome-tile">
+        <span class="ss-outcome-tile__value">41%</span>
+        <span class="ss-outcome-tile__label">Lighter assets</span>
+      </div>
+      <div class="ss-outcome-tile">
+        <span class="ss-outcome-tile__value">30%</span>
+        <span class="ss-outcome-tile__label">Fewer tickets</span>
+      </div>
+      <div class="ss-outcome-tile">
+        <span class="ss-outcome-tile__value">AA</span>
+        <span class="ss-outcome-tile__label">WCAG 2.1</span>
+      </div>
+    </div>
+    <div class="ss-cta-group ss-reveal ss-reveal--up" style="--delay:.42s">
+      <a href="{{ $params.project_slug | default "/portfolio/sandc" | absURL }}/" class="btn-primary">
+        Full Case Study
+      </a>
+      <a href="/contact/" class="btn-secondary ss-btn-outline">
+        Start a project
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Progress bar ── */
+  const bar = document.getElementById('ssProgress');
+  function updateProgress() {
+    const scrolled = window.scrollY;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? Math.min(100, (scrolled / total) * 100) : 0;
+    bar.style.width = pct + '%';
+    bar.setAttribute('aria-valuenow', Math.round(pct));
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  /* ── Reveal on scroll ── */
+  const reveals = document.querySelectorAll('.ss-reveal');
+  if ('IntersectionObserver' in window) {
+    const revealObs = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            revealObs.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+    );
+    reveals.forEach(function (el) { revealObs.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('is-visible'); });
+  }
+
+  /* ── Number counter ── */
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+  function animateCounter(el) {
+    const target = parseFloat(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    const decimals = parseInt(el.dataset.decimals || '0', 10);
+    const duration = 1400;
+    const start = performance.now();
+    function step(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeOutCubic(progress);
+      const val = (target * eased).toFixed(decimals);
+      el.textContent = val + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  if ('IntersectionObserver' in window) {
+    const counterObs = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            animateCounter(e.target);
+            counterObs.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    document.querySelectorAll('.ss-counter').forEach(function (el) {
+      counterObs.observe(el);
+    });
+  }
+
+  /* ── Chapter nav dots ── */
+  const dots = document.querySelectorAll('.ss-nav__dot');
+  const chapters = document.querySelectorAll('.ss-chapter');
+  if ('IntersectionObserver' in window && dots.length && chapters.length) {
+    const chapObs = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            const idx = e.target.dataset.chapter;
+            dots.forEach(function (d) { d.classList.remove('is-active'); });
+            const activeDot = document.querySelector('.ss-nav__dot[data-chapter="' + idx + '"]');
+            if (activeDot) activeDot.classList.add('is-active');
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    chapters.forEach(function (ch) { chapObs.observe(ch); });
+  }
+
+  /* ── Dot click → scroll to chapter ── */
+  dots.forEach(function (dot) {
+    dot.addEventListener('click', function () {
+      const idx = dot.dataset.chapter;
+      const ch = document.getElementById('ss-ch-' + idx);
+      if (ch) ch.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  /* ── Body class for scoped header override ── */
+  document.body.classList.add('scroll-story-page');
+})();
+</script>
+{{ end }}

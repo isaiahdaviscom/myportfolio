@@ -14,60 +14,6 @@
 
 @layer components {
   /* ─────────────────────────────────────────
-     INLINE NAV MENU (.inline-menu)
-  ───────────────────────────────────────── */
-
-  .inline-menu {
-    display: flex;
-    align-items: center;
-  }
-
-  .inline-menu ul {
-    display: flex;
-    align-items: center;
-    gap: 0.125rem; /* 2px gap between items */
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .inline-menu li {
-    display: flex;
-    align-items: center;
-  }
-
-  .inline-menu a {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.25rem 0.625rem; /* py-1 px-2.5 */
-    font-size: 0.8125rem; /* ~13px */
-    font-weight: 500;
-    color: #374151; /* text-gray-700 */
-    border-radius: 0.5rem; /* rounded-lg */
-    text-decoration: none;
-    white-space: nowrap;
-    transition:
-      background-color 0.15s ease,
-      color 0.15s ease;
-  }
-
-  .inline-menu a:hover {
-    background-color: #f3f4f6; /* bg-gray-100 */
-    color: #111827; /* text-gray-900 */
-  }
-
-  .inline-menu a.active {
-    font-weight: 700;
-    color: #1d4ed8; /* text-blue-700 */
-    background-color: #eff6ff; /* bg-blue-50 */
-    text-decoration: none;
-  }
-
-  .inline-menu a.ancestor {
-    color: #2563eb; /* text-blue-600 */
-  }
-
-  /* ─────────────────────────────────────────
      PROFILE RING (in header)
   ───────────────────────────────────────── */
 
@@ -260,6 +206,13 @@
   .stories-overlay--open .stories-card {
     transform: scale(1) translateY(0);
     opacity: 1;
+  }
+
+  /* Single slide — fills the card and acts as the containing block for
+     all absolutely-positioned children (bg, author-row, body). */
+  .stories-slide {
+    position: absolute;
+    inset: 0;
   }
 
   /* ─────────────────────────────────────────

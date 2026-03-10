@@ -80,15 +80,18 @@
       <a href="/portfolio/" class="home-work__view-all">View all projects &#8594;</a>
     </header>
 
-    <div class="home-work__grid">
+    {{- $count   := len $featured }}
+    {{- $showCTA := or (eq $count 3) (and (eq (mod $count 2) 1) (gt $count 3)) }}
+    {{- $useTrio := and (eq $count 3) (not $showCTA) }}
+    <div class="home-work__grid{{ if $useTrio }} home-work__grid--trio{{ end }}">
+
       {{- range $i, $p := $featured }}
-      <a href="{{ $p.RelPermalink }}" class="home-work-card{{ if eq $i 0 }} home-work-card--featured{{ end }}"
+      <a href="{{ $p.RelPermalink }}"
+         class="home-work-card{{ if eq $i 0 }} home-work-card--featured{{ end }}"
          aria-label="{{ $p.Title }}">
         {{- if $p.Params.cover }}
         <img src="{{ $p.Params.cover }}" alt="{{ $p.Title }}" class="home-work-card__img"
-             width="514" height="321"
-             loading="{{ if eq $i 0 }}eager{{ else }}lazy{{ end }}"
-             decoding="async">
+             width="514" height="321" {{ if eq $i 0 }}loading="eager"{{ else }}loading="lazy"{{ end }} decoding="async">
         {{- else }}
         <div class="home-work-card__fallback" aria-hidden="true">{{ substr $p.Title 0 1 }}</div>
         {{- end }}
@@ -99,6 +102,12 @@
         </div>
       </a>
       {{- end }}
+
+      {{/* ── CTA card — fills the empty cell on odd project counts ── */}}
+      {{- if $showCTA }}
+      {{ partial "home-work-cta-card.html" . }}
+      {{- end }}
+
     </div>
 
   </div>

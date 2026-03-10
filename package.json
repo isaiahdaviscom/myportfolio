@@ -31,6 +31,7 @@
     "cms:prod": "echo 'Production CMS: https://isaiahdavis.com/admin/' && start https://isaiahdavis.com/admin/",
     "cms:admin": "echo 'Local CMS: http://localhost:1313/admin/' && start http://localhost:1313/admin/",
     "dev:full": "node scripts/concurrent.js \"npm run hugo\" \"npm run watch\" \"npm run cms:local\"",
+    "dev:netlify": "netlify dev",
     "dev:cms": "node scripts/concurrent.js \"npm run hugo\" \"npm run cms:local\"",
     "dev:simple": "npm run start",
     "workflow:dev": "echo 'Starting full development workflow...' && npm run dev:full",
