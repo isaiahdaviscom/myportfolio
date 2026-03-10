@@ -97,7 +97,7 @@ jobs:
       run: npm ci
     
     - name: Build site
-      run: npm run build:all
+      run: NODE_ENV=production npm run build:all
     
     - name: Check bundle sizes
       run: |
@@ -197,5 +197,4 @@ jobs:
     - name: Run pa11y accessibility tests
       run: |
         echo "🔍 Running pa11y accessibility tests..."
-        echo "http://localhost:8080" | npx pa11y-ci --sitemap
-      continue-on-error: true
+        npx pa11y-ci http://localhost:8080
