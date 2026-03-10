@@ -7,17 +7,20 @@
 */
 
 @layer components {
-
   /* ──────────────────────────────────────────────────────────────
      PORTFOLIO GRID SECTION — outer 26-track grid for pf-* cards
   ────────────────────────────────────────────────────────────── */
 
   .pf-grid-section {
     display: grid;
-    grid-template-columns: var(--grid-template);  /* 3-track: gutter | content | gutter */
-    grid-auto-rows: minmax(var(--row-baseline), auto);  /* baseline grid — rows ≥ 24px, grow to fit content */
+    grid-template-columns: var(--grid-template); /* 3-track: gutter | content | gutter */
+    grid-auto-rows: minmax(
+      var(--row-baseline),
+      auto
+    ); /* baseline grid — rows ≥ 24px, grow to fit content */
+
     background: var(--color-bg);
-    padding-block: var(--space-12);
+    padding-block: var(--space-16);
   }
 
   /* ──────────────────────────────────────────────────────────────
@@ -74,7 +77,6 @@
     font-size: var(--text-sm);
   }
 
-
   /* ──────────────────────────────────────────────────────────────
      SPLIT HERO CARD — image left / text right
   ────────────────────────────────────────────────────────────── */
@@ -88,10 +90,10 @@
     border: 1px solid var(--color-border);
     box-shadow: var(--shadow-md);
     margin-bottom: var(--space-12);
-    container: pf-split / inline-size;  /* enables cqi for split card typography */
+    container: pf-split / inline-size; /* enables cqi for split card typography */
     transition:
       box-shadow var(--duration-base) var(--ease-out),
-      transform  var(--duration-base) var(--ease-out);
+      transform var(--duration-base) var(--ease-out);
   }
 
   .pf-split:hover {
@@ -157,12 +159,16 @@
     background: var(--color-surface);
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto 1fr auto;  /* [eyebrow] [heading] [desc] [skills grows] [cta] */
-    align-content: center;  /* vertically centres zones when taller than content */
+    grid-template-rows: auto auto auto 1fr auto; /* [eyebrow] [heading] [desc] [skills grows] [cta] */
+    align-content: center; /* vertically centres zones when taller than content */
     min-width: 0;
     padding: var(--space-10) var(--space-8);
   }
-  .pf-split__body > * { min-width: 0; overflow-wrap: break-word; }
+
+  .pf-split__body > * {
+    min-width: 0;
+    overflow-wrap: break-word;
+  }
 
   @media (min-width: 640px) {
     .pf-split__body {
@@ -188,7 +194,7 @@
 
   /* Main heading */
   .pf-split__heading {
-    font-size: var(--comfort-h2);  /* clamp(2xl, 4.5cqi, 4xl) — was 3.2vw, now pf-split container */
+    font-size: var(--comfort-h2); /* clamp(2xl, 4.5cqi, 4xl) — was 3.2vw, now pf-split container */
     font-weight: var(--font-extrabold);
     letter-spacing: var(--tracking-tight);
     line-height: var(--leading-tight);
@@ -218,7 +224,7 @@
     margin: 0 0 var(--space-10);
     display: grid;
     grid-template-columns: 1fr;
-    grid-auto-rows: minmax(var(--row-baseline), auto);  /* each skill row ≥ 24px baseline */
+    grid-auto-rows: minmax(var(--row-baseline), auto); /* each skill row ≥ 24px baseline */
     border-top: 1px solid var(--color-border);
   }
 
@@ -244,10 +250,10 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     border-radius: var(--radius-sm);
-    align-self: start;  /* grid equivalent of flex-start */
+    align-self: start; /* grid equivalent of flex-start */
     transition:
       background var(--duration-base) var(--ease-out),
-      transform  var(--duration-fast) var(--ease-out);
+      transform var(--duration-fast) var(--ease-out);
   }
 
   .pf-split:hover .pf-split__cta {
@@ -255,23 +261,12 @@
     transform: translateX(3px);
   }
 
-
-  /* ──────────────────────────────────────────────────────────────
-     GRID SECTION WRAPPER
-  ────────────────────────────────────────────────────────────── */
-
-  /* Grid section wrapper */
-  .pf-grid-section {
-    background: var(--color-bg);
-    padding-block: var(--space-16);
-  }
-
   /* Card grid */
   .pf-card-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--grid-gutter);
-    grid-auto-rows: minmax(var(--row-baseline), auto);  /* parent row tracks for subgrid cards */
+    grid-auto-rows: minmax(var(--row-baseline), auto); /* parent row tracks for subgrid cards */
   }
 
   @media (min-width: 640px) {
@@ -295,19 +290,23 @@
     border: 1px solid var(--color-border);
     display: grid;
     grid-template-columns: 1fr;
-    grid-row: span 2;             /* 2 zones: [image] [body] */
-    grid-template-rows: subgrid;  /* inherit parent row tracks — image + body align across row */
+    grid-row: span 2; /* 2 zones: [image] [body] */
+    grid-template-rows: subgrid; /* inherit parent row tracks — image + body align across row */
     text-decoration: none;
     border-radius: var(--radius-xl);
     overflow: hidden;
     min-width: 0;
     box-shadow: var(--shadow-xs);
-    container: pf-card / inline-size;  /* enables cqi for card title and metadata */
+    container: pf-card / inline-size; /* enables cqi for card title and metadata */
     transition:
-      box-shadow  var(--duration-base) var(--ease-out),
-      transform   var(--duration-base) var(--ease-out);
+      box-shadow var(--duration-base) var(--ease-out),
+      transform var(--duration-base) var(--ease-out);
   }
-  .pf-card > * { min-width: 0; overflow-wrap: break-word; }
+
+  .pf-card > * {
+    min-width: 0;
+    overflow-wrap: break-word;
+  }
 
   .pf-card:hover {
     box-shadow: var(--shadow-lg);
@@ -316,18 +315,16 @@
 
   .pf-card:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 3px var(--color-surface), 0 0 0 6px var(--color-accent);
+    box-shadow:
+      0 0 0 3px var(--color-surface),
+      0 0 0 6px var(--color-accent);
   }
 
   /* Hover image shimmer overlay */
   .pf-card__hover-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(0, 81, 224, 0.25) 0%,
-      transparent 60%
-    );
+    background: linear-gradient(to top, rgba(0, 81, 224, 0.25) 0%, transparent 60%);
     opacity: 0;
     transition: opacity var(--duration-base) var(--ease-out);
     pointer-events: none;
@@ -337,10 +334,9 @@
     opacity: 1;
   }
 
-
   /* Title transitions colour on hover */
   .pf-card__title {
-    font-size: var(--compact-title);   /* clamp(sm, 3.5cqi, xl) — scales with pf-card */
+    font-size: var(--compact-title); /* clamp(sm, 3.5cqi, xl) — scales with pf-card */
     font-weight: var(--font-bold);
     line-height: var(--leading-compact);
     margin-bottom: var(--space-1);
@@ -392,12 +388,16 @@
   .pf-card__body {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto 1fr auto;  /* [chips] [title] [dates] [spacer grows] [skills] */
-    align-self: stretch;  /* fills its subgrid row so 1fr spacer row resolves */
+    grid-template-rows: auto auto auto 1fr auto; /* [chips] [title] [dates] [spacer grows] [skills] */
+    align-self: stretch; /* fills its subgrid row so 1fr spacer row resolves */
     padding: var(--space-5);
     min-width: 0;
   }
-  .pf-card__body > * { min-width: 0; overflow-wrap: break-word; }
+
+  .pf-card__body > * {
+    min-width: 0;
+    overflow-wrap: break-word;
+  }
 
   .pf-card__chips {
     display: flex;
@@ -407,7 +407,7 @@
   }
 
   .pf-card__dates {
-    font-size: var(--compact-label);   /* clamp(0.625rem, 1.2cqi, xs) — compact metadata */
+    font-size: var(--compact-label); /* clamp(0.625rem, 1.2cqi, xs) — compact metadata */
     color: var(--color-text-muted);
     margin-bottom: var(--space-4);
   }
@@ -416,11 +416,10 @@
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-1);
-    align-self: end;  /* pins to bottom of [skills] row — replaces margin-top:auto */
+    align-self: end; /* pins to bottom of [skills] row — replaces margin-top:auto */
     padding-top: var(--space-3);
     border-top: 1px solid var(--color-border);
   }
-
 
   /* ──────────────────────────────────────────────────────────────
      CHIP / BADGE LABELS
@@ -440,7 +439,6 @@
     border: 1px solid rgba(255, 255, 255, 0.18);
     white-space: nowrap;
     line-height: 1.4;
-    -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
   }
 
@@ -450,7 +448,6 @@
     border-color: var(--color-accent);
     color: #fff;
     font-weight: var(--font-semibold);
-    -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
 
@@ -465,7 +462,6 @@
     background: var(--color-accent-soft);
     border-color: var(--color-accent-border);
     color: var(--color-accent);
-    -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
 
@@ -483,7 +479,6 @@
     background: var(--color-surface-subtle);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-full);
-    -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
 
@@ -492,10 +487,6 @@
     background: var(--color-surface-subtle);
     border-color: var(--color-border);
     color: var(--color-text-secondary);
-    -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
-
-
-
 }

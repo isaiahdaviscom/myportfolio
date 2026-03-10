@@ -33,10 +33,14 @@
 }
 
 .cs-container {
-  width: min(var(--max-content), calc(100vw - 4vw * 2)); /* SQS container-width formula, narrow max */
+  width: min(
+    var(--max-content),
+    calc(100vw - 4vw * 2)
+  ); /* SQS container-width formula, narrow max */
+
   margin-inline: auto;
-  container-type: inline-size;  /* makes the case study content column queryable */
-  container-name: cs-content;   /* named: @container cs-content { … } */
+  container-type: inline-size; /* makes the case study content column queryable */
+  container-name: cs-content; /* named: @container cs-content { … } */
 }
 
 .cs-container--prose {
@@ -112,7 +116,12 @@
 }
 
 .cs-hero__title {
-  font-size: clamp(var(--text-3xl), 8cqi, var(--text-5xl));  /* was 4.5vw — now relative to cs-content */
+  font-size: clamp(
+    var(--text-3xl),
+    8cqi,
+    var(--text-5xl)
+  ); /* was 4.5vw — now relative to cs-content */
+
   font-weight: var(--font-extrabold);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
@@ -164,7 +173,7 @@
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-sm);
   overflow: hidden;
-  container: metric-tile / inline-size;  /* enables cqi for tile value, label, detail */
+  container: metric-tile / inline-size; /* enables cqi for tile value, label, detail */
   transition:
     transform var(--duration-fast) var(--ease-spring),
     box-shadow var(--duration-fast) var(--ease-out);
@@ -188,7 +197,7 @@
 }
 
 .cs-metric-tile__value {
-  font-size: clamp(var(--text-2xl), 10cqi, var(--text-4xl));  /* scales with metric-tile container */
+  font-size: clamp(var(--text-2xl), 10cqi, var(--text-4xl)); /* scales with metric-tile container */
   font-weight: var(--font-extrabold);
   line-height: var(--leading-none);
   color: var(--tile-accent, var(--color-accent));
@@ -197,14 +206,14 @@
 }
 
 .cs-metric-tile__label {
-  font-size: var(--compact-body);    /* clamp(0.75rem, 1.8cqi, sm) */
+  font-size: var(--compact-body); /* clamp(0.75rem, 1.8cqi, sm) */
   font-weight: var(--font-semibold);
   color: var(--color-text-primary);
   margin-bottom: var(--space-1);
 }
 
 .cs-metric-tile__detail {
-  font-size: var(--compact-label);   /* clamp(0.625rem, 1.2cqi, xs) */
+  font-size: var(--compact-label); /* clamp(0.625rem, 1.2cqi, xs) */
   color: var(--color-text-muted);
   line-height: var(--leading-compact);
 }
@@ -258,7 +267,7 @@
 }
 
 .cs-section__heading {
-  font-size: var(--comfort-h3);   /* clamp(xl, 3cqi, 2xl) — was 2.5vw, now cs-content container */
+  font-size: var(--comfort-h3); /* clamp(xl, 3cqi, 2xl) — was 2.5vw, now cs-content container */
   font-weight: var(--font-bold);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
@@ -272,8 +281,8 @@
 
 /* ── 06. PROSE ──────────────────────────────────────────────────────────────── */
 .cs-prose {
-  font-size: var(--comfort-body);    /* clamp(base, 1.8cqi, lg) — scales with cs-content */
-  line-height: var(--leading-comfort);  /* 1.75 — generous for long-form case study reading */
+  font-size: var(--comfort-body); /* clamp(base, 1.8cqi, lg) — scales with cs-content */
+  line-height: var(--leading-comfort); /* 1.75 — generous for long-form case study reading */
   color: var(--color-text-secondary);
   max-width: var(--max-prose);
 }

@@ -22,14 +22,14 @@
    These complement --color-accent (brand blue) used for Frontend.
 ───────────────────────────────────────────────────────────────────────────── */
 .about-page {
-  --cat-frontend-fg:  var(--color-accent);
+  --cat-frontend-fg: var(--color-accent);
   --cat-frontend-dot: color-mix(in srgb, var(--color-accent) 65%, white);
-  --cat-tooling-fg:   #c2410c;
-  --cat-tooling-dot:  #fb923c;
-  --cat-design-fg:    #6d28d9;
-  --cat-design-dot:   #a78bfa;
-  --cat-backend-fg:   #15803d;
-  --cat-backend-dot:  #4ade80;
+  --cat-tooling-fg: #c2410c;
+  --cat-tooling-dot: #fb923c;
+  --cat-design-fg: #6d28d9;
+  --cat-design-dot: #a78bfa;
+  --cat-backend-fg: #15803d;
+  --cat-backend-dot: #4ade80;
 }
 
 @layer components {
@@ -63,13 +63,12 @@
     display: block;
   }
 
-
   /* ────────────────────────────────────────────────────────────
      2. BIO PROSE WRAPPER
   ──────────────────────────────────────────────────────────── */
   .about-bio {
     display: grid;
-    grid-template-columns: var(--grid-template);  /* 3-track: gutter | content | gutter */
+    grid-template-columns: var(--grid-template); /* 3-track: gutter | content | gutter */
     grid-auto-rows: minmax(var(--row-baseline), auto);
     background: var(--color-surface);
     padding-block: var(--space-14);
@@ -77,9 +76,9 @@
 
   /* Prose text — token-driven so dark mode works automatically */
   .about-bio__prose {
-    font-size: var(--comfort-body);    /* clamp(base, 1.8cqi, lg) — scales with content-col */
+    font-size: var(--comfort-body); /* clamp(base, 1.8cqi, lg) — scales with content-col */
     color: var(--color-text-secondary);
-    line-height: var(--leading-comfort);  /* 1.75 — generous for bio reading */
+    line-height: var(--leading-comfort); /* 1.75 — generous for bio reading */
   }
 
   .about-bio__prose p {
@@ -91,13 +90,12 @@
     color: var(--color-text-primary);
   }
 
-
   /* ────────────────────────────────────────────────────────────
      3. SKILLS SECTION
   ──────────────────────────────────────────────────────────── */
   .about-skills {
     display: grid;
-    grid-template-columns: var(--grid-template);  /* 3-track: gutter | content | gutter */
+    grid-template-columns: var(--grid-template); /* 3-track: gutter | content | gutter */
     grid-auto-rows: minmax(var(--row-baseline), auto);
     background: var(--color-surface-subtle);
     padding-block: var(--space-14);
@@ -131,10 +129,21 @@
   }
 
   /* Category colour modifiers */
-  .skill-card__category--frontend { color: var(--cat-frontend-fg); }
-  .skill-card__category--tooling  { color: var(--cat-tooling-fg);  }
-  .skill-card__category--design   { color: var(--cat-design-fg);   }
-  .skill-card__category--backend  { color: var(--cat-backend-fg);  }
+  .skill-card__category--frontend {
+    color: var(--cat-frontend-fg);
+  }
+
+  .skill-card__category--tooling {
+    color: var(--cat-tooling-fg);
+  }
+
+  .skill-card__category--design {
+    color: var(--cat-design-fg);
+  }
+
+  .skill-card__category--backend {
+    color: var(--cat-backend-fg);
+  }
 
   .skill-card__list {
     list-style: none;
@@ -142,17 +151,17 @@
     margin: 0;
     display: grid;
     grid-template-columns: 1fr;
-    grid-auto-rows: minmax(var(--row-baseline), auto);  /* each skill row ≥ 24px baseline */
+    grid-auto-rows: minmax(var(--row-baseline), auto); /* each skill row ≥ 24px baseline */
     row-gap: var(--space-1_5);
   }
 
   .skill-card__item {
     display: grid;
-    grid-template-columns: auto 1fr;  /* [dot] [skill text] */
+    grid-template-columns: auto 1fr; /* [dot] [skill text] */
     grid-template-rows: auto;
     column-gap: var(--space-2);
     align-items: center;
-    font-size: var(--compact-body);    /* clamp(0.75rem, 1.8cqi, sm) — scales with page-card */
+    font-size: var(--compact-body); /* clamp(0.75rem, 1.8cqi, sm) — scales with page-card */
     color: var(--color-text-secondary);
     min-width: 0;
   }
@@ -165,18 +174,28 @@
   }
 
   /* Dot colour modifiers */
-  .skill-card__dot--frontend { background: var(--cat-frontend-dot); }
-  .skill-card__dot--tooling  { background: var(--cat-tooling-dot);  }
-  .skill-card__dot--design   { background: var(--cat-design-dot);   }
-  .skill-card__dot--backend  { background: var(--cat-backend-dot);  }
+  .skill-card__dot--frontend {
+    background: var(--cat-frontend-dot);
+  }
 
+  .skill-card__dot--tooling {
+    background: var(--cat-tooling-dot);
+  }
+
+  .skill-card__dot--design {
+    background: var(--cat-design-dot);
+  }
+
+  .skill-card__dot--backend {
+    background: var(--cat-backend-dot);
+  }
 
   /* ────────────────────────────────────────────────────────────
      4. VALUES / PHILOSOPHY SECTION
   ──────────────────────────────────────────────────────────── */
   .about-values {
     display: grid;
-    grid-template-columns: var(--grid-template);  /* 3-track: gutter | content | gutter */
+    grid-template-columns: var(--grid-template); /* 3-track: gutter | content | gutter */
     grid-auto-rows: minmax(var(--row-baseline), auto);
     background: var(--color-surface);
     padding-block: var(--space-14);
@@ -220,16 +239,15 @@
     line-height: var(--leading-relaxed);
   }
 
-
   /* ────────────────────────────────────────────────────────────
      5. DARK-MODE OVERRIDES
   ──────────────────────────────────────────────────────────── */
   [data-theme='dark'] .about-page {
-    --cat-tooling-fg:  #fb923c;
+    --cat-tooling-fg: #fb923c;
     --cat-tooling-dot: #fdba74;
-    --cat-design-fg:   #a78bfa;
-    --cat-design-dot:  #c4b5fd;
-    --cat-backend-fg:  #4ade80;
+    --cat-design-fg: #a78bfa;
+    --cat-design-dot: #c4b5fd;
+    --cat-backend-fg: #4ade80;
     --cat-backend-dot: #86efac;
   }
 
@@ -237,5 +255,4 @@
     outline-color: transparent; /* fallback: Chrome < 111 */
     outline-color: color-mix(in srgb, var(--color-surface) 80%, transparent);
   }
-
 }

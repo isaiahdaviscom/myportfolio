@@ -116,21 +116,21 @@
      .card, .pf-card, etc.). The fixed clamp minimum is the legible fallback
      when no container is present. ──────────────────────────────────────── */
 
-  --leading-comfort: 1.75;   /* prose, hero taglines, bio text */
-  --leading-compact: 1.25;   /* card bodies, nav links, metadata labels */
+  --leading-comfort: 1.75; /* prose, hero taglines, bio text */
+  --leading-compact: 1.25; /* card bodies, nav links, metadata labels */
 
   /* Comfort — wide reading contexts (scale with content-col container) */
-  --comfort-label: clamp(var(--text-xs),   1.2cqi, var(--text-sm));
-  --comfort-body:  clamp(var(--text-base), 1.8cqi, var(--text-lg));
-  --comfort-h3:    clamp(var(--text-xl),   3cqi,   var(--text-2xl));
-  --comfort-h2:    clamp(var(--text-2xl),  4.5cqi, var(--text-4xl));
-  --comfort-h1:    clamp(var(--text-3xl),  5.5cqi, var(--text-5xl));
+  --comfort-label: clamp(var(--text-xs), 1.2cqi, var(--text-sm));
+  --comfort-body: clamp(var(--text-base), 1.8cqi, var(--text-lg));
+  --comfort-h3: clamp(var(--text-xl), 3cqi, var(--text-2xl));
+  --comfort-h2: clamp(var(--text-2xl), 4.5cqi, var(--text-4xl));
+  --comfort-h1: clamp(var(--text-3xl), 5.5cqi, var(--text-5xl));
 
   /* Compact — card and UI containers (scale with component container) */
-  --compact-label:   clamp(0.625rem,        1.2cqi, var(--text-xs));
-  --compact-body:    clamp(0.75rem,         1.8cqi, var(--text-sm));
-  --compact-title:   clamp(var(--text-sm),  3.5cqi, var(--text-xl));
-  --compact-heading: clamp(var(--text-base), 5cqi,  var(--text-3xl));
+  --compact-label: clamp(0.625rem, 1.2cqi, var(--text-xs));
+  --compact-body: clamp(0.75rem, 1.8cqi, var(--text-sm));
+  --compact-title: clamp(var(--text-sm), 3.5cqi, var(--text-xl));
+  --compact-heading: clamp(var(--text-base), 5cqi, var(--text-3xl));
 
   /* ── 3. SPACING ─────────────────────────────────────────────────────────── */
   --space-px: 1px;
@@ -154,10 +154,10 @@
 
   /* Semantic page widths */
   --max-prose: 68ch;
-  --max-content: 80rem;          /* 1280px — narrow content / prose */
-  --width-container: 93.75rem;   /* 1500px — default page container */
-  --max-wide: 96rem;             /* 1536px — full-bleed wide layouts */
-  --width-site: 90rem;           /* 1440px — global site container (header + all sections) */
+  --max-content: 80rem; /* 1280px — narrow content / prose */
+  --width-container: 93.75rem; /* 1500px — default page container */
+  --max-wide: 96rem; /* 1536px — full-bleed wide layouts */
+  --width-site: 90rem; /* 1440px — global site container (header + all sections) */
 
   /* ── Grid system ──────────────────────────────────────────────────────────
      Exact port of the Squarespace fluid-grid system.
@@ -173,22 +173,22 @@
        grid-template-cols: minmax(gutter,1fr) repeat(24,minmax(0,cell-max)) minmax(gutter,1fr) */
 
   /* ① Site config — mirrors SQS root variables verbatim. Edit here only. */
-  --sqs-site-gutter:        8vw;    /* desktop outer margin (~115px @ 1440px)  */
-  --sqs-mobile-site-gutter: 6vw;    /* viewport < 640px outer margin           */
-  --sqs-site-max-width:     1200px; /* max inner content width                 */
+  --sqs-site-gutter: 8vw; /* desktop outer margin (~115px @ 1440px)  */
+  --sqs-mobile-site-gutter: 6vw; /* viewport < 640px outer margin           */
+  --sqs-site-max-width: 1200px; /* max inner content width                 */
 
   /* ② Derived grid tokens — downstream of site config; do not edit directly */
-  --grid-gutter: 1.5rem;    /* 24px fixed gap — column-gap / row-gap in component grids */
+  --grid-gutter: 1.5rem; /* 24px fixed gap — column-gap / row-gap in component grids */
 
   /* SQS column slot: max-content-width ÷ 24 columns → 50px @ 1200px.
      Each slot absorbs its own internal gutter so no CSS column-gap is needed
      on the outer section grid. 24 × 50px = 1200px = --sqs-site-max-width.   */
-  --sqs-cell-max-width: calc(var(--sqs-site-max-width) / 24);  /* 50px @ 1200px */
+  --sqs-cell-max-width: calc(var(--sqs-site-max-width) / 24); /* 50px @ 1200px */
 
   /* Square-cell baseline: row minimum = cell slot width → each grid unit is square.
      grid-auto-rows: minmax(var(--row-baseline), auto) → rows snap to 50px grid;
      content freely grows beyond the minimum without breaking the square rhythm. */
-  --row-baseline: var(--sqs-cell-max-width);   /* 50px → 24-col square grid */
+  --row-baseline: var(--sqs-cell-max-width); /* 50px → 24-col square grid */
 
   /* ③ Site grid — 26-track: fluid gutter | 24 equal SQS columns | fluid gutter
      Verbatim port of the Squarespace 7.1 grid technique (mnjackson.com ref).
@@ -213,13 +213,11 @@
        grid-column: 14 / -2  → right half    (cols 13–24)
 
      Note: 26 tracks → 27 grid lines → -2 = line 26 → 2/-2 spans exactly 24 cols. */
-  --grid-template:
-    minmax(var(--sqs-site-gutter), 1fr)
-    repeat(24, minmax(0, var(--sqs-cell-max-width)))
-    minmax(var(--sqs-site-gutter), 1fr);
+  --grid-template: minmax(var(--sqs-site-gutter), 1fr)
+    repeat(24, minmax(0, var(--sqs-cell-max-width))) minmax(var(--sqs-site-gutter), 1fr);
 
   /* ④ Shorthand column sets — for display:grid (non-template contexts) */
-  --grid-split:         57fr 43fr;
+  --grid-split: 57fr 43fr;
   --grid-split-reverse: 43fr 57fr;
   --grid-cols-2: repeat(2, minmax(0, 1fr));
   --grid-cols-3: repeat(3, minmax(0, 1fr));

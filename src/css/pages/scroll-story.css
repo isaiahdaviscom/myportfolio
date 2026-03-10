@@ -51,7 +51,9 @@
 }
 
 @media (max-width: 640px) {
-  .ss-nav { display: none; }
+  .ss-nav {
+    display: none;
+  }
 }
 
 .ss-nav__dot {
@@ -62,7 +64,9 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  transition: background 0.25s ease, transform 0.25s ease;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
 }
 
 .ss-nav__dot:hover {
@@ -148,10 +152,9 @@
 /* ── Reveal animation ── */
 .ss-reveal {
   opacity: 0;
-  transition-property: opacity, transform;
-  transition-duration: 0.7s;
-  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: var(--delay, 0s);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s);
 }
 
 .ss-reveal--up {
@@ -177,8 +180,15 @@
 }
 
 @keyframes ss-fade-up {
-  from { opacity: 0; transform: translateY(1.5rem); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ── Typography elements ── */
@@ -246,7 +256,9 @@
   text-decoration: none;
   border-bottom: 1px solid rgba(77, 141, 255, 0.35);
   padding-bottom: 0.1rem;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .ss-cover-link:hover {
@@ -272,8 +284,16 @@
 }
 
 @keyframes ss-scroll-bounce {
-  0%, 100% { transform: translateY(0); opacity: 1; }
-  50%       { transform: translateY(6px); opacity: 0.4; }
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(6px);
+    opacity: 0.4;
+  }
 }
 
 /* ── Metric chapters ── */
@@ -327,9 +347,17 @@
 }
 
 /* Chapter-specific metric accent colours */
-.ss-chapter--navy .ss-metric-number  { color: #7aadff; }
-.ss-chapter--green .ss-metric-number { color: #6ee7a0; }
-.ss-chapter--purple .ss-metric-number{ color: #c4a8f5; }
+.ss-chapter--navy .ss-metric-number {
+  color: #7aadff;
+}
+
+.ss-chapter--green .ss-metric-number {
+  color: #6ee7a0;
+}
+
+.ss-chapter--purple .ss-metric-number {
+  color: #c4a8f5;
+}
 
 /* ── Stack badges row ── */
 .ss-stack-row {

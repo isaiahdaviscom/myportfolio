@@ -15,7 +15,14 @@ export default {
     },
     colorClass: {
       control: { type: 'select' },
-      options: ['', 'text-blue-400', 'text-green-400', 'text-amber-400', 'text-red-400', 'text-purple-400'],
+      options: [
+        '',
+        'text-blue-400',
+        'text-green-400',
+        'text-amber-400',
+        'text-red-400',
+        'text-purple-400'
+      ],
       description: 'Optional Tailwind text-color override (bg stays black)'
     }
   }

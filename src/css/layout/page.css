@@ -26,12 +26,16 @@
 
   .page-hero {
     display: grid;
-    grid-template-columns: var(--grid-template);  /* 3-track: gutter | content | gutter */
-    grid-auto-rows: minmax(var(--row-baseline), auto);  /* baseline grid — rows ≥ 24px, grow to fit content */
+    grid-template-columns: var(--grid-template); /* 3-track: gutter | content | gutter */
+    grid-auto-rows: minmax(
+      var(--row-baseline),
+      auto
+    ); /* baseline grid — rows ≥ 24px, grow to fit content */
+
     background: linear-gradient(
       135deg,
-      var(--color-accent-soft)   0%,
-      var(--color-surface)       55%,
+      var(--color-accent-soft) 0%,
+      var(--color-surface) 55%,
       var(--color-surface-subtle) 100%
     );
     padding-block: var(--space-12) var(--space-16);
@@ -43,14 +47,16 @@
     }
   }
 
-
   /* ──────────────────────────────────────────────────────────────
      2. TYPOGRAPHY
   ────────────────────────────────────────────────────────────── */
 
   /* Page-level H1 — standardised across every route */
   .page-h1 {
-    font-size: var(--comfort-h1);  /* clamp(3xl → 5xl) via content-col container — breakpoint not needed */
+    font-size: var(
+      --comfort-h1
+    ); /* clamp(3xl → 5xl) via content-col container — breakpoint not needed */
+
     font-weight: var(--font-extrabold);
     color: var(--color-text-primary);
     letter-spacing: var(--tracking-tight);
@@ -75,7 +81,6 @@
     letter-spacing: var(--tracking-tight);
   }
 
-
   /* ──────────────────────────────────────────────────────────────
      3. BUTTONS
   ────────────────────────────────────────────────────────────── */
@@ -84,7 +89,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    padding: var(--space-3) var(--space-5);   /* 12px×20px → ~45px tall; meets 44px touch target */
+    padding: var(--space-3) var(--space-5); /* 12px×20px → ~45px tall; meets 44px touch target */
     background: var(--color-accent);
     color: var(--color-text-invert);
     font-size: var(--text-sm);
@@ -93,7 +98,9 @@
     border-radius: var(--radius-lg);
     border: none;
     text-decoration: none;
-    box-shadow: 0 1px 3px rgba(0, 81, 224, 0.25), 0 1px 2px rgba(0, 0, 0, 0.06);
+    box-shadow:
+      0 1px 3px rgba(0, 81, 224, 0.25),
+      0 1px 2px rgba(0, 0, 0, 0.06);
     transition:
       background var(--duration-base) var(--ease-out),
       box-shadow var(--duration-base) var(--ease-out),
@@ -109,7 +116,9 @@
 
   .btn-primary:hover {
     background: var(--color-accent-hover);
-    box-shadow: 0 4px 12px rgba(0, 81, 224, 0.3), 0 1px 4px rgba(0, 0, 0, 0.08);
+    box-shadow:
+      0 4px 12px rgba(0, 81, 224, 0.3),
+      0 1px 4px rgba(0, 0, 0, 0.08);
     transform: translateY(-1px);
   }
 
@@ -120,14 +129,16 @@
 
   .btn-primary:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-accent);
+    box-shadow:
+      0 0 0 2px var(--color-surface),
+      0 0 0 4px var(--color-accent);
   }
 
   .btn-secondary {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    padding: var(--space-3) var(--space-5);   /* 12px×20px → ~45px tall; meets 44px touch target */
+    padding: var(--space-3) var(--space-5); /* 12px×20px → ~45px tall; meets 44px touch target */
     background: var(--color-surface);
     color: var(--color-text-secondary);
     font-size: var(--text-sm);
@@ -163,9 +174,10 @@
 
   .btn-secondary:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-accent);
+    box-shadow:
+      0 0 0 2px var(--color-surface),
+      0 0 0 4px var(--color-accent);
   }
-
 
   /* ──────────────────────────────────────────────────────────────
      4. CARDS
@@ -186,7 +198,7 @@
     border: 1px solid var(--color-border);
     padding: var(--space-5);
     box-shadow: var(--shadow-xs);
-    container: page-card / inline-size;  /* enables cqi for skill/value card typography */
+    container: page-card / inline-size; /* enables cqi for skill/value card typography */
   }
 
   /* Tinted page card — values / philosophy (soft accent tint) */
@@ -194,7 +206,6 @@
     background: var(--color-accent-soft);
     border-color: var(--color-accent-border);
   }
-
 
   /* ──────────────────────────────────────────────────────────────
      5. AVAILABILITY BADGE
@@ -210,7 +221,7 @@
 
   .availability-badge__header {
     display: grid;
-    grid-template-columns: auto 1fr;  /* [dot] [label] */
+    grid-template-columns: auto 1fr; /* [dot] [label] */
     grid-template-rows: auto;
     align-items: center;
     column-gap: var(--space-2);
@@ -241,10 +252,15 @@
   }
 
   @keyframes availability-pulse {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.4; }
-  }
+    0%,
+    100% {
+      opacity: 1;
+    }
 
+    50% {
+      opacity: 0.4;
+    }
+  }
 
   /* ──────────────────────────────────────────────────────────────
      6. CTA STRIP
@@ -253,14 +269,18 @@
 
   .cta-strip {
     display: grid;
-    grid-template-columns: var(--grid-template);  /* 3-track: gutter | content | gutter */
-    grid-auto-rows: minmax(var(--row-baseline), auto);  /* baseline grid — rows ≥ 24px, grow to fit content */
+    grid-template-columns: var(--grid-template); /* 3-track: gutter | content | gutter */
+    grid-auto-rows: minmax(
+      var(--row-baseline),
+      auto
+    ); /* baseline grid — rows ≥ 24px, grow to fit content */
+
     background: var(--color-accent);
     padding-block: var(--space-16);
   }
 
   .cta-strip__inner {
-    grid-column: 2 / -2;  /* content tracks — gutters handled by parent --grid-template */
+    grid-column: 2 / -2; /* content tracks — gutters handled by parent --grid-template */
     text-align: center;
   }
 
@@ -322,14 +342,22 @@
   }
 
   /* Description text and project count in Portfolio hero band */
-  .page-hero__description { color: var(--color-text-secondary); }
-  .page-hero__count        { color: var(--color-text-muted); }
+  .page-hero__description {
+    color: var(--color-text-secondary);
+  }
+
+  .page-hero__count {
+    color: var(--color-text-muted);
+  }
 
   /* ── Gallery section — outer grid wrapper for the legacy gallery partial ── */
   .gallery-section {
     display: grid;
-    grid-template-columns: var(--grid-template);  /* 3-track: gutter | content | gutter */
-    grid-auto-rows: minmax(var(--row-baseline), auto);  /* baseline grid — rows ≥ 24px, grow to fit content */
+    grid-template-columns: var(--grid-template); /* 3-track: gutter | content | gutter */
+    grid-auto-rows: minmax(
+      var(--row-baseline),
+      auto
+    ); /* baseline grid — rows ≥ 24px, grow to fit content */
   }
 
   /* ── Shared container cap ─────────────────────────────────────────────
@@ -337,11 +365,10 @@
      slot into the 24 content tracks.  No width or margin-inline needed.
   ──────────────────────────────────────────────────────────────────── */
   .container {
-    grid-column: 2 / -2;          /* slots into the content track of the parent --grid-template */
-    min-width: 0;                 /* grid items default to min-width:auto — this prevents the track from
+    grid-column: 2 / -2; /* slots into the content track of the parent --grid-template */
+    min-width: 0; /* grid items default to min-width:auto — this prevents the track from
                                      being stretched beyond min(1200px, …) by long words or wide media */
-    container-type: inline-size;  /* makes this column queryable — descendants can use cqi */
-    container-name: content-col;  /* named ref: @container content-col (min-width: N) { … } */
+    container-type: inline-size; /* makes this column queryable — descendants can use cqi */
+    container-name: content-col; /* named ref: @container content-col (min-width: N) { … } */
   }
-
 }

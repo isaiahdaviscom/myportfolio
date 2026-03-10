@@ -25,15 +25,15 @@ export default {
 };
 
 const NAV = [
-  { href: '/',           label: 'Home',      id: 'home' },
+  { href: '/', label: 'Home', id: 'home' },
   { href: '/portfolio/', label: 'Portfolio', id: 'portfolio' },
-  { href: '/about/',     label: 'About',     id: 'about' },
-  { href: '/contact/',   label: 'Contact',   id: 'contact' }
+  { href: '/about/', label: 'About', id: 'about' },
+  { href: '/contact/', label: 'Contact', id: 'contact' }
 ];
 
 function renderHeader(args) {
   const ringMod = args.available ? 'stories-ring--available' : 'stories-ring--away';
-  const dotMod  = args.available ? 'stories-dot--open'       : 'stories-dot--closed';
+  const dotMod = args.available ? 'stories-dot--open' : 'stories-dot--closed';
   const navHtml = NAV.map(({ href, label, id }) => {
     const active = id === args.activePage;
     return `<li><a href="${href}" class="${active ? 'active' : ''}" ${active ? 'aria-current="page"' : ''}>${label}</a></li>`;

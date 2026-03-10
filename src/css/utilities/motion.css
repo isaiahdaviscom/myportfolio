@@ -25,15 +25,13 @@ html {
   }
 }
 
-
 /* ── 2. ANCHOR SCROLL OFFSET ───────────────────────────────────────────────
    When the browser jumps to an anchor (#section-id), the sticky header
    (~64px) would occlude the target. scroll-margin-top adds breathing room
    above every element that could be an anchor target.                       */
 [id] {
-  scroll-margin-top: 5.5rem;  /* header height (~64px) + 24px breathing */
+  scroll-margin-top: 5.5rem; /* header height (~64px) + 24px breathing */
 }
-
 
 /* ── 3. TEXT SELECTION ────────────────────────────────────────────────────
    Brand-coloured highlight — consistent with accent system.                */
@@ -43,11 +41,10 @@ html {
   text-shadow: none;
 }
 
-[data-theme="dark"] ::selection {
-  background-color: var(--color-accent);  /* stays brand blue; legible on dark */
+[data-theme='dark'] ::selection {
+  background-color: var(--color-accent); /* stays brand blue; legible on dark */
   color: var(--color-text-invert);
 }
-
 
 /* ── 4. CUSTOM SCROLLBAR ──────────────────────────────────────────────────
    Thin accent-tinted scrollbar. Webkit (Chrome/Edge/Safari) + standards.  */
@@ -76,7 +73,6 @@ html {
   scrollbar-color: var(--color-border-strong) transparent;
 }
 
-
 /* ── 5. FOCUS-VISIBLE RING ────────────────────────────────────────────────
    Single canonical focus style. Replaces browser defaults + any scattered
    outline: none rules. Uses the accent colour so focus is always brand-on. */
@@ -91,7 +87,6 @@ html {
   outline: none;
 }
 
-
 /* ── 6. SECTION / CARD REVEAL ─────────────────────────────────────────────
    Elements tagged [data-reveal] start hidden and translate up slightly.
    IntersectionObserver in foot/js.html adds .is-visible when they scroll
@@ -104,8 +99,11 @@ html {
   opacity: 0;
   transform: translateY(1.5rem);
   transition:
-    opacity    var(--duration-slow) var(--ease-out),
-    transform  var(--duration-slow) var(--ease-out);
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+
+  /* Staggered siblings — JS sets --reveal-order on each card automatically */
+  transition-delay: calc(var(--reveal-order, 0) * 70ms);
   will-change: opacity, transform;
 }
 
@@ -113,11 +111,6 @@ html {
   opacity: 1;
   transform: none;
   will-change: auto;
-}
-
-/* Staggered siblings — JS sets --reveal-order on each card automatically */
-[data-reveal] {
-  transition-delay: calc(var(--reveal-order, 0) * 70ms);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -57,7 +57,8 @@ function socialLinks() {
 }
 
 function renderFooter(args) {
-  const ctaHtml = args.showCta ? `
+  const ctaHtml = args.showCta
+    ? `
     <div class="site-footer__cta">
       <div class="site-footer__cta-inner">
         <div>
@@ -72,13 +73,16 @@ function renderFooter(args) {
           </svg>
         </a>
       </div>
-    </div>` : '';
+    </div>`
+    : '';
 
-  const availHtml = args.available ? `
+  const availHtml = args.available
+    ? `
     <div class="site-footer__avail">
       <span class="site-footer__avail-dot" aria-hidden="true"></span>
       <span>Open to work &mdash; typical response: 1 business day</span>
-    </div>` : '';
+    </div>`
+    : '';
 
   return `
     ${ctaHtml}

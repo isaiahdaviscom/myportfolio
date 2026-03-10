@@ -45,14 +45,24 @@ const SEND_ICON = `<svg width="18" height="18" fill="none" stroke="currentColor"
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
   </svg>`;
 
-const renderForm = ({ includePhone, includeSubject, includeMessage, submitText, showSuccess, showError }) => {
-  const phoneField = includePhone ? `
+const renderForm = ({
+  includePhone,
+  includeSubject,
+  includeMessage,
+  submitText,
+  showSuccess,
+  showError
+}) => {
+  const phoneField = includePhone
+    ? `
     <div class="form-group">
       <label for="phone" class="form-label">Phone</label>
       <input type="tel" id="phone" name="phone" class="form-input" placeholder="(555) 123-4567" />
-    </div>` : '';
+    </div>`
+    : '';
 
-  const subjectField = includeSubject ? `
+  const subjectField = includeSubject
+    ? `
     <div class="form-group">
       <label for="subject" class="form-label">Subject <span aria-hidden="true">*</span></label>
       <select id="subject" name="subject" required class="form-select">
@@ -63,31 +73,38 @@ const renderForm = ({ includePhone, includeSubject, includeMessage, submitText, 
         <option value="general">General Question</option>
         <option value="other">Other</option>
       </select>
-    </div>` : '';
+    </div>`
+    : '';
 
-  const messageField = includeMessage ? `
+  const messageField = includeMessage
+    ? `
     <div class="form-group">
       <label for="message" class="form-label">Message <span aria-hidden="true">*</span></label>
       <textarea id="message" name="message" rows="6" required class="form-textarea"
         placeholder="Tell me about your project or how I can help you..."></textarea>
       <p class="form-hint">Minimum 10 characters</p>
-    </div>` : '';
+    </div>`
+    : '';
 
-  const successBanner = showSuccess ? `
+  const successBanner = showSuccess
+    ? `
     <div class="form-feedback form-feedback--success">
       <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
       </svg>
       Message sent successfully! I'll get back to you soon.
-    </div>` : '';
+    </div>`
+    : '';
 
-  const errorBanner = showError ? `
+  const errorBanner = showError
+    ? `
     <div class="form-feedback form-feedback--error">
       <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
       </svg>
       Something went wrong. Please try again or email me directly.
-    </div>` : '';
+    </div>`
+    : '';
 
   return `
     <form class="contact-form" name="contact" action="/contact/success/" method="POST">
@@ -178,4 +195,3 @@ export const ErrorFeedback = {
   },
   render: renderForm
 };
-

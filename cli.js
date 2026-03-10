@@ -155,8 +155,8 @@ async function runClean(level) {
 
 async function runServe(withCms = false, noCss = false) {
   const hugoCmd = 'hugo server -D --config hugo.toml,config.development.toml';
-  const cssCmd  = 'npm run watch';
-  const cmsCmd  = 'npx netlify-cms-proxy-server';
+  const cssCmd = 'npm run watch';
+  const cmsCmd = 'npx netlify-cms-proxy-server';
 
   const commands = [hugoCmd];
   if (!noCss) commands.push(cssCmd);
@@ -164,7 +164,7 @@ async function runServe(withCms = false, noCss = false) {
 
   console.log(col('cyan', '\n🚀 Starting dev server...'));
   if (!noCss) console.log(col('dim', '   🎨 CSS watch active'));
-  console.log(col('dim',  '   🖥️  Hugo:  http://localhost:1313'));
+  console.log(col('dim', '   🖥️  Hugo:  http://localhost:1313'));
   if (withCms) console.log(col('dim', '   📝 Admin: http://localhost:1313/admin/'));
   console.log();
 
@@ -172,14 +172,18 @@ async function runServe(withCms = false, noCss = false) {
   const procs = commands.map(cmd => {
     return isWin
       ? spawn('cmd', ['/c', cmd], { stdio: 'inherit', shell: false, cwd: projectRoot })
-      : spawn('sh',  ['-c', cmd], { stdio: 'inherit', shell: false, cwd: projectRoot });
+      : spawn('sh', ['-c', cmd], { stdio: 'inherit', shell: false, cwd: projectRoot });
   });
 
   function shutdown() {
-    procs.forEach(p => { try { p.kill('SIGINT'); } catch (_) {} });
+    procs.forEach(p => {
+      try {
+        p.kill('SIGINT');
+      } catch (_) {}
+    });
     process.exit(0);
   }
-  process.on('SIGINT',  shutdown);
+  process.on('SIGINT', shutdown);
   process.on('SIGTERM', shutdown);
 
   await Promise.all(procs.map(p => new Promise(r => p.on('close', r))));

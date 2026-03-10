@@ -6,17 +6,17 @@
 # Edit copy here; the card renders via partials/home-work-cta-card.html.
 # ─────────────────────────────────────────────────────────────────────────────
 
-badge: "Available for New Work"
-headline: "Got a project that deserves to stand out?"
+badge: 'Available for New Work'
+headline: 'Got a project that deserves to stand out?'
 subline: >
   I work with brands and startups to ship fast, accessible, and beautifully
   crafted digital experiences — from design systems to full-stack deployments.
 stats:
-  - value: "40+"
-    label: "Projects Delivered"
-  - value: "8+"
-    label: "Years Experience"
-  - value: "100%"
-    label: "Client Satisfaction"
+  - value: '40+'
+    label: 'Projects Delivered'
+  - value: '8+'
+    label: 'Years Experience'
+  - value: '100%'
+    label: 'Client Satisfaction'
 cta_text: "Let's Talk"
-cta_url: "/contact/"
+cta_url: '/contact/'

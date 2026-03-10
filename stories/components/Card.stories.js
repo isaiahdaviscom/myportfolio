@@ -21,7 +21,7 @@ export default {
   tags: ['autodocs'],
   argTypes: {
     title: { control: 'text', description: 'Project title' },
-    role:  { control: 'text', description: 'Role badge label' },
+    role: { control: 'text', description: 'Role badge label' },
     dates: { control: 'text', description: 'Date range string' },
     imageUrl: { control: 'text', description: 'Cover image URL' },
     href: { control: 'text', description: 'Link destination' },
@@ -33,7 +33,8 @@ export default {
   }
 };
 
-const PLACEHOLDER = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=560&h=560&fit=crop';
+const PLACEHOLDER =
+  'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=560&h=560&fit=crop';
 
 function renderCard(args) {
   return `
@@ -82,10 +83,27 @@ export const RelatedProjectsGrid = {
   render: () => `
     <ul class="related-projects__grid">
       ${[
-        { title: 'S&C Electric',   role: 'Brand',    dates: '2024', img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=400&fit=crop' },
-        { title: 'Mac N Cheese Bar', role: 'Web Dev', dates: '2024', img: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=400&h=400&fit=crop' },
-        { title: 'Spark',          role: 'Strategy', dates: '2023', img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop' }
-      ].map(p => `
+        {
+          title: 'S&C Electric',
+          role: 'Brand',
+          dates: '2024',
+          img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=400&fit=crop'
+        },
+        {
+          title: 'Mac N Cheese Bar',
+          role: 'Web Dev',
+          dates: '2024',
+          img: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=400&h=400&fit=crop'
+        },
+        {
+          title: 'Spark',
+          role: 'Strategy',
+          dates: '2023',
+          img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop'
+        }
+      ]
+        .map(
+          p => `
         <li>
           <a href="#" class="card related-projects__card">
             <picture><img src="${p.img}" alt="${p.title}" /></picture>
@@ -96,7 +114,9 @@ export const RelatedProjectsGrid = {
             </div>
           </a>
         </li>
-      `).join('')}
+      `
+        )
+        .join('')}
     </ul>
   `
 };

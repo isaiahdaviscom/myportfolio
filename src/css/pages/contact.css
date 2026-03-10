@@ -23,7 +23,7 @@
   ──────────────────────────────────────────────────────────── */
   .contact-body {
     display: grid;
-    grid-template-columns: var(--grid-template);  /* 3-track: gutter | content | gutter */
+    grid-template-columns: var(--grid-template); /* 3-track: gutter | content | gutter */
     grid-auto-rows: minmax(var(--row-baseline), auto);
     background: var(--color-surface);
     padding-block: var(--space-14);
@@ -38,11 +38,13 @@
 
   @media (min-width: 1024px) {
     .contact-split {
-      grid-template-columns: var(--grid-split-reverse); /* 43fr 57fr — sidebar narrower left, form wider right */
+      grid-template-columns: var(
+        --grid-split-reverse
+      ); /* 43fr 57fr — sidebar narrower left, form wider right */
+
       gap: var(--space-16);
     }
   }
-
 
   /* ────────────────────────────────────────────────────────────
      2. CONTACT INFO SIDEBAR (left column)
@@ -110,7 +112,6 @@
     color: var(--color-text-secondary);
   }
 
-
   /* ────────────────────────────────────────────────────────────
      3. FORM WRAPPER (right column)
   ──────────────────────────────────────────────────────────── */
@@ -146,7 +147,6 @@
       grid-template-columns: 1fr 1fr;
     }
   }
-
 }
 
 /* ────────────────────────────────────────────────────────────
@@ -159,7 +159,7 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);   /* 8px — was 6px; gives clear label-to-field proximity */
+  gap: var(--space-2); /* 8px — was 6px; gives clear label-to-field proximity */
 }
 
 /* Label */
@@ -174,7 +174,7 @@
 .form-select,
 .form-textarea {
   width: 100%;
-  padding: var(--space-3) var(--space-4);   /* 12px×16px → ~45px tall; clears 44px touch target */
+  padding: var(--space-3) var(--space-4); /* 12px×16px → ~45px tall; clears 44px touch target */
   background: var(--color-surface-subtle);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
@@ -183,8 +183,8 @@
   outline: none;
   transition:
     border-color var(--duration-base) var(--ease-out),
-    box-shadow   var(--duration-base) var(--ease-out),
-    background   var(--duration-base) var(--ease-out);
+    box-shadow var(--duration-base) var(--ease-out),
+    background var(--duration-base) var(--ease-out);
 }
 
 /* Focus ring — accent colour, no ugly browser default */
@@ -211,7 +211,6 @@
 
 /* Select — custom dropdown chevron */
 .form-select {
-  -webkit-appearance: none;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -248,7 +247,9 @@
   border-radius: var(--radius-lg);
   border: none;
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 81, 224, 0.25), 0 1px 2px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 1px 3px rgba(0, 81, 224, 0.25),
+    0 1px 2px rgba(0, 0, 0, 0.06);
   transition:
     background var(--duration-base) var(--ease-out),
     box-shadow var(--duration-base) var(--ease-out),
@@ -264,7 +265,9 @@
 
 .form-submit:hover {
   background: var(--color-accent-hover);
-  box-shadow: 0 4px 12px rgba(0, 81, 224, 0.3), 0 1px 4px rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 4px 12px rgba(0, 81, 224, 0.3),
+    0 1px 4px rgba(0, 0, 0, 0.08);
   transform: translateY(-1px);
 }
 
@@ -275,7 +278,9 @@
 
 .form-submit:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-accent);
+  box-shadow:
+    0 0 0 2px var(--color-surface),
+    0 0 0 4px var(--color-accent);
 }
 
 .form-submit:disabled {
@@ -284,7 +289,6 @@
   transform: none;
   box-shadow: none;
 }
-
 
 /* ────────────────────────────────────────────────────────────
    5. FORM FEEDBACK
@@ -312,7 +316,6 @@
   border: 1px solid color-mix(in srgb, var(--color-error, #ef4444) 30%, transparent);
   color: var(--color-error, #ef4444);
 }
-
 
 /* ────────────────────────────────────────────────────────────
    6. DARK-MODE OVERRIDES

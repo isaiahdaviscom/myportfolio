@@ -21,19 +21,23 @@ class ThemeToggle extends HTMLElement {
   connectedCallback() {
     this.style.display = 'contents'; // transparent wrapper — no layout impact
 
-    this._html        = document.documentElement;
-    this._storageKey  = this.getAttribute('storage-key') || 'cs-theme';
-    this._btn         = this.querySelector('button');
+    this._html = document.documentElement;
+    this._storageKey = this.getAttribute('storage-key') || 'cs-theme';
+    this._btn = this.querySelector('button');
 
     // Restore saved preference, fall back to OS preference
-    const saved  = this._safePref();
+    const saved = this._safePref();
     const system = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     this._apply(saved || system);
 
     this._handleClick = () => {
       const next = this._html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       this._apply(next);
-      try { localStorage.setItem(this._storageKey, next); } catch (_) {}
+      try {
+        localStorage.setItem(this._storageKey, next);
+      } catch {
+        // localStorage unavailable (private browsing/storage quota) — ignore
+      }
     };
 
     this._btn?.addEventListener('click', this._handleClick);
@@ -53,7 +57,11 @@ class ThemeToggle extends HTMLElement {
   }
 
   _safePref() {
-    try { return localStorage.getItem(this._storageKey); } catch (_) { return null; }
+    try {
+      return localStorage.getItem(this._storageKey);
+    } catch {
+      return null;
+    }
   }
 }
 
