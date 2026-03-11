@@ -61,25 +61,41 @@
     container: hero-content / inline-size; /* enables cqi for hero typography */
     padding-block: 5rem 3.5rem;
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
+    grid-template-columns: subgrid; /* inherit all 24 content cols — children snap to column grid */
     align-items: center;
+  }
+
+  /* Mobile: content spans full width; visual column is hidden */
+  .home-hero__content {
+    grid-column: 1 / -1;
   }
 
   @media (min-width: 768px) {
     .home-hero__inner {
-      grid-template-columns: var(--grid-split); /* 57fr 43fr — aligns with pf-split rhythm */
       padding-block: 6rem 4rem;
-      gap: 3.5rem;
+    }
+
+    .home-hero__content {
+      grid-column: 1 / span 13; /* 13 of 24 cols ≈ 54%; col 14 acts as gap ≈ 50px */
+    }
+
+    .home-hero__visual {
+      grid-column: 15 / -1; /* cols 15–24 ≈ 42% */
     }
   }
 
   @media (min-width: 1024px) {
     .home-hero__inner {
-      grid-template-columns: var(--grid-split); /* 57fr 43fr — aligns with pf-split rhythm */
       padding-top: 7rem;
       padding-bottom: 5rem;
-      gap: 4rem;
+    }
+
+    .home-hero__content {
+      grid-column: 1 / span 13; /* proportions unchanged; increased padding handles breathing room */
+    }
+
+    .home-hero__visual {
+      grid-column: 16 / -1; /* cols 16–24; col 15 becomes second gap col at lg */
     }
   }
 
@@ -779,26 +795,34 @@
   .home-about__inner {
     grid-column: 2 / -2; /* content tracks — gutters handled by parent --grid-template */
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 3rem;
+    grid-template-columns: subgrid; /* inherit all 24 content cols — children snap to column grid */
+    row-gap: 3rem; /* vertical gap for mobile stacking */
     align-items: start;
   }
 
+  /* Mobile: both children span full width and stack */
+  .home-about__content,
+  .home-about__services {
+    grid-column: 1 / -1;
+  }
+
   @media (min-width: 768px) {
-    .home-about__inner {
-      grid-template-columns: var(
-        --grid-split
-      ); /* 57fr 43fr — bio text wider left, service cards narrower right */
+    .home-about__content {
+      grid-column: 1 / span 13; /* 13 of 24 cols ≈ 54%; col 14 acts as gap ≈ 50px */
+    }
+
+    .home-about__services {
+      grid-column: 15 / -1; /* cols 15–24 ≈ 42% */
     }
   }
 
   @media (min-width: 1024px) {
-    .home-about__inner {
-      grid-template-columns: var(
-        --grid-split
-      ); /* 57fr 43fr — bio text wider left, service cards narrower right */
+    .home-about__content {
+      grid-column: 1 / span 12; /* cols 1–12 = 50%; cols 13–14 become gap ≈ 100px at max-width */
+    }
 
-      gap: 5rem;
+    .home-about__services {
+      grid-column: 15 / -1; /* cols 15–24 = 42% */
     }
   }
 
