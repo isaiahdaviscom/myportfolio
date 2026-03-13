@@ -322,7 +322,7 @@
     display: grid;
     grid-template-columns: 1fr;
     align-items: center;
-    gap: 0.75rem;
+    gap: var(--grid-gap-xs); /* ¼ col unit — copyright row: 2-col layout grid */
     padding-top: 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.07);
     font-size: 0.6875rem;
@@ -342,7 +342,7 @@
     grid-column: 2 / -2; /* content tracks — gutters handled by parent --grid-template */
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: var(--grid-gap-sm); /* ½ col unit — CTA text + button layout grid */
     position: relative;
   }
 
@@ -363,7 +363,7 @@
   .site-footer__cols {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: var(--grid-gap-lg); /* 1 col unit — between brand / nav / tech columns */
     margin-bottom: 3rem;
   }
 
@@ -375,7 +375,7 @@
 
   @media (min-width: 1024px) {
     .site-footer__cols {
-      grid-template-columns: 5fr 3fr 4fr;
+      grid-template-columns: 12fr 5fr 5fr;
     }
   }
 

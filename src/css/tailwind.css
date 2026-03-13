@@ -57,6 +57,9 @@
 /* 1.65 Site header (glass sticky bar + nav + social links) */
 @import './layout/header.css';
 
+/* 1.66 Grid column utilities (gc-*, col-*, layout-* presets) */
+@import './layout/grid.css';
+
 /* 1.8 Site footer */
 @import './layout/footer.css';
 

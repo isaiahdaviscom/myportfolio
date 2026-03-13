@@ -141,6 +141,19 @@
     {{- end }}
 
     {{/* ════════════════════════════════════════════════════════════════════
+         2.5 GALLERY — rendered only when .Params.gallery is populated
+         ════════════════════════════════════════════════════════════════════ */}}
+    {{- with .Params.gallery }}
+    <section class="cs-section" aria-labelledby="cs-gallery-heading">
+      <div class="cs-container">
+        <span class="cs-section__eyebrow">Gallery</span>
+        <h2 class="cs-section__heading" id="cs-gallery-heading">Project Visuals</h2>
+        {{ partial "image-gallery.html" (dict "images" $.Params.gallery "style" "grid" "columns" 3) }}
+      </div>
+    </section>
+    {{- end }}
+
+    {{/* ════════════════════════════════════════════════════════════════════
          3. PROCESS TIMELINE
          ════════════════════════════════════════════════════════════════════ */}}
     {{- with .Params.timeline }}

@@ -1,15 +1,289 @@
 {
+  // ╔══════════════════════════════════════════════════════════════════════════╗
+  // ║  myportfolio — Workspace Settings                                       ║
+  // ║  Hugo + PostCSS/Tailwind + Netlify static portfolio site                ║
+  // ╚══════════════════════════════════════════════════════════════════════════╝
+
+  // ── Misc / Third-party ─────────────────────────────────────────────────────
   "xd.globalEditor": false,
   "xd.lastPackage": "/c:/Users/IBlac/Desktop/Netlify/myportfolio/design-system",
   "githubPullRequests.ignoredPullRequestBranches": ["master"],
+
+  // ── Workbench ──────────────────────────────────────────────────────────────
   "workbench.colorTheme": "Abyss",
   "workbench.iconTheme": "material-icon-theme",
   "workbench.editor.labelFormat": "short",
   "workbench.editor.tabSizing": "shrink",
   "workbench.editor.tabCloseButton": "off",
   "workbench.editor.tabActionCloseVisibility": false,
+  "workbench.editor.revealIfOpen": true,        // don't open duplicate tabs
+  "workbench.tree.indent": 18,
+  "workbench.tree.renderIndentGuides": "always",
+  "workbench.statusBar.visible": true,
+  "workbench.editor.highlightModifiedTabs": true,
 
-  // Chrome DevTools Workspace Configuration
+  // ── Editor ─────────────────────────────────────────────────────────────────
+  "editor.rulers": [100, 120],
+  "editor.wordWrap": "bounded",
+  "editor.wordWrapColumn": 120,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.trimAutoWhitespace": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "editor.linkedEditing": true,        // auto-rename matching HTML tags
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.inlineSuggest.enabled": true,
+  "editor.suggest.insertMode": "replace",
+  "editor.quickSuggestions": {
+    "strings": true,       // Tailwind class autocomplete inside class=""
+    "comments": false,
+    "other": true
+  },
+  "editor.parameterHints.enabled": true,
+  "editor.stickyScroll.enabled": true,     // keeps current function/block header visible while scrolling
+  "editor.minimap.renderCharacters": false,
+  "editor.minimap.maxColumn": 100,
+  "editor.renderWhitespace": "boundary",
+  "editor.showFoldingControls": "mouseover",
+  "editor.foldingImportsByDefault": true,
+  "editor.breadcrumbs.enabled": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.stylelint": "explicit",
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // ── Language-specific formatter overrides ──────────────────────────────────
+  "[hugo]": {
+    "editor.formatOnSave": false, // Hugo templates: Prettier mangled Go template syntax
+    "html.validate.scripts": false,
+    "html.validate.styles": false,
+    "html.suggest.html5": false,
+    "html.hover.documentation": false,
+    "html.format.enable": false,
+    "html.validate": false
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false, // markdownlint + prettier conflict on some rules
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "strings": false,
+      "comments": false,
+      "other": false
+    }
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml",
+    "editor.formatOnSave": true
+  },
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml",
+    "editor.formatOnSave": true
+  },
+  "[shellscript]": {
+    "editor.formatOnSave": false
+  },
+
+  // ── File Associations (Hugo templates) ────────────────────────────────────
+  "files.associations": {
+    "**/layouts/**/*.html": "hugo",
+    "**/themes/**/layouts/**/*.html": "hugo",
+    "**/partials/**/*.html": "hugo",
+    "**/shortcodes/**/*.html": "hugo",
+    "*.html": "hugo",
+    "*.md": "markdown",
+    "*.toml": "toml",
+    "*.yml": "yaml"
+  },
+
+  // ── File Explorer ─────────────────────────────────────────────────────────
+  "files.exclude": {
+    "**/public/**": true,
+    "**/node_modules": true,
+    "**/.hugo_build.lock": true,
+    "**/resources/**": true,
+    "**/.chrome-debug-profile": true
+  },
+  "files.watcherExclude": {
+    "**/public/**": true,
+    "**/node_modules/**": true,
+    "**/.git/objects/**": true,
+    "**/resources/**": true
+  },
+  "search.exclude": {
+    "**/public/**": true,
+    "**/node_modules/**": true,
+    "**/.git/**": true,
+    "**/resources/**": true
+  },
+
+  // ── File Nesting (groups related files together in Explorer) ──────────────
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "hugo.toml":          "config.*.toml, netlify.toml, netlify-*.toml, .hugo_build.lock",
+    "package.json":       "package-lock.json, .npmrc, .nvmrc, .node-version",
+    "tailwind.config.js": "postcss.config.js",
+    ".eslintrc.*":        ".eslintignore, .prettierrc*, .prettierignore, .stylelintrc*, .markdownlint*",
+    "README.md":          "CHANGELOG.md, LICENSE, CODE_OF_CONDUCT.md, CONTRIBUTING.md, SECURITY.md",
+    "*.toml":             "$(capture).development.toml, $(capture).production.toml",
+    "robots-prod.txt":    "robots-dev.txt",
+    "manifest.webmanifest": "manifest-dev.webmanifest"
+  },
+
+  // ── CSS validation ─────────────────────────────────────────────────────────
+  "css.validate": false,      // stylelint handles this
+  "scss.validate": false,
+  "less.validate": false,
+  "stylelint.validate": ["css", "scss", "postcss"],
+  "css.lint.compatibleVendorPrefixes": "ignore",
+  "css.lint.vendorPrefix": "ignore",
+  "css.lint.unknownProperties": "ignore",
+
+  // ── HTML / Hugo ────────────────────────────────────────────────────────────
+  "emmet.includeLanguages": {
+    "hugo": "html",
+    "hugo-html": "html",
+    "html": "html"
+  },
+  "emmet.triggerExpansionOnTab": true,
+  "html.format.enable": false,      // Prettier / hugo mode handles this
+  "html.validate.scripts": false,
+  "html.validate.styles": false,
+  "html.format.wrapLineLength": 0,
+  "html.format.unformatted": "wbr",
+  "html.format.contentUnformatted": "pre,code,textarea",
+  "html.format.extraLiners": "head, body, /html",
+  "html.format.preserveNewLines": true,
+  "html.format.maxPreserveNewLines": 2,
+  "html.format.indentInnerHtml": false,
+  "html.format.wrapAttributes": "auto",
+  "html.format.templating": true,
+  "html.hover.documentation": true,
+  "html.suggest.html5": true,
+  "html.autoClosingTags": true,
+  "html.customData": [".vscode/hugo-html.json"],
+  "html.completion.attributeDefaultValue": "doublequotes",
+  "html.trace.server": "off",
+  "html.experimental.custom.data": [],
+
+  // ── Tailwind CSS IntelliSense ──────────────────────────────────────────────
+  "tailwindCSS.includeLanguages": {
+    "hugo": "html",
+    "hugo-html": "html",
+    "html": "html"
+  },
+  "tailwindCSS.files.exclude": [
+    "**/.git/**", "**/node_modules/**", "**/dist/**",
+    "**/build/**", "**/public/**"
+  ],
+  "tailwindCSS.experimental.configFile": "tailwind.config.js",
+  "tailwindCSS.classAttributes": ["class", "className", "ngClass"],
+  "tailwindCSS.suggestions": true,
+  "tailwindCSS.hovers": true,
+  "tailwindCSS.codeActions": true,
+  "tailwindCSS.validate": true,
+  "tailwindCSS.lint.invalidApply": "error",
+  "tailwindCSS.lint.cssConflict": "warning",
+  "tailwindCSS.lint.invalidConfigPath": "error",
+
+  // ── TODO Highlight ─────────────────────────────────────────────────────────
+  "todohighlight.isEnable": true,
+  "todohighlight.isCaseSensitive": false,
+  "todohighlight.keywords": [
+    { "text": "TODO:", "color": "#fff", "backgroundColor": "#f59e0b", "fontWeight": "bold" },
+    { "text": "FIXME:", "color": "#fff", "backgroundColor": "#ef4444", "fontWeight": "bold" },
+    { "text": "HACK:", "color": "#fff", "backgroundColor": "#8b5cf6", "fontWeight": "bold" },
+    { "text": "NOTE:", "color": "#fff", "backgroundColor": "#3b82f6", "fontWeight": "bold" },
+    { "text": "SECURITY:", "color": "#fff", "backgroundColor": "#dc2626", "fontWeight": "bold" }
+  ],
+  "todohighlight.include": [
+    "**/*.html", "**/*.js", "**/*.css", "**/*.md", "**/*.toml", "**/*.yml"
+  ],
+  "todohighlight.exclude": [
+    "**/node_modules/**", "**/public/**", "**/.git/**"
+  ],
+
+  // ── Error Lens ─────────────────────────────────────────────────────────────
+  "errorLens.enabledDiagnosticLevels": ["warning", "error"],
+  "errorLens.excludeBySource": ["html"],   // suppress Hugo template false positives
+
+  // ── GitLens ────────────────────────────────────────────────────────────────
+  "gitlens.currentLine.enabled": true,
+  "gitlens.hovers.currentLine.over": "line",
+  "gitlens.codeLens.enabled": false,       // keep editor clean
+  "gitlens.statusBar.enabled": true,
+  "gitlens.graph.layout": "editor",
+
+  // ── Project Manager ────────────────────────────────────────────────────────
+  "projectManager.git.baseFolders": [
+    "C:\\Users\\IBlac\\OneDrive\\Desktop\\MyProjects"
+  ],
+
+  // ── Spell Checker ─────────────────────────────────────────────────────────
+  "cSpell.enabled": true,
+  "cSpell.language": "en",
+  "cSpell.words": [
+    "isaiahdavis", "myportfolio", "netlify", "sandc", "tailwindcss",
+    "postcss", "esbuild", "frontmatter", "baseof", "hugo", "shortcode",
+    "shortcodes", "archetypes", "jsonify", "htmlescape", "acsbapp",
+    "gitlens", "esbenp", "markdownlint", "stylelint", "webmanifest",
+    "webp", "webroot", "prerequestiles", "lovella", "iga", "empire"
+  ],
+  "cSpell.ignorePaths": [
+    "**/node_modules/**", "**/public/**", "package-lock.json", "*.svg"
+  ],
+
+  // ── Markdown ───────────────────────────────────────────────────────────────
+  "markdown.preview.fontSize": 14,
+  "markdown.preview.lineHeight": 1.6,
+  "markdownlint.config": {
+    "MD013": false,   // line length — handled by prettier
+    "MD033": false,   // inline HTML — used in content
+    "MD041": false    // first heading — not always needed
+  },
+
+  // ── YAML ───────────────────────────────────────────────────────────────────
+  "yaml.schemaStore.enable": true,
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml",
+    "https://json.schemastore.org/netlify.json": "netlify.toml"
+  },
+
+  // ── Problems panel ─────────────────────────────────────────────────────────
+  "problems.decorations.enabled": true,
+  "problems.showCurrentInStatus": true,
+
+  // ── Live Server (static preview of /public) ────────────────────────────────
+  "liveServer.settings.port": 8080,
+  "liveServer.settings.root": "/public",
+  "liveServer.settings.CustomBrowser": "chrome",
+  "liveServer.settings.ChromeDebuggingAttachment": true,
+
+  // ── Chrome DevTools Workspace ──────────────────────────────────────────────
   "chrome.executable": "chrome",
   "chrome.webRoot": "${workspaceFolder}/public",
   "chrome.sourceMapPathOverrides": {
@@ -19,102 +293,7 @@
     "webpack:///./src/*": "${webRoot}/*"
   },
 
-  // CSS and styling configuration
-  "css.validate": false,
-  "scss.validate": false,
-  "less.validate": false,
-  "stylelint.validate": ["css", "scss", "postcss"],
-
-  // HTML and Hugo configuration
-  "emmet.includeLanguages": {
-    "hugo": "html",
-    "html": "html"
-  },
-  "files.associations": {
-    "**/layouts/**/*.html": "hugo",
-    "**/themes/**/layouts/**/*.html": "hugo",
-    "**/partials/**/*.html": "hugo",
-    "**/shortcodes/**/*.html": "hugo",
-    "*.html": "hugo",
-    "*.md": "markdown"
-  },
-  "html.format.enable": false,
-  "html.validate.scripts": false,
-  "html.format.wrapLineLength": 0,
-  "html.format.unformatted": "wbr",
-  "html.format.contentUnformatted": "pre,code,textarea",
-  "html.format.extraLiners": "head, body, /html",
-  "html.format.preserveNewLines": true,
-  "html.format.maxPreserveNewLines": 2,
-
-  // Suppress Hugo template false positives
-  "html.validate.styles": false,
-  "css.lint.compatibleVendorPrefixes": "ignore",
-  "css.lint.vendorPrefix": "ignore",
-  "css.lint.unknownProperties": "ignore",
-
-  // HTML structure validation suppressions for Hugo templates
-  "html.customData": [".vscode/hugo-html.json"],
-  "html.completion.attributeDefaultValue": "doublequotes",
-
-  // Hugo-specific validation suppression
-  "[hugo]": {
-    "html.validate.scripts": false,
-    "html.validate.styles": false,
-    "html.suggest.html5": false,
-    "html.hover.documentation": false,
-    "html.format.enable": false,
-    "html.validate": false
-  },
-
-  // Global HTML validation suppressions for specific Hugo issues
-  "html.trace.server": "off",
-  "html.experimental.custom.data": [],
-
-  // Path-based validation for Hugo layouts
-  "files.exclude": {
-    "**/public/**": true
-  },
-  "search.exclude": {
-    "**/public/**": true,
-    "**/node_modules/**": true,
-    "**/.git/**": true
-  },
-  "files.watcherExclude": {
-    "**/public/**": true,
-    "**/node_modules/**": true
-  },
-
-  // Microsoft Edge Tools and browser compatibility suppression
+  // ── Misc suppressions ─────────────────────────────────────────────────────
   "edge-tools.webhint.enable": false,
-  "microsoft-edge-tools.webhint": false,
-
-  // Problem matcher suppressions for Hugo-specific false positives
-  "problems.decorations.enabled": true,
-  "problems.showCurrentInStatus": false,
-  "html.format.indentInnerHtml": false,
-  "html.format.wrapAttributes": "auto",
-  "html.format.templating": true,
-  "html.hover.documentation": true,
-  "html.suggest.html5": true,
-  "html.autoClosingTags": true,
-
-  // TailwindCSS configuration
-  "tailwindCSS.includeLanguages": {
-    "hugo": "html",
-    "html": "html"
-  },
-  "tailwindCSS.files.exclude": [
-    "**/.git/**",
-    "**/node_modules/**",
-    "**/dist/**",
-    "**/build/**",
-    "**/public/**"
-  ],
-
-  // Live Server and debugging
-  "liveServer.settings.port": 5500,
-  "liveServer.settings.root": "/public",
-  "liveServer.settings.CustomBrowser": "chrome",
-  "liveServer.settings.ChromeDebuggingAttachment": true
+  "microsoft-edge-tools.webhint": false
 }

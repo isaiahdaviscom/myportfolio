@@ -7,7 +7,9 @@
 
 // Only register and run in production environment
 if (self.location.hostname !== 'localhost' && self.location.hostname !== '127.0.0.1') {
-  const CACHE_NAME = 'portfolio-cache-v1.1';
+  // Update this version string on every production deploy to bust stale caches.
+  // Format: portfolio-cache-vYYYYMMDD — bump the date or an incrementing suffix.
+  const CACHE_NAME = 'portfolio-cache-v20260312';
   const urlsToCache = [
     '/',
     '/index.html',

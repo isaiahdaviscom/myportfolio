@@ -1,108 +1,350 @@
 {
+  // ╔══════════════════════════════════════════════════════════════════════════╗
+  // ║  myportfolio — VS Code Tasks                                            ║
+  // ║  All tasks delegate to the `pf` CLI (cli.js) where possible.           ║
+  // ║  Run via: Terminal → Run Task  OR  Ctrl+Shift+B (default build)        ║
+  // ╚══════════════════════════════════════════════════════════════════════════╝
   "version": "2.0.0",
   "tasks": [
+
+    // ────────────────────────────────────────────────────────────────────────
+    // DEFAULT BUILD — Ctrl+Shift+B
+    // ────────────────────────────────────────────────────────────────────────
     {
+      "label": "🚀 Dev Server",
+      "detail": "Start Hugo + CSS watch simultaneously (pf serve)",
       "type": "shell",
-      "label": "Clean, Build, and Preview Static Site (No Live Reload)",
-      "command": "if (Test-Path public) { Remove-Item -Recurse -Force public }; npm run build:css; npm run build:hugo; pwsh -Command \"Start-Process http://localhost:8080; cd public; python -m http.server 8080\"",
-      "args": [],
-      "group": "build",
+      "command": "pf serve",
+      "group": { "kind": "build", "isDefault": true },
       "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+      "problemMatcher": []
+    },
+
+    // ────────────────────────────────────────────────────────────────────────
+    // BUILD
+    // ────────────────────────────────────────────────────────────────────────
+    {
+      "label": "🏗️ Build — Development",
+      "detail": "Build site with dev config (drafts, sourcemaps)",
+      "type": "shell",
+      "command": "pf build",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
       "problemMatcher": []
     },
     {
-      "label": "Hugo Server with DevTools",
+      "label": "🚢 Build — Production",
+      "detail": "Minified production build (pf build prod)",
+      "type": "shell",
+      "command": "pf build prod",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "🎨 CSS Watch",
+      "detail": "PostCSS → static/css/styles.css (pf css)",
+      "type": "shell",
+      "command": "pf css",
+      "group": "build",
+      "isBackground": true,
+      "presentation": { "reveal": "silent", "panel": "shared" },
+      "problemMatcher": []
+    },
+
+    // ────────────────────────────────────────────────────────────────────────
+    // CLEAN
+    // ────────────────────────────────────────────────────────────────────────
+    {
+      "label": "🧹 Clean — Light",
+      "detail": "Remove /public and Hugo cache (pf clean)",
+      "type": "shell",
+      "command": "pf clean",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "🧹 Clean — Deep",
+      "detail": "Remove /public, cache, and generated CSS (pf clean deep)",
+      "type": "shell",
+      "command": "pf clean deep",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "☢️  Clean — Nuclear",
+      "detail": "Remove everything including node_modules; re-install (pf clean nuclear)",
+      "type": "shell",
+      "command": "pf clean nuclear",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    // ────────────────────────────────────────────────────────────────────────
+    // NEW CONTENT
+    // ────────────────────────────────────────────────────────────────────────
+    {
+      "label": "📝 New — Portfolio Case Study",
+      "detail": "Scaffold a new portfolio entry via Hugo archetype",
+      "type": "shell",
+      "command": "pf new portfolio ${input:portfolioSlug}",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": false },
+      "problemMatcher": []
+    },
+    {
+      "label": "✍️  New — Blog Post",
+      "detail": "Scaffold a new blog post via Hugo archetype",
+      "type": "shell",
+      "command": "pf new post ${input:postSlug}",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": false },
+      "problemMatcher": []
+    },
+    {
+      "label": "🧩 New — Partial",
+      "detail": "Create a new Hugo partial from template",
+      "type": "shell",
+      "command": "pwsh -NoProfile -File .vscode/create-partial.ps1 -Name ${input:partialName}",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": false },
+      "problemMatcher": []
+    },
+
+    // ────────────────────────────────────────────────────────────────────────
+    // LINT & FORMAT
+    // ────────────────────────────────────────────────────────────────────────
+    {
+      "label": "🔍 Lint — All",
+      "detail": "CSS + JS + Markdown lint (pf lint)",
+      "type": "shell",
+      "command": "pf lint",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": ["$eslint-stylish"]
+    },
+    {
+      "label": "🔍 Lint — CSS",
+      "detail": "Stylelint src/**/*.css (npm run lint:css)",
+      "type": "shell",
+      "command": "npm run lint:css",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔍 Lint — Markdown",
+      "detail": "Markdownlint all .md files (npm run lint:md)",
+      "type": "shell",
+      "command": "npm run lint:md",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "✨ Format — All Files",
+      "detail": "Prettier write (**/*.{js,css,html,json,yml}) (pf format)",
+      "type": "shell",
+      "command": "pf format",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "✅ Format — Check Only",
+      "detail": "Prettier check (no writes) — fails on diff",
+      "type": "shell",
+      "command": "npm run format:check",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+
+    // ────────────────────────────────────────────────────────────────────────
+    // SECURITY / AUDIT
+    // ────────────────────────────────────────────────────────────────────────
+    {
+      "label": "🔒 Audit — npm",
+      "detail": "npm audit --audit-level moderate",
+      "type": "shell",
+      "command": "npm audit --audit-level moderate",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔒 Audit — Fix",
+      "detail": "npm audit fix (auto-fix compatible CVEs)",
+      "type": "shell",
+      "command": "npm audit fix",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    // ────────────────────────────────────────────────────────────────────────
+    // STATUS & INFO
+    // ────────────────────────────────────────────────────────────────────────
+    {
+      "label": "ℹ️  Status",
+      "detail": "Show project health: git branch, deps, build status (pf status)",
+      "type": "shell",
+      "command": "pf status",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "ℹ️  Version",
+      "detail": "Show pf CLI + Hugo + Node version info (pf version)",
+      "type": "shell",
+      "command": "pf version",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "❓ Help",
+      "detail": "Show all pf commands (pf help)",
+      "type": "shell",
+      "command": "pf help",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+
+    // ────────────────────────────────────────────────────────────────────────
+    // CMS
+    // ────────────────────────────────────────────────────────────────────────
+    {
+      "label": "📋 CMS — Local",
+      "detail": "Start NetlifyCMS proxy server (pf cms)",
+      "type": "shell",
+      "command": "pf cms",
+      "group": "none",
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+
+    // ────────────────────────────────────────────────────────────────────────
+    // NETLIFY / MIGRATE
+    // ────────────────────────────────────────────────────────────────────────
+    {
+      "label": "☁️  Netlify — Deploy Preview",
+      "detail": "Build + open Netlify deploy preview (pf netlify preview)",
+      "type": "shell",
+      "command": "pf netlify preview",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "🚀 Migrate — Dry Run",
+      "detail": "Preview content migration actions without applying (pf migrate)",
+      "type": "shell",
+      "command": "pf migrate",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "🚀 Migrate — Deploy",
+      "detail": "Apply content migration and push to Netlify (pf migrate --deploy)",
+      "type": "shell",
+      "command": "pf migrate --deploy",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    // ────────────────────────────────────────────────────────────────────────
+    // PREVIEW / BROWSER
+    // ────────────────────────────────────────────────────────────────────────
+    {
+      "label": "🌐 Preview — Static Build",
+      "detail": "Serve /public on :8080 with Clean build (dev)",
+      "type": "shell",
+      "command": "pf build && node scripts/serve.js public 8080",
+      "group": "none",
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+      "problemMatcher": []
+    },
+
+    // ────────────────────────────────────────────────────────────────────────
+    // LEGACY / CHROME DEVTOOLS
+    // ────────────────────────────────────────────────────────────────────────
+    {
+      "label": "[Legacy] Hugo Server with DevTools",
+      "detail": "Hugo server bound to 0.0.0.0 for DevTools attach",
       "type": "shell",
       "command": "hugo",
       "args": ["server", "-D", "--port=1313", "--bind=0.0.0.0"],
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      },
+      "group": "none",
       "isBackground": true,
       "problemMatcher": {
         "owner": "hugo",
         "fileLocation": "relative",
         "pattern": {
           "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-          "file": 1,
-          "line": 2,
-          "column": 3,
-          "severity": 4,
-          "message": 5
+          "file": 1, "line": 2, "column": 3, "severity": 4, "message": 5
         }
       },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "new",
-        "showReuseMessage": true,
-        "clear": false
-      }
+      "presentation": { "reveal": "always", "panel": "new" }
     },
     {
-      "label": "Start Chrome with Remote Debugging",
+      "label": "[Legacy] Start Chrome with Remote Debugging",
       "type": "shell",
       "command": "start",
       "args": [
         "chrome",
         "--remote-debugging-port=9222",
         "--user-data-dir=${workspaceFolder}\\.chrome-debug-profile",
-        // "--disable-web-security",
         "--disable-features=VizDisplayCompositor",
         "http://localhost:1313"
       ],
-      "group": "test",
+      "group": "none",
       "isBackground": true,
-      "presentation": {
-        "echo": true,
-        "reveal": "never",
-        "focus": false,
-        "panel": "shared"
-      }
-    },
-    {
-      "label": "Watch CSS Changes",
-      "type": "shell",
-      "command": "npm",
-      "args": ["run", "watch"],
-      "group": "build",
-      "isBackground": true,
-      "presentation": {
-        "echo": true,
-        "reveal": "silent",
-        "focus": false,
-        "panel": "shared"
-      }
-    },
-    {
-      "label": "Full Development with DevTools",
-      "dependsOrder": "sequence",
-      "dependsOn": ["Hugo Server with DevTools", "Start Chrome with Remote Debugging"],
-      "group": "build"
+      "presentation": { "reveal": "never", "panel": "shared" }
     }
   ],
+
+  // ── Inputs — prompt values for tasks that need them ───────────────────────
   "inputs": [
+    {
+      "id": "portfolioSlug",
+      "type": "promptString",
+      "description": "Portfolio slug (lowercase, hyphens only — e.g. brand-refresh-2026)"
+    },
+    {
+      "id": "postSlug",
+      "type": "promptString",
+      "description": "Post slug (lowercase, hyphens only — e.g. my-first-post)"
+    },
     {
       "id": "partialName",
       "type": "promptString",
-      "description": "Enter the new partial name (without .html)"
+      "description": "Partial name without .html (e.g. call-to-action)"
     },
     {
       "id": "pageTitle",
       "type": "promptString",
-      "description": "Enter the new page title (e.g. About Me)"
+      "description": "Page title (e.g. About Me)"
     },
     {
       "id": "pageDescription",
       "type": "promptString",
-      "description": "Enter a short description for the page"
+      "description": "Short SEO description"
     },
     {
       "id": "pageDestination",
       "type": "pickString",
-      "description": "Select the destination folder for the new page",
+      "description": "Destination folder for the new page",
       "options": [
         "${workspaceFolder}/content",
         "${workspaceFolder}/content/portfolio",
@@ -113,7 +355,7 @@
     {
       "id": "subdomainName",
       "type": "promptString",
-      "description": "Enter the subdomain (e.g. blog.yoursite.com)"
+      "description": "Subdomain (e.g. blog.isaiahdavis.com)"
     },
     {
       "id": "subdomainType",
@@ -124,7 +366,7 @@
     {
       "id": "redirectTarget",
       "type": "promptString",
-      "description": "If redirect, enter the target URL (leave blank for subdomain)",
+      "description": "Redirect target URL (leave blank for subdomain)",
       "default": ""
     }
   ]

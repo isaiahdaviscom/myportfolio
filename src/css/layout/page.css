@@ -368,6 +368,7 @@
     grid-column: 2 / -2; /* slots into the content track of the parent --grid-template */
     min-width: 0; /* grid items default to min-width:auto — this prevents the track from
                                      being stretched beyond min(1200px, …) by long words or wide media */
+    padding-inline: 0; /* zero-out browser-default padding-inline-start on dl/ul/nav/etc. */
     container-type: inline-size; /* makes this column queryable — descendants can use cqi */
     container-name: content-col; /* named ref: @container content-col (min-width: N) { … } */
   }

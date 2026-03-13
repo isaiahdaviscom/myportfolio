@@ -1,6 +1,6 @@
 ---
 title: "Blog"
-description: "My latest posts and articles."
+description: "Thoughts on frontend performance, accessibility, design systems, and the craft of building things that work."
 ---
 
-Welcome to my blog! Here you'll find my latest posts and articles.
+Writing on frontend engineering, UX design, and the decisions that separate good work from forgettable work.

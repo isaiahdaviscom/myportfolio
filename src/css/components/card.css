@@ -57,7 +57,7 @@
     margin: 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    gap: var(--grid-gap-sm); /* ½ col unit — between related project cards */
   }
 
   @media (max-width: 640px) {

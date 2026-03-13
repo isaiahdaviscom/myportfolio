@@ -21,17 +21,14 @@
   ────────────────────────────────────────────────────────────── */
 
   .site-header {
-    display: grid;
-    grid-template-columns: var(--grid-template); /* 3-track: gutter | content | gutter */
-    grid-auto-rows: minmax(
-      var(--row-baseline),
-      auto
-    ); /* baseline grid — rows ≥ 24px, grow to fit content */
-
     position: sticky;
     top: 0;
     z-index: 50;
     width: 100%;
+    /* Same 26-track grid used by every page section — guarantees exact alignment */
+    display: grid;
+    grid-template-columns: var(--grid-template);
+    grid-auto-rows: minmax(var(--row-baseline), auto);
     padding-block: var(--space-2);
     background-color: rgba(255, 255, 255, 0.88);
     /* stylelint-disable-next-line property-no-vendor-prefix */
@@ -80,7 +77,8 @@
     display: flex;
     align-items: center;
     gap: var(--space-4);
-    grid-column: 2 / -2; /* content tracks — gutters handled by parent --grid-template */
+    /* Slots into tracks 2→-2, matching every other section's content column */
+    grid-column: 2 / -2;
   }
 
   .site-header__left {
@@ -403,11 +401,10 @@
       display: flex;
     }
 
-    /* Drawer: enable as full-bleed grid row, collapsed by default */
+    /* Drawer: full-bleed row below the header bar, collapsed by default */
     .site-header__drawer {
-      display: grid; /* participate in the site-header 3-track grid */
-      grid-column: 1 / -1; /* full bleed — spans gutter | content | gutter */
-      grid-template-rows: 1fr; /* wraps inner content */
+      display: grid; /* child of .site-header grid */
+      grid-column: 1 / -1; /* full-bleed across all 26 tracks */
       max-height: 0; /* collapsed */
       overflow: hidden;
       background-color: rgba(255, 255, 255, 0.96);
@@ -433,7 +430,7 @@
         border-top-width 0s ease 0s;
     }
 
-    /* Drawer inner wrapper — contains menu + social row */
+    /* Drawer inner wrapper — inherits natural block width from full-bleed drawer */
     .site-header__drawer-inner {
       padding: var(--space-3) 0 0;
       min-width: 0;

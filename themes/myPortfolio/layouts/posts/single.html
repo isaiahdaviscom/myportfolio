@@ -1,0 +1,191 @@
+{{- /*
+  Blog Post — Single Page Template
+  ──────────────────────────────────────────────────────────────────────────────
+  Layout:   Premium reading experience matching the portfolio cs-page aesthetic.
+  Scope:    content/posts/** only (section-specific override of _default/single).
+  Sections:
+    1. Reading progress bar (CSS scroll-driven, no JS)
+    2. Hero — eyebrow category, title, description, meta chips
+    3. Cover image (optional, from .Params.cover)
+    4. Article — prose body, .Content
+    5. Tags row
+    6. Author card
+    7. Post navigation — prev / next in section
+*/ -}}
+{{ define "main" }}
+
+{{- /* ── Derived values ──────────────────────────────────────────────────── */ -}}
+{{- $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" -}}
+{{- $dateHuman   := .Date | time.Format "January 2, 2006" -}}
+{{- $readingTime := .ReadingTime -}}
+{{- $wordCount   := .WordCount -}}
+{{- $categories  := .Params.categories -}}
+{{- $tags        := .Params.tags -}}
+{{- $cover       := .Params.cover -}}
+{{- $prev        := .PrevInSection -}}
+{{- $next        := .NextInSection -}}
+
+{{- /* Primary category label for eyebrow */ -}}
+{{- $primaryCat := "" -}}
+{{- with $categories }}{{- $primaryCat = index . 0 | title }}{{- end -}}
+
+<div class="bs-page">
+
+  {{- /* ── 1. Scroll-driven reading progress bar ─────────────────────────── */ -}}
+  <div class="bs-progress" role="progressbar" aria-hidden="true">
+    <div class="bs-progress__fill"></div>
+  </div>
+
+  {{- /* ── 2. Hero ──────────────────────────────────────────────────────────── */ -}}
+  <header class="bs-hero">
+    <div class="bs-container">
+
+      {{ partial "breadcrumb.html" . }}
+
+      {{- /* Category eyebrow */ -}}
+      {{- with $primaryCat }}
+      <span class="bs-hero__eyebrow">{{ . }}</span>
+      {{- end }}
+
+      <h1 class="bs-hero__title">{{ .Title }}</h1>
+
+      {{- /* Description */ -}}
+      {{- with .Description }}
+      <p class="bs-hero__description">{{ . }}</p>
+      {{- end }}
+
+      {{- /* Meta chips row */ -}}
+      <div class="bs-hero__meta" role="list" aria-label="Article metadata">
+
+        {{- /* Date */ -}}
+        <time class="bs-chip bs-chip--muted" datetime="{{ $dateMachine }}" role="listitem">
+          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8"  y1="2" x2="8"  y2="6"/>
+            <line x1="3"  y1="10" x2="21" y2="10"/>
+          </svg>
+          {{ $dateHuman }}
+        </time>
+
+        {{- /* Reading time */ -}}
+        <span class="bs-chip bs-chip--muted" role="listitem">
+          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          {{ $readingTime }} min read
+        </span>
+
+        {{- /* Word count */ -}}
+        <span class="bs-chip bs-chip--muted" role="listitem">
+          {{ $wordCount }} words
+        </span>
+
+        {{- /* Category tag(s) */ -}}
+        {{- range $categories }}
+        <span class="bs-chip bs-chip--accent" role="listitem">{{ . | title }}</span>
+        {{- end }}
+
+      </div>{{/* /.bs-hero__meta */}}
+
+      {{- /* Inline tags row */ -}}
+      {{- with $tags }}
+      <div class="bs-hero__tags" role="list" aria-label="Topics">
+        {{- range . }}
+        <span class="bs-tag" role="listitem">#{{ . }}</span>
+        {{- end }}
+      </div>
+      {{- end }}
+
+    </div>{{/* /.bs-container (hero) */}}
+
+    {{- /* ── Cover image ──────────────────────────────────────────────────── */ -}}
+    {{- with $cover }}
+    <div class="bs-container bs-hero__cover-wrap">
+      <div class="bs-hero__cover">
+        <img src="{{ . }}" alt="{{ $.Title | htmlEscape }}" loading="eager" width="1200" height="630">
+      </div>
+    </div>
+    {{- end }}
+
+  </header>{{/* /.bs-hero */}}
+
+  {{- /* ── 3. Article body ─────────────────────────────────────────────────── */ -}}
+  <main id="bs-content" class="bs-body">
+    <div class="bs-container bs-container--prose">
+      <article class="bs-article prose prose-lg">
+        {{ .Content }}
+      </article>
+
+      {{- /* ── Tags footer row */ -}}
+      {{- with $tags }}
+      <div class="bs-article-tags" role="list" aria-label="Article tags">
+        {{- range . }}
+        <span class="bs-tag" role="listitem">#{{ . }}</span>
+        {{- end }}
+      </div>
+      {{- end }}
+
+      {{- /* ── 4. Author card ────────────────────────────────────────────── */ -}}
+      <aside class="bs-author" aria-label="About the author">
+        <div class="bs-author__avatar" aria-hidden="true">ID</div>
+        <div class="bs-author__body">
+          <p class="bs-author__name">Isaiah Davis</p>
+          <p class="bs-author__bio">
+            Frontend Developer &amp; UI Engineer based in Chicago, IL. I build fast, accessible web
+            experiences — focused on measurable outcomes over aesthetic drama.
+          </p>
+          <div class="bs-author__links">
+            <a href="/about/" class="bs-author__link">About</a>
+            <a href="/portfolio/" class="bs-author__link">Portfolio</a>
+            <a href="/contact/" class="bs-author__link">Get in touch</a>
+          </div>
+        </div>
+      </aside>
+
+      {{- /* ── 5. Post navigation ─────────────────────────────────────────── */ -}}
+      {{- if or $prev $next }}
+      <nav class="bs-post-nav" aria-label="More posts">
+        <p class="bs-post-nav__label">More writing</p>
+        <div class="bs-post-nav__grid">
+
+          {{- with $next }}
+          <a href="{{ .RelPermalink }}" class="bs-post-nav__item bs-post-nav__item--prev">
+            <span class="bs-post-nav__direction">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none"
+                   viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+              </svg>
+              Previous
+            </span>
+            <span class="bs-post-nav__title">{{ .Title }}</span>
+          </a>
+          {{- end }}
+
+          {{- if and $next $prev }}<div class="bs-post-nav__divider"></div>{{- end }}
+
+          {{- with $prev }}
+          <a href="{{ .RelPermalink }}" class="bs-post-nav__item bs-post-nav__item--next">
+            <span class="bs-post-nav__direction">
+              Next
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none"
+                   viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+              </svg>
+            </span>
+            <span class="bs-post-nav__title">{{ .Title }}</span>
+          </a>
+          {{- end }}
+
+        </div>
+      </nav>
+      {{- end }}
+
+    </div>{{/* /.bs-container--prose */}}
+  </main>
+
+</div>{{/* /.bs-page */}}
+{{ end }}

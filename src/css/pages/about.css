@@ -104,7 +104,7 @@
   .about-skills__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--grid-gutter);
+    gap: var(--grid-gap-sm); /* ½ col unit — tighter for small icon cards */
   }
 
   @media (min-width: 640px) {
@@ -204,7 +204,7 @@
   .about-values__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--grid-gutter);
+    gap: var(--grid-gap-sm); /* ½ col unit — consistent with skills grid */
   }
 
   @media (min-width: 640px) {

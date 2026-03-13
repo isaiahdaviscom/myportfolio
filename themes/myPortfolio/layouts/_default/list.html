@@ -134,33 +134,32 @@
         {{- range $rest }}
         <a href="{{ .RelPermalink }}" class="pf-card">
 
-          {{/* Cover image */}}
+          {{/* Image fills entire card — body overlays on dark gradient */}}
           <div class="pf-card__image">
             {{- with .Params.cover }}
             <img src="{{ . }}" alt="{{ $.Title }} cover"
                  class="pf-card__img"
-                 width="514" height="290" loading="lazy">
+                 width="514" height="385" loading="lazy">
             {{- else }}
             <div class="pf-card__fallback">
               <span class="pf-card__fallback-letter">{{ substr .Title 0 1 }}</span>
             </div>
             {{- end }}
-            <div class="pf-card__hover-overlay"></div>
-          </div>
 
-          {{/* Body */}}
-          <div class="pf-card__body">
-            <div class="pf-card__chips">
-              {{- with .Params.role }}<span class="pf-chip pf-chip--sm pf-chip--accent-soft">{{ . }}</span>{{- end }}
-              {{- with .Params.employment_type }}<span class="pf-chip pf-chip--sm">{{ . }}</span>{{- end }}
+            {{/* Body — positioned over gradient via CSS */}}
+            <div class="pf-card__body">
+              <div class="pf-card__chips">
+                {{- with .Params.role }}<span class="pf-chip pf-chip--sm">{{ . }}</span>{{- end }}
+                {{- with .Params.employment_type }}<span class="pf-chip pf-chip--sm pf-chip--muted">{{ . }}</span>{{- end }}
+              </div>
+              <h2 class="pf-card__title">{{ .Title }}</h2>
+              <p class="pf-card__dates">{{ .Params.dates }}</p>
+              {{- with .Params.skills }}
+              <div class="pf-card__skills">
+                {{- range first 4 . }}<span class="pf-chip pf-chip--xs">{{ . }}</span>{{- end }}
+              </div>
+              {{- end }}
             </div>
-            <h2 class="pf-card__title">{{ .Title }}</h2>
-            <p class="pf-card__dates">{{ .Params.dates }}</p>
-            {{- with .Params.skills }}
-            <div class="pf-card__skills">
-              {{- range first 3 . }}<span class="pf-chip pf-chip--xs">{{ . }}</span>{{- end }}
-            </div>
-            {{- end }}
           </div>
         </a>
         {{- end }}
