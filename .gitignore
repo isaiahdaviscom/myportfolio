@@ -53,6 +53,9 @@ devtools.json
 css-cleanup-dryrun-report.json
 used-classes.json
 
+# Storybook static build output (generated — do not commit)
+storybook-static/
+
 scripts/
 # Local Netlify folder
 .netlify

@@ -19,7 +19,7 @@
 
 # Development/Staging environment (develop branch)
 [context.develop]
-  command = "npm run build:dev && npm run storybook:build && mkdir -p public/storybook && cp -r storybook-static/. public/storybook"
+  command = "npm run build:dev && npx storybook build --output-dir public/storybook"
   [context.develop.environment]
     HUGO_ENV = "development"
     NODE_ENV = "development"
