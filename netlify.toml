@@ -19,12 +19,13 @@
 
 # Development/Staging environment (develop branch)
 [context.develop]
-  command = "npm run build:dev"
+  command = "npm run build:dev && npm run storybook:build && mkdir -p public/storybook && cp -r storybook-static/. public/storybook"
   [context.develop.environment]
     HUGO_ENV = "development"
     NODE_ENV = "development"
     HUGO_BASEURL = "https://myportfolio-develop.netlify.app"
     ROBOTS_DISALLOW = "true"
+    HUGO_PARAMS_STORYBOOKBASEURL = "https://myportfolio-develop.netlify.app/storybook"
 
 # Production environment (master branch)
 [context.production]
