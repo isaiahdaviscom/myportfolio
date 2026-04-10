@@ -4,7 +4,7 @@
 
 [build.environment]
   HUGO_VERSION = "0.132.2"
-  NODE_VERSION = "18"
+  NODE_VERSION = "20"
   NPM_VERSION = "9"
 
 # Local development — `netlify dev` uses this instead of the build command.
