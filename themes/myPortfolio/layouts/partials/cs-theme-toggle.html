@@ -36,28 +36,22 @@
 
 <script>
 (function () {
+  // Theme initialisation (localStorage restore + system preference) is handled
+  // in <head> via baseof.html to prevent a flash of light-mode on the hero.
+  // This script only wires the click handler once the button is in the DOM.
   var STORAGE_KEY = 'cs-theme';
   var html = document.documentElement;
   var btn  = document.querySelector('[data-theme-toggle]');
 
-  function applyTheme(theme) {
-    if (theme === 'dark') {
-      html.setAttribute('data-theme', 'dark');
-    } else {
-      html.removeAttribute('data-theme');
-    }
-  }
-
-  // Restore saved preference or match system
-  var saved  = localStorage.getItem(STORAGE_KEY);
-  var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  applyTheme(saved || system);
-
   if (btn) {
     btn.addEventListener('click', function () {
-      var current = html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-      var next    = current === 'dark' ? 'light' : 'dark';
-      applyTheme(next);
+      var isDark = html.getAttribute('data-theme') === 'dark';
+      var next   = isDark ? 'light' : 'dark';
+      if (next === 'dark') {
+        html.setAttribute('data-theme', 'dark');
+      } else {
+        html.removeAttribute('data-theme');
+      }
       try { localStorage.setItem(STORAGE_KEY, next); } catch (_) {}
     });
   }

@@ -84,6 +84,22 @@
 
     </div>{{/* /.cs-container (hero text) */}}
 
+    {{/* ── Cover image ──────────────────────────────────────────────────── */}}
+    {{- with .Params.cover }}
+    <div class="cs-container">
+      <div class="cs-hero__cover">
+        <img
+          src="{{ . }}"
+          alt="{{ $.Title }} — project cover"
+          width="1200"
+          height="480"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+    </div>
+    {{- end }}
+
     {{/* ── Metric tiles ─────────────────────────────────────────────────── */}}
     {{- with .Params.metrics }}
     <div class="cs-container">
@@ -106,23 +122,14 @@
     </div>
     {{- end }}
 
-    {{/* ── Cover image ──────────────────────────────────────────────────── */}}
-    {{- with .Params.cover }}
-    <div class="cs-container">
-      <div class="cs-hero__cover">
-        <img
-          src="{{ . }}"
-          alt="{{ $.Title }} — project cover"
-          width="1200"
-          height="480"
-          loading="eager"
-          decoding="async"
-        />
-      </div>
-    </div>
-    {{- end }}
-
   </header>{{/* /.cs-hero */}}
+
+  {{/* ════════════════════════════════════════════════════════════════════════
+       1.5 FIGMA PROTOTYPE EMBED — only renders if figma_embed is set
+       Positioned after metrics/cover and before prose so visitors can
+       explore the prototype before reading the case study narrative.
+       ════════════════════════════════════════════════════════════════════════ */}}
+  {{- partial "cs-figma-embed.html" . }}
 
   {{/* ════════════════════════════════════════════════════════════════════════
        2. PROSE — rendered markdown (Challenge / Role / Achievements)

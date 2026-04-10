@@ -5,6 +5,8 @@ role: "Web Designer"
 dates: "Jan 2019 — Apr 2021"
 heading: "Unifying the Digital Brand Experience for Independent Grocers Alliance"
 bgcolor: "bg-white"
+figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
+figma_title: "IGA — Interactive Prototype"
 feature: true
 weight: 20
 employment_type: "Full-time"

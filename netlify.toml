@@ -22,6 +22,7 @@
   command = "npm run build:dev"
   [context.develop.environment]
     HUGO_ENV = "development"
+    NODE_ENV = "development"
     HUGO_BASEURL = "https://myportfolio-develop.netlify.app"
     ROBOTS_DISALLOW = "true"
 
@@ -37,12 +38,14 @@
   command = "npm run build:dev"
   [context.deploy-preview.environment]
     HUGO_ENV = "preview"
+    NODE_ENV = "development"
 
 # Branch deploys (any other branch)
 [context.branch-deploy]
   command = "npm run build:dev"
   [context.branch-deploy.environment]
     HUGO_ENV = "staging"
+    NODE_ENV = "development"
 
 [build.processing]
   skip_processing = ["node_modules/**"]
@@ -97,7 +100,7 @@
     Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://identity.netlify.com https://cdn.acsbapp.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://identity.netlify.com https://api.netlify.com https://cdn.acsbapp.com; frame-src https://www.googletagmanager.com; worker-src 'self'; manifest-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.netlify.com; upgrade-insecure-requests;"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://identity.netlify.com https://cdn.acsbapp.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://identity.netlify.com https://api.netlify.com https://cdn.acsbapp.com; frame-src https://www.googletagmanager.com https://www.figma.com https://figma.com https://embed.figma.com; worker-src 'self'; manifest-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.netlify.com; upgrade-insecure-requests;"
 
 # Development environment headers
 [[headers]]
@@ -168,6 +171,13 @@
 [[headers]]
   for = "/service-worker.js"
   [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+# Contact success page — transient state page, never index
+[[headers]]
+  for = "/contact/success/"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
     Cache-Control = "no-cache, no-store, must-revalidate"
 
 # NetlifyCMS Admin Interface Headers

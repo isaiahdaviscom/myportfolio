@@ -5,6 +5,8 @@ role: "Creative Director"
 dates: "June 2021 — Present"
 heading: "Creative Direction & Brand Refresh for Love is Like a Candle"
 bgcolor: "bg-gray-900"
+figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
+figma_title: "Love is Like a Candle — Interactive Prototype"
 feature: true
 weight: 50
 employment_type: "Freelance"

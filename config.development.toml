@@ -15,6 +15,7 @@ buildExpired = true
 [params]
   noindex = true
   environment = "development"
+  storybookBaseURL = "http://localhost:6006"
   # GTM — Development environment (Netlify preview)
   # Credentials from: GTM → Admin → Environments → Development → Actions → Get snippet
   gtmId      = "GTM-W3VQVDR"

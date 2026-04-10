@@ -102,9 +102,10 @@
     }
   }
 
-  /* White gap between ring and avatar */
+  /* White gap between ring and avatar — uses --color-bg so it
+     blends with the page background in both light and dark mode */
   .stories-ring-inner {
-    background: white;
+    background: var(--color-bg);
     border-radius: 9999px;
     padding: 2px;
     display: flex;
@@ -129,7 +130,7 @@
     width: 12px;
     height: 12px;
     border-radius: 9999px;
-    border: 2px solid white;
+    border: 2px solid var(--color-bg); /* adapts: white in light, dark navy in dark */
     background: #9ca3af;
     transition: background 0.3s ease;
   }

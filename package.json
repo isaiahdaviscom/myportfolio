@@ -35,6 +35,7 @@
     "dev:cms": "node scripts/concurrent.js \"npm run hugo\" \"npm run cms:local\"",
     "dev:simple": "npm run start",
     "workflow:dev": "echo 'Starting full development workflow...' && npm run dev:full",
+    "workflow:full": "node scripts/concurrent.js \"npm run hugo\" \"npm run watch\" \"npm run storybook\"",
     "workflow:content": "echo 'Starting content management workflow...' && npm run dev:cms",
     "workflow:build": "echo 'Starting build workflow...' && npm run test && npm run build:prod",
     "lint": "npm run lint:css && npm run lint:js && npm run lint:md",

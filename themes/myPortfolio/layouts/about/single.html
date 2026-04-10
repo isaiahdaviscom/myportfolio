@@ -14,14 +14,15 @@
   {{/* ══════════════════════════════════════════════════════════════
        1. HERO
        ══════════════════════════════════════════════════════════════ */}}
-  <section class="page-hero">
+  <section class="page-hero about-hero">
     <div class="container">
       {{ partial "breadcrumb.html" . }}
 
       <div class="mt-6 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12">
 
-        {{/* Avatar */}}
+        {{/* Avatar with animated ring */}}
         <div class="about-avatar">
+          <div class="about-avatar__ring" aria-hidden="true"></div>
           <div class="about-avatar__frame">
             <img src="/images/profile-branded.png"
                  alt="Isaiah Davis"
@@ -33,13 +34,17 @@
 
         {{/* Headline */}}
         <div>
+          <div class="about-hero__status" aria-label="Availability status">
+            <span class="about-hero__status-dot" aria-hidden="true"></span>
+            <span class="about-hero__status-text">Available for new projects</span>
+          </div>
           <p class="page-eyebrow mb-2">
             {{ .Params.tagline | default "Frontend Developer · Chicago, IL" }}
           </p>
           <h1 class="page-h1 mb-4 max-w-2xl">
             {{ .Params.heading | default .Title }}
           </h1>
-          <div class="flex flex-wrap gap-3">
+          <div class="flex flex-wrap gap-5">
             <a href="/contact/" class="btn-primary">
               Get in touch
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"

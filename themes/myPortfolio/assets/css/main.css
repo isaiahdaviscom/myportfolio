@@ -43,35 +43,11 @@
 @layer base {
   /* ========================================
      2.1 Container System
+     ========================================
+     NOTE: .container layout is defined in src/css/layout/page.css via the
+     26-track grid system (grid-column: 2 / -2). Width and padding are
+     controlled there; nothing to declare here.
      ======================================== */
-
-  /* Large desktop containers */
-  @media (width >= 1200px) {
-    .container {
-      width: 1170px;
-    }
-  }
-
-  /* Desktop containers */
-  @media (width >= 992px) {
-    .container {
-      width: 970px;
-    }
-  }
-
-  /* Tablet containers */
-  @media (width >= 768px) {
-    .container {
-      width: 750px;
-    }
-  }
-
-  /* Base container with max-width and padding */
-  .container {
-    padding-left: 50px;
-    padding-right: 50px;
-    max-width: 1500px;
-  }
 
   /* ========================================
      2.2 Typography System
@@ -112,14 +88,15 @@
    3. HEADER COMPONENTS
    ============================================= */
 @layer base {
-  /* Site banner only — scoped to role=banner so article <header> tags are unaffected */
-  header[role='banner'] {
+  /* Site navigation header only — scoped to .site-header so cs-hero and other
+     <header role="banner"> elements are not affected */
+  .site-header {
     background-color: #fff;
     border-bottom: 1px solid #e5e5e5;
   }
 
-  /* Primary navigation inside banner */
-  header[role='banner'] nav ul {
+  /* Primary navigation inside site header */
+  .site-header nav ul {
     display: flex;
     gap: 1.5rem;
     list-style: none;
@@ -127,62 +104,27 @@
     padding: 0;
   }
 
-  header[role='banner'] nav ul li a {
+  .site-header nav ul li a {
     color: #374151;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease;
   }
 
-  header[role='banner'] nav ul li a:hover {
+  .site-header nav ul li a:hover {
     color: #1d4ed8;
   }
 }
 
 /* =============================================
-   4. HERO SECTION COMPONENTS  
-   ============================================= */
-
-/* Main hero section with gradient background */
-.hero {
-  background: linear-gradient(135deg, #007acc, #50e3c2);
-  color: white;
-  text-align: center;
-  padding: 4rem 2rem;
-}
-
-/* Hero main heading */
-.hero h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-/* Hero description text */
-.hero p {
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
-}
-
-/* Hero call-to-action button */
-.hero a {
-  display: inline-block;
-  background-color: #fff;
-  color: #007acc;
-  padding: 0.75rem 1.5rem;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: 600;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
-}
-
-/* Hero button hover state */
-.hero a:hover {
-  background-color: #007acc;
-  color: #fff;
-}
+   4. HERO SECTION COMPONENTS
+   =============================================
+   NOTE: Generic .hero removed — the site uses scoped hero classes:
+   .home-hero  (home.css)   — dark navy landing section
+   .page-hero  (page.css)   — gradient hero used on interior pages
+   .cs-hero    (case-study.css) — portfolio case study header
+   Do not add unscoped element-type selectors here.
+*/
 
 /* =============================================
    5. FOOTER COMPONENTS

@@ -1,13 +1,11 @@
 ---
 title: "Message Sent"
-description: "Your message has been sent. Isaiah Davis will be in touch soon."
+heading: "Message sent!"
+description: "Thanks for reaching out — I'll get back to you within one business day."
 url: "/contact/success/"
-type: "page"
+type: "contact"
+layout: "success"
 sitemap:
   disable: true
 robots: "noindex"
 ---
-
-Your message has been received — expect a reply within one business day.
-
-[← Back to Contact](/contact/)

@@ -15,16 +15,19 @@
   {{ end }}
 
   {{- /* SEO and Robot Control */ -}}
-  {{ if eq hugo.Environment "production" }}
-  <meta name="robots" content="index, follow">
+  {{- /* Per-page `robots` front-matter overrides environment default.
+       e.g.  robots: "noindex"  in a page's front matter prevents indexing
+       even when HUGO_ENV=production (used for transient pages like /contact/success/). */ -}}
+  {{- $envDefault := cond (eq hugo.Environment "production") "index, follow" "noindex, nofollow, noarchive, nosnippet, noimageindex" -}}
+  {{- $robotsContent := .Params.robots | default $envDefault -}}
+  <meta name="robots" content="{{ $robotsContent }}">
+  {{- if and (eq hugo.Environment "production") (not .Params.robots) }}
   <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="bingbot" content="index, follow">
-  {{ else }}
-  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-  <meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-
-  {{ end }}
+  {{- else }}
+  <meta name="googlebot" content="{{ $robotsContent }}">
+  <meta name="bingbot" content="{{ $robotsContent }}">
+  {{- end }}
   <meta name="description"
     content="{{ with .Params.description }}{{ . | htmlEscape }}{{ else }}{{ .Site.Params.description | htmlEscape }}{{ end }}">
   <meta name="keywords" content="{{ delimit .Site.Params.keywords " , " | htmlEscape }}">
@@ -80,6 +83,23 @@
   <!-- Apple touch icon for PWA support - properly placed in head section -->
   <link rel="apple-touch-icon" href="/images/profile-branded.png">
   <link rel="icon" href="/favicon.ico">
+
+  {{- /* ── Case study dark-mode init ─────────────────────────────────────────
+       Runs in <head> BEFORE the stylesheet and first paint so the hero section
+       never flashes light-mode colours when the user has dark preference stored.
+       Scoped to /portfolio/* pages — the only pages with a theme toggle.      */}}
+  {{- if eq .Section "portfolio" }}
+  <script>
+  (function () {
+    try {
+      var saved  = localStorage.getItem('cs-theme');
+      var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      var theme  = saved || system;
+      if (theme === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); }
+    } catch (_) {}
+  })();
+  </script>
+  {{- end }}
 
   <!-- Stylesheets with cache busting -->
   {{ if eq hugo.Environment "production" }}
@@ -179,10 +199,7 @@
   {{- end }}
 
   <!-- Skip to main content link for accessibility -->
-  <a href="#main-content"
-    class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 bg-blue-600 text-white p-2 z-50">
-    Skip to main content
-  </a>
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
 
   <!-- Site Header -->
   <header class="site-header" role="banner">

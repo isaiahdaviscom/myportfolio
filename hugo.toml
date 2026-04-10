@@ -6,6 +6,7 @@ theme = 'myPortfolio'
 [params]
   author = "Isaiah Davis"
   description = "My portfolio website"
+  storybookBaseURL = ""
   keywords = ["portfolio", "web developer", "Isaiah Davis"]
   logo = "images/logo.png"
   favicon = "images/favicon.ico"
@@ -16,6 +17,11 @@ theme = 'myPortfolio'
   # Google Tag Manager container ID — override per environment in config.*.toml
   gtmId = "GTM-W3VQVDR"
   
+
+[taxonomies]
+  tag      = "tags"
+  category = "categories"
+  series   = "series"
 
 [build]
 

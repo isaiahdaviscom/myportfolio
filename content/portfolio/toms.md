@@ -5,6 +5,8 @@ role: "Graphic Designer + Marketing Specialist"
 dates: "June 2021 — Dec 2018"
 heading: "Multi-Platform Campaign Design & Marketing for Toms"
 bgcolor: "bg-gray-900"
+figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
+figma_title: "Toms — Interactive Prototype"
 feature: true
 weight: 70
 employment_type: "Freelance"

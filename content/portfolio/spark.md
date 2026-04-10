@@ -5,6 +5,8 @@ role: "Web Designer"
 dates: "Jan 2019 — Apr 2021"
 heading: "Redesigning the Spark Conference Website to Drive Registrations"
 bgcolor: "bg-white"
+figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
+figma_title: "Spark Conference — Interactive Prototype"
 feature: true
 weight: 90
 employment_type: "Contract"

@@ -206,8 +206,14 @@
        • On a full-content section (≈1200px)  → 50px  (= 1 col unit)
        • On a 12-col subgrid child (≈600px)   → 25px  (proportionally correct)
        • On a 8-col card grid (≈400px)        → 16.7px (tighter, as expected)
-     Use ONLY for `gap`, `column-gap`, `row-gap`. Use --grid-col-unit for
-     anything else (padding, margin, width) where absolute size must be stable. */
+
+     ⚠️  CSS SPEC LIMITATION — use ONLY for `column-gap`.
+     `row-gap` percentages resolve against the grid container's block-size.
+     When block-size is auto (content-driven, the common case), the percentage
+     resolves to 0 and only the max() floor remains — making row-gap look
+     smaller than column-gap. For row-gap always use --grid-col-unit instead:
+       column-gap: var(--grid-gap-sm);
+       row-gap: max(0.75rem, calc(var(--grid-col-unit) * 0.5)); */
   --grid-gap-unit: calc(100% / 24);
 
   /* Gap scale — fractions of --grid-gap-unit (container-relative).
@@ -328,6 +334,12 @@
   --color-accent-border: #1e3a6a;
   --color-success: #34d399;
   --color-success-soft: #052e22;
+  --color-warning: #fbbf24;
+  --color-warning-soft: #2a1d04;
+  --color-error: #f87171;
+  --color-error-soft: #2d1515;
+  --color-info: #38bdf8;
+  --color-info-soft: #082132;
   --color-metric-1: #4d8dff;
   --color-metric-1-soft: #0c1e3a;
   --color-metric-2: #34d399;

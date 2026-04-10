@@ -20,6 +20,16 @@
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
       "problemMatcher": []
     },
+    {
+      "label": "🎨 Dev + Design System",
+      "detail": "Hugo + CSS + Storybook simultaneously (pf serve --storybook)",
+      "type": "shell",
+      "command": "pf serve --storybook",
+      "group": "build",
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+      "problemMatcher": []
+    },
 
     // ────────────────────────────────────────────────────────────────────────
     // BUILD

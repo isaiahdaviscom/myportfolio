@@ -17,9 +17,9 @@
 
 @layer components {
   .badge {
-    /* Core badge styling - portfolio specific */
-    background-color: #000;
-    color: #fff;
+    /* Token-driven — inverts correctly in both light and dark mode */
+    background-color: var(--color-surface-invert);
+    color: var(--color-text-invert);
     padding: 0.25em 1em;
     font-size: 0.85em;
     border-radius: 4px;

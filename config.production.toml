@@ -11,6 +11,7 @@ buildExpired = false
 [params]
   noindex = false
   environment = "production"
+  storybookBaseURL = ""
   gtmId = "GTM-W3VQVDR"
   # GTM environment auth (from GTM > Admin > Environments > Get snippet)
   gtmAuth    = "GMsuu1ip1hXipaQfWCwZjg"

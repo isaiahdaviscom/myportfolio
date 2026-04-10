@@ -10,15 +10,14 @@ weight: 10
 employment_type: "Full-time"
 location: "Chicago, IL · Hybrid"
 skills:
+  - Optimizely CMS
+  - Usercentrics
+  - HTML
+  - CSS
+  - Vanilla JS
   - TypeScript
-  - Hugo
-  - Tailwind CSS
-  - Google Tag Manager
-  - Git
-  - Accessibility
-  - CI/CD
-  - Performance Optimization
-  - Search Engine Optimization (SEO)
+  - SQL
+  - C++
 
 # ── Design-system data ────────────────────────────────────────────────────────
 # Displayed as metric tiles in the case study hero section.

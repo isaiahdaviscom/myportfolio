@@ -5,6 +5,8 @@ role: "Designer + Developer"
 dates: "June 2021 — Dec 2018"
 heading: "Designing & Launching Mac N Cheese Bar's Digital Presence"
 bgcolor: "bg-gray-900"
+figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
+figma_title: "Mac N Cheese Bar — Interactive Prototype"
 feature: true
 weight: 60
 employment_type: "Freelance"

@@ -396,6 +396,11 @@
       display: none;
     }
 
+    /* Hide desktop social icons — duplicated in the mobile drawer */
+    .site-header__social {
+      display: none;
+    }
+
     /* Show the hamburger button */
     .site-header__nav-toggle {
       display: flex;

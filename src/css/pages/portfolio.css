@@ -272,7 +272,11 @@
   .pf-card-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--grid-gap-sm); /* ½ col unit — matches gap scale of the page grid */
+    /* column-gap: percentage resolves against container inline-size (width) — works correctly.
+       row-gap: percentage resolves against block-size, which is 0 when height is auto (CSS spec).
+       Use --grid-col-unit (vw-based, stable) for row-gap so both axes are visually equal. */
+    column-gap: var(--grid-gap-sm);
+    row-gap: max(0.75rem, calc(var(--grid-col-unit) * 0.5));
   }
 
   @media (min-width: 640px) {

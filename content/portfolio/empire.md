@@ -5,6 +5,8 @@ role: "Web Designer"
 dates: "Jan 2019 — Apr 2021"
 heading: "Editorial Web Design & UX Redesign for Empire Magazine"
 bgcolor: "bg-white"
+figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
+figma_title: "Empire Magazine — Interactive Prototype"
 feature: true
 weight: 80
 employment_type: "Freelance"

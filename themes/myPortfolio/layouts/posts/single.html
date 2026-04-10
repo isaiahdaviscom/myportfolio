@@ -25,6 +25,29 @@
 {{- $prev        := .PrevInSection -}}
 {{- $next        := .NextInSection -}}
 
+{{- /* ── Series data ──────────────────────────────────────────────────── */ -}}
+{{- $isSeries   := and .Params.series .Params.seriesOrder -}}
+{{- $sTitle     := "" -}}
+{{- $sOrder     := 0 -}}
+{{- $sTotal     := 0 -}}
+{{- $sPages     := slice -}}
+{{- $sPrev      := false -}}
+{{- $sNext      := false -}}
+{{- if $isSeries -}}
+  {{- $sName    := index .Params.series 0 -}}
+  {{- $sSlug    := $sName | urlize -}}
+  {{- $sTitle    = $sName | humanize | title -}}
+  {{- $sOrder    = .Params.seriesOrder | int -}}
+  {{- with index .Site.Taxonomies.series $sSlug -}}
+    {{- $sPages = sort .Pages ".Params.seriesOrder" -}}
+  {{- end -}}
+  {{- $sTotal    = len $sPages -}}
+  {{- range $sPages -}}
+    {{- if eq (.Params.seriesOrder | int) (sub $sOrder 1) -}}{{- $sPrev = . -}}{{- end -}}
+    {{- if eq (.Params.seriesOrder | int) (add $sOrder 1) -}}{{- $sNext = . -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+
 {{- /* Primary category label for eyebrow */ -}}
 {{- $primaryCat := "" -}}
 {{- with $categories }}{{- $primaryCat = index . 0 | title }}{{- end -}}
@@ -115,7 +138,38 @@
 
   {{- /* ── 3. Article body ─────────────────────────────────────────────────── */ -}}
   <main id="bs-content" class="bs-body">
-    <div class="bs-container bs-container--prose">
+    <div class="bs-container{{ if not $isSeries }} bs-container--prose{{ end }}">
+      {{- /* ── Series two-column layout ──────────────────────────────────── */ -}}
+      {{- if $isSeries -}}
+      <div class="bs-series-layout">
+        <aside class="bs-series-sidebar" aria-label="Series: {{ $sTitle }}">
+          <div class="bs-series">
+            <header class="bs-series__header">
+              <span class="bs-series__eyebrow">Series</span>
+              <p class="bs-series__title">{{ $sTitle }}</p>
+              <span class="bs-series__count">Part {{ $sOrder }} of {{ $sTotal }}</span>
+            </header>
+            <ol class="bs-series__list" role="list">
+              {{- range $sPages -}}
+              {{- $isCurrent := eq .Permalink $.Permalink -}}
+              <li class="bs-series__item{{ if $isCurrent }} bs-series__item--current{{ end }}">
+                <span class="bs-series__num" aria-hidden="true">{{ .Params.seriesOrder }}</span>
+                {{- if $isCurrent -}}
+                <span class="bs-series__item-body">
+                  <span class="bs-series__reading-badge" aria-label="You are reading this post">Reading now</span>
+                  <span class="bs-series__item-title">{{ .Title }}</span>
+                </span>
+                {{- else -}}
+                <a href="{{ .RelPermalink }}" class="bs-series__item-link">{{ .Title }}</a>
+                {{- end -}}
+              </li>
+              {{- end -}}
+            </ol>
+          </div>
+        </aside>
+        <div class="bs-series-main">
+      {{- end -}}
+
       <article class="bs-article prose prose-lg">
         {{ .Content }}
       </article>
@@ -147,7 +201,49 @@
       </aside>
 
       {{- /* ── 5. Post navigation ─────────────────────────────────────────── */ -}}
-      {{- if or $prev $next }}
+      {{- if $isSeries -}}
+
+      {{- /* Series-aware navigation */ -}}
+      {{- if or $sPrev $sNext }}
+      <nav class="bs-post-nav bs-post-nav--series" aria-label="Continue the series">
+        <p class="bs-post-nav__label">Continue the series</p>
+        <div class="bs-post-nav__grid">
+
+          {{- with $sNext }}
+          <a href="{{ .RelPermalink }}" class="bs-post-nav__item bs-post-nav__item--prev">
+            <span class="bs-post-nav__direction">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none"
+                   viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+              </svg>
+              Part {{ .Params.seriesOrder }}
+            </span>
+            <span class="bs-post-nav__title">{{ .Title }}</span>
+          </a>
+          {{- end }}
+
+          {{- if and $sNext $sPrev }}<div class="bs-post-nav__divider"></div>{{- end }}
+
+          {{- with $sPrev }}
+          <a href="{{ .RelPermalink }}" class="bs-post-nav__item bs-post-nav__item--next">
+            <span class="bs-post-nav__direction">
+              Part {{ .Params.seriesOrder }}
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none"
+                   viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+              </svg>
+            </span>
+            <span class="bs-post-nav__title">{{ .Title }}</span>
+          </a>
+          {{- end }}
+
+        </div>
+      </nav>
+      {{- end }}
+
+      {{- else if or $prev $next }}
+
+      {{- /* Generic section navigation for non-series posts */ -}}
       <nav class="bs-post-nav" aria-label="More posts">
         <p class="bs-post-nav__label">More writing</p>
         <div class="bs-post-nav__grid">
@@ -184,7 +280,11 @@
       </nav>
       {{- end }}
 
-    </div>{{/* /.bs-container--prose */}}
+      {{- if $isSeries }}
+        </div>{{/* /.bs-series-main */}}
+      </div>{{/* /.bs-series-layout */}}
+      {{- end }}
+    </div>{{/* /.bs-container */}}
   </main>
 
 </div>{{/* /.bs-page */}}

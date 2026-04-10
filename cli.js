@@ -106,6 +106,7 @@ function printHelp() {
   H('Development');
   R('serve',               'Hugo + CSS watch (full dev mode)',      'http://localhost:1313');
   R('serve --cms',         'Hugo + CSS + CMS proxy',                'http://localhost:1313/admin/');
+  R('serve --storybook',   'Hugo + CSS + Storybook dev',             'http://localhost:1313 + :6006');
   R('serve --no-css',      'Hugo only (skip CSS watch)');
   R('dev:cms',             'Alias for serve --cms');
   R('watch',               'Watch & rebuild Tailwind CSS only');
@@ -200,21 +201,24 @@ async function runClean(level) {
 
 // ─── pf serve ────────────────────────────────────────────────────────────────
 
-async function runServe(withCms = false, noCss = false) {
+async function runServe(withCms = false, noCss = false, withStorybook = false) {
   const hugoCmd = 'hugo server -D --config hugo.toml,config.development.toml';
   const cssCmd  = 'npm run watch';
   const cmsCmd  = 'npx netlify-cms-proxy-server';
+  const sbCmd   = 'npm run storybook';
 
   const rows = [];
   if (!noCss) rows.push(['\uD83C\uDFA8', 'CSS',  'PostCSS watch  \u2192  static/css/styles.css']);
   rows.push(['\uD83C\uDFD7', 'Hugo', col('bold', 'http://localhost:1313')]);
-  if (withCms) rows.push(['\uD83D\uDCDD', 'CMS', col('bold', 'http://localhost:1313/admin/')]);
+  if (withCms)       rows.push(['\uD83D\uDCDD', 'CMS',       col('bold', 'http://localhost:1313/admin/')]);
+  if (withStorybook) rows.push(['\uD83D\uDCDA', 'Storybook', col('bold', 'http://localhost:6006')]);
   banner('\u26A1 serve', `${pkg.name} v${pkg.version}`, rows);
 
   const procConfigs = [
     { cmd: hugoCmd, label: 'HUGO', color: 'blue'    },
-    ...(!noCss  ? [{ cmd: cssCmd, label: ' CSS', color: 'magenta' }] : []),
-    ...(withCms ? [{ cmd: cmsCmd, label: ' CMS', color: 'yellow'  }] : []),
+    ...(!noCss        ? [{ cmd: cssCmd, label: ' CSS', color: 'magenta' }] : []),
+    ...(withCms       ? [{ cmd: cmsCmd, label: ' CMS', color: 'yellow'  }] : []),
+    ...(withStorybook ? [{ cmd: sbCmd,  label: '  SB', color: 'cyan'    }] : []),
   ];
 
   const SKIP = [
@@ -540,7 +544,7 @@ function runStatus() {
         break;
 
       case 'serve':
-        await runServe(hasFlag('--cms'), hasFlag('--no-css'));
+        await runServe(hasFlag('--cms'), hasFlag('--no-css'), hasFlag('--storybook'));
         break;
 
       case 'dev:cms':

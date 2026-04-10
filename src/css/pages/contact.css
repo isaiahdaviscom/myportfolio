@@ -37,6 +37,7 @@
     grid-template-columns: subgrid;
     align-items: start;
     row-gap: var(--space-12);
+    column-gap: var(--grid-gap-lg);
   }
 
   /* Mobile: both children span all 24 inherited tracks */
@@ -74,7 +75,7 @@
   }
 
   /* Contact detail rows (email, LinkedIn, location) */
-  .contact-detail-list {
+  .contact-info__detail-list {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -83,36 +84,36 @@
     gap: var(--space-4);
   }
 
-  .contact-detail-item {
+  .contact-info__detail-item {
     display: flex;
     align-items: flex-start;
     gap: var(--space-3);
   }
 
-  .contact-detail-text {
+  .contact-info__detail-text {
     display: flex;
     flex-direction: column;
     gap: var(--space-0_5);
   }
 
-  .contact-detail-label {
+  .contact-info__detail-label {
     font-size: var(--text-sm);
     font-weight: var(--font-medium);
     color: var(--color-text-primary);
   }
 
-  .contact-detail-link {
+  .contact-info__detail-link {
     font-size: var(--text-sm);
     color: var(--color-accent);
     text-decoration: none;
     transition: text-decoration-color var(--duration-base);
   }
 
-  .contact-detail-link:hover {
+  .contact-info__detail-link:hover {
     text-decoration: underline;
   }
 
-  .contact-detail-muted {
+  .contact-info__detail-muted {
     font-size: var(--text-sm);
     color: var(--color-text-secondary);
   }
@@ -263,7 +264,7 @@
   border: none;
   cursor: pointer;
   box-shadow:
-    0 1px 3px rgba(0, 81, 224, 0.25),
+    0 1px 3px color-mix(in srgb, var(--color-accent) 40%, transparent),
     0 1px 2px rgba(0, 0, 0, 0.06);
   transition:
     background var(--duration-base) var(--ease-out),
@@ -283,14 +284,14 @@
 .form-submit:hover {
   background: var(--color-accent-hover);
   box-shadow:
-    0 4px 12px rgba(0, 81, 224, 0.3),
+    0 4px 12px color-mix(in srgb, var(--color-accent) 45%, transparent),
     0 1px 4px rgba(0, 0, 0, 0.08);
   transform: translateY(-1px);
 }
 
 .form-submit:active {
   transform: translateY(0);
-  box-shadow: 0 1px 3px rgba(0, 81, 224, 0.2);
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--color-accent) 30%, transparent);
 }
 
 .form-submit:focus-visible {
@@ -393,4 +394,81 @@
 [data-theme='dark'] .form-select:focus,
 [data-theme='dark'] .form-textarea:focus {
   background: var(--color-surface);
+}
+
+/* ────────────────────────────────────────────────────────────
+   7. CONTACT SUCCESS PAGE  (/contact/success/)
+   Non-JS fallback page rendered after Netlify form POST.
+──────────────────────────────────────────────────────────── */
+@layer components {
+  .contact-success {
+    display: grid;
+    grid-template-columns: var(--grid-template);
+    padding-block: var(--space-24);
+  }
+
+  .contact-success__card {
+    grid-column: 2 / -2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-5);
+    max-width: 36rem;
+    margin-inline: auto;
+    padding: var(--space-12) var(--space-8);
+    background: var(--color-surface-raised, var(--color-surface));
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg, 0.75rem);
+  }
+
+  .contact-success__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  .contact-success__heading {
+    font-size: var(--text-2xl, 1.5rem);
+    font-weight: var(--font-bold, 700);
+    color: var(--color-text-primary);
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .contact-success__body {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 28rem;
+  }
+
+  .contact-success__back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    font-size: var(--text-sm, 0.875rem);
+    font-weight: var(--font-medium, 500);
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color 0.15s ease, gap 0.15s ease;
+  }
+
+  .contact-success__back:hover {
+    color: var(--color-accent-hover, var(--color-accent));
+    gap: calc(var(--space-2) - 2px); /* subtle leftward nudge */
+  }
+
+  /* Dark mode */
+  [data-theme='dark'] .contact-success__card {
+    background: var(--color-surface-subtle);
+    border-color: var(--color-border);
+  }
 }

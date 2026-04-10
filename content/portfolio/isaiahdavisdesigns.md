@@ -5,6 +5,8 @@ role: "Frontend Developer"
 dates: "June 2021 — Present"
 heading: "Designing & Building My Own Studio: Isaiah Davis Designs"
 bgcolor: "bg-gray-900"
+figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
+figma_title: "Isaiah Davis Designs — Interactive Prototype"
 feature: true
 weight: 40
 employment_type: "Freelance"

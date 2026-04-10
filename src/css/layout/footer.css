@@ -5,7 +5,7 @@
   Consists of two stacked sections:
     1. site-footer__cta  — accent pre-footer CTA band
     2. site-footer__body — deep navy main footer
-  Shared classes: footer-nav-link, footer-tech-link live here too.
+  All nav and tech stack links use the site-footer__ BEM prefix for full component scoping.
 */
 
 /*
@@ -182,7 +182,7 @@
   }
 
   /* ── Availability pill ───────────────────────────────────────────────── */
-  .site-footer__avail {
+  .site-footer__availability {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -199,12 +199,12 @@
       background 0.2s ease;
   }
 
-  .site-footer__avail:hover {
+  .site-footer__availability:hover {
     background: rgba(52, 211, 153, 0.11);
     border-color: rgba(52, 211, 153, 0.32);
   }
 
-  .site-footer__avail-dot {
+  .site-footer__availability-dot {
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 9999px;
@@ -286,7 +286,7 @@
   }
 
   /* ── Navigation links ────────────────────────────────────────────────── */
-  .footer-nav-link {
+  .site-footer__nav-link {
     display: inline-block;
     color: #8da4be;
     text-decoration: none;
@@ -296,22 +296,22 @@
       transform 0.15s ease;
   }
 
-  .footer-nav-link:hover,
-  .footer-nav-link:focus-visible {
+  .site-footer__nav-link:hover,
+  .site-footer__nav-link:focus-visible {
     color: #4d8dff;
     transform: translateX(3px);
   }
 
   /* ── Tech stack links ────────────────────────────────────────────────── */
-  .footer-tech-link {
+  .site-footer__tech-link {
     color: #8da4be;
     font-size: 0.875rem;
     text-decoration: none;
     transition: color 0.15s ease;
   }
 
-  a.footer-tech-link:hover,
-  a.footer-tech-link:focus-visible {
+  a.site-footer__tech-link:hover,
+  a.site-footer__tech-link:focus-visible {
     color: #4d8dff;
     text-decoration: underline;
     text-underline-offset: 2px;
@@ -499,8 +499,8 @@
     background: #a78bfa;
   }
 
-  /* Non-link tech label — visually matches footer-tech-link without pointer cursor */
-  .footer-tech-label {
+  /* Non-link tech label — visually matches site-footer__tech-link without pointer cursor */
+  .site-footer__tech-label {
     cursor: default;
   }
 }

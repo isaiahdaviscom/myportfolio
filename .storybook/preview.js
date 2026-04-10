@@ -1,3 +1,4 @@
+import '../static/css/inter-font.css';
 import '../static/css/styles.css';
 
 /** @type { import('@storybook/html').Preview } */

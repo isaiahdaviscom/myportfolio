@@ -172,7 +172,8 @@
     grid-column: 2 / -2;
     display: grid;
     grid-template-columns: subgrid;
-    row-gap: var(--grid-gap); /* ¾ col unit — vertical gap when items stack on mobile */
+    /* row-gap: vw-based so % doesn't collapse to 0 on auto-height containers (CSS spec) */
+    row-gap: max(1rem, calc(var(--grid-col-unit) * 0.75));
     align-items: start;
   }
 
@@ -184,7 +185,7 @@
     grid-column: 2 / -2;
     display: grid;
     grid-template-columns: subgrid;
-    row-gap: var(--grid-gap); /* ¾ col unit */
+    row-gap: max(1rem, calc(var(--grid-col-unit) * 0.75)); /* ¾ col unit, vw-based */
     align-items: start;
   }
 
@@ -197,7 +198,7 @@
     grid-column: 2 / -2;
     display: grid;
     grid-template-columns: subgrid;
-    row-gap: var(--grid-gap); /* ¾ col unit */
+    row-gap: max(1rem, calc(var(--grid-col-unit) * 0.75)); /* ¾ col unit, vw-based */
     align-items: start;
   }
 
@@ -212,7 +213,7 @@
     display: grid;
     grid-template-columns: subgrid;
     align-items: start;
-    row-gap: var(--grid-gap-lg); /* 1 col unit — generous section-level vertical gap */
+    row-gap: max(1.5rem, var(--grid-col-unit)); /* 1 col unit, vw-based */
   }
 
   .layout-sidebar-left > :first-child { grid-column: 1  / span 9; }  /* sidebar */
@@ -224,7 +225,7 @@
     display: grid;
     grid-template-columns: subgrid;
     align-items: start;
-    row-gap: var(--grid-gap-lg); /* 1 col unit */
+    row-gap: max(1.5rem, var(--grid-col-unit)); /* 1 col unit, vw-based */
   }
 
   .layout-sidebar-right > :first-child { grid-column: 1  / span 15; }  /* main    */

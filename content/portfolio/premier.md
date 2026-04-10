@@ -5,6 +5,8 @@ role: "Graphic Designer + Marketing Specialist"
 dates: "June 2021 — Dec 2018"
 heading: "Brand Identity & Digital Marketing for Premier Design + Build Group"
 bgcolor: "bg-gray-900"
+figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
+figma_title: "Premier Design + Build Group — Interactive Prototype"
 feature: true
 weight: 30
 employment_type: "Full-time"
