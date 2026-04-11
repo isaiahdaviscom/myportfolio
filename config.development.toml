@@ -4,7 +4,7 @@
 baseURL = "https://myportfolio-develop.netlify.app"
 
 # Disable features for development
-disableKinds = ["sitemap", "robotsTXT", "RSS"]
+disableKinds = ["robotsTXT", "RSS"]
 
 # Enable development features
 buildDrafts = true

@@ -457,7 +457,7 @@ async function runSitemapPreview() {
   info(`Open ${sitemapUrl} to inspect the output.`);
   console.log();
 
-  const cmd = 'hugo server -D --config hugo.toml,config.development.toml,config.sitemap-preview.toml';
+  const cmd = 'hugo server -D --config hugo.toml,config.development.toml';
   const isWin = process.platform === 'win32';
   const proc = isWin
     ? spawn('cmd', ['/c', cmd], { stdio: 'inherit', shell: false, cwd: projectRoot })

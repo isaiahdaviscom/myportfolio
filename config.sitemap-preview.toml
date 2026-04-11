@@ -1,12 +1,6 @@
-# Sitemap preview override
-# Loaded on top of config.development.toml to re-enable sitemap output only.
-# Usage (via CLI): pf sitemap
-# Usage (manual):  hugo server -D --config hugo.toml,config.development.toml,config.sitemap-preview.toml
-#
-# config.development.toml disables sitemap/RSS/robotsTXT entirely.
-# This file overrides that list to exclude only RSS and robotsTXT, leaving
-# sitemap enabled so it is generated and accessible at /sitemap.xml.
-disableKinds = ["robotsTXT", "RSS"]
+# Sitemap preview override — LEGACY (kept for reference)
+# sitemap is now enabled in config.development.toml directly.
+# This file is no longer loaded by pf sitemap or any build command.
 
 # Populate <lastmod> from git commit dates for pages without explicit lastmod.
 enableGitInfo = true
