@@ -114,6 +114,16 @@
   [headers.conditions]
     Context = "develop"
 
+# Storybook design system — override restrictive headers so the story-preview
+# iframe can load. Must come AFTER the "/*" develop rule to win on conflict.
+[[headers]]
+  for = "/storybook/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' ws: wss:; frame-src 'self'; worker-src 'self' blob:; manifest-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self';"
+  [headers.conditions]
+    Context = "develop"
+
 [[headers]]
   for = "/*"
   [headers.values]

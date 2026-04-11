@@ -13,14 +13,7 @@ const config = {
     autodocs: 'tag'
   },
 
-  staticDirs: ['../static'],
-
-  viteFinal(viteConfig, { configType }) {
-    if (configType === 'PRODUCTION') {
-      viteConfig.base = '/storybook/';
-    }
-    return viteConfig;
-  },
+  staticDirs: ['../static']
 };
 
 export default config;
