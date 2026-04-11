@@ -103,7 +103,7 @@
     overflow: hidden;
   }
 
-  /* Radial brand glow — top-right accent */
+  /* Radial brand glow — top-right accent (behind image layer) */
   .about-hero::before {
     content: '';
     position: absolute;
@@ -120,7 +120,49 @@
     z-index: 0;
   }
 
-  /* Push content above pseudo-element */
+  /*
+    Profile image — large ghosted portrait fading into the hero bg.
+    Hidden on mobile (too narrow; avatar carries the visual there).
+    Uses mask-image to feather all four edges, strongest fade on the
+    left so text stays readable. filter: grayscale keeps the yellow
+    brand bg from tinting the hero colour.
+  */
+  .about-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/profile-branded.png');
+    background-size: auto 145%;
+    background-position: right -1rem center;
+    background-repeat: no-repeat;
+    opacity: 0.11;
+    filter: grayscale(0.5);
+    -webkit-mask-image: radial-gradient(
+      ellipse 52% 92% at 82% 50%,
+      black 10%,
+      transparent 72%
+    );
+    mask-image: radial-gradient(
+      ellipse 52% 92% at 82% 50%,
+      black 10%,
+      transparent 72%
+    );
+    pointer-events: none;
+    z-index: 0;
+    display: none; /* mobile: avatar is the visual, skip bg portrait */
+  }
+
+  @media (min-width: 768px) {
+    .about-hero::after {
+      display: block;
+    }
+  }
+
+  [data-theme='dark'] .about-hero::after {
+    opacity: 0.18; /* darker bg = image needs slightly more punch */
+  }
+
+  /* Push content above both pseudo-elements */
   .about-hero .container {
     position: relative;
     z-index: 1;
@@ -164,6 +206,40 @@
 
   @media (prefers-reduced-motion: reduce) {
     .about-hero__status-dot { animation: none; }
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     STAT STRIP — key metrics below CTAs
+  ──────────────────────────────────────────────────────────── */
+  .about-hero__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6) var(--space-8);
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .about-hero__stat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-0_5);
+  }
+
+  .about-hero__stat-value {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-extrabold);
+    color: var(--color-accent);
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-none);
+  }
+
+  .about-hero__stat-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    color: var(--color-text-muted);
+    line-height: var(--leading-snug);
+    max-width: 14ch;
   }
 
   /* ────────────────────────────────────────────────────────────

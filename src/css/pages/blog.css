@@ -343,6 +343,8 @@
   .bs-container {
     width: min(var(--max-content, 1200px), calc(100vw - 2 * clamp(1rem, 5vw, 5rem)));
     margin-inline: auto;
+    container-type: inline-size; /* allows comfort-body cqi to resolve against this container */
+    container-name: bs-content;
   }
 
   .bs-container--prose {
@@ -513,6 +515,8 @@
   }
 
   .bs-article {
+    font-size: var(--comfort-body); /* clamp(base, 1.8cqi, lg) — matches cs-prose & about-bio__prose */
+    line-height: var(--leading-comfort); /* 1.75 — consistent with other long-form reading contexts */
     color: var(--color-text-primary);
   }
 

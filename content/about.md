@@ -33,6 +33,14 @@ skills:
     - PostgreSQL
     - MongoDB
 
+stats:
+  - value: "5+"
+    label: "Years of frontend engineering"
+  - value: "72%"
+    label: "Fastest load time improvement"
+  - value: "20+"
+    label: "Projects shipped"
+
 values:
   - icon: "⚡"
     title: "Performance first"

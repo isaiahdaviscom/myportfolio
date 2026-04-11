@@ -163,7 +163,7 @@
     box-shadow:
       0 2px 8px rgba(77, 141, 255, 0.4),
       0 1px 2px rgba(0, 0, 0, 0.2);
-    padding: 0.75rem 1.5rem; /* 12px — aligns with btn-primary base, clears 44px touch target */
+    padding: var(--space-3) var(--space-5); /* matches .btn-primary base: 12px × 20px */
   }
 
   .home-hero .btn-primary:hover {
@@ -179,7 +179,7 @@
     background: rgba(255, 255, 255, 0.06);
     color: #aec0d4;
     border: 1px solid rgba(255, 255, 255, 0.18);
-    padding: 0.75rem 1.5rem; /* 12px — matches primary override */
+    padding: var(--space-3) var(--space-5); /* matches .btn-secondary base: 12px × 20px */
   }
 
   .home-hero .btn-secondary:hover {

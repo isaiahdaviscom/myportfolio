@@ -18,19 +18,7 @@
     <div class="container">
       {{ partial "breadcrumb.html" . }}
 
-      <div class="mt-6 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12">
-
-        {{/* Avatar with animated ring */}}
-        <div class="about-avatar">
-          <div class="about-avatar__ring" aria-hidden="true"></div>
-          <div class="about-avatar__frame">
-            <img src="/images/profile-branded.png"
-                 alt="Isaiah Davis"
-                 width="144" height="144"
-                 class="about-avatar__img"
-                 loading="eager">
-          </div>
-        </div>
+      <div class="mt-6">
 
         {{/* Headline */}}
         <div>
@@ -44,7 +32,7 @@
           <h1 class="page-h1 mb-4 max-w-2xl">
             {{ .Params.heading | default .Title }}
           </h1>
-          <div class="flex flex-wrap gap-5">
+          <div class="flex flex-wrap gap-3">
             <a href="/contact/" class="btn-primary">
               Get in touch
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -55,8 +43,26 @@
             </a>
             <a href="/portfolio/" class="btn-secondary">
               View my work
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.5" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
             </a>
           </div>
+
+          {{/* ── Stat strip ─────────────────────────────────────── */}}
+          {{- with .Params.stats }}
+          <dl class="about-hero__stats">
+            {{- range . }}
+            <div class="about-hero__stat">
+              <dt class="about-hero__stat-value">{{ .value }}</dt>
+              <dd class="about-hero__stat-label">{{ .label }}</dd>
+            </div>
+            {{- end }}
+          </dl>
+          {{- end }}
+
         </div>
 
       </div>
