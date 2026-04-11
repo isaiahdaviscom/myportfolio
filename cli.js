@@ -139,6 +139,7 @@ function printHelp() {
   R('css <sub>',           'CSS tools',                             'audit|analyze|unused|optimize|cleanup');
 
   H('Info');
+  R('sitemap',             'Preview sitemap at /sitemap.xml',          'http://localhost:1313/sitemap.xml');
   R('status',              'Project & build status dashboard');
   R('open [url]',          'Open browser to dev server', 'default: http://localhost:1313');
   R('audit',               'Run npm security audit');
@@ -442,6 +443,37 @@ async function runDesign() {
   await runNpm('workflow:design');
 }
 
+// ─── pf sitemap ──────────────────────────────────────────────────────────────
+
+async function runSitemapPreview() {
+  const sitemapUrl = 'http://localhost:1313/sitemap.xml';
+  banner('\uD83D\uDDFA sitemap preview', `${pkg.name} v${pkg.version}`, [
+    ['\u00b7', 'Hugo server', col('bold', 'http://localhost:1313')],
+    ['\u00b7', 'Sitemap',     col('cyan',  sitemapUrl)],
+  ]);
+  info('Serving with sitemap enabled (dev content + drafts included).');
+  info(`Open ${sitemapUrl} to inspect the output.`);
+  console.log();
+
+  const cmd = 'hugo server -D --config hugo.toml,config.development.toml,config.sitemap-preview.toml';
+  const isWin = process.platform === 'win32';
+  const proc = isWin
+    ? spawn('cmd', ['/c', cmd], { stdio: 'inherit', shell: false, cwd: projectRoot })
+    : spawn('sh',  ['-c', cmd], { stdio: 'inherit', shell: false, cwd: projectRoot });
+
+  function shutdown() {
+    try { proc.kill('SIGINT'); } catch (_) {}
+    console.log();
+    info('Sitemap preview stopped.');
+    console.log();
+    process.exit(0);
+  }
+  process.on('SIGINT',  shutdown);
+  process.on('SIGTERM', shutdown);
+
+  await new Promise(r => proc.on('close', r));
+}
+
 // ─── pf open ─────────────────────────────────────────────────────────────────
 
 function runOpen(url = 'http://localhost:1313') {
@@ -635,6 +667,10 @@ function runStatus() {
 
       case 'design':
         await runDesign();
+        break;
+
+      case 'sitemap':
+        await runSitemapPreview();
         break;
 
       case 'open':

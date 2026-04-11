@@ -3,7 +3,6 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   {{- range .Data.Pages }}
   {{- if .Sitemap.Disable }}{{- continue }}{{- end }}
-  {{- if eq (.Param "noindex") true }}{{- continue }}{{- end }}
   <url>
     <loc>{{ .Permalink }}</loc>
     {{- if not .Lastmod.IsZero }}
