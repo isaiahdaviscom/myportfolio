@@ -42,6 +42,9 @@
 /* 1.2 Portfolio project badges and labels */
 @import './components/badge.css';
 
+/* 1.25 Version badge — shared inline HTML + SVG asset component */
+@import './components/version-badge.css';
+
 /* 1.3 Advanced responsive portfolio cards */
 @import './components/card.css';
 
@@ -77,6 +80,9 @@
 
 /* 2.3 Blog list & single post */
 @import './pages/blog.css';
+
+/* 2.35 Tag taxonomy list & single term pages */
+@import './pages/tags.css';
 
 /* 2.4 Home page */
 @import './pages/home.css';

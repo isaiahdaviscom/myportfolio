@@ -1,0 +1,131 @@
+{{- /*
+  tags/single.html — Taxonomy term page for a single tag
+  URL: /tags/{tag-slug}/
+  Shows all posts and portfolio projects tagged with this term,
+  enriched with metadata from data/tags/{slug}.yaml.
+*/ -}}
+{{ define "main" }}
+
+{{- /* ── Look up tag metadata from the governed registry ── */}}
+{{- $slug    := .Slug }}
+{{- $tagData := index site.Data.tags $slug }}
+
+{{- /* ── Split content by type ── */}}
+{{- $posts    := where .Pages "Section" "posts" }}
+{{- $projects := where .Pages "Section" "portfolio" }}
+
+{{- /* ── Hero ── */}}
+<section class="page-hero tag-hero">
+  <div class="container">
+    {{ partial "breadcrumb.html" . }}
+    <div class="tag-hero__body">
+      {{- if $tagData }}
+      <p class="tag-hero__category">{{ $tagData.category | title }}</p>
+      {{- end }}
+      <h1 class="page-h1 tag-hero__title"># {{ .Title }}</h1>
+      {{- if $tagData }}
+      <p class="tag-hero__description">{{ $tagData.description }}</p>
+      {{- end }}
+      <p class="tag-hero__count">
+        {{ len .Pages }} {{ if eq (len .Pages) 1 }}item{{ else }}items{{ end }}
+        {{- if and (gt (len $posts) 0) (gt (len $projects) 0) }}
+        &nbsp;&mdash;&nbsp;{{ len $posts }} {{ if eq (len $posts) 1 }}post{{ else }}posts{{ end }},
+        {{ len $projects }} {{ if eq (len $projects) 1 }}project{{ else }}projects{{ end }}
+        {{- end }}
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="tag-content">
+  <div class="container">
+
+    {{- /* ── Blog Posts ── */}}
+    {{- if $posts }}
+    <section class="tag-section" aria-labelledby="tag-posts-heading">
+      <h2 class="tag-section__heading" id="tag-posts-heading">
+        Blog Posts
+        <span class="tag-section__count">{{ len $posts }}</span>
+      </h2>
+      <div class="blog-list__grid">
+        {{ range $posts.ByDate.Reverse }}
+        <article class="blog-card">
+          {{- with .Params.cover }}
+          <a href="{{ $.RelPermalink }}" tabindex="-1" aria-hidden="true">
+            <img src="{{ . }}" alt="{{ $.Title }} cover"
+                 class="blog-card__cover" width="514" height="160" loading="lazy">
+          </a>
+          {{- end }}
+          <div class="blog-card__body">
+            {{- with .Params.categories }}
+            <div class="blog-card__categories">
+              {{- range first 2 . }}
+              <span class="blog-card__category">{{ . }}</span>
+              {{- end }}
+            </div>
+            {{- end }}
+            <h3 class="blog-card__title">
+              <a href="{{ .RelPermalink }}" class="blog-card__title-link">{{ .Title }}</a>
+            </h3>
+            <time class="blog-card__date" datetime="{{ .Date.Format "2006-01-02" }}">
+              {{ time.Format ":date_long" .Date }}
+            </time>
+            <p class="blog-card__summary">
+              {{ with .Params.description }}{{ . }}{{ else }}{{ .Summary | truncate 120 }}{{ end }}
+            </p>
+            {{- $mins := div .WordCount 200 }}{{- if lt $mins 1 }}{{- $mins = 1 }}{{- end }}
+            <a href="{{ .RelPermalink }}" class="blog-card__read-more">
+              {{ $mins }} min read
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.5" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
+        </article>
+        {{ end }}
+      </div>
+    </section>
+    {{- end }}
+
+    {{- /* ── Portfolio Projects ── */}}
+    {{- if $projects }}
+    <section class="tag-section" aria-labelledby="tag-projects-heading">
+      <h2 class="tag-section__heading" id="tag-projects-heading">
+        Portfolio Projects
+        <span class="tag-section__count">{{ len $projects }}</span>
+      </h2>
+      <div class="tag-projects-grid">
+        {{ range sort $projects "Weight" }}
+        <a href="{{ .RelPermalink }}" class="tag-project-card"
+           aria-label="{{ .Title }} — view case study">
+          {{- with .Params.cover }}
+          <div class="tag-project-card__cover">
+            <img src="{{ . }}" alt="{{ $.Title }} cover"
+                 width="600" height="400" loading="lazy">
+          </div>
+          {{- else }}
+          <div class="tag-project-card__cover tag-project-card__cover--empty"></div>
+          {{- end }}
+          <div class="tag-project-card__body">
+            <p class="tag-project-card__client">{{ .Title }}</p>
+            <h3 class="tag-project-card__title">{{ .Params.heading | default .Title }}</h3>
+            {{- with .Params.year }}
+            <p class="tag-project-card__year">{{ . }}</p>
+            {{- end }}
+          </div>
+        </a>
+        {{ end }}
+      </div>
+    </section>
+    {{- end }}
+
+    {{- /* ── Empty state ── */}}
+    {{- if not .Pages }}
+    <p class="tag-empty">No content tagged with <strong>{{ .Title }}</strong> yet.</p>
+    {{- end }}
+
+  </div>
+</div>
+{{ end }}

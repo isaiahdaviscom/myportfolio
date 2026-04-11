@@ -83,9 +83,28 @@ collections:
           required: false
         }
 
-      # Taxonomy
-      - { label: 'Categories', name: 'categories', widget: 'list', default: [], required: false }
-      - { label: 'Tags', name: 'tags', widget: 'list', default: [], required: false }
+      # Taxonomy — governed vocabulary
+      - label: 'Categories'
+        name: 'categories'
+        widget: 'select'
+        multiple: true
+        required: false
+        options:
+          - { label: 'Engineering', value: 'engineering' }
+          - { label: 'Design', value: 'design' }
+          - { label: 'Process', value: 'process' }
+          - { label: 'Career', value: 'career' }
+        hint: 'High-level content area. Pick one or two.'
+      - label: 'Tags'
+        name: 'tags'
+        widget: 'relation'
+        collection: 'tags_registry'
+        search_fields: ['title', 'category', 'description']
+        value_field: 'title'
+        display_fields: ['title']
+        multiple: true
+        required: false
+        hint: 'Select from the governed tag vocabulary. To add new tags, manage the Tag Registry collection.'
       - {
           label: 'Series',
           name: 'series',
@@ -148,14 +167,79 @@ collections:
           - { label: 'Alt Text', name: 'alt', widget: 'string' }
           - { label: 'Caption', name: 'caption', widget: 'string', required: false }
 
-      - { label: 'Categories', name: 'categories', widget: 'list', default: [], required: false }
-      - { label: 'Tags', name: 'tags', widget: 'list', default: [], required: false }
+      - label: 'Categories'
+        name: 'categories'
+        widget: 'select'
+        multiple: true
+        required: false
+        options:
+          - { label: 'Branding', value: 'branding' }
+          - { label: 'Web Design', value: 'web-design' }
+          - { label: 'Editorial', value: 'editorial' }
+          - { label: 'UX / Product', value: 'ux' }
+        hint: 'Project discipline area.'
+      - label: 'Tags'
+        name: 'tags'
+        widget: 'relation'
+        collection: 'tags_registry'
+        search_fields: ['title', 'category', 'description']
+        value_field: 'title'
+        display_fields: ['title']
+        multiple: true
+        required: false
+        hint: 'Select from the governed tag vocabulary. To add new tags, manage the Tag Registry collection.'
       - {
           label: 'Technologies',
           name: 'technologies',
           widget: 'list',
           default: [],
           required: false
+        }
+
+  # ---------------------------------------------------------------------------
+  # TAG REGISTRY  ← governed tag vocabulary (used by relation widgets above)
+  # ---------------------------------------------------------------------------
+  # Tags defined here become available in the Tags picker for Blog Posts and
+  # Portfolio Projects. To add a new approved tag: create a new entry here,
+  # then it will appear in the Tags relation field on content editors.
+  # Fields: title (stored in frontmatter), category, description.
+  # ---------------------------------------------------------------------------
+  - name: 'tags_registry'
+    label: 'Tag Registry'
+    label_singular: 'Tag'
+    folder: 'data/tags'
+    create: true
+    identifier_field: 'title'
+    extension: 'yaml'
+    format: 'yaml'
+    slug: '{{slug}}'
+    summary: '{{title}} ({{category}})'
+    sortable_fields: ['title', 'category']
+    view_groups:
+      - label: 'By Category'
+        field: category
+    fields:
+      - {
+          label: 'Tag Name',
+          name: 'title',
+          widget: 'string',
+          hint: 'Display name shown in CMS pickers and on tag pages (e.g. "Design Systems").'
+        }
+      - label: 'Category'
+        name: 'category'
+        widget: 'select'
+        options:
+          - { label: '🎨 Design', value: 'design' }
+          - { label: '🧪 UX', value: 'ux' }
+          - { label: '⚙️ Engineering', value: 'engineering' }
+          - { label: '🛠 Tools', value: 'tools' }
+          - { label: '📋 Process', value: 'process' }
+        hint: 'Used to group tags on the /tags/ index page.'
+      - {
+          label: 'Description',
+          name: 'description',
+          widget: 'text',
+          hint: 'One sentence shown on the tag landing page. Describe the topic scope.'
         }
 
   # ---------------------------------------------------------------------------

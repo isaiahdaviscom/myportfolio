@@ -13,7 +13,7 @@ theme = 'myPortfolio'
   theme = "system"
   themeColor = "#4a90e2"
   title = "Isaiah Davis - My Portfolio"
-  version = "1.1.0"
+  version = "1.2.0"
   # Google Tag Manager container ID — override per environment in config.*.toml
   gtmId = "GTM-W3VQVDR"
   
@@ -24,6 +24,17 @@ theme = 'myPortfolio'
   series   = "series"
 
 [build]
+
+# =============================================================================
+# VERSION BADGE — custom SVG output format
+# Generates /badges/version.svg at build time from site.Params.version.
+# Used by README.md and the site footer. Single source of truth: hugo.toml.
+# =============================================================================
+[outputFormats.SVG]
+  mediaType      = "image/svg+xml"
+  baseName       = "version"
+  isPlainText    = true
+  notAlternative = true
 
 # Sitemap configuration (disabled for development)
 [sitemap]

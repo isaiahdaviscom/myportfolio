@@ -197,6 +197,37 @@
     },
 
     // ────────────────────────────────────────────────────────────────────────
+    // VERSION MANAGEMENT — run at the end of every Copilot chat session
+    // ────────────────────────────────────────────────────────────────────────
+    {
+      "label": "🔖 Version — Bump Patch (bug fixes)",
+      "detail": "Increment patch digit: 1.2.0 → 1.2.1  (pf version bump patch)",
+      "type": "shell",
+      "command": "pf version bump patch",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔖 Version — Bump Minor (new features)",
+      "detail": "Increment minor digit: 1.2.0 → 1.3.0  (pf version bump minor)",
+      "type": "shell",
+      "command": "pf version bump minor",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔖 Version — Bump Major (breaking changes)",
+      "detail": "Increment major digit: 1.2.0 → 2.0.0  (pf version bump major)",
+      "type": "shell",
+      "command": "pf version bump major",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+
+    // ────────────────────────────────────────────────────────────────────────
     // STATUS & INFO
     // ────────────────────────────────────────────────────────────────────────
     {

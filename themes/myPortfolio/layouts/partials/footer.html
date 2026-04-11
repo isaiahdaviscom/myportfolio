@@ -130,7 +130,7 @@
       <p>
         &copy; <span id="footer-year">{{ now.Year }}</span> Isaiah Davis
         &middot;
-        <abbr title="Site version" class="no-underline cursor-default">v{{ .Site.Params.version | default "1.0.0" }}</abbr>
+        {{- partial "version-badge.html" (dict "size" "xs" "href" "/badges/version.svg") }}
       </p>
       <p class="site-footer__crafted">Handcrafted with care in Chicago &#127750;</p>
       <a href="#main-content" class="site-footer__back-to-top" aria-label="Back to top">

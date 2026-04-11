@@ -1,6 +1,6 @@
 # Hugo + Tailwind CSS Portfolio
 
-[![Version](https://img.shields.io/badge/version-1.1.0-blue?style=flat-square)](docs/development/versioning.md)
+[![Version](https://isaiahdavis.com/badges/version.svg)](CHANGELOG.md)
 [![Hugo](https://img.shields.io/badge/Hugo-0.132+-FF4088?style=flat-square&logo=hugo)](https://gohugo.io)
 [![Netlify](https://img.shields.io/badge/Netlify-deployed-00C7B7?style=flat-square&logo=netlify)](https://myportfolio-develop.netlify.app)
 [![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
