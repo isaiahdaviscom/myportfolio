@@ -7,3 +7,6 @@
 # This file overrides that list to exclude only RSS and robotsTXT, leaving
 # sitemap enabled so it is generated and accessible at /sitemap.xml.
 disableKinds = ["robotsTXT", "RSS"]
+
+# Populate <lastmod> from git commit dates for pages without explicit lastmod.
+enableGitInfo = true

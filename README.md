@@ -1,5 +1,10 @@
 # Hugo + Tailwind CSS Portfolio
 
+[![Version](https://img.shields.io/badge/version-1.1.0-blue?style=flat-square)](docs/development/versioning.md)
+[![Hugo](https://img.shields.io/badge/Hugo-0.132+-FF4088?style=flat-square&logo=hugo)](https://gohugo.io)
+[![Netlify](https://img.shields.io/badge/Netlify-deployed-00C7B7?style=flat-square&logo=netlify)](https://myportfolio-develop.netlify.app)
+[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
+
 A modern, performance-optimized Hugo portfolio with comprehensive documentation and automated workflows.
 
 ## 📖 **Documentation Hub**
@@ -25,6 +30,7 @@ This project features comprehensive documentation organized by topic and workflo
 - **[CSS Architecture](docs/development/css-architecture.md)** - Modular CSS with Tailwind
 - **[Performance Optimization](docs/development/css-optimization.md)** - Tree-shaking and optimization
 - **[SEO Protection](docs/development/seo-protection.md)** - Development environment safeguards
+- **[Versioning](docs/development/versioning.md)** - Version tracking and release workflow
 
 ### 📝 **[Content Management](docs/content-management/)**
 - **[CMS Implementation](docs/content-management/cms-implementation.md)** - NetlifyCMS integration

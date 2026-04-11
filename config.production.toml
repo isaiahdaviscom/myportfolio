@@ -20,6 +20,9 @@ buildExpired = false
 # Enable sitemap and RSS for production
 enableRobotsTXT = true
 
+# Populate <lastmod> in sitemap from git commit dates.
+enableGitInfo = true
+
 [sitemap]
   changefreq = "weekly"
   filename = "sitemap.xml"

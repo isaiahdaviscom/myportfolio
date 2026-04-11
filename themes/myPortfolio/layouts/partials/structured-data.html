@@ -46,8 +46,8 @@
       "name"        $author
       "url"         $baseURL
       "sameAs"      (slice
-          "https://github.com/username"
-          "https://linkedin.com/in/username")
+          "https://github.com/isaiahdaviscom"
+          "https://www.linkedin.com/in/isaiahdavis/")
   -}}
   {{- $graph = $graph | append $website $person -}}
 {{- end -}}
@@ -78,6 +78,11 @@
   {{- with .Params.tags -}}
     {{- $webpage = merge $webpage (dict "keywords" (delimit . ", ")) -}}
   {{- end -}}
+  {{- $webpage = merge $webpage (dict
+      "wordCount"   .WordCount
+      "author"      (dict "@id" (printf "%s/#person" $baseURL))
+      "publisher"   (dict "@id" (printf "%s/#person" $baseURL))
+  ) -}}
 {{- end -}}
 
 {{- /* BreadcrumbList — non-home pages only */ -}}

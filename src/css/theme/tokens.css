@@ -311,6 +311,40 @@
     --duration-base: 0ms;
     --duration-slow: 0ms;
   }
+
+  /* Kill all keyframe animations not driven by duration tokens */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Remove transform-based hover lifts on touch-only devices */
+@media (hover: none) {
+  .blog-card:hover,
+  .blog-card:active,
+  .pf-card:hover,
+  .pf-card:active,
+  .pf-split:hover,
+  .pf-split:active,
+  .home-work-card:hover,
+  .home-work-card:active,
+  .home-post-card:hover,
+  .home-post-card:active,
+  .home-service-card:hover,
+  .home-service-card:active,
+  .cs-metric-tile:hover,
+  .cs-metric-tile:active,
+  .cs-lesson-card:hover,
+  .cs-lesson-card:active,
+  .bs-post-nav__item:hover,
+  .bs-post-nav__item:active {
+    transform: none;
+  }
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -354,4 +388,54 @@
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-xl: 0 16px 56px rgba(0, 0, 0, 0.6), 0 4px 16px rgba(0, 0, 0, 0.4);
   --shadow-accent: 0 4px 24px rgba(77, 141, 255, 0.25);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   8. SYSTEM DARK MODE FALLBACK
+   Applies dark tokens when OS preference is dark AND the user has not
+   explicitly chosen a theme (no [data-theme] attribute on <html>).
+   JS-set [data-theme='light'] or [data-theme='dark'] always wins via
+   specificity / source-order of section 7 above.
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-bg: #090e1a;
+    --color-surface: #111827;
+    --color-surface-raised: #1a2233;
+    --color-surface-subtle: #141d2e;
+    --color-surface-invert: #f8fafc;
+    --color-border: #1e2d45;
+    --color-border-strong: #2d3f5e;
+    --color-text-primary: #f0f6ff;
+    --color-text-secondary: #8da4be;
+    --color-text-muted: #4d6480;
+    --color-text-invert: #0f172a;
+    --color-accent: #4d8dff;
+    --color-accent-hover: #3a7aee;
+    --color-accent-soft: #0c1e3a;
+    --color-accent-border: #1e3a6a;
+    --color-success: #34d399;
+    --color-success-soft: #052e22;
+    --color-warning: #fbbf24;
+    --color-warning-soft: #2a1d04;
+    --color-error: #f87171;
+    --color-error-soft: #2d1515;
+    --color-info: #38bdf8;
+    --color-info-soft: #082132;
+    --color-metric-1: #4d8dff;
+    --color-metric-1-soft: #0c1e3a;
+    --color-metric-2: #34d399;
+    --color-metric-2-soft: #052e22;
+    --color-metric-3: #a78bfa;
+    --color-metric-3-soft: #1c1038;
+    --color-metric-4: #fbbf24;
+    --color-metric-4-soft: #2a1d04;
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-xl: 0 16px 56px rgba(0, 0, 0, 0.6), 0 4px 16px rgba(0, 0, 0, 0.4);
+    --shadow-accent: 0 4px 24px rgba(77, 141, 255, 0.25);
+  }
 }

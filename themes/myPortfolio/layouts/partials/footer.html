@@ -6,11 +6,18 @@
 */}}
 
 {{/* ═══════════════  PRE-FOOTER CTA STRIP  ═══════════════ */}}
+{{- $avail := site.Data.settings.availability_mode | default "auto" -}}
+{{- $isAvailable := or (eq $avail "available") (and (eq $avail "auto") (gt (now.Hour) 8) (lt (now.Hour) 18) (gt (now.Weekday) 0) (lt (now.Weekday) 6)) -}}
 <div class="site-footer__cta">
   <div class="site-footer__cta-inner">
     <div>
+      {{- if $isAvailable }}
       <p class="site-footer__cta-eyebrow">Currently available</p>
       <h2 class="site-footer__cta-heading">Open to new work — let's build something.</h2>
+      {{- else }}
+      <p class="site-footer__cta-eyebrow">Heads down on projects</p>
+      <h2 class="site-footer__cta-heading">Not taking new work right now — stay in touch.</h2>
+      {{- end }}
     </div>
     <a href="/contact/" class="site-footer__cta-btn">
       Get in touch

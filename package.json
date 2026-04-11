@@ -1,6 +1,6 @@
 {
   "name": "myportfolio",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "- [Hugo Project Setup in Existing Directory](#hugo-project-setup-in-existing-directory)\r   - [Prerequisites](#prerequisites)\r   - [Initialize Hugo](#initialize-hugo)\r   - [Configuration Steps](#configuration-steps)\r     - [1. Change Directory](#1-change-directory)\r     - [2. Theme Setup](#2-theme-setup)\r     - [3. Configure Your Theme](#3-configure-your-theme)\r     - [4. Create Content](#4-create-content)\r     - [5. Start the Server](#5-start-the-server)\r   - [Build Your Site](#build-your-site)\r   - [Deployment](#deployment)\r   - [Version Control](#version-control)\r   - [Conclusion](#conclusion)",
   "main": "index.js",
   "scripts": {
@@ -99,7 +99,12 @@
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
   },
-  "browserslist": ["> 1%", "last 2 versions", "not dead", "not ie 11"],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
   "overrides": {
     "minimatch": ">=10.2.1"
   },

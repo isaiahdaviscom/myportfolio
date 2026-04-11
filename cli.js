@@ -144,7 +144,9 @@ function printHelp() {
   R('open [url]',          'Open browser to dev server', 'default: http://localhost:1313');
   R('audit',               'Run npm security audit');
   R('perf',                'Run performance test suite');
-  R('version',             'Print CLI version');
+    R('version',             'Print or manage the project version');
+    R('version sync',        'Sync version from package.json → hugo.toml + README badge');
+    R('version bump [level]','Bump version and sync (level: patch · minor · major, default: patch)');
   R('help',                'Show this help text');
 
   console.log();
@@ -565,11 +567,34 @@ function runStatus() {
         printHelp();
         break;
 
-      case 'version':
-        console.log();
-        console.log(`  ${C.bold}${C.cyan}${pkg.name}${C.reset}  ${C.dim}v${pkg.version}${C.reset}`);
-        console.log();
+      case 'version': {
+        const sub = positionals[0];
+        if (sub === 'bump' || sub === 'sync') {
+          const versionSync = require('./scripts/version-sync');
+          if (sub === 'bump') {
+            const level = positionals[1] || 'patch';
+            banner('🔖 version bump', `${pkg.name} v${pkg.version}`);
+            const { prev, next, hugoOk, readmeOk } = versionSync.bump(level);
+            // Reload pkg so banner shows new version
+            pkg = JSON.parse(fs.readFileSync(path.join(projectRoot, 'package.json'), 'utf8'));
+            ok(`Bumped ${col('dim', prev)} → ${col('bold', next)} (${level})`);
+            if (hugoOk)   ok('hugo.toml synced');
+            if (readmeOk) ok('README.md badge synced');
+          } else {
+            banner('🔖 version sync', `${pkg.name} v${pkg.version}`);
+            const { version, hugoOk, readmeOk } = versionSync.sync();
+            ok(`Synced v${version}`);
+            if (hugoOk)   ok('hugo.toml synced');
+            if (readmeOk) ok('README.md badge synced');
+          }
+        } else {
+          console.log();
+          console.log(`  ${C.bold}${C.cyan}${pkg.name}${C.reset}  ${C.dim}v${pkg.version}${C.reset}`);
+          console.log(`  ${C.dim}Run ${col('cyan', 'pf version bump')} to increment, ${col('cyan', 'pf version sync')} to sync.${C.reset}`);
+          console.log();
+        }
         break;
+      }
 
       case 'status':
         runStatus();

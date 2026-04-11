@@ -25,7 +25,14 @@ Technical implementation guides and optimization strategies for the Hugo portfol
   - Analysis tool implementation
   - Maintenance workflows
 
-### 🔒 **SEO Protection**
+### � **Versioning**
+- **[Versioning Guide](versioning.md)** - Semantic versioning and release workflow
+  - Single source of truth (`package.json`)
+  - `pf version bump` CLI command
+  - Auto-sync to hugo.toml and README badge
+  - Recommended release workflow
+
+### �🔒 **SEO Protection**
 - **[SEO Protection](seo-protection.md)** - Development environment SEO safeguards
   - Development vs production robots.txt
   - Search engine protection strategies

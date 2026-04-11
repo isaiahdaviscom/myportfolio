@@ -1,6 +1,6 @@
 {
   "name": "css-optimization",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CSS Tree-shaking and optimization tools for Hugo portfolio project",
   "scripts": {
     "analyze": "node scripts/css-treeshaker.js",

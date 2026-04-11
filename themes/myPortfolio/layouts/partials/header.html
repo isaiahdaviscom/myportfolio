@@ -33,7 +33,7 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
 
         <span
           id="stories-ring"
-          class="stories-ring stories-ring--away"
+          class="stories-ring stories-ring--loading"
           aria-hidden="true"
           data-availability="{{ $availMode }}"
           data-away-message="{{ $awayMsg }}"
@@ -92,6 +92,7 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
 
   {{/* ══ RIGHT: social icons ══ */}}
   <nav id="social" aria-label="Social links" class="site-header__social">
+      {{ partial "cs-theme-toggle.html" . }}
       <a
         href="https://www.linkedin.com/in/isaiahdavis/"
         target="_blank"
@@ -99,7 +100,7 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
         aria-label="LinkedIn profile"
         class="site-header__social-link site-header__social-link--linkedin"
       >
-        <img height="22" width="22" src="/vendors/fontawesome/linkedin-brands-solid.svg" alt="LinkedIn" />
+        <span class="site-header__icon site-header__icon--linkedin" aria-hidden="true"></span>
         <span class="site-header__social-link-label">linkedin.com/in/isaiahdavis</span>
       </a>
       <a
@@ -109,7 +110,7 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
         aria-label="GitHub profile"
         class="site-header__social-link site-header__social-link--github"
       >
-        <img height="22" width="22" src="/vendors/fontawesome/github-brands.svg" alt="GitHub" />
+        <span class="site-header__icon site-header__icon--github" aria-hidden="true"></span>
         <span class="site-header__social-link-label">github.com/isaiahdaviscom</span>
       </a>
       <a
@@ -117,7 +118,7 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
         aria-label="Contact me"
         class="site-header__social-link site-header__social-link--contact"
       >
-        <img height="20" width="20" src="/vendors/fontawesome/paper-plane-solid.svg" alt="Contact" />
+        <span class="site-header__icon site-header__icon--contact" aria-hidden="true"></span>
         <span class="site-header__social-link-label">isaiah.davisx@gmail.com</span>
       </a>
   </nav>
@@ -132,16 +133,16 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
     <div class="site-header__drawer-social">
       <a href="https://www.linkedin.com/in/isaiahdavis/" target="_blank" rel="noopener noreferrer"
          class="site-header__drawer-social-link">
-        <img height="18" width="18" src="/vendors/fontawesome/linkedin-brands-solid.svg" alt="" aria-hidden="true" />
+        <span class="site-header__icon site-header__icon--linkedin" aria-hidden="true"></span>
         LinkedIn
       </a>
       <a href="https://github.com/isaiahdaviscom" target="_blank" rel="noopener noreferrer"
          class="site-header__drawer-social-link">
-        <img height="18" width="18" src="/vendors/fontawesome/github-brands.svg" alt="" aria-hidden="true" />
+        <span class="site-header__icon site-header__icon--github" aria-hidden="true"></span>
         GitHub
       </a>
       <a href="/contact" class="site-header__drawer-social-link">
-        <img height="16" width="16" src="/vendors/fontawesome/paper-plane-solid.svg" alt="" aria-hidden="true" />
+        <span class="site-header__icon site-header__icon--contact" aria-hidden="true"></span>
         Contact
       </a>
     </div>

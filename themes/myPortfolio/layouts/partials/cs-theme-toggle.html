@@ -47,11 +47,7 @@
     btn.addEventListener('click', function () {
       var isDark = html.getAttribute('data-theme') === 'dark';
       var next   = isDark ? 'light' : 'dark';
-      if (next === 'dark') {
-        html.setAttribute('data-theme', 'dark');
-      } else {
-        html.removeAttribute('data-theme');
-      }
+      html.setAttribute('data-theme', next);
       try { localStorage.setItem(STORAGE_KEY, next); } catch (_) {}
     });
   }

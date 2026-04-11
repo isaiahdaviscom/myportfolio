@@ -13,7 +13,13 @@
       {{- if not .Date.IsZero }}
       {{ $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
       {{ $dateHuman   := .Date | time.Format ":date_long" }}
-      <time datetime="{{ $dateMachine }}" class="blog-single__date">{{ $dateHuman }}</time>
+      {{- $mins := div .WordCount 200 }}{{- if lt $mins 1 }}{{- $mins = 1 }}{{- end }}
+      <div class="blog-single__meta">
+        <time datetime="{{ $dateMachine }}" class="blog-single__date">{{ $dateHuman }}</time>
+        {{- if eq .Section "posts" }}
+        <span class="blog-single__read-time" aria-label="Estimated read time">{{ $mins }} min read</span>
+        {{- end }}
+      </div>
       {{- end }}
     </div>
   </div>
