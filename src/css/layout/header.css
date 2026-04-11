@@ -246,45 +246,53 @@
     transform: translateY(0);
   }
 
-  .inline-menu a:focus-visible {
+  .inline-menu a:focus-visible,
+  .inline-menu a:focus {
     outline: none;
     border-radius: var(--radius-lg);
     box-shadow:
       0 0 0 2px var(--color-surface),
       0 0 0 4px var(--color-accent);
   }
-
-  /* Active / current page indicator */
-  .inline-menu a[aria-current='page'] {
-    background-color: var(--color-accent-soft);
-    color: var(--color-accent);
-    font-weight: var(--font-semibold);
+  /* Remove focus ring for mouse users in browsers that support :focus-visible */
+  .inline-menu a:focus:not(:focus-visible) {
+    box-shadow: none;
   }
 
-  [data-theme='dark'] .inline-menu a:hover {
-    background-color: rgba(255, 255, 255, 0.08);
-    color: var(--color-text-invert);
-  }
-
-  [data-theme='dark'] .inline-menu a[aria-current='page'] {
-    background-color: rgba(0, 81, 224, 0.2);
-    color: #4d8dff;
-  }
-
-  /* Hugo menu class equivalents (.active / .ancestor set by Hugo on <a> tags) */
+  /* Active / current page indicator — Hugo sets both aria-current and .active */
+  .inline-menu a[aria-current='page'],
   .inline-menu a.active {
     background-color: var(--color-accent-soft);
     color: var(--color-accent);
     font-weight: var(--font-semibold);
   }
 
-  .inline-menu a.ancestor {
+  /* Ancestor section link (e.g. /portfolio/ when on a portfolio project page) */
+  .inline-menu a.ancestor,
+  .inline-menu a[aria-current='true'] {
+    color: var(--color-accent);
+    font-weight: var(--font-medium);
+  }
+
+  /* ── Dark mode overrides ── */
+  [data-theme='dark'] .inline-menu a:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--color-text-primary);
+  }
+
+  [data-theme='dark'] .inline-menu a:active {
+    transform: translateY(0);
+  }
+
+  [data-theme='dark'] .inline-menu a[aria-current='page'],
+  [data-theme='dark'] .inline-menu a.active {
+    background-color: var(--color-accent-soft);
     color: var(--color-accent);
   }
 
-  [data-theme='dark'] .inline-menu a.active {
-    background-color: rgba(0, 81, 224, 0.2);
-    color: #4d8dff;
+  [data-theme='dark'] .inline-menu a.ancestor,
+  [data-theme='dark'] .inline-menu a[aria-current='true'] {
+    color: var(--color-accent);
   }
 
   /* ──────────────────────────────────────────────────────────────

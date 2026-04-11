@@ -49,11 +49,7 @@ class ThemeToggle extends HTMLElement {
 
   // ── Helpers ───────────────────────────────────────────────────────────────
   _apply(theme) {
-    if (theme === 'dark') {
-      this._html.setAttribute('data-theme', 'dark');
-    } else {
-      this._html.removeAttribute('data-theme');
-    }
+    document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
   }
 
   _safePref() {

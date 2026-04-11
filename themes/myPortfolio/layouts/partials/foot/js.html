@@ -22,6 +22,7 @@
         navToggle.addEventListener('click', () => {
           const isOpen = siteHeader.classList.toggle('nav-open');
           navToggle.setAttribute('aria-expanded', String(isOpen));
+          navToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
           mobileNav.setAttribute('aria-hidden', String(!isOpen));
         });
 
@@ -30,6 +31,7 @@
           if (ev.key === 'Escape' && siteHeader.classList.contains('nav-open')) {
             siteHeader.classList.remove('nav-open');
             navToggle.setAttribute('aria-expanded', 'false');
+            navToggle.setAttribute('aria-label', 'Open navigation menu');
             mobileNav.setAttribute('aria-hidden', 'true');
             navToggle.focus();
           }
@@ -40,6 +42,7 @@
           link.addEventListener('click', () => {
             siteHeader.classList.remove('nav-open');
             navToggle.setAttribute('aria-expanded', 'false');
+            navToggle.setAttribute('aria-label', 'Open navigation menu');
             mobileNav.setAttribute('aria-hidden', 'true');
           });
         });
@@ -50,6 +53,7 @@
           if (ev.matches && siteHeader.classList.contains('nav-open')) {
             siteHeader.classList.remove('nav-open');
             navToggle.setAttribute('aria-expanded', 'false');
+            navToggle.setAttribute('aria-label', 'Open navigation menu');
             mobileNav.setAttribute('aria-hidden', 'true');
           }
         });

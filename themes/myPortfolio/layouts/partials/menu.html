@@ -3,7 +3,7 @@ ID. @example: {{ partial "menu.html" (dict "menuID" "main" "page" .) }} */}} {{-
 .menuID }} {{- with index site.Menus $menuID }}
 <nav aria-label="Main Navigation" id="{{ $menuID }}" class="inline-menu">
   <!-- Note: Hugo partial generates valid li elements for menu structure -->
-  <ul>
+  <ul role="list">
     {{- partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) -}}
   </ul>
 </nav>

@@ -127,7 +127,7 @@ Stories overlay panel (2 slides) Business hours (All times Chicago / Central): A
 {{/* ── Mobile navigation drawer — full-bleed row inside the site-header grid ──
      Hidden on desktop via CSS. Toggled by #nav-toggle button above.
      grid-column: 1 / -1 spans all 3 tracks edge-to-edge. */}}
-<div class="site-header__drawer" id="mobile-nav" aria-label="Mobile navigation">
+<div class="site-header__drawer" id="mobile-nav" aria-label="Mobile navigation" aria-hidden="true">
   <div class="site-header__drawer-inner">
     {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
     <div class="site-header__drawer-social">
