@@ -331,6 +331,30 @@
     var pauseStart     = 0;
     var remaining      = SLIDE_DURATION;
 
+    /* ── Viewed-state tracking ────────────────── */
+    var STORIES_VERSION  = ring ? (ring.getAttribute('data-stories-version') || '1') : '1';
+    var STORIES_SEEN_KEY = 'stories_seen_v';
+    var hasViewedLast    = false; /* true once the user reaches or passes the final slide */
+
+    function initViewedState() {
+      try {
+        var seen = localStorage.getItem(STORIES_SEEN_KEY);
+        /* Viewed: ring collapses to muted gray.
+           Unviewed: no extra class — the ring's normal vibrant gradient
+           already signals new content is available. */
+        if (seen === STORIES_VERSION) {
+          ring.classList.add('stories-ring--viewed');
+        } else {
+          ring.classList.remove('stories-ring--viewed');
+        }
+      } catch (e) { /* localStorage blocked (private browsing, etc.) */ }
+    }
+
+    function markAllViewed() {
+      try { localStorage.setItem(STORIES_SEEN_KEY, STORIES_VERSION); } catch (e) {}
+      ring.classList.add('stories-ring--viewed');
+    }
+
     /* ── Apply availability state ─────────────── */
     function applyState() {
       /* CMS override: data-availability on the ring element.
@@ -433,8 +457,14 @@
       isPaused  = false;
       remaining = SLIDE_DURATION;
       currentSlide = idx;
-      if (currentSlide >= slides.length) { closeStories(); return; }
+      if (currentSlide >= slides.length) {
+        hasViewedLast = true;
+        closeStories();
+        return;
+      }
       if (currentSlide < 0) currentSlide = 0;
+      /* Mark viewed once the user lands on the final slide */
+      if (currentSlide === slides.length - 1) hasViewedLast = true;
       showSlide(currentSlide);
       autoTimer = setTimeout(function () {
         goToSlide(currentSlide + 1);
@@ -498,6 +528,8 @@
         f.classList.remove('stories-progress-fill--active', 'stories-progress-fill--done');
         f.style.animationPlayState = '';
       });
+      if (hasViewedLast) markAllViewed();
+      hasViewedLast = false;
       trigger.focus();
     }
 
@@ -571,6 +603,7 @@
 
     /* ── Initialise + refresh every minute ────── */
     applyState();
+    initViewedState();
     setInterval(applyState, 60000);
   })();
 </script>

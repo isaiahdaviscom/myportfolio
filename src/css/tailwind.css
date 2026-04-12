@@ -93,6 +93,9 @@
 /* 1.7 Print media optimizations */
 @import './utilities/print.css';
 
+/* 2.55 Chroma syntax highlighting (github-dark, class-based) */
+@import './utilities/chroma.css';
+
 /* 2.6 Scroll & motion enhancements (smooth scroll, reveal, selection, scrollbar, focus-ring) */
 @import './utilities/motion.css';
 
@@ -113,6 +116,7 @@
    `clip` (vs `hidden`) avoids side-effects on scroll-position and sticky bars. */
 html {
   overflow-x: clip;
+  scroll-padding-top: var(--header-h, 3.5rem); /* prevent anchor links from hiding under sticky header */
 }
 
 /* Cap embedded media to their containers — covers cases where Tailwind preflight

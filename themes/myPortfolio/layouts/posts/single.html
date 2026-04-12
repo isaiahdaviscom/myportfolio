@@ -118,7 +118,7 @@
       {{- with $tags }}
       <div class="bs-hero__tags" role="list" aria-label="Topics">
         {{- range . }}
-        <span class="bs-tag" role="listitem">#{{ . }}</span>
+        <a href="/tags/{{ . | urlize }}/" class="bs-tag" role="listitem">#{{ . }}</a>
         {{- end }}
       </div>
       {{- end }}
@@ -178,7 +178,7 @@
       {{- with $tags }}
       <div class="bs-article-tags" role="list" aria-label="Article tags">
         {{- range . }}
-        <span class="bs-tag" role="listitem">#{{ . }}</span>
+        <a href="/tags/{{ . | urlize }}/" class="bs-tag" role="listitem">#{{ . }}</a>
         {{- end }}
       </div>
       {{- end }}

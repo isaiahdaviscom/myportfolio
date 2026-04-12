@@ -94,8 +94,47 @@
   background-color: var(--color-bg);
   padding-block: var(--space-20) var(--space-16);
   border-bottom: 1px solid var(--color-border);
-  position: relative;
+  position: relative;  overflow: hidden;
 }
+
+/*
+  Cover image feathered into the hero background.
+  --cs-cover is set as an inline CSS custom property on <header> by the template
+  whenever .Params.cover is present. When absent the pseudo-element renders nothing.
+  The mask fades from right-to-left so the text column stays fully readable.
+*/
+.cs-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--cs-cover, none);
+  background-size: auto 130%;
+  background-position: right -2rem center;
+  background-repeat: no-repeat;
+  opacity: 0.08;
+  filter: grayscale(0.35);
+  -webkit-mask-image: radial-gradient(
+    ellipse 58% 88% at 88% 50%,
+    black 5%,
+    transparent 70%
+  );
+  mask-image: radial-gradient(
+    ellipse 58% 88% at 88% 50%,
+    black 5%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+[data-theme='dark'] .cs-hero::after {
+  opacity: 0.14;
+}
+
+/* Ensure all direct children sit above the background layer */
+.cs-hero > * {
+  position: relative;
+  z-index: 1;}
 
 .cs-hero__eyebrow {
   font-size: var(--text-xs);

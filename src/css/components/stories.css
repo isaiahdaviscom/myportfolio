@@ -102,6 +102,16 @@
     background: linear-gradient(135deg, #fde68a 0%, #f59e0b 40%, #b45309 100%);
   }
 
+  /* ── Viewed: user has watched all slides for the current content version ───
+     Placed after all colour classes so source-order specificity overrides
+     --available and --color-* gradients, collapsing the ring to a muted gray.
+     When unviewed, no extra class is needed — the ring's normal vibrant
+     gradient/glow already signals that new content is waiting. */
+  .stories-ring--viewed {
+    background: #94a3b8;
+    animation: none;
+  }
+
   /* ── Shared glow animation (colour-agnostic) ── */
   @keyframes stories-glow {
     0%,

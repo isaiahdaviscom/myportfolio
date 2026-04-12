@@ -520,6 +520,81 @@
     color: var(--color-text-primary);
   }
 
+  /* Vertical rhythm between top-level prose children */
+  .bs-article > * + * {
+    margin-top: var(--space-5);
+  }
+
+  /* ── Prose heading scale (mirrors cs-prose pattern) ─── */
+  .bs-article h2 {
+    font-size: var(--comfort-h2);
+    font-weight: var(--font-bold);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-primary);
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .bs-article h3 {
+    font-size: var(--comfort-h3);
+    font-weight: var(--font-semibold);
+    line-height: var(--leading-snug);
+    color: var(--color-text-primary);
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+  }
+
+  .bs-article h4 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--color-text-primary);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-2);
+  }
+
+  /* ── Prose link color — accessible in light & dark (≥6:1) ─── */
+  .bs-article a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .bs-article a:hover {
+    color: var(--color-accent-hover);
+    text-decoration-thickness: 2px;
+  }
+
+  .bs-article a:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+  }
+
+  /* ── Prose list styling ───────────────────────────────── */
+  .bs-article ul,
+  .bs-article ol {
+    padding-left: var(--space-6);
+  }
+
+  .bs-article li {
+    margin-block: var(--space-1_5);
+  }
+
+  .bs-article ul li::marker {
+    color: var(--color-accent);
+  }
+
+  .bs-article strong {
+    font-weight: var(--font-semibold);
+    color: var(--color-text-primary);
+  }
+
   /* ── 06. PROSE OVERRIDES ──────────────────────────────────────────────────── */
 
   /* Accent horizontal rule — wide accent line */
@@ -576,22 +651,35 @@
   }
 
   /* Code block */
+  /* Code blocks — when Hugo uses noClasses=false, .highlight wrapper 
+     plus .chroma class handle colours via chroma.css. This block
+     handles geometry / padding / font only, so both paths work. */
   .bs-article pre {
-    background: var(--color-gray-950, #0a0a0a);
-    border: 1px solid var(--color-border);
+    background: #0d1117; /* github-dark baseline; chroma.css wins via .chroma */
+    border: 1px solid rgba(255,255,255,0.08);
     border-radius: var(--radius-xl, 1rem);
     padding: var(--space-6, 1.5rem);
     overflow-x: auto;
     box-shadow: var(--shadow-md);
     margin-block: var(--space-8, 2rem);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm, 0.875rem);
+    line-height: 1.6;
+  }
+
+  /* .highlight wraps <pre class="chroma"> — reset its own margin since
+     the .highlight margin is set in chroma.css */
+  .bs-article .highlight > pre {
+    margin: 0;
   }
 
   .bs-article pre code {
     background: none;
     border: none;
-    color: #e5e7eb;
-    font-size: var(--text-sm, 0.875rem);
+    color: #e6edf3;
+    font-size: inherit;
     padding: 0;
+    font-family: inherit;
   }
 
   /* Table */
@@ -995,8 +1083,8 @@
 
   .bs-series-sidebar {
     position: sticky;
-    top: var(--space-8, 2rem);
-    max-height: calc(100vh - var(--space-16, 4rem));
+    top: calc(var(--header-h, 3.5rem) + var(--space-4, 1rem)); /* clears sticky header */
+    max-height: calc(100vh - var(--header-h, 3.5rem) - var(--space-8, 2rem));
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--color-border) transparent;
@@ -1051,8 +1139,9 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
-[data-theme='dark'] .bs-article pre {
-  background: #0d0d0d;
+[data-theme='dark'] .bs-article pre,
+[data-theme='dark'] .bs-article .chroma {
+  background: #0d1117; /* github-dark — consistent in both themes */
   border-color: rgba(255,255,255,0.08);
 }
 

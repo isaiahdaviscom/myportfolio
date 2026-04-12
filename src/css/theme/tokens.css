@@ -37,7 +37,7 @@
   /* Text */
   --color-text-primary: #0f172a;
   --color-text-secondary: #475569;
-  --color-text-muted: #94a3b8;
+  --color-text-muted: #5e708a;  /* darkened from #94a3b8 → 4.6:1 on white (WCAG AA) */
   --color-text-invert: #f8fafc;
 
   /* Accent (brand blue) */
@@ -158,6 +158,10 @@
   --width-container: 93.75rem; /* 1500px — default page container */
   --max-wide: 96rem; /* 1536px — full-bleed wide layouts */
   --width-site: 90rem; /* 1440px — global site container (header + all sections) */
+
+  /* Sticky header height — avatar 40px + 2×8px padding = 56px = 3.5rem.
+     Used by: scroll-padding-top, sticky sidebar top offset. */
+  --header-h: 3.5rem;
 
   /* ── Grid system ──────────────────────────────────────────────────────────
      Exact port of the Squarespace fluid-grid system.
@@ -360,7 +364,7 @@
   --color-border-strong: #2d3f5e;
   --color-text-primary: #f0f6ff;
   --color-text-secondary: #8da4be;
-  --color-text-muted: #4d6480;
+  --color-text-muted: #7b8da3;  /* lightened from #4d6480 → 6.1:1 on dark bg (WCAG AA) */
   --color-text-invert: #0f172a;
   --color-accent: #4d8dff;
   --color-accent-hover: #3a7aee;
@@ -409,7 +413,7 @@
     --color-border-strong: #2d3f5e;
     --color-text-primary: #f0f6ff;
     --color-text-secondary: #8da4be;
-    --color-text-muted: #4d6480;
+    --color-text-muted: #7b8da3;  /* lightened from #4d6480 → 6.1:1 on dark bg (WCAG AA) */
     --color-text-invert: #0f172a;
     --color-accent: #4d8dff;
     --color-accent-hover: #3a7aee;

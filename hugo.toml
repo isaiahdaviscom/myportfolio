@@ -51,6 +51,11 @@ theme = 'myPortfolio'
   [markup.goldmark.renderer]
     unsafe = true
 
+  [markup.highlight]
+    codeFences  = true    # process fenced code blocks
+    guessSyntax = true    # auto-detect language when not specified
+    noClasses   = false   # use CSS classes (chroma.css) instead of inline styles
+
 [[menus.main]]
 # myportfolio\themes\myPortfolio\layouts\_default\home.html
 name = 'Home'

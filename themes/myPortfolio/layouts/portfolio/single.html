@@ -26,7 +26,7 @@
   {{/* ════════════════════════════════════════════════════════════════════════
        1. HERO
        ════════════════════════════════════════════════════════════════════════ */}}
-  <header class="cs-hero" role="banner">
+  <header class="cs-hero" role="banner"{{- with .Params.cover }} style="--cs-cover: url('{{ . }}')"{{- end }}>
     <div class="cs-container">
 
       {{- /* Breadcrumb — replaces the simple back anchor */ -}}
