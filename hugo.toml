@@ -18,6 +18,9 @@ theme = 'myPortfolio'
   gtmId = "GTM-W3VQVDR"
   
 
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
 [taxonomies]
   tag      = "tags"
   category = "categories"

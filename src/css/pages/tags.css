@@ -56,6 +56,9 @@
   ────────────────────────────────────────────────────────────── */
 
   .tag-content {
+    display: grid;
+    grid-template-columns: var(--grid-template);
+    grid-auto-rows: minmax(var(--row-baseline), auto);
     background: var(--color-bg);
     padding-block: var(--space-12);
     min-height: 50vh;
@@ -201,6 +204,9 @@
   ────────────────────────────────────────────────────────────── */
 
   .tag-index {
+    display: grid;
+    grid-template-columns: var(--grid-template);
+    grid-auto-rows: minmax(var(--row-baseline), auto);
     background: var(--color-bg);
     padding-block: var(--space-12);
     min-height: 60vh;

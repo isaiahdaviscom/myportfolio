@@ -1,0 +1,23 @@
+{{- /*
+  Search index — output at /index.json
+  Consumed by the 404 page client-side search.
+  Includes all regular pages (posts + portfolio + singles).
+  Excluded: drafts, pages with `searchable: false` in front matter.
+*/ -}}
+{{- $index := slice -}}
+{{- range .Site.RegularPages -}}
+  {{- if not .Params.draft -}}
+    {{- if ne .Params.searchable false -}}
+      {{- $desc := .Params.description | default (.Summary | truncate 200 "") -}}
+      {{- $entry := dict
+        "title"       .Title
+        "url"         .RelPermalink
+        "section"     .Section
+        "description" $desc
+        "tags"        (.Params.tags | default (slice))
+      -}}
+      {{- $index = $index | append $entry -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $index | jsonify -}}

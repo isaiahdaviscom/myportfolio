@@ -84,6 +84,9 @@
 /* 2.35 Tag taxonomy list & single term pages */
 @import './pages/tags.css';
 
+/* 2.36 404 not-found page + client-side search */
+@import './pages/not-found.css';
+
 /* 2.4 Home page */
 @import './pages/home.css';
 
