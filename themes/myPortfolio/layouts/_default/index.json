@@ -9,12 +9,27 @@
   {{- if not .Params.draft -}}
     {{- if ne .Params.searchable false -}}
       {{- $desc := .Params.description | default (.Summary | truncate 200 "") -}}
+      {{- $series      := .Params.series | default (slice) -}}
+      {{- $seriesName  := index $series 0 | default "" -}}
+      {{- $parentPage  := .Parent -}}
+      {{- $parentTitle := "" -}}
+      {{- $parentURL   := "" -}}
+      {{- if $parentPage -}}
+        {{- if gt (len $parentPage.Title) 0 -}}
+          {{- $parentTitle = $parentPage.Title -}}
+          {{- $parentURL   = $parentPage.RelPermalink -}}
+        {{- end -}}
+      {{- end -}}
       {{- $entry := dict
         "title"       .Title
         "url"         .RelPermalink
         "section"     .Section
         "description" $desc
         "tags"        (.Params.tags | default (slice))
+        "series"      $seriesName
+        "seriesOrder" (.Params.seriesOrder | default 0)
+        "parent"      $parentTitle
+        "parentURL"   $parentURL
       -}}
       {{- $index = $index | append $entry -}}
     {{- end -}}

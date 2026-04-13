@@ -72,8 +72,9 @@
 
       </div>{{/* /.cs-hero__meta */}}
 
-      {{/* ── Tech stack chips ──────────────────────────────────────────── */}}
-      {{- with .Params.stack }}
+      {{/* ── Tech stack chips — accepts both `stack` and `skills` keys ── */}}
+      {{- $chips := .Params.stack | default .Params.skills -}}
+      {{- with $chips }}
       <div class="cs-hero__meta" role="list" aria-label="Tech stack">
         {{- range . }}
         <span class="cs-chip cs-chip--accent" role="listitem">{{ . }}</span>
