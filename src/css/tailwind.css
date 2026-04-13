@@ -1,0 +1,145 @@
+/*
+  SITE-LEVEL CSS ENTRY POINT (PostCSS Pipeline)
+  =============================================
+  Purpose: Site-specific customizations and component imports
+  Location: src/css/tailwind.css  
+  Build: Compiled to static/css/styles.css via PostCSS/Tailwind
+  
+  IMPORTANT: This file is for SITE-SPECIFIC components that:
+  - Override or extend the base theme
+  - Are unique to THIS portfolio site
+  - Need PostCSS/PurgeCSS optimization
+  - Use advanced CSS features (container queries, etc.)
+  
+  Standards:
+  - Import modular components from src/css/components/
+  - Use @layer for proper cascade control
+  - Focus on site-specific design decisions
+  - Avoid duplicating theme-level base styles
+
+
+  TABLE OF CONTENTS
+  =================
+  1. Component Imports (must precede @tailwind per CSS spec)
+     1.1 Design tokens (CSS custom properties)
+     1.2 Badge Component
+     1.3 Card Component (with Container Queries)
+     1.4 Stories Component
+     1.5 Case Study Page
+     1.6 Breadcrumb navigation
+     1.7 Print Utilities
+     1.8 Site footer
+  2. Tailwind Directives
+*/
+
+/* =============================================
+   1. COMPONENT IMPORTS (must precede @tailwind directives per CSS spec)
+   ============================================= */
+
+/* 1.1 Design tokens (CSS custom properties — unlayered, highest priority) */
+@import './theme/tokens.css';
+
+/* 1.2 Portfolio project badges and labels */
+@import './components/badge.css';
+
+/* 1.25 Version badge — shared inline HTML + SVG asset component */
+@import './components/version-badge.css';
+
+/* 1.3 Advanced responsive portfolio cards */
+@import './components/card.css';
+
+/* 1.4 Instagram Stories header – availability ring + modal */
+@import './components/stories.css';
+
+/* 1.5 Case study page (portfolio single) */
+@import './pages/case-study.css';
+
+/* 1.6 Breadcrumb navigation */
+@import './layout/breadcrumb.css';
+
+/* 1.65 Site header (glass sticky bar + nav + social links) */
+@import './layout/header.css';
+
+/* 1.66 Grid column utilities (gc-*, col-*, layout-* presets) */
+@import './layout/grid.css';
+
+/* 1.8 Site footer */
+@import './layout/footer.css';
+
+/* 1.9 Shared page-level components (hero, h1, buttons, cards, badge, cta-strip) */
+@import './layout/page.css';
+
+/* 2.0 Portfolio list page — editorial card system */
+@import './pages/portfolio.css';
+
+/* 2.1 Contact page layout + form field styles */
+@import './pages/contact.css';
+
+/* 2.2 About page layout, skills & values */
+@import './pages/about.css';
+
+/* 2.3 Blog list & single post */
+@import './pages/blog.css';
+
+/* 2.35 Tag taxonomy list & single term pages */
+@import './pages/tags.css';
+
+/* 2.36 404 not-found page + client-side search */
+@import './pages/not-found.css';
+
+/* 2.4 Home page */
+@import './pages/home.css';
+
+/* 2.5 Scroll story — Apple-style case study narrative pages */
+@import './pages/scroll-story.css';
+
+/* 1.7 Print media optimizations */
+@import './utilities/print.css';
+
+/* 2.55 Chroma syntax highlighting (github-dark, class-based) */
+@import './utilities/chroma.css';
+
+/* 2.6 Scroll & motion enhancements (smooth scroll, reveal, selection, scrollbar, focus-ring) */
+@import './utilities/motion.css';
+
+/* =============================================
+   2. TAILWIND DIRECTIVES
+   ============================================= */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   OVERFLOW & MEDIA SAFETY GUARDS
+   Deliberately UNLAYERED — cascade position beats all @layer (base /
+   components / utilities) rules, so these win even over Tailwind preflight.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Prevent any overflowing element from creating a horizontal page scrollbar.
+   `clip` (vs `hidden`) avoids side-effects on scroll-position and sticky bars. */
+html {
+  overflow-x: clip;
+  scroll-padding-top: var(--header-h, 3.5rem); /* prevent anchor links from hiding under sticky header */
+}
+
+/* Cap embedded media to their containers — covers cases where Tailwind preflight
+   has been reordered or tree-shaken away. */
+img,
+video,
+picture > img,
+canvas,
+iframe {
+  max-width: 100%;
+  height: auto; /* preserve aspect ratio when width is constrained */
+}
+
+/* Scoped scrollable tables — lets prose / content tables scroll horizontally
+   on mobile instead of forcing the page width to grow. */
+.container table,
+.cs-container table,
+article table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}

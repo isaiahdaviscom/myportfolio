@@ -1,9 +1,11 @@
-{{- with resources.Get "css/main.css" }}
-  {{- if eq hugo.Environment "development" }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{- with resources.Get "css/main.css" }} {{- if eq hugo.Environment "development" }}
+<link rel="stylesheet" href="{{ .RelPermalink }}?v={{ now.Unix }}" />
+{{- else }} {{- with . | minify | fingerprint }}
+<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
+{{- end }} {{- end }} {{- end }} {{- /* Inter font with cache busting for development */ -}} {{ if eq hugo.Environment
+"production" }}
+<link rel="stylesheet" href="/css/inter-font.css" />
+{{ else }}
+<link rel="stylesheet" href="/css/inter-font.css?v={{ now.Unix }}" />
+{{ end }}
+{{- /* Font Awesome CSS removed — all icons are self-hosted SVGs in /vendors/fontawesome/ */ -}}

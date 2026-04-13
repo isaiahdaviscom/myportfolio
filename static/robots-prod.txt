@@ -1,0 +1,97 @@
+# Robots.txt for Production Environment
+# This file allows search engines to crawl the production site
+
+User-agent: *
+Allow: /
+
+# Block access to admin and private areas
+Disallow: /admin/
+Disallow: /.netlify/
+Disallow: /api/
+Disallow: /_draft/
+
+# Allow access to important files
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /fonts/
+
+# Crawl delay (optional - adjust as needed)
+Crawl-delay: 1
+
+# ── AI/LLM Training & Scraper Bot Blocking ───────────────────────────────────
+# Block OpenAI crawlers (GPT training & ChatGPT browsing)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: OAI-SearchBot
+Disallow: /
+
+# Block Anthropic / Claude
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+# Block Common Crawl (primary training corpus for many LLMs)
+User-agent: CCBot
+Disallow: /
+
+# Block ByteDance / TikTok scraper
+User-agent: Bytespider
+Disallow: /
+
+# Block Google Vertex AI / Bard training
+User-agent: Google-Extended
+Disallow: /
+
+# Block Cohere training crawler
+User-agent: cohere-ai
+Disallow: /
+
+# Block Perplexity AI
+User-agent: PerplexityBot
+Disallow: /
+
+# Block Diffbot (ML data extraction)
+User-agent: Diffbot
+Disallow: /
+
+# Block ImagesiftBot (image ML training)
+User-agent: ImagesiftBot
+Disallow: /
+
+# Block Omgili / Webz.io news scrapers
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: omgili
+Disallow: /
+
+# Block Apple AI (Applebot-Extended for Apple Intelligence)
+User-agent: Applebot-Extended
+Disallow: /
+
+# Block Meta AI training crawler
+User-agent: FacebookBot
+Disallow: /
+
+# Block Amazon Alexa / AI data scraper
+User-agent: Amazonbot
+Disallow: /
+
+# Block PetalBot (Huawei AI)
+User-agent: PetalBot
+Disallow: /
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Sitemap location
+Sitemap: https://isaiahdavis.com/sitemap.xml

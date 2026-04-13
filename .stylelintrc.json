@@ -1,0 +1,40 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "plugins": [],
+  "rules": {
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": ["tailwind", "apply", "variants", "responsive", "screen", "layer"]
+      }
+    ],
+    "import-notation": null,
+    "no-descending-specificity": null,
+    "color-function-alias-notation": null,
+    "media-feature-range-notation": null,
+    "selector-class-pattern": null,
+    "custom-property-pattern": null,
+    "alpha-value-notation": "number",
+    "color-function-notation": "legacy",
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global"]
+      }
+    ],
+    "property-no-vendor-prefix": [
+      true,
+      {
+        "ignoreProperties": ["backdrop-filter", "appearance", "print-color-adjust"]
+      }
+    ]
+  },
+  "ignoreFiles": [
+    "node_modules/**/*",
+    "public/**/*",
+    "static/css/**/*",
+    ".chrome-debug-profile/**/*",
+    "themes/myPortfolio/exampleSite/**/*",
+    "themes/myPortfolio/assets/css/**/*"
+  ]
+}

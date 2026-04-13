@@ -1,0 +1,61 @@
+{{/*
+  Breadcrumb — site-level partial (overrides theme).
+  Uses BEM classes styled in src/css/layout/breadcrumb.css.
+  Skipped on the home page.
+*/}}
+
+{{- if not .IsHome -}}
+
+{{- /* Build crumb slice: Home → (Section) → Current page */ -}}
+{{- $crumbs := slice (dict "title" "Home" "url" "/" "current" false) -}}
+
+{{- /* Add section crumb when inside a section page (not on the section index itself) */ -}}
+{{- if and .Section (not .IsSection) -}}
+  {{- $sectionTitle := .Section | humanize | title -}}
+  {{- $sectionURL   := printf "/%s/" .Section -}}
+  {{- $crumbs = $crumbs | append (dict "title" $sectionTitle "url" $sectionURL "current" false) -}}
+{{- end -}}
+
+{{- /* Current page — no URL, aria-current */ -}}
+{{- $crumbs = $crumbs | append (dict "title" .Title "url" "" "current" true) -}}
+
+{{/* Structured Data (BreadcrumbList) */}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {{- range $i, $c := $crumbs -}}
+    {{- if not (eq $i 0) }},{{ end }}
+    {
+      "@type": "ListItem",
+      "position": {{ add $i 1 }},
+      "name": {{ $c.title | jsonify }},
+      "item": "{{ if $c.url }}{{ $c.url | absURL }}{{ else }}{{ $.Permalink }}{{ end }}"
+    }
+    {{- end -}}
+  ]
+}
+</script>
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <ol class="breadcrumb__list" role="list">
+    {{- range $i, $c := $crumbs -}}
+    <li class="breadcrumb__item{{ if $c.current }} breadcrumb__item--current{{ end }}">
+      {{- if $c.current -}}
+        <span aria-current="page" class="breadcrumb__current">{{ $c.title }}</span>
+      {{- else -}}
+        <a href="{{ $c.url }}" class="breadcrumb__link">{{ $c.title }}</a>
+        <span class="breadcrumb__sep" aria-hidden="true">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </span>
+      {{- end -}}
+    </li>
+    {{- end -}}
+  </ol>
+</nav>
+
+{{- end -}}

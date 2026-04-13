@@ -1,2 +1,420 @@
-<h1>{{ site.Title }}</h1>
-{{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+{{/* ════════════════════════════════════════════════ HEADER PARTIAL — Instagram Stories Style
+════════════════════════════════════════════════ Left: Profile ring trigger (stories) + nav Right: Social links Modal:
+Stories overlay panel (2 slides) Business hours (All times Chicago / Central): Available: Mon–Fri, 9:00 AM – 6:00 PM CT
+*/}} {{/* ── Profile image path (set once here) ─── */}} {{- $avatar := "/images/profile-branded.png" -}}
+
+<div class="site-header__inner">
+  {{/* ══ LEFT: ring trigger + nav ══ */}}
+  <div class="site-header__left">
+    {{/* ── Stories ring trigger button ── */}}
+    <button
+        id="stories-trigger"
+        class="stories-trigger"
+        aria-label="View my availability — opens a stories panel"
+        aria-haspopup="dialog"
+        aria-controls="stories-overlay"
+        aria-expanded="false"
+        type="button"
+      >
+        {{/* Ring — state + colour driven by page type and CMS settings */}}
+        {{- $availMode  := site.Data.settings.availability_mode | default "auto" -}}
+        {{- $awayMsg    := site.Data.settings.away_message | default "" -}}
+        {{- $ringColor  := site.Data.settings.ring_color | default "" -}}
+
+        {{/* Derive page type for content-mapped ring colour */}}
+        {{- $pageType := "other" -}}
+        {{- if .IsHome -}}{{- $pageType = "home" -}}
+        {{- else if and (eq .Section "portfolio") .IsSection -}}{{- $pageType = "portfolio_index" -}}
+        {{- else if eq .Section "portfolio" -}}{{- $pageType = "portfolio_project" -}}
+        {{- else if eq .RelPermalink "/about/" -}}{{- $pageType = "about" -}}
+        {{- else if eq .RelPermalink "/contact/" -}}{{- $pageType = "contact" -}}
+        {{- else if eq .Section "posts" -}}{{- $pageType = "blog_post" -}}
+        {{- end -}}
+
+        <span
+          id="stories-ring"
+          class="stories-ring stories-ring--loading"
+          aria-hidden="true"
+          data-availability="{{ $availMode }}"
+          data-away-message="{{ $awayMsg }}"
+          data-ring-color="{{ $ringColor }}"
+          data-page-type="{{ $pageType }}"
+          data-stories-version="{{ site.Params.version }}"
+        >
+          <span class="stories-ring-inner">
+            <img
+              src="{{ $avatar }}"
+              alt="Profile picture of Isaiah Davis"
+              class="stories-avatar"
+              width="40"
+              height="40"
+              loading="eager"
+            />
+          </span>
+        </span>
+
+        {{/* Status dot */}}
+        <span id="stories-dot" class="stories-dot stories-dot--closed" title="Availability status"></span>
+      </button>
+
+      {{/* ── Name + availability label ── */}}
+      <div class="site-header__identity">
+        {{/*
+        <p class="text-sm font-semibold text-gray-900 truncate">Isaiah Davis</p>
+        */}} {{/*
+        <p id="availability-label" class="text-xs availability-closed truncate">Checking hours…</p>
+        */}}
+      </div>
+
+      {{/* ── Primary nav (desktop — hidden on mobile) ── */}} {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+
+      {{/* ── Site search — inline expand, results drop below ── */}}
+      <div class="header-search" id="header-search-wrapper" role="search" aria-label="Site search">
+        {{/* Input field — width: 0 collapsed, expands on open */}}
+        <div class="header-search__field">
+          <label for="header-search-input" class="sr-only">Search site</label>
+          <input
+            type="search"
+            id="header-search-input"
+            class="header-search__input"
+            placeholder="Search posts, projects…"
+            autocomplete="off"
+            spellcheck="false"
+            aria-controls="header-search-results"
+            aria-describedby="header-search-status"
+          />
+          <button
+            type="button"
+            class="header-search__clear"
+            id="header-search-clear"
+            aria-label="Clear search"
+            hidden
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="3" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+
+        {{/* Magnifier toggle button */}}
+        <button
+          type="button"
+          class="header-search__btn"
+          id="header-search-btn"
+          aria-label="Open site search"
+          aria-expanded="false"
+          aria-controls="header-search-results"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+
+      </div>
+
+      {{/* ── Mobile hamburger toggle (shown below 768px) ── */}}
+      <button
+        id="nav-toggle"
+        class="site-header__nav-toggle"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        aria-label="Open navigation menu"
+        type="button"
+      >
+        {{/* Hamburger icon (3 bars) */}}
+        <svg class="site-header__nav-toggle-icon site-header__nav-toggle-icon--open" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+          <rect y="4"  width="22" height="2" rx="1" fill="currentColor"/>
+          <rect y="10" width="22" height="2" rx="1" fill="currentColor"/>
+          <rect y="16" width="22" height="2" rx="1" fill="currentColor"/>
+        </svg>
+        {{/* Close icon (X) — shown when drawer is open */}}
+        <svg class="site-header__nav-toggle-icon site-header__nav-toggle-icon--close" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+          <line x1="3" y1="3" x2="19" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="19" y1="3" x2="3" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+  {{/* ══ RIGHT: social icons ══ */}}
+  <nav id="social" aria-label="Social links" class="site-header__social">
+      {{ partial "cs-theme-toggle.html" . }}
+      <a
+        href="https://www.linkedin.com/in/isaiahdavis/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="LinkedIn profile"
+        class="site-header__social-link site-header__social-link--linkedin"
+      >
+        <span class="site-header__icon site-header__icon--linkedin" aria-hidden="true"></span>
+        <span class="site-header__social-link-label">linkedin.com/in/isaiahdavis</span>
+      </a>
+      <a
+        href="https://github.com/isaiahdaviscom"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub profile"
+        class="site-header__social-link site-header__social-link--github"
+      >
+        <span class="site-header__icon site-header__icon--github" aria-hidden="true"></span>
+        <span class="site-header__social-link-label">github.com/isaiahdaviscom</span>
+      </a>
+      <a
+        href="/contact"
+        aria-label="Contact me"
+        class="site-header__social-link site-header__social-link--contact"
+      >
+        <span class="site-header__icon site-header__icon--contact" aria-hidden="true"></span>
+        <span class="site-header__social-link-label">isaiah.davisx@gmail.com</span>
+      </a>
+  </nav>
+</div>
+
+{{/* ── Search mega-panel — full-bleed row, direct child of .site-header (position:sticky)
+     Visibility: .site-header:has(.header-search:focus-within) drives :focus-within state.
+     JS sets aria-expanded on #header-search-btn as an explicit-state fallback. */}}
+<div
+  class="header-search__panel"
+  id="header-search-panel"
+  role="region"
+  aria-label="Search results"
+>
+  <div class="header-search__mega">
+    <div class="header-search__mega-body" id="header-search-results"
+         role="listbox" aria-label="Search results"></div>
+  </div>
+  <p id="header-search-status" class="sr-only" aria-live="polite"></p>
+</div>
+
+{{/* ── Mobile navigation drawer — full-bleed row inside the site-header grid ──
+     Hidden on desktop via CSS. Toggled by #nav-toggle button above.
+     grid-column: 1 / -1 spans all 3 tracks edge-to-edge. */}}
+<div class="site-header__drawer" id="mobile-nav" aria-label="Mobile navigation" aria-hidden="true">
+  <div class="site-header__drawer-inner">
+    {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+    <div class="site-header__drawer-social">
+      <a href="https://www.linkedin.com/in/isaiahdavis/" target="_blank" rel="noopener noreferrer"
+         class="site-header__drawer-social-link">
+        <span class="site-header__icon site-header__icon--linkedin" aria-hidden="true"></span>
+        LinkedIn
+      </a>
+      <a href="https://github.com/isaiahdaviscom" target="_blank" rel="noopener noreferrer"
+         class="site-header__drawer-social-link">
+        <span class="site-header__icon site-header__icon--github" aria-hidden="true"></span>
+        GitHub
+      </a>
+      <a href="/contact" class="site-header__drawer-social-link">
+        <span class="site-header__icon site-header__icon--contact" aria-hidden="true"></span>
+        Contact
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var wrapper     = document.getElementById('header-search-wrapper');
+  var searchBtn   = document.getElementById('header-search-btn');
+  var searchInput = document.getElementById('header-search-input');
+  var clearBtn    = document.getElementById('header-search-clear');
+  var resultBox   = document.getElementById('header-search-results');
+  var statusEl    = document.getElementById('header-search-status');
+  var panel       = document.getElementById('header-search-panel');
+
+  if (!wrapper || !searchBtn || !searchInput) return;
+
+  /* ── Index (lazy, once) ── */
+  var siteIndex = null, pending = false, queue = [];
+  function withIndex(cb) {
+    if (siteIndex) { cb(siteIndex); return; }
+    if (pending)   { queue.push(cb); return; }
+    pending = true;
+    fetch('/index.json', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (data) {
+        siteIndex = Array.isArray(data) ? data : [];
+        queue.splice(0).forEach(function (fn) { fn(siteIndex); });
+        cb(siteIndex);
+      })
+      .catch(function () { siteIndex = []; queue = []; cb([]); });
+  }
+
+  /* ── Helpers ── */
+  function runFilter(q) {
+    var t = q.toLowerCase().split(/\s+/).filter(Boolean);
+    return t.length ? siteIndex.filter(function (p) {
+      var h = [p.title, p.description, p.section, p.series, (p.tags || []).join(' ')].join(' ').toLowerCase();
+      return t.every(function (tok) { return h.indexOf(tok) !== -1; });
+    }).slice(0, 12) : [];
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function safeHref(s) {
+    var h = String(s);
+    return (h.charAt(0) === '/' || /^https:\/\//i.test(h)) ? h : '/';
+  }
+
+  var SECTION_LABELS = { posts: 'Blog', portfolio: 'Portfolio' };
+  function sectionLabel(s) {
+    return SECTION_LABELS[s] || (s ? s[0].toUpperCase() + s.slice(1) : 'Page');
+  }
+
+  /* ── Render mega-nav ── */
+  var currentIdx = -1;
+
+  function renderHint() {
+    resultBox.innerHTML = '<div class="header-search__hint">Type to search &nbsp;&middot;&nbsp; <kbd>Esc</kbd> to close</div>';
+    statusEl.textContent = '';
+  }
+
+  function renderResults(matches, q) {
+    currentIdx = -1;
+    if (!q.trim()) { renderHint(); return; }
+    if (!matches.length) {
+      resultBox.innerHTML  = '<div class="header-search__no-results">No results for &#x201c;' + esc(q) + '&#x201d;</div>';
+      statusEl.textContent = 'No results found.';
+      return;
+    }
+
+    /* Group by section */
+    var groups = {};
+    var order  = [];
+    matches.forEach(function (p) {
+      var s = p.section || 'page';
+      if (!groups[s]) { groups[s] = []; order.push(s); }
+      groups[s].push(p);
+    });
+
+    var globalIdx = 0;
+    var html = '<div class="header-search__mega-cols">';
+
+    order.forEach(function (sec) {
+      html += '<div class="header-search__col">';
+      html += '<p class="header-search__col-heading">' + esc(sectionLabel(sec)) + '</p>';
+      html += '<ul class="header-search__col-list" role="group" aria-label="' + esc(sectionLabel(sec)) + ' results">';
+
+      groups[sec].forEach(function (p) {
+        var hasSeries = p.series && p.series.length > 0;
+        var breadcrumb = '';
+        if (hasSeries) {
+          /* e.g. "Design System Series · Part 2" */
+          var seriesSlug = p.series.replace(/-/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+          var partLabel  = p.seriesOrder > 0 ? 'Part ' + p.seriesOrder : '';
+          breadcrumb = '<span class="header-search__breadcrumb">'
+            + esc(seriesSlug)
+            + (partLabel ? '<span class="header-search__breadcrumb-sep" aria-hidden="true">&rsaquo;</span>' + esc(partLabel) : '')
+            + '</span>';
+        } else if (p.parent && p.parent !== sectionLabel(p.section)) {
+          /* Only useful for pages nested deeper than their section root */
+          breadcrumb = '<span class="header-search__breadcrumb">' + esc(p.parent) + '</span>';
+        }
+
+        html += '<li role="none">';
+        html += '<a href="' + safeHref(p.url) + '" class="header-search__result"'
+              + ' role="option" aria-selected="false" data-idx="' + globalIdx + '">';
+        if (breadcrumb) html += breadcrumb;
+        html += '<span class="header-search__result-title">' + esc(p.title || '') + '</span>';
+        html += '<svg class="header-search__result-arrow" width="12" height="12" viewBox="0 0 24 24"'
+              + ' fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">'
+              + '<line x1="5" y1="12" x2="19" y2="12"/>'
+              + '<polyline points="12 5 19 12 12 19"/></svg>';
+        html += '</a></li>';
+        globalIdx++;
+      });
+
+      html += '</ul></div>';
+    });
+
+    html += '</div>';
+    resultBox.innerHTML  = html;
+    statusEl.textContent = matches.length + ' result' + (matches.length === 1 ? '' : 's') + ' found.';
+  }
+
+  /* ── Input (debounced) ── */
+  var timer;
+  searchInput.addEventListener('input', function () {
+    var q = searchInput.value;
+    clearBtn.hidden = !q;
+    clearTimeout(timer);
+    if (!q.trim()) { renderHint(); return; }
+    timer = setTimeout(function () {
+      withIndex(function () { renderResults(runFilter(q), q); });
+    }, 160);
+  });
+
+  /* ── Clear ── */
+  clearBtn.addEventListener('click', function () {
+    searchInput.value = '';
+    clearBtn.hidden = true;
+    renderHint();
+    searchInput.focus({ preventScroll: true });
+  });
+
+  /* ── Keyboard navigation ── */
+  function getItems() { return Array.from(resultBox.querySelectorAll('.header-search__result')); }
+
+  function activate(idx) {
+    var it = getItems();
+    it.forEach(function (el, i) { el.setAttribute('aria-selected', String(i === idx)); });
+    if (it[idx]) it[idx].focus({ preventScroll: true });
+    currentIdx = idx;
+  }
+
+  searchInput.addEventListener('keydown', function (e) {
+    var it = getItems();
+    if (e.key === 'ArrowDown') { e.preventDefault(); activate(Math.min(currentIdx + 1, it.length - 1)); }
+    if (e.key === 'ArrowUp')   { e.preventDefault(); activate(Math.max(currentIdx - 1, 0)); }
+    if (e.key === 'Escape')    { searchInput.blur(); }
+    if (e.key === 'Enter' && it.length) { it[0].click(); }
+  });
+
+  resultBox.addEventListener('keydown', function (e) {
+    var it = getItems(), fi = it.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown') { e.preventDefault(); activate(Math.min(fi + 1, it.length - 1)); }
+    if (e.key === 'ArrowUp')   {
+      e.preventDefault();
+      if (fi <= 0) { currentIdx = -1; searchInput.focus({ preventScroll: true }); }
+      else { activate(fi - 1); }
+    }
+    if (e.key === 'Escape') { searchInput.blur(); }
+  });
+
+  /* ── Btn: focus the input to open (CSS :focus-within handles visuals) ── */
+  searchBtn.addEventListener('click', function () {
+    if (searchInput === document.activeElement) {
+      searchInput.blur();
+    } else {
+      searchInput.focus({ preventScroll: true });
+    }
+  });
+
+  /* ── Prevent panel mousedown from stealing input focus before click ── */
+  panel.addEventListener('mousedown', function (e) { e.preventDefault(); });
+
+  /* ── aria-expanded + warm index on focusin ── */
+  wrapper.addEventListener('focusin', function () {
+    searchBtn.setAttribute('aria-expanded', 'true');
+    renderHint();
+    withIndex(function () {});
+  });
+
+  /* ── Reset on focusout (only when focus leaves the whole wrapper) ── */
+  wrapper.addEventListener('focusout', function (e) {
+    if (wrapper.contains(e.relatedTarget)) return;
+    searchBtn.setAttribute('aria-expanded', 'false');
+    searchInput.value    = '';
+    clearBtn.hidden      = true;
+    resultBox.innerHTML  = '';
+    statusEl.textContent = '';
+    currentIdx           = -1;
+  });
+
+})();
+</script>

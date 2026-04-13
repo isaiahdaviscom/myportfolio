@@ -1,0 +1,477 @@
+/*
+  CONTACT PAGE
+  ============================================================
+  Purpose: Token-driven styles for the /contact/ page layout,
+           the contact info sidebar, and the shared contact form
+           component (form-input, form-select, form-textarea,
+           form-label, form-hint, form-submit).
+
+  Sections:
+    1. Page body & two-column split
+    2. Contact info sidebar
+    3. Form wrapper
+    4. Form fields (input, select, textarea)
+    5. Form feedback (success / error)
+    6. Dark-mode overrides
+*/
+
+/* Layout and sidebar components live in @layer components so they
+   compose with the rest of the page-level token system. */
+@layer components {
+  /* ────────────────────────────────────────────────────────────
+     1. PAGE BODY & SPLIT
+  ──────────────────────────────────────────────────────────── */
+  .contact-body {
+    display: grid;
+    grid-template-columns: var(--grid-template); /* 3-track: gutter | content | gutter */
+    grid-auto-rows: minmax(var(--row-baseline), auto);
+    background: var(--color-surface);
+    padding-block: var(--space-14);
+  }
+
+  .contact-split {
+    /* layout-sidebar-left preset handles subgrid + 9/15 column split.
+       Row gap is set here to override the preset's default space-12. */
+    grid-column: 2 / -2;
+    display: grid;
+    grid-template-columns: subgrid;
+    align-items: start;
+    row-gap: var(--space-12);
+    column-gap: var(--grid-gap-lg);
+  }
+
+  /* Mobile: both children span all 24 inherited tracks */
+  .contact-info,
+  .contact-form-wrap {
+    grid-column: 1 / -1;
+  }
+
+  @media (min-width: 1024px) {
+    /* Sidebar: 9 of 24 tracks (~37.5%), form: 15 of 24 tracks (~62.5%) */
+    .contact-info      { grid-column: 1 / span 9; }
+    .contact-form-wrap { grid-column: 10 / -1; }
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     2. CONTACT INFO SIDEBAR (left column)
+  ──────────────────────────────────────────────────────────── */
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .contact-info__section-heading {
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-3);
+  }
+
+  .contact-info__text {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* Contact detail rows (email, LinkedIn, location) */
+  .contact-info__detail-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .contact-info__detail-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .contact-info__detail-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-0_5);
+  }
+
+  .contact-info__detail-label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-text-primary);
+  }
+
+  .contact-info__detail-link {
+    font-size: var(--text-sm);
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: text-decoration-color var(--duration-base);
+  }
+
+  .contact-info__detail-link:hover {
+    text-decoration: underline;
+  }
+
+  .contact-info__detail-muted {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     3. FORM WRAPPER (right column)
+  ──────────────────────────────────────────────────────────── */
+  .contact-form-wrap__heading {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-6);
+  }
+
+  /* Right column container — preserves cqi queries used by form fields */
+  .contact-form-wrap {
+    container-type: inline-size;
+    container-name: content-col;
+    min-width: 0;
+  }
+
+  /* Card shell */
+  .contact-form {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  /* Two-column name/email row inside the form */
+  .contact-form__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 768px) {
+    .contact-form__row {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   4. FORM FIELDS
+   Placed outside @layer so they beat Tailwind utility classes
+   when necessary (unlayered styles always win the cascade).
+──────────────────────────────────────────────────────────── */
+
+/* Form group — vertical stack */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0; /* prevent flex/grid item from overflowing its track */
+  width: 100%;  /* explicit stretch for both flex and grid contexts */
+}
+
+/* Label */
+.form-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+}
+
+/* Base field reset — shared by input, select, textarea */
+.form-input,
+.form-select,
+.form-textarea {
+  box-sizing: border-box; /* form controls don't inherit this from * reliably */
+  width: 100%;
+  padding: var(--space-3) var(--space-4); /* 12px×16px → ~45px tall; clears 44px touch target */
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  outline: none;
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out),
+    background var(--duration-base) var(--ease-out);
+}
+
+/* Focus ring — accent colour, no ugly browser default */
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--color-accent);
+  background: var(--color-surface);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 15%, transparent);
+}
+
+/* Validation error state (toggled via JS) */
+.form-input--error,
+.form-select--error,
+.form-textarea--error {
+  border-color: var(--color-error, #ef4444);
+}
+
+.form-input--error:focus,
+.form-select--error:focus,
+.form-textarea--error:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error, #ef4444) 15%, transparent);
+}
+
+/* Select — custom dropdown chevron */
+.form-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-3) center;
+  background-size: 16px 16px;
+  padding-right: var(--space-10);
+  cursor: pointer;
+}
+
+/* Textarea */
+.form-textarea {
+  resize: vertical;
+  min-height: 8rem;
+}
+
+/* Hint / helper text below a field */
+.form-hint {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  opacity: 0.8;
+}
+
+/* Submit button */
+.form-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-8);
+  background: var(--color-accent);
+  color: var(--color-text-invert);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  letter-spacing: 0.01em;
+  border-radius: var(--radius-lg);
+  border: none;
+  cursor: pointer;
+  box-shadow:
+    0 1px 3px color-mix(in srgb, var(--color-accent) 40%, transparent),
+    0 1px 2px rgba(0, 0, 0, 0.06);
+  transition:
+    background var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .form-submit {
+    width: auto;
+  }
+}
+
+.form-submit:hover {
+  background: var(--color-accent-hover);
+  box-shadow:
+    0 4px 12px color-mix(in srgb, var(--color-accent) 45%, transparent),
+    0 1px 4px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.form-submit:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--color-accent) 30%, transparent);
+}
+
+.form-submit:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-surface),
+    0 0 0 4px var(--color-accent);
+}
+
+.form-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Loading state — spinner replaces icon, text changes via data-state */
+.form-submit[data-state='loading'] {
+  pointer-events: none;
+}
+
+.form-submit[data-state='loading'] .form-submit__icon {
+  display: none;
+}
+
+.form-submit[data-state='loading']::before {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: form-spin 0.65s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes form-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Success state */
+.form-submit[data-state='success'] {
+  background: var(--color-success, #16a34a);
+  pointer-events: none;
+}
+
+.form-submit[data-state='success']:hover {
+  background: var(--color-success, #16a34a);
+  transform: none;
+}
+
+/* ────────────────────────────────────────────────────────────
+   5. FORM FEEDBACK
+──────────────────────────────────────────────────────────── */
+.form-feedback {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.form-feedback--success {
+  background: var(--color-success-soft);
+  border: 1px solid rgba(34, 197, 94, 0.3); /* fallback: Chrome < 111 */
+  border: 1px solid color-mix(in srgb, var(--color-success) 30%, transparent);
+  color: var(--color-success);
+}
+
+.form-feedback--error {
+  background: rgba(239, 68, 68, 0.1); /* fallback: Chrome < 111 */
+  background: color-mix(in srgb, var(--color-error, #ef4444) 10%, transparent);
+  border: 1px solid rgba(239, 68, 68, 0.3); /* fallback: Chrome < 111 */
+  border: 1px solid color-mix(in srgb, var(--color-error, #ef4444) 30%, transparent);
+  color: var(--color-error, #ef4444);
+}
+
+/* ────────────────────────────────────────────────────────────
+   6. DARK-MODE OVERRIDES
+──────────────────────────────────────────────────────────── */
+[data-theme='dark'] .contact-body {
+  background: var(--color-surface);
+}
+
+[data-theme='dark'] .form-input,
+[data-theme='dark'] .form-select,
+[data-theme='dark'] .form-textarea {
+  background: var(--color-surface-subtle);
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+[data-theme='dark'] .form-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+}
+
+[data-theme='dark'] .form-input:focus,
+[data-theme='dark'] .form-select:focus,
+[data-theme='dark'] .form-textarea:focus {
+  background: var(--color-surface);
+}
+
+/* ────────────────────────────────────────────────────────────
+   7. CONTACT SUCCESS PAGE  (/contact/success/)
+   Non-JS fallback page rendered after Netlify form POST.
+──────────────────────────────────────────────────────────── */
+@layer components {
+  .contact-success {
+    display: grid;
+    grid-template-columns: var(--grid-template);
+    padding-block: var(--space-24);
+  }
+
+  .contact-success__card {
+    grid-column: 2 / -2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-5);
+    max-width: 36rem;
+    margin-inline: auto;
+    padding: var(--space-12) var(--space-8);
+    background: var(--color-surface-raised, var(--color-surface));
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg, 0.75rem);
+  }
+
+  .contact-success__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  .contact-success__heading {
+    font-size: var(--text-2xl, 1.5rem);
+    font-weight: var(--font-bold, 700);
+    color: var(--color-text-primary);
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .contact-success__body {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 28rem;
+  }
+
+  .contact-success__back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    font-size: var(--text-sm, 0.875rem);
+    font-weight: var(--font-medium, 500);
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color 0.15s ease, gap 0.15s ease;
+  }
+
+  .contact-success__back:hover {
+    color: var(--color-accent-hover, var(--color-accent));
+    gap: calc(var(--space-2) - 2px); /* subtle leftward nudge */
+  }
+
+  /* Dark mode */
+  [data-theme='dark'] .contact-success__card {
+    background: var(--color-surface-subtle);
+    border-color: var(--color-border);
+  }
+}

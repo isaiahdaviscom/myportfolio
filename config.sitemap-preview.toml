@@ -1,0 +1,6 @@
+# Sitemap preview override — LEGACY (kept for reference)
+# sitemap is now enabled in config.development.toml directly.
+# This file is no longer loaded by pf sitemap or any build command.
+
+# Populate <lastmod> from git commit dates for pages without explicit lastmod.
+enableGitInfo = true

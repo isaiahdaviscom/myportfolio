@@ -1,0 +1,313 @@
+/*
+  GRID COLUMN UTILITIES
+  ══════════════════════════════════════════════════════════════════════════
+  Purpose: Placement helpers derived directly from the 26-track site grid
+           (--grid-template). All column counts and line numbers are
+           mathematically tied to --sqs-site-max-width / 24.
+
+  The 26-track grid:
+  ┌─────────┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬──┬─────────┐
+  │ gutter  │c1│c2│c3│c4│c5│c6│c7│c8│c9│…                      …│c22│c23│c24│ gutter  │
+  │min→1fr  │                  repeat(24, minmax(0, 50px))                  │min→1fr  │
+  └─────────┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴─────────┘
+  Line:    1       2   3   4   5   6   7   8   9  10              23  24  25  26       27
+                   ↑ content start                              content end ↑
+
+  TWO NAMING CONTEXTS
+  ───────────────────
+  gc-*   Direct children of a 26-track .layout-section (lines 1–27).
+         Gutter offset means content starts at line 2, ends at line 26 (-2).
+
+  col-*  Children of a .layout-subgrid element that spans 24 tracks (2/-2).
+         Subgrid resets the span to lines 1–25 (-1 = last content line).
+         Used for grandchildren that need to align with the site grid.
+
+  SUBDIVISION REFERENCE (@ 1200px max)
+  ──────────────────────────────────────
+   24 cols = 1200px (full content)
+   12 cols =  600px (½)
+    8 cols =  400px (⅓)
+    6 cols =  300px (¼)
+   16 cols =  800px (⅔)
+   18 cols =  900px (¾)
+    9 cols =  450px (3/8 — sidebar)
+   15 cols =  750px (5/8 — main panel)
+
+  CENTERED INSETS (symmetric skip from both edges of 24 content cols)
+  ────────────────────────────────────────────────────────────────────
+   gc-20 / col-20 → skip 2 each side → 20 cols   (833px @ max)
+   gc-18 / col-18 → skip 3 each side → 18 cols   (750px @ max)
+   gc-16 / col-16 → skip 4 each side → 16 cols   (667px @ max)
+   gc-12 / col-12 → skip 6 each side → 12 cols   (500px @ max)
+   gc-8  / col-8  → skip 8 each side →  8 cols   (333px @ max)
+*/
+
+@layer utilities {
+
+  /* ══════════════════════════════════════════════════════════════════════
+     SECTION SETUP
+     Make any element a 26-track site-grid parent.
+  ════════════════════════════════════════════════════════════════════════ */
+
+  /* Applies the full 26-track site grid with baseline row rhythm */
+  .layout-section {
+    display: grid;
+    grid-template-columns: var(--grid-template);
+    grid-auto-rows: minmax(var(--row-baseline), auto);
+  }
+
+  /* Subgrid passthrough — direct child of a .layout-section (or any
+     26-track section) that re-exposes the 24 content tracks to its own
+     children. Combines gc-full + subgrid in one class.                  */
+  .layout-subgrid {
+    grid-column: 2 / -2;    /* slot into all 24 content tracks */
+    display: grid;
+    grid-template-columns: subgrid; /* pass those 24 tracks down to children */
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════
+     gc-* COLUMN PLACEMENT
+     For direct children of a 26-track section.
+     Content window: lines 2 (left edge) → 26 (right edge, -2).
+  ════════════════════════════════════════════════════════════════════════ */
+
+  /* ── Full / bleed ── */
+  .gc-full  { grid-column: 2 / -2; }   /* all 24 content cols */
+  .gc-bleed { grid-column: 1 / -1; }   /* full viewport-width bleed */
+
+  /* ── Halves  (12 + 12 = 24) ── */
+  .gc-left-half   { grid-column: 2  / span 12; }  /* cols  1–12 */
+  .gc-right-half  { grid-column: 14 / -2;      }  /* cols 13–24 */
+
+  /* ── Thirds  (8 + 8 + 8 = 24) ── */
+  .gc-left-third   { grid-column: 2  / span 8; }  /* cols  1–8  */
+  .gc-center-third { grid-column: 10 / span 8; }  /* cols  9–16 */
+  .gc-right-third  { grid-column: 18 / -2;     }  /* cols 17–24 */
+
+  /* ── Quarters  (6 + 6 + 6 + 6 = 24) ── */
+  .gc-q1 { grid-column: 2  / span 6; }  /* cols  1–6  */
+  .gc-q2 { grid-column: 8  / span 6; }  /* cols  7–12 */
+  .gc-q3 { grid-column: 14 / span 6; }  /* cols 13–18 */
+  .gc-q4 { grid-column: 20 / -2;     }  /* cols 19–24 */
+
+  /* ── Two-thirds splits  (16 + 8 | 8 + 16) ── */
+  .gc-left-16  { grid-column: 2  / span 16; }  /* cols  1–16 (left ⅔)  */
+  .gc-right-16 { grid-column: 10 / -2;      }  /* cols  9–24 (right ⅔) */
+
+  /* ── Three-quarters splits  (18 + 6 | 6 + 18) ── */
+  .gc-left-18  { grid-column: 2 / span 18; }  /* cols  1–18 (left ¾)  */
+  .gc-right-18 { grid-column: 8 / -2;      }  /* cols  7–24 (right ¾) */
+
+  /* ── Sidebar splits  (9 + 15 | 15 + 9) — contact layout pattern ── */
+  .gc-left-9   { grid-column: 2  / span 9; }  /* cols  1–9  (sidebar) */
+  .gc-right-15 { grid-column: 11 / -2;     }  /* cols 10–24 (main)    */
+  .gc-left-15  { grid-column: 2  / span 15;}  /* cols  1–15 (main)    */
+  .gc-right-9  { grid-column: 17 / -2;     }  /* cols 16–24 (sidebar) */
+
+  /* ── Centered insets (symmetrical) ── */
+  /* skip N tracks each side of the 24-col content window:
+     line offset = N + 2 (shift N from line 2);
+     end = -(N + 2) where -2 is the content end                         */
+  .gc-20 { grid-column: 4  / -4;  }  /* skip 2 each side → 20 cols */
+  .gc-18 { grid-column: 5  / -5;  }  /* skip 3 each side → 18 cols */
+  .gc-16 { grid-column: 6  / -6;  }  /* skip 4 each side → 16 cols */
+  .gc-12 { grid-column: 8  / -8;  }  /* skip 6 each side → 12 cols */
+  .gc-8  { grid-column: 10 / -10; }  /* skip 8 each side →  8 cols */
+
+  /* ══════════════════════════════════════════════════════════════════════
+     col-* COLUMN PLACEMENT
+     For children of .layout-subgrid (inherits 24 content tracks, 1-indexed).
+     Lines 1–25 within the subgrid span; -1 = last content line (25).
+  ════════════════════════════════════════════════════════════════════════ */
+
+  /* ── Full ── */
+  .col-full  { grid-column: 1 / -1; }   /* all 24 inherited content tracks */
+
+  /* ── Halves ── */
+  .col-left-half  { grid-column: 1  / span 12; }  /* tracks  1–12 */
+  .col-right-half { grid-column: 13 / -1;      }  /* tracks 13–24 */
+
+  /* ── Thirds ── */
+  .col-left-third   { grid-column: 1 / span 8; }  /* tracks  1–8  */
+  .col-center-third { grid-column: 9 / span 8; }  /* tracks  9–16 */
+  .col-right-third  { grid-column: 17 / -1;    }  /* tracks 17–24 */
+
+  /* ── Quarters ── */
+  .col-q1 { grid-column: 1  / span 6; }  /* tracks  1–6  */
+  .col-q2 { grid-column: 7  / span 6; }  /* tracks  7–12 */
+  .col-q3 { grid-column: 13 / span 6; }  /* tracks 13–18 */
+  .col-q4 { grid-column: 19 / -1;     }  /* tracks 19–24 */
+
+  /* ── Two-thirds splits ── */
+  .col-left-16  { grid-column: 1 / span 16; }  /* tracks  1–16 */
+  .col-right-16 { grid-column: 9 / -1;      }  /* tracks  9–24 */
+
+  /* ── Three-quarters splits ── */
+  .col-left-18  { grid-column: 1 / span 18; }  /* tracks  1–18 */
+  .col-right-18 { grid-column: 7 / -1;      }  /* tracks  7–24 */
+
+  /* ── Sidebar splits ── */
+  .col-left-9   { grid-column: 1  / span 9; }  /* tracks  1–9  */
+  .col-right-15 { grid-column: 10 / -1;     }  /* tracks 10–24 */
+  .col-left-15  { grid-column: 1  / span 15;}  /* tracks  1–15 */
+  .col-right-9  { grid-column: 16 / -1;     }  /* tracks 16–24 */
+
+  /* ── Centered insets ── */
+  /* skip N tracks each side of 24 inherited tracks:
+     start = N + 1; end = -(N + 1) [-1 is subgrid end]                  */
+  .col-20 { grid-column: 3  / -3;  }  /* skip 2 → 20 tracks */
+  .col-18 { grid-column: 4  / -4;  }  /* skip 3 → 18 tracks */
+  .col-16 { grid-column: 5  / -5;  }  /* skip 4 → 16 tracks */
+  .col-12 { grid-column: 7  / -7;  }  /* skip 6 → 12 tracks */
+  .col-8  { grid-column: 9  / -9;  }  /* skip 8 →  8 tracks */
+
+  /* ══════════════════════════════════════════════════════════════════════
+     LAYOUT PRESETS
+     Common multi-column section patterns as single utility classes.
+     Each wraps its children into named grid zones.
+  ════════════════════════════════════════════════════════════════════════ */
+
+  /* Even 2-col split (12+12) — e.g. content + aside */
+  .layout-halves {
+    grid-column: 2 / -2;
+    display: grid;
+    grid-template-columns: subgrid;
+    /* row-gap: vw-based so % doesn't collapse to 0 on auto-height containers (CSS spec) */
+    row-gap: max(1rem, calc(var(--grid-col-unit) * 0.75));
+    align-items: start;
+  }
+
+  .layout-halves > :nth-child(odd)  { grid-column: 1 / span 12; }
+  .layout-halves > :nth-child(even) { grid-column: 13 / -1;     }
+
+  /* Even 3-col split (8+8+8) — e.g. blog cards, service tiles */
+  .layout-thirds {
+    grid-column: 2 / -2;
+    display: grid;
+    grid-template-columns: subgrid;
+    row-gap: max(1rem, calc(var(--grid-col-unit) * 0.75)); /* ¾ col unit, vw-based */
+    align-items: start;
+  }
+
+  .layout-thirds > :nth-child(3n+1) { grid-column: 1  / span 8; }
+  .layout-thirds > :nth-child(3n+2) { grid-column: 9  / span 8; }
+  .layout-thirds > :nth-child(3n)   { grid-column: 17 / -1;     }
+
+  /* Even 4-col split (6+6+6+6) — e.g. stats strip, icon tiles */
+  .layout-quarters {
+    grid-column: 2 / -2;
+    display: grid;
+    grid-template-columns: subgrid;
+    row-gap: max(1rem, calc(var(--grid-col-unit) * 0.75)); /* ¾ col unit, vw-based */
+    align-items: start;
+  }
+
+  .layout-quarters > :nth-child(4n+1) { grid-column: 1  / span 6; }
+  .layout-quarters > :nth-child(4n+2) { grid-column: 7  / span 6; }
+  .layout-quarters > :nth-child(4n+3) { grid-column: 13 / span 6; }
+  .layout-quarters > :nth-child(4n)   { grid-column: 19 / -1;     }
+
+  /* Sidebar left (9+15) — e.g. contact, about sidebar */
+  .layout-sidebar-left {
+    grid-column: 2 / -2;
+    display: grid;
+    grid-template-columns: subgrid;
+    align-items: start;
+    row-gap: max(1.5rem, var(--grid-col-unit)); /* 1 col unit, vw-based */
+  }
+
+  .layout-sidebar-left > :first-child { grid-column: 1  / span 9; }  /* sidebar */
+  .layout-sidebar-left > :last-child  { grid-column: 10 / -1;     }  /* main    */
+
+  /* Sidebar right (15+9) — e.g. prose + related links */
+  .layout-sidebar-right {
+    grid-column: 2 / -2;
+    display: grid;
+    grid-template-columns: subgrid;
+    align-items: start;
+    row-gap: max(1.5rem, var(--grid-col-unit)); /* 1 col unit, vw-based */
+  }
+
+  .layout-sidebar-right > :first-child { grid-column: 1  / span 15; }  /* main    */
+  .layout-sidebar-right > :last-child  { grid-column: 16 / -1;      }  /* sidebar */
+
+  /* Feature split (16+8 — text heavy left, visual right) */
+  .layout-feature {
+    grid-column: 2 / -2;
+    display: grid;
+    grid-template-columns: subgrid;
+    align-items: center;
+  }
+
+  .layout-feature > :first-child { grid-column: 1 / span 14; }  /* feature panel */
+  .layout-feature > :last-child  { grid-column: 15 / -1;     }  /* supporting visual */
+
+  /* ══════════════════════════════════════════════════════════════════════
+     ROW UTILITIES
+     Vertical rhythm helpers aligned to the 50px row baseline grid.
+  ════════════════════════════════════════════════════════════════════════ */
+
+  /* Force an element to span N baseline rows (50px each) */
+  .gr-1  { grid-row: span 1;  }   /*  50px min */
+  .gr-2  { grid-row: span 2;  }   /* 100px min */
+  .gr-3  { grid-row: span 3;  }   /* 150px min */
+  .gr-4  { grid-row: span 4;  }   /* 200px min */
+  .gr-6  { grid-row: span 6;  }   /* 300px min */
+  .gr-8  { grid-row: span 8;  }   /* 400px min */
+  .gr-10 { grid-row: span 10; }   /* 500px min */
+  .gr-12 { grid-row: span 12; }   /* 600px min */
+
+  /* ══════════════════════════════════════════════════════════════════════
+     RESPONSIVE COLLAPSE
+     All gc-*/col-* placements stack to full-width on mobile.
+     Override individual classes at larger breakpoints as needed.
+  ════════════════════════════════════════════════════════════════════════ */
+
+  @media (max-width: 639px) {
+    .gc-left-half, .gc-right-half,
+    .gc-left-third, .gc-center-third, .gc-right-third,
+    .gc-q1, .gc-q2, .gc-q3, .gc-q4,
+    .gc-left-16, .gc-right-16,
+    .gc-left-18, .gc-right-18,
+    .gc-left-9, .gc-right-15,
+    .gc-left-15, .gc-right-9 {
+      grid-column: 2 / -2; /* full content width on mobile */
+    }
+
+    .col-left-half, .col-right-half,
+    .col-left-third, .col-center-third, .col-right-third,
+    .col-q1, .col-q2, .col-q3, .col-q4,
+    .col-left-16, .col-right-16,
+    .col-left-18, .col-right-18,
+    .col-left-9, .col-right-15,
+    .col-left-15, .col-right-9 {
+      grid-column: 1 / -1; /* full width within subgrid on mobile */
+    }
+
+    .layout-halves > *,
+    .layout-thirds > *,
+    .layout-quarters > *,
+    .layout-sidebar-left > *,
+    .layout-sidebar-right > *,
+    .layout-feature > * {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (min-width: 640px) and (max-width: 1023px) {
+    /* Thirds collapse to 2+last on tablet */
+    .gc-left-third   { grid-column: 2 / span 12; }
+    .gc-center-third { grid-column: 14 / -2;     }
+    .gc-right-third  { grid-column: 2 / -2; margin-top: var(--space-8); }
+
+    .col-left-third   { grid-column: 1 / span 12; }
+    .col-center-third { grid-column: 13 / -1;     }
+    .col-right-third  { grid-column: 1 / -1; margin-top: var(--space-8); }
+
+    /* Sidebar layouts collapse to stacked */
+    .layout-sidebar-left > *,
+    .layout-sidebar-right > * {
+      grid-column: 1 / -1;
+    }
+  }
+}

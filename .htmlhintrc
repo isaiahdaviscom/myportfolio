@@ -1,0 +1,13 @@
+{
+  "doctype-first": false,
+  "document-title": false,
+  "require-meta-charset": false,
+  "require-meta-viewport": false,
+  "html-lang-require": false,
+  "tag-pair": true,
+  "attr-value-double-quotes": false,
+  "id-unique": true,
+  "src-not-empty": true,
+  "alt-require": true,
+  "spec-char-escape": false
+}

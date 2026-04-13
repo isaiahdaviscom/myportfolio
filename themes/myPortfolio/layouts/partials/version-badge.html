@@ -1,0 +1,35 @@
+{{- /*
+  version-badge.html
+  ──────────────────────────────────────────────────────────────────────────
+  Inline HTML version of the version badge. Theme-aware via CSS custom
+  properties — follows light/dark mode automatically.
+
+  Parameters (via dict):
+    size   "xs" | "sm" (default) | "md"
+           Controls font-size and padding. "xs" suits the footer bottom bar.
+    href   string  (optional)
+           When provided, renders as <a> linking to the target URL.
+           Recommended: "/badges/version.svg" to let viewers download/open
+           the shared SVG asset.
+
+  Usage:
+    {{- partial "version-badge.html" (dict "size" "xs") }}
+    {{- partial "version-badge.html" (dict "size" "md" "href" "/badges/version.svg") }}
+  ────────────────────────────────────────────────────────────────────────── */}}
+{{- $ver  := site.Params.version | default "1.0.0" -}}
+{{- $size := .size | default "sm" -}}
+{{- $href := .href | default "" -}}
+
+{{- if $href -}}
+<a href="{{ $href }}"
+   class="version-badge version-badge--{{ $size }}"
+   aria-label="Site version {{ $ver }}"
+   title="Version {{ $ver }}">
+{{- else -}}
+<span class="version-badge version-badge--{{ $size }}"
+      aria-label="Version {{ $ver }}"
+      title="Version {{ $ver }}">
+{{- end -}}
+  <span class="version-badge__label" aria-hidden="true">version</span>
+  <span class="version-badge__value">{{ $ver }}</span>
+{{- if $href -}}</a>{{- else -}}</span>{{- end -}}

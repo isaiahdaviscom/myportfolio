@@ -1,0 +1,437 @@
+/*
+  ABOUT PAGE
+  ============================================================
+  Purpose: Token-driven styles for the /about/ page — hero,
+           avatar, bio, skills grid, values cards.
+
+  Sections:
+    1. Avatar
+    2. Bio prose wrapper
+    3. Skills section & cards
+    4. Values / philosophy section & cards
+    5. Dark-mode overrides
+
+  Note: hero band → .page-hero (page.css)
+        section headings → .page-section-heading (page.css)
+        CTA strip → .cta-strip* (page.css)
+        skill/value card shells → .page-card / .page-card--accent (page.css)
+*/
+
+/* ──────────────────────────────────────────────────────────────────────────
+   CATEGORY COLOR PALETTE (local vars — about page only)
+   These complement --color-accent (brand blue) used for Frontend.
+───────────────────────────────────────────────────────────────────────────── */
+.about-page {
+  --cat-frontend-fg: var(--color-accent);
+  --cat-frontend-dot: color-mix(in srgb, var(--color-accent) 65%, white);
+  --cat-tooling-fg: #c2410c;
+  --cat-tooling-dot: #fb923c;
+  --cat-design-fg: #6d28d9;
+  --cat-design-dot: #a78bfa;
+  --cat-backend-fg: #15803d;
+  --cat-backend-dot: #4ade80;
+}
+
+@layer components {
+  /* ────────────────────────────────────────────────────────────
+     1. AVATAR
+  ──────────────────────────────────────────────────────────── */
+  .about-avatar {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .about-avatar__frame {
+    width: 7rem;
+    height: 7rem;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    outline: 4px solid var(--color-surface);
+    box-shadow: var(--shadow-xl);
+  }
+
+  @media (min-width: 768px) {
+    .about-avatar__frame {
+      width: 9rem;
+      height: 9rem;
+    }
+  }
+
+  .about-avatar__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Animated ring around avatar */
+  .about-avatar__ring {
+    position: absolute;
+    inset: -10px;
+    border-radius: var(--radius-2xl);
+    border: 2px solid var(--color-accent);
+    opacity: 0.35;
+    animation: avatar-ring-pulse 3.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @media (min-width: 768px) {
+    .about-avatar__ring {
+      inset: -12px;
+    }
+  }
+
+  @keyframes avatar-ring-pulse {
+    0%, 100% { opacity: 0.35; transform: scale(1); }
+    50%       { opacity: 0.12; transform: scale(1.05); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about-avatar__ring {
+      animation: none;
+      opacity: 0.3;
+    }
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     ABOUT HERO ENHANCEMENTS
+     Adds a brand radial glow, availability status pill, and visual
+     depth to the generic .page-hero on the /about/ page.
+  ──────────────────────────────────────────────────────────── */
+  .about-hero {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Radial brand glow — top-right accent (behind image layer) */
+  .about-hero::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -8%;
+    width: 52%;
+    height: 170%;
+    background: radial-gradient(
+      ellipse at center,
+      var(--color-accent-soft) 0%,
+      transparent 68%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /*
+    Profile image — large ghosted portrait fading into the hero bg.
+    Hidden on mobile (too narrow; avatar carries the visual there).
+    Uses mask-image to feather all four edges, strongest fade on the
+    left so text stays readable. filter: grayscale keeps the yellow
+    brand bg from tinting the hero colour.
+  */
+  .about-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/profile-branded.png');
+    background-size: auto 145%;
+    background-position: right -1rem center;
+    background-repeat: no-repeat;
+    opacity: 0.11;
+    filter: grayscale(0.5);
+    -webkit-mask-image: radial-gradient(
+      ellipse 52% 92% at 82% 50%,
+      black 10%,
+      transparent 72%
+    );
+    mask-image: radial-gradient(
+      ellipse 52% 92% at 82% 50%,
+      black 10%,
+      transparent 72%
+    );
+    pointer-events: none;
+    z-index: 0;
+    display: none; /* mobile: avatar is the visual, skip bg portrait */
+  }
+
+  @media (min-width: 768px) {
+    .about-hero::after {
+      display: block;
+    }
+  }
+
+  [data-theme='dark'] .about-hero::after {
+    opacity: 0.18; /* darker bg = image needs slightly more punch */
+  }
+
+  /* Push content above both pseudo-elements */
+  .about-hero .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Availability status pill */
+  .about-hero__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1_5);
+    margin-bottom: var(--space-3);
+    padding: var(--space-1) var(--space-3);
+    background: color-mix(in srgb, #22c55e 9%, transparent);
+    border: 1px solid color-mix(in srgb, #22c55e 22%, transparent);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    color: #15803d;
+  }
+
+  [data-theme='dark'] .about-hero__status {
+    color: #4ade80;
+    background: color-mix(in srgb, #22c55e 10%, transparent);
+    border-color: color-mix(in srgb, #22c55e 22%, transparent);
+  }
+
+  .about-hero__status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px color-mix(in srgb, #22c55e 28%, transparent);
+    animation: about-status-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes about-status-pulse {
+    0%, 100% { box-shadow: 0 0 0 2px color-mix(in srgb, #22c55e 28%, transparent); }
+    50%       { box-shadow: 0 0 0 6px color-mix(in srgb, #22c55e 0%, transparent); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about-hero__status-dot { animation: none; }
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     STAT STRIP — key metrics below CTAs
+  ──────────────────────────────────────────────────────────── */
+  .about-hero__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6) var(--space-8);
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .about-hero__stat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-0_5);
+  }
+
+  .about-hero__stat-value {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-extrabold);
+    color: var(--color-accent);
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-none);
+  }
+
+  .about-hero__stat-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    color: var(--color-text-muted);
+    line-height: var(--leading-snug);
+    max-width: 14ch;
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     2. BIO PROSE WRAPPER
+  ──────────────────────────────────────────────────────────── */
+  .about-bio {
+    display: grid;
+    grid-template-columns: var(--grid-template); /* 3-track: gutter | content | gutter */
+    grid-auto-rows: minmax(var(--row-baseline), auto);
+    background: var(--color-surface);
+    padding-block: var(--space-14);
+  }
+
+  /* Prose text — token-driven so dark mode works automatically */
+  .about-bio__prose {
+    font-size: var(--comfort-body); /* clamp(base, 1.8cqi, lg) — scales with content-col */
+    color: var(--color-text-secondary);
+    line-height: var(--leading-comfort); /* 1.75 — generous for bio reading */
+  }
+
+  .about-bio__prose p {
+    margin-bottom: var(--space-5);
+  }
+
+  .about-bio__prose strong {
+    font-weight: var(--font-semibold);
+    color: var(--color-text-primary);
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     3. SKILLS SECTION
+  ──────────────────────────────────────────────────────────── */
+  .about-skills {
+    display: grid;
+    grid-template-columns: var(--grid-template); /* 3-track: gutter | content | gutter */
+    grid-auto-rows: minmax(var(--row-baseline), auto);
+    background: var(--color-surface-subtle);
+    padding-block: var(--space-14);
+  }
+
+  .about-skills__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--grid-gap-sm); /* ½ col unit — tighter for small icon cards */
+  }
+
+  @media (min-width: 640px) {
+    .about-skills__grid {
+      grid-template-columns: var(--grid-cols-2);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .about-skills__grid {
+      grid-template-columns: var(--grid-cols-4);
+    }
+  }
+
+  /* Skill card — extends .page-card */
+  .skill-card__category {
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    margin-bottom: var(--space-3);
+  }
+
+  /* Category colour modifiers */
+  .skill-card__category--frontend {
+    color: var(--cat-frontend-fg);
+  }
+
+  .skill-card__category--tooling {
+    color: var(--cat-tooling-fg);
+  }
+
+  .skill-card__category--design {
+    color: var(--cat-design-fg);
+  }
+
+  .skill-card__category--backend {
+    color: var(--cat-backend-fg);
+  }
+
+  .skill-card__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: minmax(var(--row-baseline), auto); /* each skill row ≥ 24px baseline */
+    row-gap: var(--space-1_5);
+  }
+
+  .skill-card__item {
+    display: grid;
+    grid-template-columns: auto 1fr; /* [dot] [skill text] */
+    grid-template-rows: auto;
+    column-gap: var(--space-2);
+    align-items: center;
+    font-size: var(--compact-body); /* clamp(0.75rem, 1.8cqi, sm) — scales with page-card */
+    color: var(--color-text-secondary);
+    min-width: 0;
+  }
+
+  .skill-card__dot {
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+  }
+
+  /* Dot colour modifiers */
+  .skill-card__dot--frontend {
+    background: var(--cat-frontend-dot);
+  }
+
+  .skill-card__dot--tooling {
+    background: var(--cat-tooling-dot);
+  }
+
+  .skill-card__dot--design {
+    background: var(--cat-design-dot);
+  }
+
+  .skill-card__dot--backend {
+    background: var(--cat-backend-dot);
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     4. VALUES / PHILOSOPHY SECTION
+  ──────────────────────────────────────────────────────────── */
+  .about-values {
+    display: grid;
+    grid-template-columns: var(--grid-template); /* 3-track: gutter | content | gutter */
+    grid-auto-rows: minmax(var(--row-baseline), auto);
+    background: var(--color-surface);
+    padding-block: var(--space-14);
+  }
+
+  .about-values__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--grid-gap-sm); /* ½ col unit — consistent with skills grid */
+  }
+
+  @media (min-width: 640px) {
+    .about-values__grid {
+      grid-template-columns: var(--grid-cols-2);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .about-values__grid {
+      grid-template-columns: var(--grid-cols-4);
+    }
+  }
+
+  /* Value card — extends .page-card--accent */
+  .value-card__icon {
+    font-size: 1.875rem; /* 30px */
+    line-height: 1;
+    margin-bottom: var(--space-3);
+  }
+
+  .value-card__title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .value-card__desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     5. DARK-MODE OVERRIDES
+  ──────────────────────────────────────────────────────────── */
+  [data-theme='dark'] .about-page {
+    --cat-tooling-fg: #fb923c;
+    --cat-tooling-dot: #fdba74;
+    --cat-design-fg: #a78bfa;
+    --cat-design-dot: #c4b5fd;
+    --cat-backend-fg: #4ade80;
+    --cat-backend-dot: #86efac;
+  }
+
+  [data-theme='dark'] .about-avatar__frame {
+    outline-color: transparent; /* fallback: Chrome < 111 */
+    outline-color: color-mix(in srgb, var(--color-surface) 80%, transparent);
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "axe/text-alternatives": [
+      "default",
+      {
+        "document-title": "off"
+      }
+    ],
+    "axe/document-title": [
+      "off"
+    ],
+    "axe/html-has-lang": [
+      "off"
+    ]
+  }
+}

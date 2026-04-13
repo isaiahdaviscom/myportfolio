@@ -1,0 +1,193 @@
+/*
+  THEME-LEVEL CSS (Hugo Assets Pipeline)
+  ====================================
+  Purpose: Theme-specific styles processed by Hugo Pipes
+  Location: themes/myPortfolio/assets/css/main.css
+  Build: Processed by Hugo's {{ resources.Get "css/main.css" }}
+  
+  IMPORTANT: This file is for THEME-LEVEL components that should be:
+  - Reusable across multiple Hugo sites using this theme
+  - Processed by Hugo Pipes (minification, fingerprinting)
+  - Base theme styling and core layout systems
+  
+  AVOID: Site-specific customizations (put those in site root /src/css/)
+  
+  Standards:
+  - Use @layer base for foundational resets/base styles
+  - Use semantic naming (not utility classes)
+  - Focus on theme architecture, not specific design decisions
+
+
+  TABLE OF CONTENTS
+  =================
+  1. Tailwind Directives
+  2. Base Layer
+     2.1 Container System
+     2.2 Typography System
+  3. Header Components  
+  4. Navigation Components
+  5. Footer Components
+  6. Layout Utilities
+*/
+
+/* =============================================
+   1. TAILWIND DIRECTIVES
+   ============================================= */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================
+   2. BASE LAYER - Theme Architecture
+   ============================================= */
+@layer base {
+  /* ========================================
+     2.1 Container System
+     ======================================== */
+
+  /* Large desktop containers */
+  @media (width >= 1200px) {
+    .container {
+      width: 1170px;
+    }
+  }
+
+  /* Desktop containers */
+  @media (width >= 992px) {
+    .container {
+      width: 970px;
+    }
+  }
+
+  /* Tablet containers */
+  @media (width >= 768px) {
+    .container {
+      width: 750px;
+    }
+  }
+
+  /* Base container with max-width and padding */
+  .container {
+    padding-left: 50px;
+    padding-right: 50px;
+    max-width: 1500px;
+  }
+
+  /* ========================================
+     2.2 Typography System
+     ======================================== */
+
+  /* Body typography foundation */
+  body {
+    --font-sans: 'Inter', sans-serif;
+
+    color: #333;
+    font-family: var(--font-sans);
+    line-height: 1.75;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+  }
+
+  /* Heading typography hierarchy */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: Inter, sans-serif;
+    color: #222;
+    margin-bottom: 1rem;
+  }
+
+  /* Paragraph spacing and color */
+  p {
+    margin-bottom: 1.5rem;
+    color: #555;
+  }
+}
+
+/* =============================================
+   3. HEADER COMPONENTS
+   ============================================= */
+@layer base {
+  /* Site banner only — scoped to role=banner so article <header> tags are unaffected */
+  header[role='banner'] {
+    background-color: #fff;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  /* Primary navigation inside banner */
+  header[role='banner'] nav ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  header[role='banner'] nav ul li a {
+    color: #374151;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  header[role='banner'] nav ul li a:hover {
+    color: #1d4ed8;
+  }
+}
+
+/* =============================================
+   4. HERO SECTION COMPONENTS  
+   ============================================= */
+
+/* Main hero section with gradient background */
+.hero {
+  background: linear-gradient(135deg, #007acc, #50e3c2);
+  color: white;
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+/* Hero main heading */
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* Hero description text */
+.hero p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+/* Hero call-to-action button */
+.hero a {
+  display: inline-block;
+  background-color: #fff;
+  color: #007acc;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* Hero button hover state */
+.hero a:hover {
+  background-color: #007acc;
+  color: #fff;
+}
+
+/* =============================================
+   5. FOOTER COMPONENTS
+   ============================================= */
+
+/* Styles handled by src/css/layout/footer.css (PostCSS pipeline). */
+
+/* Nothing to declare here — avoid duplicating or overriding footer.css. */

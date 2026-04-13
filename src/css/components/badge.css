@@ -1,0 +1,32 @@
+/*
+  BADGE COMPONENT (Site-Specific)
+  ===============================
+  Purpose: Portfolio project badges and labels
+  Location: src/css/components/badge.css
+  Layer: @layer components (overridden by utilities)
+  
+  Standards:
+  - Designed for portfolio project tags
+  - Can be customized with Tailwind utilities
+  - Maintains consistent sizing with portfolio design
+  
+  Usage:
+  <span class="badge">Featured</span>
+  <span class="badge text-blue-500">Custom Color</span>
+*/
+
+@layer components {
+  .badge {
+    /* Token-driven — inverts correctly in both light and dark mode */
+    background-color: var(--color-surface-invert);
+    color: var(--color-text-invert);
+    padding: 0.25em 1em;
+    font-size: 0.85em;
+    border-radius: 4px;
+
+    /* Ensure good contrast and readability */
+    font-weight: 500;
+    display: inline-block;
+    line-height: 1.2;
+  }
+}

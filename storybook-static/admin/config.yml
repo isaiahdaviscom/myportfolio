@@ -1,0 +1,296 @@
+# =============================================================================
+# NETLIFYCMS CONFIGURATION - PORTFOLIO CONTENT MANAGEMENT
+# =============================================================================
+# File: static/admin/config.yml
+# Purpose: NetlifyCMS configuration for content management across environments
+# Environment Support: Development (localhost) & Production (Netlify)
+# Backend: Git Gateway with Netlify Identity for authentication
+# =============================================================================
+
+# BACKEND CONFIGURATION
+# Uses Git Gateway for production. local_backend: true auto-switches to the
+# proxy server (netlify-cms-proxy-server on :8081) when accessed from localhost.
+# No manual file swapping needed — run: npm run cms:local  to start the proxy.
+backend:
+  name: git-gateway
+  branch: master # Change to 'main' if your default branch is 'main'
+
+# LOCAL DEVELOPMENT BACKEND
+# Automatically activates when site is accessed from localhost.
+# Requires: npx netlify-cms-proxy-server (or npm run cms:local)
+local_backend: true
+
+# MEDIA STORAGE CONFIGURATION
+# Uses Netlify Large Media for optimized image handling
+media_folder: 'static/images/uploads'
+public_folder: '/images/uploads'
+
+# SITE URL (environment-specific)
+# Production: https://isaiahdavis.com
+# Development: http://localhost:1313
+site_url: https://isaiahdavis.com
+display_url: https://isaiahdavis.com
+
+# EDITORIAL WORKFLOW (enables draft/review/publish workflow)
+publish_mode: editorial_workflow
+
+# =============================================================================
+# COLLECTIONS CONFIGURATION
+# =============================================================================
+# Collections are ordered by update frequency.
+# Blog Posts is first — it loads as the default CMS landing screen.
+
+collections:
+  # ---------------------------------------------------------------------------
+  # BLOG POSTS  ← primary content area
+  # ---------------------------------------------------------------------------
+  - name: 'posts'
+    label: 'Blog Posts'
+    label_singular: 'Blog Post'
+    folder: 'content/posts'
+    create: true
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    preview_path: '/posts/{{slug}}'
+    summary: '{{title}} — {{date}}'
+    sortable_fields: ['date', 'title', 'draft']
+    view_filters:
+      - label: 'Drafts'
+        field: draft
+        pattern: true
+      - label: 'Published'
+        field: draft
+        pattern: false
+    fields:
+      # Writing essentials — shown at the top of the editor
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - {
+          label: 'Description',
+          name: 'description',
+          widget: 'text',
+          hint: 'Shown in cards, search results, and social previews'
+        }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
+
+      # Metadata
+      - { label: 'Date Published', name: 'date', widget: 'datetime' }
+      - { label: 'Last Modified', name: 'lastmod', widget: 'datetime', required: false }
+      - { label: 'Draft', name: 'draft', widget: 'boolean', default: true }
+      - {
+          label: 'Author',
+          name: 'author',
+          widget: 'string',
+          default: 'Isaiah Davis',
+          required: false
+        }
+
+      # Taxonomy
+      - { label: 'Categories', name: 'categories', widget: 'list', default: [], required: false }
+      - { label: 'Tags', name: 'tags', widget: 'list', default: [], required: false }
+      - {
+          label: 'Series',
+          name: 'series',
+          widget: 'string',
+          required: false,
+          hint: 'Group related posts under a series name'
+        }
+
+      # Media
+      - { label: 'Featured Image', name: 'featured_image', widget: 'image', required: false }
+      - {
+          label: 'Social Image',
+          name: 'social_image',
+          widget: 'image',
+          required: false,
+          hint: 'Falls back to featured image if omitted'
+        }
+
+      # SEO
+      - { label: 'SEO Keywords', name: 'keywords', widget: 'list', required: false }
+
+  # ---------------------------------------------------------------------------
+  # PORTFOLIO PROJECTS
+  # ---------------------------------------------------------------------------
+  - name: 'portfolio'
+    label: 'Portfolio Projects'
+    label_singular: 'Project'
+    folder: 'content/portfolio'
+    create: true
+    slug: '{{slug}}'
+    preview_path: '/portfolio/{{slug}}'
+    summary: '{{title}} — {{year}}'
+    sortable_fields: ['title', 'weight', 'date']
+    fields:
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Description', name: 'description', widget: 'text' }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
+
+      - { label: 'Date', name: 'date', widget: 'datetime' }
+      - { label: 'Draft', name: 'draft', widget: 'boolean', default: false }
+      - {
+          label: 'Weight',
+          name: 'weight',
+          widget: 'number',
+          default: 1,
+          hint: 'Lower = displayed first'
+        }
+
+      - { label: 'Client', name: 'client', widget: 'string', required: false }
+      - { label: 'Project URL', name: 'project_url', widget: 'string', required: false }
+      - { label: 'Year', name: 'year', widget: 'string' }
+
+      - { label: 'Featured Image', name: 'featured_image', widget: 'image', required: false }
+      - label: 'Gallery Images'
+        name: 'gallery_images'
+        widget: 'list'
+        required: false
+        fields:
+          - { label: 'Image', name: 'image', widget: 'image' }
+          - { label: 'Alt Text', name: 'alt', widget: 'string' }
+          - { label: 'Caption', name: 'caption', widget: 'string', required: false }
+
+      - { label: 'Categories', name: 'categories', widget: 'list', default: [], required: false }
+      - { label: 'Tags', name: 'tags', widget: 'list', default: [], required: false }
+      - {
+          label: 'Technologies',
+          name: 'technologies',
+          widget: 'list',
+          default: [],
+          required: false
+        }
+
+  # ---------------------------------------------------------------------------
+  # SITE SETTINGS  ← appearance & availability controls
+  # ---------------------------------------------------------------------------
+  - name: 'settings'
+    label: 'Site Settings'
+    files:
+      - label: 'Availability'
+        name: 'availability'
+        file: 'data/settings.yaml'
+        fields:
+          - label: 'Availability Mode'
+            name: 'availability_mode'
+            widget: 'select'
+            hint: 'Controls the coloured ring and status dot in the site header'
+            options:
+              - { label: '🕐 Auto — follow business hours (Mon–Fri 9 AM–6 PM CT)', value: 'auto' }
+              - { label: '🟢 Available — force gradient ring on', value: 'available' }
+              - { label: '⚫ Away — force grey ring off', value: 'away' }
+            default: 'auto'
+          - label: 'Ring Color Override'
+            name: 'ring_color'
+            widget: 'select'
+            hint: 'Leave blank to use automatic page-type colours (recommended). Set only to lock a single colour site-wide — this overrides the per-page mapping.'
+            options:
+              - { label: '⬜ Auto — use page-type colour map (recommended)', value: '' }
+              - { label: '🌈 Gradient (amber/red/purple/blue)', value: 'gradient' }
+              - { label: '🔵 Blue', value: 'blue' }
+              - { label: '🟢 Green', value: 'green' }
+              - { label: '🟣 Purple', value: 'purple' }
+              - { label: '🟠 Orange', value: 'orange' }
+              - { label: '🩷 Pink', value: 'pink' }
+              - { label: '🩵 Teal', value: 'teal' }
+              - { label: '🟡 Gold', value: 'gold' }
+            default: ''
+          - label: 'Custom Away Message'
+            name: 'away_message'
+            widget: 'string'
+            required: false
+            hint: 'Optional — overrides the default next-open text in the stories panel. Leave blank to use automatic text.'
+
+  # ---------------------------------------------------------------------------
+  # SITE PAGES
+  # ---------------------------------------------------------------------------
+  - name: 'pages'
+    label: 'Site Pages'
+    files:
+      - label: 'Blog Index'
+        name: 'blog_index'
+        file: 'content/posts/_index.md'
+        fields:
+          - { label: 'Title', name: 'title', widget: 'string' }
+          - { label: 'Date', name: 'date', widget: 'datetime' }
+          - { label: 'Description', name: 'description', widget: 'text' }
+          - { label: 'Body', name: 'body', widget: 'markdown', required: false }
+
+      - label: 'Homepage'
+        name: 'homepage'
+        file: 'content/_index.md'
+        fields:
+          - { label: 'Title', name: 'title', widget: 'string' }
+          - { label: 'Date', name: 'date', widget: 'datetime' }
+          - { label: 'Description', name: 'description', widget: 'text' }
+          - { label: 'Featured Image', name: 'featured_image', widget: 'image', required: false }
+          - { label: 'Body', name: 'body', widget: 'markdown' }
+
+      - label: 'About'
+        name: 'about'
+        file: 'content/about.md'
+        fields:
+          - { label: 'Title', name: 'title', widget: 'string' }
+          - { label: 'Date', name: 'date', widget: 'datetime' }
+          - { label: 'Description', name: 'description', widget: 'text' }
+          - { label: 'Featured Image', name: 'featured_image', widget: 'image', required: false }
+          - { label: 'Body', name: 'body', widget: 'markdown' }
+
+      - label: 'Contact'
+        name: 'contact'
+        file: 'content/contact.md'
+        fields:
+          - { label: 'Title', name: 'title', widget: 'string' }
+          - { label: 'Date', name: 'date', widget: 'datetime' }
+          - { label: 'Description', name: 'description', widget: 'text' }
+          - { label: 'Body', name: 'body', widget: 'markdown' }
+
+      - label: 'Portfolio Index'
+        name: 'portfolio_index'
+        file: 'content/portfolio.md'
+        fields:
+          - { label: 'Title', name: 'title', widget: 'string' }
+          - { label: 'Date', name: 'date', widget: 'datetime' }
+          - { label: 'Description', name: 'description', widget: 'text' }
+          - { label: 'Body', name: 'body', widget: 'markdown' }
+
+# =============================================================================
+# ADDITIONAL CMS SETTINGS
+# =============================================================================
+
+# Logo for the CMS interface
+logo_url: https://isaiahdavis.com/images/logo.png
+
+# Custom preview styles (optional)
+# editor:
+#   preview: false
+
+# Show preview links
+show_preview_links: true
+
+# Slug configuration
+slug:
+  encoding: 'unicode'
+  clean_accents: true
+  sanitize_replacement: '-'
+# =============================================================================
+# ENVIRONMENT-SPECIFIC NOTES
+# =============================================================================
+#
+# PRODUCTION SETUP (Netlify):
+# 1. Enable Identity in Netlify dashboard
+# 2. Enable Git Gateway in Identity settings
+# 3. Set registration to "Invite only" for security
+# 4. Access CMS at: https://isaiahdavis.com/admin/
+#
+# DEVELOPMENT SETUP (Local) — no config changes needed:
+# 1. Terminal 1: hugo server -D --config hugo.toml,config.development.toml
+# 2. Terminal 2: npm run cms:local
+# 3. Access CMS at: http://localhost:1313/admin/
+#    (local_backend: true handles the proxy switch automatically)
+#
+# CONTENT WORKFLOW:
+# 1. Create/edit content in CMS (Blog Posts is the default landing screen)
+# 2. New posts saved as drafts by default (draft: true)
+# 3. Change draft → false to publish
+# 4. Changes deploy automatically via Netlify Git integration
+#    Or manually: npm run migrate:deploy
+#
+# =============================================================================

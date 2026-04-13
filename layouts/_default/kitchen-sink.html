@@ -1,0 +1,1166 @@
+{{ define "main" }}
+{{/*
+  KITCHEN SINK — Design system showcase
+  dev-only page (draft: true) — never published to production.
+  Serves as a live reference for all tokens, components, and patterns.
+*/}}
+<div class="ks-page">
+
+  <!-- ── Dev-only warning banner ── -->
+  <div class="ks-banner" role="banner" aria-label="Development-only page">
+    <span class="ks-banner__dot" aria-hidden="true"></span>
+    <strong>DEV ONLY</strong> — This page is <code>draft: true</code> and will
+    never build to production. It exists purely as a living design system reference.
+  </div>
+
+  <!-- ── Sticky sidebar TOC ── -->
+  <nav class="ks-sidebar" aria-label="Kitchen sink sections">
+    <p class="ks-sidebar__label">Sections</p>
+    <ul class="ks-sidebar__list">
+      <li><a href="#ks-tokens">Tokens</a></li>
+      <li><a href="#ks-typography">Typography</a></li>
+      <li><a href="#ks-colors">Colors</a></li>
+      <li><a href="#ks-spacing">Spacing</a></li>
+      <li><a href="#ks-buttons">Buttons</a></li>
+      <li><a href="#ks-badges">Badges</a></li>
+      <li><a href="#ks-forms">Forms</a></li>
+      <li><a href="#ks-callouts">Callouts</a></li>
+      <li><a href="#ks-cards">Cards</a></li>
+      <li><a href="#ks-work-grid">Work Grid</a></li>
+      <li><a href="#ks-shadows">Shadows & Radius</a></li>
+      <li><a href="#ks-accessibility">Accessibility</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Main content ── -->
+  <main class="ks-main" id="main-content">
+
+    <header class="ks-header">
+      <h1 class="ks-page-title">Kitchen Sink</h1>
+      <p class="ks-page-subtitle">
+        Living reference for every design token, component, and layout pattern used across this portfolio.
+        Edit <code>src/css/theme/tokens.css</code> and watch everything update here.
+      </p>
+    </header>
+
+    <!-- ════════════════════════════════════
+         DESIGN TOKENS
+         ════════════════════════════════════ -->
+    <section class="ks-section" id="ks-tokens">
+      <h2 class="ks-section-title">Design Tokens</h2>
+      <p class="ks-section-desc">Every value below is a CSS custom property from <code>tokens.css</code>.</p>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Spacing Scale</h3>
+        <div class="ks-spacing-grid">
+          {{ $spacings := slice "1" "2" "3" "4" "5" "6" "8" "10" "12" "14" "16" "20" "24" }}
+          {{ range $spacings }}
+          <div class="ks-space-row">
+            <code class="ks-token-name">--space-{{ . }}</code>
+            <div class="ks-space-bar" style="width: var(--space-{{ . }})"></div>
+          </div>
+          {{ end }}
+        </div>
+      </div>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Border Radius</h3>
+        <div class="ks-radius-grid">
+          {{ $radii := slice "sm" "md" "lg" "xl" "2xl" "3xl" "full" }}
+          {{ range $radii }}
+          <div class="ks-radius-item">
+            <div class="ks-radius-box" style="border-radius: var(--radius-{{ . }})"></div>
+            <code>--radius-{{ . }}</code>
+          </div>
+          {{ end }}
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════
+         TYPOGRAPHY
+         ════════════════════════════════════ -->
+    <section class="ks-section" id="ks-typography">
+      <h2 class="ks-section-title">Typography</h2>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Type Scale</h3>
+        <div class="ks-type-stack">
+          <div class="ks-type-row">
+            <code class="ks-token-name">--text-xs</code>
+            <span style="font-size: var(--text-xs)">The quick brown fox jumps over the lazy dog</span>
+          </div>
+          <div class="ks-type-row">
+            <code class="ks-token-name">--text-sm</code>
+            <span style="font-size: var(--text-sm)">The quick brown fox jumps over the lazy dog</span>
+          </div>
+          <div class="ks-type-row">
+            <code class="ks-token-name">--text-base</code>
+            <span style="font-size: var(--text-base)">The quick brown fox jumps over the lazy dog</span>
+          </div>
+          <div class="ks-type-row">
+            <code class="ks-token-name">--text-lg</code>
+            <span style="font-size: var(--text-lg)">The quick brown fox jumps over the lazy dog</span>
+          </div>
+          <div class="ks-type-row">
+            <code class="ks-token-name">--text-xl</code>
+            <span style="font-size: var(--text-xl)">The quick brown fox</span>
+          </div>
+          <div class="ks-type-row">
+            <code class="ks-token-name">--text-2xl</code>
+            <span style="font-size: var(--text-2xl)">The quick brown fox</span>
+          </div>
+          <div class="ks-type-row">
+            <code class="ks-token-name">--text-3xl</code>
+            <span style="font-size: var(--text-3xl)">Isaiah Davis</span>
+          </div>
+          <div class="ks-type-row">
+            <code class="ks-token-name">--text-4xl</code>
+            <span style="font-size: var(--text-4xl)">Isaiah Davis</span>
+          </div>
+          <div class="ks-type-row">
+            <code class="ks-token-name">--text-5xl</code>
+            <span style="font-size: var(--text-5xl)">Isaiah</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Font Weights</h3>
+        <div class="ks-weight-grid">
+          <span style="font-weight: var(--font-normal)">Normal (400) — The quick brown fox</span>
+          <span style="font-weight: var(--font-medium)">Medium (500) — The quick brown fox</span>
+          <span style="font-weight: var(--font-semibold)">SemiBold (600) — The quick brown fox</span>
+          <span style="font-weight: var(--font-bold)">Bold (700) — The quick brown fox</span>
+          <span style="font-weight: var(--font-extrabold)">ExtraBold (800) — The quick brown fox</span>
+        </div>
+      </div>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Heading Hierarchy</h3>
+        <div class="ks-prose-demo">
+          <h1>H1 — Page Title</h1>
+          <h2>H2 — Section Heading</h2>
+          <h3>H3 — Subsection</h3>
+          <h4>H4 — Group Label</h4>
+          <p>Body paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p><small>Small text. Fine print and secondary annotations.</small></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════
+         COLORS
+         ════════════════════════════════════ -->
+    <section class="ks-section" id="ks-colors">
+      <h2 class="ks-section-title">Colors</h2>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Surfaces & Text</h3>
+        <div class="ks-swatch-grid">
+          <div class="ks-swatch" style="background: var(--color-bg)"><span>--color-bg</span></div>
+          <div class="ks-swatch" style="background: var(--color-surface)"><span>--color-surface</span></div>
+          <div class="ks-swatch" style="background: var(--color-surface-raised)"><span>--color-surface-raised</span></div>
+          <div class="ks-swatch" style="background: var(--color-surface-subtle)"><span>--color-surface-subtle</span></div>
+          <div class="ks-swatch ks-swatch--dark" style="background: var(--color-surface-invert)"><span>--color-surface-invert</span></div>
+        </div>
+      </div>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Accent</h3>
+        <div class="ks-swatch-grid">
+          <div class="ks-swatch ks-swatch--dark" style="background: var(--color-accent)"><span>--color-accent</span></div>
+          <div class="ks-swatch ks-swatch--dark" style="background: var(--color-accent-hover)"><span>--color-accent-hover</span></div>
+          <div class="ks-swatch" style="background: var(--color-accent-soft)"><span>--color-accent-soft</span></div>
+          <div class="ks-swatch" style="background: var(--color-accent-border); border: 1px solid var(--color-border)"><span>--color-accent-border</span></div>
+        </div>
+      </div>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Semantic</h3>
+        <div class="ks-swatch-grid">
+          <div class="ks-swatch ks-swatch--dark" style="background: var(--color-success)"><span>--color-success</span></div>
+          <div class="ks-swatch" style="background: var(--color-success-soft)"><span>--color-success-soft</span></div>
+          <div class="ks-swatch ks-swatch--dark" style="background: var(--color-warning)"><span>--color-warning</span></div>
+          <div class="ks-swatch" style="background: var(--color-warning-soft)"><span>--color-warning-soft</span></div>
+          <div class="ks-swatch ks-swatch--dark" style="background: var(--color-error)"><span>--color-error</span></div>
+          <div class="ks-swatch" style="background: var(--color-error-soft)"><span>--color-error-soft</span></div>
+          <div class="ks-swatch ks-swatch--dark" style="background: var(--color-info)"><span>--color-info</span></div>
+          <div class="ks-swatch" style="background: var(--color-info-soft)"><span>--color-info-soft</span></div>
+        </div>
+      </div>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Metric Palette</h3>
+        <div class="ks-swatch-grid">
+          <div class="ks-swatch ks-swatch--dark" style="background: var(--color-metric-1)"><span>--color-metric-1</span></div>
+          <div class="ks-swatch" style="background: var(--color-metric-1-soft)"><span>--color-metric-1-soft</span></div>
+          <div class="ks-swatch ks-swatch--dark" style="background: var(--color-metric-2)"><span>--color-metric-2</span></div>
+          <div class="ks-swatch" style="background: var(--color-metric-2-soft)"><span>--color-metric-2-soft</span></div>
+          <div class="ks-swatch ks-swatch--dark" style="background: var(--color-metric-3)"><span>--color-metric-3</span></div>
+          <div class="ks-swatch" style="background: var(--color-metric-3-soft)"><span>--color-metric-3-soft</span></div>
+          <div class="ks-swatch ks-swatch--dark" style="background: var(--color-metric-4)"><span>--color-metric-4</span></div>
+          <div class="ks-swatch" style="background: var(--color-metric-4-soft)"><span>--color-metric-4-soft</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════
+         BUTTONS
+         ════════════════════════════════════ -->
+    <section class="ks-section" id="ks-buttons">
+      <h2 class="ks-section-title">Buttons & Actions</h2>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Standard Variants</h3>
+        <div class="ks-row">
+          <a href="#" class="btn-primary">btn-primary</a>
+          <a href="#" class="btn-secondary">btn-secondary</a>
+          <a href="#" class="btn-ghost">btn-ghost</a>
+        </div>
+      </div>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">States</h3>
+        <div class="ks-row">
+          <a href="#" class="btn-primary">Default</a>
+          <a href="#" class="btn-primary" aria-disabled="true" tabindex="-1" style="opacity: 0.45; pointer-events: none;">Disabled</a>
+          <a href="#" class="btn-primary" style="outline: 2px solid var(--color-accent); outline-offset: 3px;">Focus</a>
+        </div>
+      </div>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Dark Context (hero buttons)</h3>
+        <div class="ks-row ks-row--dark">
+          <a href="#" class="btn-primary">View My Work</a>
+          <a href="#" class="btn-secondary">Let's Talk</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════
+         BADGES
+         ════════════════════════════════════ -->
+    <section class="ks-section" id="ks-badges">
+      <h2 class="ks-section-title">Badges</h2>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Skill / Stack Badges</h3>
+        <div class="ks-row ks-row--wrap">
+          {{ $skills := slice "TypeScript" "React" "Hugo" "Tailwind CSS" "CSS Custom Properties" "Git / CI" "WCAG AA" "Performance" "PWA" }}
+          {{ range $skills }}
+          <span class="badge">{{ . }}</span>
+          {{ end }}
+        </div>
+      </div>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Status Badges</h3>
+        <div class="ks-row">
+          <span class="ks-status ks-status--green">Available</span>
+          <span class="ks-status ks-status--yellow">Busy</span>
+          <span class="ks-status ks-status--red">Unavailable</span>
+          <span class="ks-status ks-status--blue">Contract</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════
+         FORMS
+         ════════════════════════════════════ -->
+    <section class="ks-section" id="ks-forms">
+      <h2 class="ks-section-title">Form Elements</h2>
+
+      <div class="ks-subsection">
+        <form class="ks-form-demo" onsubmit="return false">
+          <div class="form-group">
+            <label for="ks-name" class="form-label">Full Name <span aria-hidden="true">*</span></label>
+            <input type="text" id="ks-name" class="form-input" placeholder="Isaiah Davis" value="">
+          </div>
+          <div class="form-group">
+            <label for="ks-email" class="form-label">Email <span aria-hidden="true">*</span></label>
+            <input type="email" id="ks-email" class="form-input" placeholder="hello@example.com">
+          </div>
+          <div class="form-group">
+            <label for="ks-subject" class="form-label">Subject</label>
+            <input type="text" id="ks-subject" class="form-input" placeholder="Project inquiry">
+          </div>
+          <div class="form-group">
+            <label for="ks-message" class="form-label">Message <span aria-hidden="true">*</span></label>
+            <textarea id="ks-message" class="form-input form-textarea" rows="4" placeholder="Tell me about your project…"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="ks-select" class="form-label">Budget range</label>
+            <select id="ks-select" class="form-input">
+              <option>Under $5k</option>
+              <option>$5k – $15k</option>
+              <option>$15k – $50k</option>
+              <option>$50k+</option>
+            </select>
+          </div>
+          <div class="ks-row">
+            <button type="submit" class="btn-primary">Send Message</button>
+            <button type="reset" class="btn-secondary">Reset</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Input States</h3>
+        <div class="ks-form-states">
+          <div class="form-group">
+            <label class="form-label">Default</label>
+            <input type="text" class="form-input" placeholder="Default state">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Error</label>
+            <input type="text" class="form-input ks-input--error" value="invalid@" aria-invalid="true">
+            <span class="ks-field-error">Please enter a valid email address.</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Disabled</label>
+            <input type="text" class="form-input" placeholder="Disabled" disabled>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════
+         CALLOUTS
+         ════════════════════════════════════ -->
+    <section class="ks-section" id="ks-callouts">
+      <h2 class="ks-section-title">Callouts</h2>
+      <div class="ks-callout-grid">
+        <div class="cs-callout cs-callout--info">
+          <strong>Info</strong> — This component lives in the case study page CSS
+          (<code>.cs-callout</code>) and is used to highlight key insights.
+        </div>
+        <div class="cs-callout cs-callout--tip">
+          <strong>Tip</strong> — Performance insight or design note that adds context
+          without breaking prose flow.
+        </div>
+        <div class="cs-callout cs-callout--warning">
+          <strong>Warning</strong> — Used to flag constraints, tradeoffs, or decisions
+          that had significant impact.
+        </div>
+        <div class="cs-callout cs-callout--result">
+          <strong>Result</strong> — Concrete outcome, metric, or stakeholder quote
+          anchored to evidence.
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════
+         CARDS
+         ════════════════════════════════════ -->
+    <section class="ks-section" id="ks-cards">
+      <h2 class="ks-section-title">Cards</h2>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Work Cards (home grid)</h3>
+        <div class="ks-work-preview">
+          <a href="#" class="home-work-card" style="aspect-ratio: 16/10; max-width: 340px;">
+            <img src="/images/514/sandc-cover.jpg" alt="S&C Electric demo card" class="home-work-card__img" loading="lazy">
+            <div class="home-work-card__overlay">
+              <p class="home-work-card__role">Frontend Developer</p>
+              <h3 class="home-work-card__title">S&C Electric Company</h3>
+              <p class="home-work-card__dates">June 2021 — Present</p>
+            </div>
+          </a>
+          <a href="#" class="home-work-card home-work-card--featured" style="max-width: 340px; aspect-ratio: unset; min-height: 260px;">
+            <img src="/images/514/independent-grocers-alliance-cover.jpg" alt="IGA demo card" class="home-work-card__img" loading="lazy">
+            <div class="home-work-card__overlay">
+              <p class="home-work-card__role">Web Designer</p>
+              <h3 class="home-work-card__title">IGA — Featured Card</h3>
+              <p class="home-work-card__dates">Jan 2019 — Apr 2021</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">CTA Card (conversion card)</h3>
+        <div class="ks-work-preview">
+          {{ partial "home-work-cta-card.html" . }}
+        </div>
+      </div>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Metric Tiles (case study)</h3>
+        <div class="ks-metric-grid">
+          <div class="cs-metric-tile cs-metric-tile--1">
+            <span class="cs-metric-tile__value">72%</span>
+            <span class="cs-metric-tile__label">Faster page loads</span>
+            <span class="cs-metric-tile__detail">6 s → 1.7 s</span>
+          </div>
+          <div class="cs-metric-tile cs-metric-tile--2">
+            <span class="cs-metric-tile__value">41%</span>
+            <span class="cs-metric-tile__label">Smaller assets</span>
+            <span class="cs-metric-tile__detail">Uncompressed weight</span>
+          </div>
+          <div class="cs-metric-tile cs-metric-tile--3">
+            <span class="cs-metric-tile__value">30%</span>
+            <span class="cs-metric-tile__label">Fewer UI tickets</span>
+            <span class="cs-metric-tile__detail">Quarter post-launch</span>
+          </div>
+          <div class="cs-metric-tile cs-metric-tile--4">
+            <span class="cs-metric-tile__value">AA</span>
+            <span class="cs-metric-tile__label">WCAG 2.1</span>
+            <span class="cs-metric-tile__detail">Full compliance</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════
+         WORK GRID LAYOUTS
+         ════════════════════════════════════ -->
+    <section class="ks-section" id="ks-work-grid">
+      <h2 class="ks-section-title">Work Grid Layouts</h2>
+      <p class="ks-section-desc">The grid auto-selects its layout based on featured project count.</p>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">2 items — 2-col wrap</h3>
+        <div class="ks-grid-demo home-work__grid">
+          <div class="ks-grid-placeholder home-work-card" style="height: 140px;">Card 1</div>
+          <div class="ks-grid-placeholder home-work-card" style="height: 140px;">Card 2</div>
+        </div>
+      </div>
+
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">3 items + CTA — 2×2 grid</h3>
+        <div class="ks-grid-demo home-work__grid">
+          <div class="ks-grid-placeholder home-work-card" style="height: 140px;">Card 1</div>
+          <div class="ks-grid-placeholder home-work-card" style="height: 140px;">Card 2</div>
+          <div class="ks-grid-placeholder home-work-card" style="height: 140px;">Card 3</div>
+          <div class="ks-grid-placeholder home-work-card home-work-card--cta" style="height: 140px; background: linear-gradient(145deg,#0b1630,#162b60);">CTA Card</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════
+         SHADOWS & RADIUS
+         ════════════════════════════════════ -->
+    <section class="ks-section" id="ks-shadows">
+      <h2 class="ks-section-title">Shadows & Elevation</h2>
+      <div class="ks-shadow-grid">
+        {{ $shadows := slice "xs" "sm" "md" "lg" "xl" "2xl" }}
+        {{ range $shadows }}
+        <div class="ks-shadow-box" style="box-shadow: var(--shadow-{{ . }})">
+          <code>--shadow-{{ . }}</code>
+        </div>
+        {{ end }}
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════
+         ACCESSIBILITY — COLOR & CONTRAST
+         ════════════════════════════════════ -->
+    <section class="ks-section" id="ks-accessibility">
+      <h2 class="ks-section-title">Accessibility — Color &amp; Contrast</h2>
+      <p class="ks-section-desc">
+        WCAG 2.1 requires ≥ <strong>4.5:1</strong> for normal body text (AA),
+        ≥ <strong>3:1</strong> for large text (≥ 18 pt / 14 pt bold) and UI components,
+        and ≥ <strong>7:1</strong> for enhanced AAA. Ratios below are computed
+        against the light-mode token values in <code>tokens.css</code>.
+        Dark-mode overrides are shown separately.
+      </p>
+
+      <!-- Legend -->
+      <div class="ks-a11y-legend">
+        <span class="ks-a11y-badge ks-a11y-badge--aaa">AAA ≥ 7:1</span>
+        <span class="ks-a11y-badge ks-a11y-badge--aa">AA ≥ 4.5:1</span>
+        <span class="ks-a11y-badge ks-a11y-badge--aa-lg">AA Large ≥ 3:1</span>
+        <span class="ks-a11y-badge ks-a11y-badge--fail">Fails</span>
+        <span class="ks-a11y-legend-note">Large text = ≥ 24 px regular or ≥ 18.67 px bold</span>
+      </div>
+
+      <!-- ── Text on neutral surfaces (light mode) ── -->
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Text on Surfaces — Light Mode</h3>
+        <div class="ks-contrast-grid">
+
+          <div class="ks-contrast-card" style="background:var(--color-bg);color:var(--color-text-primary)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">The quick brown fox</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-text-primary</code><span class="ks-on">on</span><code>--color-bg</code>
+              <span class="ks-hex">#0f172a on #f8f9fc</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">16.97:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aaa">AAA</span>
+            </div>
+          </div>
+
+          <div class="ks-contrast-card" style="background:var(--color-surface);color:var(--color-text-primary)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">The quick brown fox</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-text-primary</code><span class="ks-on">on</span><code>--color-surface</code>
+              <span class="ks-hex">#0f172a on #ffffff</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">19.07:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aaa">AAA</span>
+            </div>
+          </div>
+
+          <div class="ks-contrast-card" style="background:var(--color-bg);color:var(--color-text-secondary)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">The quick brown fox</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-text-secondary</code><span class="ks-on">on</span><code>--color-bg</code>
+              <span class="ks-hex">#475569 on #f8f9fc</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">7.20:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aa">AA</span>
+            </div>
+          </div>
+
+          <div class="ks-contrast-card" style="background:var(--color-surface-invert);color:var(--color-text-invert)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">The quick brown fox</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-text-invert</code><span class="ks-on">on</span><code>--color-surface-invert</code>
+              <span class="ks-hex">#f8fafc on #0f172a</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">16.97:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aaa">AAA</span>
+            </div>
+          </div>
+
+          <div class="ks-contrast-card ks-contrast-card--warn" style="background:var(--color-bg);color:var(--color-text-muted)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">The quick brown fox</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-text-muted</code><span class="ks-on">on</span><code>--color-bg</code>
+              <span class="ks-hex">#94a3b8 on #f8f9fc</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">2.44:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--fail">Fails</span>
+            </div>
+            <p class="ks-contrast-card__note">Decorative / placeholder use only — never for meaningful text.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── Accent & action colors ── -->
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Accent &amp; Action Colors</h3>
+        <div class="ks-contrast-grid">
+
+          <div class="ks-contrast-card" style="background:var(--color-bg);color:var(--color-accent)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">Link text · Call to action</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-accent</code><span class="ks-on">on</span><code>--color-bg</code>
+              <span class="ks-hex">#0051e0 on #f8f9fc</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">6.14:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aa">AA</span>
+            </div>
+          </div>
+
+          <div class="ks-contrast-card" style="background:var(--color-accent);color:var(--color-text-invert)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">White on accent — btn-primary</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-text-invert</code><span class="ks-on">on</span><code>--color-accent</code>
+              <span class="ks-hex">#f8fafc on #0051e0</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">6.14:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aa">AA</span>
+            </div>
+          </div>
+
+          <div class="ks-contrast-card ks-contrast-card--warn" style="background:var(--color-accent);color:var(--color-text-primary)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">Dark on accent — avoid</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-text-primary</code><span class="ks-on">on</span><code>--color-accent</code>
+              <span class="ks-hex">#0f172a on #0051e0</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">2.76:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--fail">Fails</span>
+            </div>
+            <p class="ks-contrast-card__note">Dark text on accent fails — always pair accent with <code>--color-text-invert</code>.</p>
+          </div>
+
+          <div class="ks-contrast-card" style="background:var(--color-accent-soft);color:var(--color-text-primary)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">Soft accent surface</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-text-primary</code><span class="ks-on">on</span><code>--color-accent-soft</code>
+              <span class="ks-hex">#0f172a on #eff6ff</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">16.23:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aaa">AAA</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── Semantic colors ── -->
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Semantic Colors</h3>
+        <p style="font-size:var(--text-sm);color:var(--color-text-secondary);margin-bottom:1rem">
+          Semantic foreground colors should only be used on their paired soft surface
+          or white — never on each other.
+        </p>
+        <div class="ks-contrast-grid ks-contrast-grid--semantic">
+
+          <div class="ks-contrast-card" style="background:var(--color-surface);color:var(--color-error)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">Error · validation message</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-error</code><span class="ks-on">on</span><code>--color-surface</code>
+              <span class="ks-hex">#dc2626 on #ffffff</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">4.83:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aa">AA</span>
+            </div>
+          </div>
+
+          <div class="ks-contrast-card" style="background:var(--color-error-soft);color:var(--color-error)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">Error on soft surface</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-error</code><span class="ks-on">on</span><code>--color-error-soft</code>
+              <span class="ks-hex">#dc2626 on #fef2f2</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">4.63:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aa">AA</span>
+            </div>
+          </div>
+
+          <div class="ks-contrast-card" style="background:var(--color-surface);color:var(--color-success)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">Success · confirmation</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-success</code><span class="ks-on">on</span><code>--color-surface</code>
+              <span class="ks-hex">#059669 on #ffffff</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">3.76:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aa-lg">AA Large</span>
+            </div>
+            <p class="ks-contrast-card__note">Use ≥ 18 px or bold for success text; pair with <code>--color-text-primary</code> in body copy.</p>
+          </div>
+
+          <div class="ks-contrast-card" style="background:var(--color-success-soft);color:var(--color-text-primary)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">Primary text on success-soft</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-text-primary</code><span class="ks-on">on</span><code>--color-success-soft</code>
+              <span class="ks-hex">#0f172a on #ecfdf5</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">16.06:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aaa">AAA</span>
+            </div>
+          </div>
+
+          <div class="ks-contrast-card ks-contrast-card--warn" style="background:var(--color-surface);color:var(--color-warning)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">Warning · amber text</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-warning</code><span class="ks-on">on</span><code>--color-surface</code>
+              <span class="ks-hex">#d97706 on #ffffff</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">3.18:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aa-lg">AA Large</span>
+            </div>
+            <p class="ks-contrast-card__note">Standalone amber text fails AA for normal body copy. Use <code>--color-text-primary</code> on <code>--color-warning-soft</code> instead.</p>
+          </div>
+
+          <div class="ks-contrast-card" style="background:var(--color-warning-soft);color:var(--color-text-primary)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">Accessible warning pattern</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-text-primary</code><span class="ks-on">on</span><code>--color-warning-soft</code>
+              <span class="ks-hex">#0f172a on #fffbeb</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">17.61:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aaa">AAA</span>
+            </div>
+          </div>
+
+          <div class="ks-contrast-card ks-contrast-card--warn" style="background:var(--color-surface);color:var(--color-info)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">Info · contextual blue</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-info</code><span class="ks-on">on</span><code>--color-surface</code>
+              <span class="ks-hex">#0284c7 on #ffffff</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">4.10:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aa-lg">AA Large</span>
+            </div>
+            <p class="ks-contrast-card__note">Use ≥ 18 px or bold for info text, or switch to <code>--color-accent</code> (6.14:1) for inline links.</p>
+          </div>
+
+          <div class="ks-contrast-card" style="background:var(--color-info-soft);color:var(--color-text-primary)">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg">Aa</span>
+              <span class="ks-contrast-sample-sm">Accessible info pattern</span>
+            </div>
+            <div class="ks-contrast-card__meta">
+              <code>--color-text-primary</code><span class="ks-on">on</span><code>--color-info-soft</code>
+              <span class="ks-hex">#0f172a on #f0f9ff</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio">16.78:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aaa">AAA</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── Dark mode pairs ── -->
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Dark Mode Token Pairs</h3>
+        <p style="font-size:var(--text-sm);color:var(--color-text-secondary);margin-bottom:1rem">
+          Swatches below use the live <code>[data-theme=dark]</code> token values — toggle dark mode to see them in context.
+          Ratios shown are for the dark-mode override values.
+        </p>
+        <div class="ks-contrast-grid">
+
+          <div class="ks-contrast-card ks-contrast-card--dark-sample" style="">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg" style="color:#f0f6ff">Aa</span>
+              <span class="ks-contrast-sample-sm" style="color:#f0f6ff">Primary — dark mode</span>
+            </div>
+            <div class="ks-contrast-card__meta" style="color:rgba(255,255,255,0.55)">
+              <code style="color:#a8c0e0">--color-text-primary</code><span class="ks-on">on</span><code style="color:#a8c0e0">--color-bg</code>
+              <span class="ks-hex" style="color:rgba(255,255,255,0.35)">#f0f6ff on #090e1a</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio" style="color:#f0f6ff">17.73:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aaa">AAA</span>
+            </div>
+          </div>
+
+          <div class="ks-contrast-card ks-contrast-card--dark-sample" style="">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg" style="color:#8da4be">Aa</span>
+              <span class="ks-contrast-sample-sm" style="color:#8da4be">Secondary — dark mode</span>
+            </div>
+            <div class="ks-contrast-card__meta" style="color:rgba(255,255,255,0.55)">
+              <code style="color:#a8c0e0">--color-text-secondary</code><span class="ks-on">on</span><code style="color:#a8c0e0">--color-bg</code>
+              <span class="ks-hex" style="color:rgba(255,255,255,0.35)">#8da4be on #090e1a</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio" style="color:#f0f6ff">7.57:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aa">AA</span>
+            </div>
+          </div>
+
+          <div class="ks-contrast-card ks-contrast-card--dark-sample" style="">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg" style="color:#4d8dff">Aa</span>
+              <span class="ks-contrast-sample-sm" style="color:#4d8dff">Accent — dark mode</span>
+            </div>
+            <div class="ks-contrast-card__meta" style="color:rgba(255,255,255,0.55)">
+              <code style="color:#a8c0e0">--color-accent</code><span class="ks-on">on</span><code style="color:#a8c0e0">--color-bg</code>
+              <span class="ks-hex" style="color:rgba(255,255,255,0.35)">#4d8dff on #090e1a</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio" style="color:#f0f6ff">6.15:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--aa">AA</span>
+            </div>
+          </div>
+
+          <div class="ks-contrast-card ks-contrast-card--dark-sample ks-contrast-card--warn" style="">
+            <div class="ks-contrast-card__preview">
+              <span class="ks-contrast-sample-lg" style="color:#4d6480">Aa</span>
+              <span class="ks-contrast-sample-sm" style="color:#4d6480">Muted — dark mode</span>
+            </div>
+            <div class="ks-contrast-card__meta" style="color:rgba(255,255,255,0.55)">
+              <code style="color:#a8c0e0">--color-text-muted</code><span class="ks-on">on</span><code style="color:#a8c0e0">--color-bg</code>
+              <span class="ks-hex" style="color:rgba(255,255,255,0.35)">#4d6480 on #090e1a</span>
+            </div>
+            <div class="ks-contrast-card__footer">
+              <strong class="ks-ratio" style="color:#f0f6ff">2.33:1</strong>
+              <span class="ks-a11y-badge ks-a11y-badge--fail">Fails</span>
+            </div>
+            <p class="ks-contrast-card__note" style="color:rgba(255,150,100,0.85)">Decorative only — same rule as light mode.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── Do / Don't ── -->
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Do / Don't</h3>
+        <div class="ks-do-dont-grid">
+
+          <div class="ks-do-card">
+            <div class="ks-do-card__label ks-do-card__label--do">✓ Do</div>
+            <div class="ks-do-card__example" style="background:var(--color-warning-soft);padding:1rem;border-radius:var(--radius-lg)">
+              <p style="margin:0;font-size:var(--text-sm);color:var(--color-text-primary)">
+                <strong style="color:var(--color-warning)">⚠ Warning:</strong> Your session will expire in 5 minutes.
+              </p>
+            </div>
+            <p class="ks-do-card__desc">Use <code>--color-text-primary</code> for body copy on a semantic-soft surface. The warning color accents the icon/label only.</p>
+          </div>
+
+          <div class="ks-do-card">
+            <div class="ks-do-card__label ks-do-card__label--dont">✕ Don't</div>
+            <div class="ks-do-card__example" style="background:var(--color-surface);padding:1rem;border-radius:var(--radius-lg);border:1px solid var(--color-border)">
+              <p style="margin:0;font-size:var(--text-sm);color:var(--color-warning)">
+                Your session will expire in 5 minutes.
+              </p>
+            </div>
+            <p class="ks-do-card__desc">Don't use <code>--color-warning</code> (#d97706) for a full sentence on white — 3.18:1 fails AA normal text.</p>
+          </div>
+
+          <div class="ks-do-card">
+            <div class="ks-do-card__label ks-do-card__label--do">✓ Do</div>
+            <div class="ks-do-card__example" style="background:var(--color-surface);padding:1rem;border-radius:var(--radius-lg);border:1px solid var(--color-border)">
+              <p style="margin:0;font-size:var(--text-sm);color:var(--color-text-secondary)">
+                Published on <span style="color:var(--color-text-muted);font-size:var(--text-xs)">March 7, 2026</span>
+              </p>
+            </div>
+            <p class="ks-do-card__desc">Muted color for purely decorative metadata (date stamps, placeholders) — non-essential content not required to pass contrast.</p>
+          </div>
+
+          <div class="ks-do-card">
+            <div class="ks-do-card__label ks-do-card__label--dont">✕ Don't</div>
+            <div class="ks-do-card__example" style="background:var(--color-surface);padding:1rem;border-radius:var(--radius-lg);border:1px solid var(--color-border)">
+              <p style="margin:0;font-size:var(--text-sm);color:var(--color-text-muted)">Read the full case study to learn how we improved performance by 72% and reduced bundle size by 41%.</p>
+            </div>
+            <p class="ks-do-card__desc">Don't use <code>--color-text-muted</code> for meaningful body copy — 2.44:1 fails all WCAG levels.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── Focus ring ── -->
+      <div class="ks-subsection">
+        <h3 class="ks-subsection-title">Focus Ring</h3>
+        <p style="font-size:var(--text-sm);color:var(--color-text-secondary);margin-bottom:1rem">
+          WCAG 2.2 (SC 2.4.11) requires a visible focus indicator with ≥ 3:1 contrast against adjacent colors.
+          The project uses a 2 px <code>--color-accent</code> outline with a 2 px offset.
+        </p>
+        <div class="ks-focus-demo">
+          <button class="btn-primary ks-focus-force">Focused Button</button>
+          <a href="#" class="ks-focus-force" style="color:var(--color-accent)">Focused Link</a>
+          <input type="text" class="form-input ks-focus-force" value="Focused Input" style="max-width:220px" readonly>
+        </div>
+        <div class="ks-focus-spec">
+          <div class="ks-focus-spec__item">
+            <span class="ks-focus-spec__label">Color</span>
+            <code class="ks-focus-spec__value">--color-accent (#0051e0)</code>
+          </div>
+          <div class="ks-focus-spec__item">
+            <span class="ks-focus-spec__label">Style</span>
+            <code class="ks-focus-spec__value">outline: 2px solid</code>
+          </div>
+          <div class="ks-focus-spec__item">
+            <span class="ks-focus-spec__label">Offset</span>
+            <code class="ks-focus-spec__value">outline-offset: 2px</code>
+          </div>
+          <div class="ks-focus-spec__item">
+            <span class="ks-focus-spec__label">Contrast vs. white</span>
+            <code class="ks-focus-spec__value">6.14:1 — AA ✓</code>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<style>
+/* ── Kitchen Sink scoped styles ──────────────────────────────────────── */
+.ks-page {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr;
+  min-height: 100dvh;
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+}
+@media (min-width: 1024px) {
+  .ks-page { grid-template-columns: 200px 1fr; grid-template-rows: auto auto; }
+  .ks-banner { grid-column: 1 / -1; }
+  .ks-sidebar { grid-row: 2; grid-column: 1; }
+  .ks-main  { grid-row: 2; grid-column: 2; }
+}
+/* Banner */
+.ks-banner {
+  display: flex; align-items: center; gap: 0.625rem;
+  padding: 0.75rem 1.5rem;
+  background: #fef9c3; color: #713f12; font-size: 0.8125rem;
+  border-bottom: 1px solid #fde68a;
+  position: sticky; top: 0; z-index: 200;
+}
+.ks-banner__dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #eab308; box-shadow: 0 0 8px #eab308;
+  flex-shrink: 0; animation: cta-pulse 1.5s ease-in-out infinite;
+}
+/* Sidebar */
+.ks-sidebar {
+  padding: 1.5rem 1rem;
+  border-right: 1px solid var(--color-border);
+  position: sticky; top: 3rem;
+  height: calc(100dvh - 3rem);
+  overflow-y: auto;
+  display: none;
+}
+@media (min-width: 1024px) { .ks-sidebar { display: block; } }
+.ks-sidebar__label {
+  font-size: 0.625rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--color-text-muted); margin-bottom: 0.75rem;
+}
+.ks-sidebar__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.1rem; }
+.ks-sidebar__list a {
+  display: block; padding: 0.3rem 0.5rem; font-size: 0.8125rem;
+  color: var(--color-text-secondary); text-decoration: none; border-radius: var(--radius-md);
+  transition: background var(--duration-base) ease, color var(--duration-base) ease;
+}
+.ks-sidebar__list a:hover { background: var(--color-surface-subtle); color: var(--color-text-primary); }
+/* Main layout */
+.ks-main { padding: 2rem 1.5rem 4rem; max-width: 900px; }
+.ks-header { margin-bottom: 3rem; }
+.ks-page-title { font-size: var(--text-4xl); font-weight: var(--font-extrabold); color: var(--color-text-primary); margin: 0 0 0.5rem; }
+.ks-page-subtitle { font-size: var(--text-sm); color: var(--color-text-secondary); max-width: 60ch; }
+/* Section */
+.ks-section { padding-block: 3rem; border-top: 1px solid var(--color-border); }
+.ks-section-title { font-size: var(--text-2xl); font-weight: var(--font-extrabold); margin: 0 0 0.5rem; color: var(--color-text-primary); }
+.ks-section-desc { font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: 2rem; }
+.ks-subsection { margin-bottom: 2.5rem; }
+.ks-subsection-title { font-size: var(--text-sm); font-weight: var(--font-semibold); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin: 0 0 1rem; }
+/* Row utilities */
+.ks-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+.ks-row--wrap { gap: 0.5rem; }
+.ks-row--dark { background: #0f172a; padding: 1.5rem; border-radius: var(--radius-xl); }
+/* Spacing reference */
+.ks-spacing-grid { display: flex; flex-direction: column; gap: 0.5rem; }
+.ks-space-row { display: flex; align-items: center; gap: 1rem; }
+.ks-space-bar { height: 20px; background: var(--color-accent-soft); border: 1px solid var(--color-accent-border); border-radius: var(--radius-sm); min-width: 4px; max-width: 100%; }
+/* Radius */
+.ks-radius-grid { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+.ks-radius-item { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; font-size: var(--text-xs); color: var(--color-text-muted); }
+.ks-radius-box { width: 60px; height: 60px; background: var(--color-accent-soft); border: 2px solid var(--color-accent); }
+/* Type */
+.ks-type-stack { display: flex; flex-direction: column; gap: 0.75rem; }
+.ks-type-row { display: flex; align-items: baseline; gap: 1rem; }
+.ks-token-name { font-size: 0.625rem; font-family: var(--font-mono); color: var(--color-text-muted); white-space: nowrap; min-width: 120px; }
+.ks-weight-grid { display: flex; flex-direction: column; gap: 0.5rem; font-size: var(--text-lg); color: var(--color-text-primary); }
+.ks-prose-demo { padding: 1.5rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-xl); }
+/* Swatches */
+.ks-swatch-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.ks-swatch {
+  display: flex; align-items: flex-end; padding: 0.5rem;
+  width: 140px; height: 80px; border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  font-size: 0.5625rem; font-family: var(--font-mono); color: var(--color-text-secondary);
+}
+.ks-swatch--dark span { color: rgba(255,255,255,0.7); }
+/* Status badges */
+.ks-status { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.625rem; border-radius: 9999px; font-size: var(--text-xs); font-weight: var(--font-semibold); }
+.ks-status--green { background: var(--color-success-soft); color: var(--color-success); }
+.ks-status--yellow { background: var(--color-warning-soft); color: var(--color-warning); }
+.ks-status--red { background: var(--color-error-soft); color: var(--color-error); }
+.ks-status--blue { background: var(--color-info-soft); color: var(--color-info); }
+/* Forms */
+.ks-form-demo { max-width: 480px; display: flex; flex-direction: column; gap: 1.25rem; }
+.ks-form-states { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; }
+.ks-input--error { border-color: var(--color-error) !important; }
+.ks-field-error { font-size: var(--text-xs); color: var(--color-error); margin-top: 0.25rem; display: block; }
+/* Callouts */
+.ks-callout-grid { display: flex; flex-direction: column; gap: 0.75rem; }
+/* Cards */
+.ks-work-preview { display: flex; flex-wrap: wrap; gap: 1rem; }
+.ks-work-preview .home-work-card--cta { max-width: 340px; }
+.ks-metric-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+/* Shadows */
+.ks-shadow-grid { display: flex; flex-wrap: wrap; gap: 2rem; }
+.ks-shadow-box { width: 120px; height: 80px; background: var(--color-surface); border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-family: var(--font-mono); color: var(--color-text-muted); text-align: center; }
+/* Grid demo */
+.ks-grid-demo { max-width: 600px; }
+.ks-grid-placeholder { display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.5); font-size: var(--text-sm); font-weight: var(--font-semibold); }
+/* ── Accessibility section ─────────────────────────────────────────── */
+/* A11y badge pills */
+.ks-a11y-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 2rem; }
+.ks-a11y-legend-note { font-size: var(--text-xs); color: var(--color-text-muted); margin-left: 0.25rem; }
+.ks-a11y-badge {
+  display: inline-flex; align-items: center;
+  padding: 0.2rem 0.55rem; border-radius: var(--radius-full);
+  font-size: 0.625rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  white-space: nowrap;
+}
+.ks-a11y-badge--aaa  { background: #05603a; color: #d1fae5; }
+.ks-a11y-badge--aa   { background: #1e40af; color: #dbeafe; }
+.ks-a11y-badge--aa-lg{ background: #5b21b6; color: #ede9fe; }
+.ks-a11y-badge--fail { background: #991b1b; color: #fee2e2; }
+/* Contrast grid */
+.ks-contrast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.ks-contrast-grid--semantic {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+/* Contrast card */
+.ks-contrast-card {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.ks-contrast-card--warn {
+  border-color: #fca5a5;
+  outline: 1.5px solid #fca5a5;
+}
+.ks-contrast-card--dark-sample {
+  background: #090e1a !important;
+  border-color: #1e2d45;
+}
+.ks-contrast-card__preview {
+  flex: 1;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 1.25rem 1rem 1rem;
+  gap: 0.25rem;
+  min-height: 90px;
+}
+.ks-contrast-sample-lg { font-size: 2rem; font-weight: 700; line-height: 1; }
+.ks-contrast-sample-sm { font-size: 0.75rem; line-height: 1.5; }
+.ks-contrast-card__meta {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem;
+  padding: 0.5rem 1rem;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface-subtle);
+  font-size: 0.5625rem;
+  color: var(--color-text-muted);
+}
+.ks-contrast-card--dark-sample .ks-contrast-card__meta {
+  background: #111827;
+  border-top-color: #1e2d45;
+}
+.ks-contrast-card__meta code {
+  font-size: 0.5625rem; font-family: var(--font-mono);
+  background: transparent; padding: 0; border: none;
+  color: inherit;
+}
+.ks-on { color: var(--color-text-muted); padding: 0 0.15rem; }
+.ks-hex { display: block; width: 100%; margin-top: 0.1rem; font-size: 0.5rem; opacity: 0.7; }
+.ks-contrast-card__footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface-subtle);
+}
+.ks-contrast-card--dark-sample .ks-contrast-card__footer {
+  background: #111827;
+  border-top-color: #1e2d45;
+}
+.ks-ratio {
+  font-size: 0.875rem; font-weight: 700;
+  color: var(--color-text-primary); font-family: var(--font-mono);
+}
+.ks-contrast-card__note {
+  font-size: 0.625rem; margin: 0;
+  padding: 0.5rem 1rem;
+  background: #fef2f2; color: #991b1b;
+  border-top: 1px solid #fecaca;
+  line-height: 1.5;
+}
+.ks-contrast-card__note code {
+  font-size: 0.5625rem; font-family: var(--font-mono);
+}
+/* Do / Don't */
+.ks-do-dont-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+.ks-do-card { display: flex; flex-direction: column; gap: 0.625rem; }
+.ks-do-card__label {
+  font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-sm); display: inline-flex; width: fit-content;
+}
+.ks-do-card__label--do   { background: #dcfce7; color: #166534; }
+.ks-do-card__label--dont { background: #fee2e2; color: #991b1b; }
+.ks-do-card__example { border: 1px solid var(--color-border); }
+.ks-do-card__desc { font-size: var(--text-xs); color: var(--color-text-secondary); margin: 0; line-height: 1.6; }
+.ks-do-card__desc code { font-size: 0.5625rem; font-family: var(--font-mono); background: var(--color-surface-subtle); padding: 0.1em 0.3em; border-radius: 3px; }
+/* Focus ring demo */
+.ks-focus-demo {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem;
+  padding: 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  margin-bottom: 1rem;
+}
+.ks-focus-force {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+.ks-focus-spec {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.625rem;
+}
+.ks-focus-spec__item {
+  display: flex; gap: 0.5rem; align-items: baseline;
+  font-size: var(--text-xs);
+}
+.ks-focus-spec__label { color: var(--color-text-muted); white-space: nowrap; min-width: 80px; }
+.ks-focus-spec__value { font-family: var(--font-mono); color: var(--color-text-primary); font-size: 0.625rem; }
+</style>
+{{ end }}

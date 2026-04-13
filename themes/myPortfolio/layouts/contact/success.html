@@ -1,0 +1,55 @@
+{{/*
+  Contact Success Page
+  ──────────────────────────────────────────────────────────────────────────────
+  Confirmation page shown after a successful form submission.
+  Rendered for: content/contact/success.md  (type: contact, layout: success)
+
+  Noindex is driven by `robots: "noindex"` in the front matter; baseof.html
+  reads .Params.robots and overrides the environment default robots meta.
+
+  Non-JS fallback: Netlify redirects here after POST.
+  JS path: inline success feedback shown in the form — this page not visited.
+*/}}
+{{ define "main" }}
+<div class="contact-success-page">
+
+  {{/* ── Page hero ── */}}
+  <section class="page-hero">
+    <div class="container">
+      {{ partial "breadcrumb.html" . }}
+    </div>
+  </section>
+
+  {{/* ── Confirmation card ── */}}
+  <section class="contact-success">
+    <div class="contact-success__card">
+
+      <span class="contact-success__icon" aria-hidden="true">
+        <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      </span>
+
+      <h1 class="contact-success__heading">
+        {{ .Params.heading | default "Message sent!" }}
+      </h1>
+
+      <p class="contact-success__body">
+        {{ .Params.description | default "Thanks for reaching out. I'll get back to you within one business day." }}
+      </p>
+
+      <a href="/contact/" class="contact-success__back">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        Back to contact
+      </a>
+
+    </div>
+  </section>
+
+</div>
+{{ end }}

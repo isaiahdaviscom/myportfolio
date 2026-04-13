@@ -1,24 +1,33 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://isaiahdavis.com/'
 languageCode = 'en-US'
-title = 'Isaiah Davis - My Portfolio'
+title = 'Isaiah Davis - Portfolio'
 theme = 'myPortfolio'
 
-[[menus.main]]
-name = 'Home'
-pageRef = '/'
-weight = 10
+[params]
+  description = "Personal portfolio website for Isaiah Davis. Showcasing projects, blog posts, and contact information."
+  author = "Isaiah Davis"
 
-[[menus.main]]
-name = 'Posts'
-pageRef = '/posts'
-weight = 20
+# [[menus.main]]
+# name = 'Home'
+# pageRef = '/'
+# weight = 10
 
-[[menus.main]]
-name = 'Tags'
-pageRef = '/tags'
-weight = 30
+# [[menus.main]]
+# name = 'Portfolio'
+# pageRef = '/portfolio'
+# weight = 15
 
-[module]
-  [module.hugoVersion]
-    extended = false
-    min = "0.116.0"
+# [[menus.main]]
+# name = 'Blog'
+# pageRef = '/posts'
+# weight = 20
+
+# [[menus.main]]
+# name = 'About'
+# pageRef = '/about'
+# weight = 30
+
+# [[menus.main]]
+# name = 'Contact'
+# pageRef = '/contact'
+# weight = 40

@@ -1,0 +1,90 @@
+{{- /*
+  Version badge SVG template
+  ──────────────────────────────────────────────────────────────────────────
+  Output:   public/badges/version.svg  →  URL /badges/version.svg
+  Usage:    README.md  – ![Version](https://isaiahdavis.com/badges/version.svg)
+            Website    – <img src="/badges/version.svg" alt="v{{ site.Params.version }}">
+            Partial    – {{ partial "version-badge.html" . }}  (inline HTML version)
+
+  Design:   Flat-square shield. Left seg = label on dark navy. Right seg =
+            version on accent blue. Standard 20 px height; width is dynamic.
+            Font: DejaVu Sans (best SVG rendering across GitHub, browsers, mail).
+  ────────────────────────────────────────────────────────────────────────── */}}
+{{- $ver   := site.Params.version | default "1.0.0" -}}
+{{- $vText := printf "v%s" $ver -}}
+{{- /* ── Width calculation ────────────────────────────────────────────────
+     Estimated Verdana/DejaVu char widths (tenths of a px) for badge sizing.
+     Left label "version" is fixed 7 chars — computed once as a constant.
+     Right value is dynamic.  Using 68 tenths/char (~6.8 px) + 16 px padding.
+     ───────────────────────────────────────────────────────────────────── */}}
+{{- $cw     := 68 -}}
+{{- $leftW  := 65 -}}
+{{- $rightW := add (div (mul (len $vText) $cw) 10) 16 -}}
+{{- $totalW := add $leftW $rightW -}}
+{{- $lCx    := div $leftW 2 -}}
+{{- $rCx    := add $leftW (div $rightW 2) -}}
+{{- $lTLen  := sub $leftW 18 -}}
+{{- $rTLen  := sub $rightW 14 -}}
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="{{ $totalW }}" height="20"
+     viewBox="0 0 {{ $totalW }} 20"
+     role="img"
+     aria-label="version: {{ $ver }}">
+  <title>version: {{ $ver }}</title>
+  <defs>
+    <!--
+      Subtle top-to-bottom gradient overlay — adds just enough
+      depth to look crafted without being skeuomorphic.
+    -->
+    <linearGradient id="vbShine" x2="0" y2="100%">
+      <stop offset="0"   stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="1"   stop-color="#000000" stop-opacity="0.08"/>
+    </linearGradient>
+    <!-- Rounded-corner clip path for the whole badge -->
+    <clipPath id="vbClip">
+      <rect width="{{ $totalW }}" height="20" rx="3" fill="#fff"/>
+    </clipPath>
+  </defs>
+
+  <!-- ── Colour blocks (clipped to rounded pill) ── -->
+  <g clip-path="url(#vbClip)">
+    <!-- Left: label — very dark navy, matches site header feel -->
+    <rect width="{{ $leftW }}"  height="20" fill="#0d1117"/>
+    <!-- Hairline separator -->
+    <rect x="{{ $leftW }}" width="1" height="20" fill="#1e2d45"/>
+    <!-- Right: value — site accent blue -->
+    <rect x="{{ add $leftW 1 }}" width="{{ sub $rightW 1 }}" height="20" fill="#4d8dff"/>
+    <!-- Gloss overlay — same width as total -->
+    <rect width="{{ $totalW }}" height="20" fill="url(#vbShine)"/>
+  </g>
+
+  <!-- ── Text ────────────────────────────────────────────────────────────── -->
+  <!--
+    Two-pass rendering: first a dark shadow (slight Y offset, low opacity)
+    then the white foreground text. This matches the GitHub badge standard
+    and ensures legibility on any background in README previews.
+  -->
+  <g font-family="'DejaVu Sans','Verdana','Geneva',sans-serif"
+     font-size="11"
+     text-anchor="middle">
+
+    <!-- Shadow pass -->
+    <text x="{{ $lCx }}" y="15"
+          fill="#000000" fill-opacity="0.22"
+          textLength="{{ $lTLen }}" lengthAdjust="spacingAndGlyphs">version</text>
+    <text x="{{ $rCx }}" y="15"
+          fill="#000000" fill-opacity="0.22"
+          textLength="{{ $rTLen }}" lengthAdjust="spacingAndGlyphs">{{ $vText }}</text>
+
+    <!-- Foreground pass -->
+    <text x="{{ $lCx }}" y="14"
+          fill="#ffffff" fill-opacity="0.9"
+          textLength="{{ $lTLen }}" lengthAdjust="spacingAndGlyphs">version</text>
+    <text x="{{ $rCx }}" y="14"
+          fill="#ffffff"
+          font-weight="600"
+          textLength="{{ $rTLen }}" lengthAdjust="spacingAndGlyphs">{{ $vText }}</text>
+
+  </g>
+</svg>

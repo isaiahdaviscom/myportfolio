@@ -1,0 +1,60 @@
+{{- /*
+  storybook-link shortcode
+  ========================
+  Renders a "View in Storybook" reference card from within any content page.
+
+  Params:
+    story       (required) Storybook story ID, e.g. components-badge--default
+    title       (required) Display name of the component / story
+    description (optional) One-sentence description shown below the title
+    section     (optional) Section label, e.g. "Components" or "Pages"
+
+  Behaviour:
+    • When site.Params.storybookBaseURL is set (development config):
+        → renders a clickable link to the live story at that base URL
+    • When storybookBaseURL is empty (production config):
+        → renders a "run locally" hint instead
+
+  Configuration (config.development.toml):
+    [params]
+      storybookBaseURL = "http://localhost:6006"
+
+  Usage:
+    {{< storybook-link
+        story="components-badge--default"
+        title="Badge Component"
+        description="Token-driven color, semantic naming, and pill shape."
+        section="Components"
+    >}}
+*/ -}}
+
+{{- $story   := .Get "story" -}}
+{{- $title   := .Get "title" -}}
+{{- $desc    := .Get "description" | default "" -}}
+{{- $section := .Get "section" | default "" -}}
+{{- $sbBase  := site.Params.storybookBaseURL | default "" -}}
+{{- $href    := "" -}}
+{{- if $sbBase -}}
+  {{- $href = printf "%s/?path=/story/%s" (strings.TrimRight "/" $sbBase) $story -}}
+{{- end -}}
+
+<aside class="sb-callout" aria-label="{{ $title }} — Storybook reference">
+  <div class="sb-callout__inner">
+    <div class="sb-callout__head">
+      <span class="sb-callout__logo" aria-hidden="true">Storybook</span>
+      {{- if $section -}}<span class="sb-callout__section">{{ $section }}</span>{{- end -}}
+    </div>
+    <p class="sb-callout__title">{{ $title }}</p>
+    {{- if $desc -}}<p class="sb-callout__desc">{{ $desc }}</p>{{- end -}}
+    <div class="sb-callout__action">
+      {{- if $href -}}
+      <a class="sb-callout__link"
+         href="{{ $href }}"
+         target="_blank"
+         rel="noopener noreferrer">Explore in Storybook <span aria-hidden="true">→</span></a>
+      {{- else -}}
+      <span class="sb-callout__hint">Run <code>pf serve --storybook</code> then visit <code>localhost:6006</code> to explore this component live.</span>
+      {{- end -}}
+    </div>
+  </div>
+</aside>

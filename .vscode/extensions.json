@@ -1,0 +1,82 @@
+{
+  // ── VS Code Extension Recommendations for myportfolio ─────────────────────
+  // Run "Extensions: Show Recommended Extensions" to install all at once.
+  "recommendations": [
+
+    // ── Hugo ──────────────────────────────────────────────────────────────
+    // Hugo language support: syntax highlight, snippets, multi-root aware
+    "budparr.language-hugo-vscode",
+    // Better TOML for hugo.toml / config.*.toml
+    "tamasfe.even-better-toml",
+
+    // ── CSS / Tailwind ────────────────────────────────────────────────────
+    // Tailwind CSS IntelliSense: class autocomplete, hover docs, linting
+    "bradlc.vscode-tailwindcss",
+    // PostCSS syntax support (src/css/*.css)
+    "csstools.postcss",
+    // Stylelint integration (npm run lint:css)
+    "stylelint.vscode-stylelint",
+    // Highlights hex/rgb/hsl color values inline
+    "naumovs.color-highlight",
+
+    // ── Formatting ────────────────────────────────────────────────────────
+    // Prettier: formats JS, CSS, JSON, YAML, Markdown (npm run format)
+    "esbenp.prettier-vscode",
+    // ESLint integration (npm run lint:js)
+    "dbaeumer.vscode-eslint",
+
+    // ── Markdown / Content ────────────────────────────────────────────────
+    // All-in-one Markdown: preview, ToC, keyboard shortcuts, paste images
+    "yzhang.markdown-all-in-one",
+    // Markdownlint: enforces .markdownlint.json rules (npm run lint:md)
+    "davidanson.vscode-markdownlint",
+
+    // ── Git & GitHub ──────────────────────────────────────────────────────
+    // GitLens: blame, history, interactive rebase, code authorship
+    "eamodio.gitlens",
+    // GitHub Actions: workflow file validation, run status
+    "github.vscode-github-actions",
+    // GitHub Pull Requests & Issues
+    "github.vscode-pull-request-github",
+
+    // ── Editor Productivity ───────────────────────────────────────────────
+    // Auto Rename Tag: rename matching HTML/Hugo tag automatically
+    "formulahendry.auto-rename-tag",
+    // Error Lens: inline errors/warnings at end of line (no panel needed)
+    "usernamehw.errorlens",
+    // Code Spell Checker: catches typos in templates, markdown, CSS
+    "streetsidesoftware.code-spell-checker",
+    // Indent Rainbow: colour-codes indentation depth
+    "oderwat.indent-rainbow",
+    // Path Intellisense: autocomplete file paths in HTML/JSON/YAML
+    "christian-kohler.path-intellisense",
+    // Project Manager: switch between projects instantly
+    "alefragnani.project-manager",
+    // TODO Highlight: surface TODO/FIXME/HACK markers
+    "wayou.vscode-todo-highlight",
+
+    // ── YAML / JSON ───────────────────────────────────────────────────────
+    // YAML language support (netlify.toml, admin/config.yml)
+    "redhat.vscode-yaml",
+
+    // ── Shell / PowerShell ────────────────────────────────────────────────
+    // PowerShell language support (scripts/*.ps1, cli.js shell interop)
+    "ms-vscode.powershell",
+
+    // ── Browser & Preview ─────────────────────────────────────────────────
+    // Live Server: local static preview of /public (8080)
+    "ritwickdey.liveserver",
+
+    // ── AI ────────────────────────────────────────────────────────────────
+    // GitHub Copilot: AI code completions
+    "github.copilot",
+    // GitHub Copilot Chat: AI chat sidebar (current tool)
+    "github.copilot-chat"
+  ],
+
+  // Extensions that should NOT be recommended (already handled differently
+  // or cause conflicts with the Hugo language mode).
+  "unwantedRecommendations": [
+    "ms-vscode.html-language-features"
+  ]
+}

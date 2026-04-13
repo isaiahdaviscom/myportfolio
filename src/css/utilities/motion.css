@@ -1,0 +1,122 @@
+/*
+  MOTION & SCROLL ENHANCEMENTS
+  ═══════════════════════════════════════════════════════════════════════════
+  Deliberately unlayered — these rules need to beat @layer overrides.
+
+  Sections:
+    1. Smooth scroll
+    2. Anchor scroll offset  (sticky-header clearance)
+    3. Text selection colour
+    4. Custom scrollbar
+    5. Focus-visible ring
+    6. Section / card reveal  (IntersectionObserver drives .is-visible)
+  ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. SMOOTH SCROLL ──────────────────────────────────────────────────────
+   CSS-native smooth scrolling. The reduced-motion media query in tokens.css
+   zeros --duration-* tokens; mirror the same intent here for scroll.       */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ── 2. ANCHOR SCROLL OFFSET ───────────────────────────────────────────────
+   When the browser jumps to an anchor (#section-id), the sticky header
+   (~64px) would occlude the target. scroll-margin-top adds breathing room
+   above every element that could be an anchor target.                       */
+[id] {
+  scroll-margin-top: 5.5rem; /* header height (~64px) + 24px breathing */
+}
+
+/* ── 3. TEXT SELECTION ────────────────────────────────────────────────────
+   Brand-coloured highlight — consistent with accent system.                */
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-text-invert);
+  text-shadow: none;
+}
+
+[data-theme='dark'] ::selection {
+  background-color: var(--color-accent); /* stays brand blue; legible on dark */
+  color: var(--color-text-invert);
+}
+
+/* ── 4. CUSTOM SCROLLBAR ──────────────────────────────────────────────────
+   Thin accent-tinted scrollbar. Webkit (Chrome/Edge/Safari) + standards.  */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: var(--radius-full);
+  transition: background var(--duration-base) var(--ease-in-out);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+/* ── 5. FOCUS-VISIBLE RING ────────────────────────────────────────────────
+   Single canonical focus style. Replaces browser defaults + any scattered
+   outline: none rules. Uses the accent colour so focus is always brand-on. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* Strip outline for mouse/touch interactions; keep it for keyboard only.  */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ── 6. SECTION / CARD REVEAL ─────────────────────────────────────────────
+   Elements tagged [data-reveal] start hidden and translate up slightly.
+   IntersectionObserver in foot/js.html adds .is-visible when they scroll
+   into the viewport — triggering the transition.
+
+   Reduced-motion: skip translate & opacity transitions completely;
+   elements are immediately visible (JS still adds .is-visible but CSS
+   treats it as a no-op due to 0ms duration token overrides).              */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+
+  /* Staggered siblings — JS sets --reveal-order on each card automatically */
+  transition-delay: calc(var(--reveal-order, 0) * 70ms);
+  will-change: opacity, transform;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

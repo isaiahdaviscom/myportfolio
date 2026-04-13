@@ -16,6 +16,9 @@ dist-ssr
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
 .idea
 .DS_Store
 *.suo
@@ -34,4 +37,25 @@ dist-ssr
 # public/
 /public
 
+# Chrome DevTools Automatic
+devtools.json
 
+# Chrome Debug Profile (for DevTools workspace)
+.chrome-debug-profile/
+
+# lighthouse
+.lighthouse/
+
+# Hugo build lock (generated, not needed in source control)
+.hugo_build.lock
+
+# Generated CSS/JS analysis reports
+css-cleanup-dryrun-report.json
+used-classes.json
+
+# Storybook static build output (generated — do not commit)
+storybook-static/
+
+scripts/
+# Local Netlify folder
+.netlify

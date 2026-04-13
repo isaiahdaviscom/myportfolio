@@ -1,0 +1,17 @@
+{{- /*
+  Case Study — Lessons Learned partial
+  ──────────────────────────────────────────────────────────────
+  Renders senior-level insight cards from .Params.lessons[]
+  Each item: { insight: string, detail: string }
+  Usage: {{ partial "cs-lessons.html" . }}
+*/}}
+{{- with .Params.lessons }}
+<div class="cs-lessons">
+  {{- range . }}
+  <div class="cs-lesson-card">
+    <p class="cs-lesson-card__insight">{{ .insight }}</p>
+    <p class="cs-lesson-card__detail">{{ .detail }}</p>
+  </div>
+  {{- end }}
+</div>
+{{- end }}

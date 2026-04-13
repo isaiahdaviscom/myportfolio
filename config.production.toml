@@ -1,0 +1,34 @@
+# Hugo configuration for production environment
+# This file overrides hugo.toml settings for production builds
+baseurl = "https://isaiahdavis.com"
+
+# Enable all content types for production
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
+# Enable SEO features for production
+[params]
+  noindex = false
+  environment = "production"
+  storybookBaseURL = ""
+  gtmId = "GTM-W3VQVDR"
+  # GTM environment auth (from GTM > Admin > Environments > Get snippet)
+  gtmAuth    = "GMsuu1ip1hXipaQfWCwZjg"
+  gtmPreview = "env-1"
+
+# Enable sitemap and RSS for production
+enableRobotsTXT = true
+
+# Populate <lastmod> in sitemap from git commit dates.
+enableGitInfo = true
+
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.8
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = false

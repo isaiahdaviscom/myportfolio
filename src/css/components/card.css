@@ -1,0 +1,164 @@
+/*
+  CARD COMPONENT WITH CONTAINER QUERIES (Site-Specific)
+  ====================================================== 
+  Purpose: Advanced responsive portfolio project cards
+  Location: src/css/components/card.css
+  Layer: @layer components (overridden by utilities)
+  
+  Features:
+  - CSS Container Queries for true component responsiveness
+  - Responsive typography using container query units (cqi)
+  - Image overlay with gradient for text readability
+  - Print optimization
+  
+  Standards:
+  - Uses modern CSS features (container queries)
+  - Responsive based on CONTAINER size, not viewport
+  - Maintains aspect ratio and accessibility
+  - Optimized for portfolio grid layouts
+  
+  Usage:
+  <a href="/project" class="card">
+    <picture>
+      <img src="project.jpg" alt="Project" />
+    </picture>
+    <div class="card-img-overlay">
+      <h3>Project Title</h3>
+      <p>Description</p>
+    </div>
+  </a>
+*/
+
+@layer components {
+  .card {
+    /* Core card structure */
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    aspect-ratio: 1/1;
+    height: auto;
+
+    /* Enable container queries - this is the key feature */
+    container: card / inline-size;
+  }
+
+  /* Remove link styling for card links */
+  a.card {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* ── Related-projects grid ───────────────────────────────────────────────
+     Three equal columns on md+; single column on sm. Each cell is a square
+     card inheriting all .card container-query styles above.               */
+  .related-projects__grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--grid-gap-sm); /* ½ col unit — between related project cards */
+  }
+
+  @media (max-width: 640px) {
+    .related-projects__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 900px) {
+    .related-projects__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Card sits inside the grid cell — inherit aspect-ratio from .card */
+  .related-projects__card {
+    display: block;
+    width: 100%;
+  }
+
+  /* Role label above title */
+  .related-projects__role {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 0.25em;
+    line-height: 1.2;
+  }
+
+  /* Override .card h3 cqi sizing — use a readable fixed size in the grid */
+  .related-projects__card .card-img-overlay h3.related-projects__title,
+  .related-projects__card h3.related-projects__title {
+    font-size: clamp(0.9rem, 4cqi, 1.4rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: white;
+    margin: 0 0 0.3em;
+  }
+
+  .related-projects__dates {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+    letter-spacing: 0.03em;
+  }
+
+  /* Hover: lift + tighten the overlay gradient */
+  .related-projects__card:hover picture::before {
+    background: linear-gradient(180deg, transparent 20%, rgba(0, 0, 0, 0.85) 100%);
+  }
+
+  /* ======================================
+     CONTAINER QUERY RESPONSIVE LAYOUT
+     ====================================== */
+
+  /* When card container is 300px+ wide, apply enhanced layout */
+  @container card (min-width: 300px) {
+    .card picture {
+      /* Full-size background image */
+      position: absolute;
+      inset: 0;
+    }
+
+    .card picture::before {
+      /* Overlay gradient for text readability */
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, transparent, #000);
+      z-index: 1;
+    }
+
+    .card .card-img-overlay {
+      /* Text content over image */
+      position: relative;
+      padding: 1em;
+      z-index: 2;
+
+      /* Position content at bottom */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 100%;
+    }
+
+    .card h3 {
+      /* Responsive typography using container query units */
+      font-size: 10cqi; /* 10% of container inline size */
+      font-weight: 300;
+      line-height: 10cqi;
+      margin: 0;
+      color: white;
+    }
+
+    .card p {
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0.5em 0 0;
+    }
+  }
+}

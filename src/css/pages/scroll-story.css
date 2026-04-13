@@ -1,0 +1,500 @@
+/* =============================================================
+   SCROLL STORY
+   Apple-inspired scroll-narrative layout for case study stories.
+   Scoped to .scroll-story-page body class + .ss-* prefixed components.
+   ============================================================= */
+
+/* ── Global overrides while scroll story is active ── */
+.scroll-story-page .site-header {
+  background: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  border-bottom-color: transparent;
+}
+
+.scroll-story-page .site-header a,
+.scroll-story-page .site-header button {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.scroll-story-page .site-header a:hover,
+.scroll-story-page .site-header button:hover {
+  color: #fff;
+}
+
+/* ── Progress bar ── */
+.ss-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: #4d8dff;
+  z-index: 1000;
+  transition: width 0.1s linear;
+  will-change: width;
+}
+
+/* ── Side nav dots ── */
+.ss-nav {
+  position: fixed;
+  right: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+@media (max-width: 640px) {
+  .ss-nav {
+    display: none;
+  }
+}
+
+.ss-nav__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.ss-nav__dot:hover {
+  background: rgba(255, 255, 255, 0.65);
+  transform: scale(1.25);
+}
+
+.ss-nav__dot.is-active {
+  background: #fff;
+  transform: scale(1.4);
+}
+
+/* ── Base chapter ── */
+.ss-chapter {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Chapter colour palettes */
+.ss-chapter--cover {
+  background: #040d1a;
+  background-image:
+    radial-gradient(ellipse 65% 80% at 75% 25%, rgba(77, 141, 255, 0.13) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 55% at 15% 85%, rgba(42, 100, 200, 0.07) 0%, transparent 60%);
+  color: #e8eef8;
+}
+
+.ss-chapter--slate {
+  background: #0a0f1a;
+  color: #d4dce8;
+}
+
+.ss-chapter--navy {
+  background: #050f20;
+  color: #c8d8f0;
+}
+
+.ss-chapter--dark {
+  background: #0d1117;
+  color: #d4dce8;
+}
+
+.ss-chapter--green {
+  background: #061209;
+  color: #b8d8c0;
+}
+
+.ss-chapter--purple {
+  background: #0f0815;
+  color: #d4c8e8;
+}
+
+/* ── Chapter inner containers ── */
+.ss-chapter__inner {
+  width: 100%;
+  max-width: 900px;
+  padding: 5rem 2rem;
+  margin: 0 auto;
+}
+
+.ss-chapter__inner--text {
+  max-width: 680px;
+}
+
+.ss-chapter__inner--metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+  padding-top: 6rem;
+}
+
+.ss-chapter__inner--outcome {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2.5rem;
+  padding-top: 8rem;
+}
+
+/* ── Reveal animation ── */
+.ss-reveal {
+  opacity: 0;
+  will-change: opacity, transform, filter;
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s),
+    filter 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s);
+}
+
+.ss-reveal--up {
+  transform: translateY(2rem);
+  filter: blur(4px);
+}
+
+.ss-reveal--fade {
+  transform: none;
+  filter: blur(3px);
+}
+
+.ss-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ss-reveal {
+    transition: opacity 0.3s ease var(--delay, 0s);
+    filter: none !important;
+    transform: none !important;
+  }
+}
+
+/* CSS-native scroll animation (progressive enhancement) */
+@supports (animation-timeline: scroll()) {
+  .ss-chapter__inner > .ss-reveal.is-visible {
+    animation: ss-fade-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 30%;
+  }
+}
+
+@keyframes ss-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Typography elements ── */
+.ss-eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.ss-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 1.25rem;
+}
+
+.ss-cover-title {
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: #fff;
+  margin: 0.5rem 0 1.25rem;
+}
+
+.ss-cover-tagline {
+  font-size: clamp(1.125rem, 3vw, 1.625rem);
+  font-weight: 400;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.62);
+  margin-bottom: 2.5rem;
+}
+
+.ss-headline {
+  font-size: clamp(2rem, 6vw, 4.25rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: #fff;
+  margin: 0 0 1.5rem;
+}
+
+.ss-body {
+  font-size: clamp(1rem, 2vw, 1.1875rem);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 55ch;
+  margin: 0 0 1.25rem;
+}
+
+/* ── Cover interactive elements ── */
+.ss-cover-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #4d8dff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(77, 141, 255, 0.35);
+  padding-bottom: 0.1rem;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.ss-cover-link:hover {
+  color: #7aadff;
+  border-color: rgba(122, 173, 255, 0.6);
+}
+
+/* Scroll hint */
+.ss-scroll-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 4rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.ss-scroll-dot {
+  animation: ss-scroll-bounce 1.8s ease-in-out infinite;
+}
+
+@keyframes ss-scroll-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(6px);
+    opacity: 0.4;
+  }
+}
+
+/* ── Metric chapters ── */
+.ss-metric-context {
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  margin: 0;
+}
+
+.ss-metric-before {
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.18);
+  line-height: 1;
+  text-decoration: line-through;
+  text-decoration-color: rgba(255, 100, 100, 0.4);
+}
+
+.ss-metric-arrow {
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.ss-metric-number {
+  font-size: clamp(8rem, 22vw, 16rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: #fff;
+  text-align: center;
+}
+
+.ss-counter {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+.ss-metric-label {
+  font-size: clamp(1rem, 2.5vw, 1.375rem);
+  color: rgba(255, 255, 255, 0.62);
+  text-align: center;
+  max-width: 38ch;
+  margin: 0;
+}
+
+.ss-metric-label strong {
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Chapter-specific metric accent colours */
+.ss-chapter--navy .ss-metric-number {
+  color: #7aadff;
+}
+
+.ss-chapter--green .ss-metric-number {
+  color: #6ee7a0;
+}
+
+.ss-chapter--purple .ss-metric-number {
+  color: #c4a8f5;
+}
+
+/* ── Stack badges row ── */
+.ss-stack-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* ── Timeline ── */
+.ss-timeline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-top: 0.5rem;
+  position: relative;
+}
+
+.ss-timeline::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.ss-timeline__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 80px;
+  padding-top: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.ss-timeline__num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.ss-timeline__label {
+  font-size: 0.6875rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.02em;
+}
+
+/* ── Accessibility badges row ── */
+.ss-a11y-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* ── Outcome chapter ── */
+.ss-outcome-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 480px;
+}
+
+@media (min-width: 640px) {
+  .ss-outcome-metrics {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 100%;
+  }
+}
+
+.ss-outcome-tile {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1.25rem 1rem;
+  text-align: center;
+}
+
+.ss-outcome-tile__value {
+  display: block;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.ss-outcome-tile__label {
+  display: block;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 0.4rem;
+}
+
+.ss-cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.ss-btn-outline {
+  color: rgba(255, 255, 255, 0.75);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.ss-btn-outline:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.5);
+}

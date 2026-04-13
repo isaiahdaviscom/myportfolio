@@ -1,163 +1,145 @@
-# Hugo and Tailwind CSS Project Setup
+# Hugo + Tailwind CSS Portfolio
 
-- [Hugo and Tailwind CSS Project Setup](#hugo-and-tailwind-css-project-setup)
-  - [Prerequisites](#prerequisites)
-  - [Initialize Hugo](#initialize-hugo)
-  - [Configure Hugo](#configure-hugo)
-    - [Create or Install a Theme](#create-or-install-a-theme)
-    - [Update Configuration](#update-configuration)
-    - [Content Creation](#content-creation)
-  - [Integrate Tailwind CSS](#integrate-tailwind-css)
-    - [Install Dependencies](#install-dependencies)
-    - [Configure Tailwind and PostCSS](#configure-tailwind-and-postcss)
-    - [Add Tailwind to Your CSS](#add-tailwind-to-your-css)
-    - [Build CSS with PostCSS](#build-css-with-postcss)
-    - [Automate During Development](#automate-during-development)
-    - [Link CSS in Hugo Layouts](#link-css-in-hugo-layouts)
-  - [Serve and Build the Site](#serve-and-build-the-site)
-  - [Conclusion](#conclusion)
+[![Version](https://isaiahdavis.com/badges/version.svg)](CHANGELOG.md)
+[![Hugo](https://img.shields.io/badge/Hugo-0.132+-FF4088?style=flat-square&logo=hugo)](https://gohugo.io)
+[![Netlify](https://img.shields.io/badge/Netlify-deployed-00C7B7?style=flat-square&logo=netlify)](https://myportfolio-develop.netlify.app)
+[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
 
-Here's a comprehensive README.md document that compiles all the instructions on how to set up a Hugo project, including how to add a custom theme and integrate Tailwind CSS:
+A modern, performance-optimized Hugo portfolio with comprehensive documentation and automated workflows.
 
-This guide provides detailed instructions on how to set up a Hugo static site with Tailwind CSS integrated, directly within an existing project directory.
+## 📖 **Documentation Hub**
 
-## Prerequisites
+This project features comprehensive documentation organized by topic and workflow:
 
-Before you start, you need to have Hugo and Node.js (with npm) installed on your system.
+### 🚀 **[Getting Started](docs/getting-started/)**
+- **[Project Overview](docs/getting-started/README.md)** - Main project documentation and setup
+- **[CLI Tools Setup](docs/getting-started/cli-setup.md)** - Custom development tools
+- **[Development Environment](docs/getting-started/devtools-setup.md)** - VS Code + Chrome DevTools
 
-- **Hugo**: [Installation Guide](https://gohugo.io/getting-started/installing/)
-- **Node.js and npm**: [Download Page](https://nodejs.org/)
+### 🌐 **[Deployment](docs/deployment/)**
+- **[Quick Start Guide](docs/deployment/netlify-quick-start.md)** - 5-minute Netlify deployment
+- **[GitHub Integration](docs/deployment/github-integration.md)** - Complete CI/CD automation
+- **[Multi-Environment Strategy](docs/deployment/multi-environment.md)** - Dev/staging/production workflow
 
-## Initialize Hugo
+### ⚙️ **[CI/CD Pipeline](docs/ci-cd/)**
+- **[Implementation Status](docs/ci-cd/implementation-status.md)** - Current CI/CD setup
+- **[Advanced Features](docs/ci-cd/advanced-features.md)** - Complete CI/CD guide
+- **[Future Enhancements](docs/ci-cd/future-enhancements.md)** - Next-generation features
 
-Navigate to your project directory and initialize a new Hugo site. This command will also force Hugo to create a new site even if files are already present in the directory.
+### 🛠️ **[Development](docs/development/)**
+- **[CSS Architecture](docs/development/css-architecture.md)** - Modular CSS with Tailwind
+- **[Performance Optimization](docs/development/css-optimization.md)** - Tree-shaking and optimization
+- **[SEO Protection](docs/development/seo-protection.md)** - Development environment safeguards
+- **[Versioning](docs/development/versioning.md)** - Version tracking and release workflow
 
-```bash
-hugo new site . --force
-```
+### 📝 **[Content Management](docs/content-management/)**
+- **[CMS Implementation](docs/content-management/cms-implementation.md)** - NetlifyCMS integration
+- **[CMS Usage Guide](docs/content-management/cms-usage-guide.md)** - Content workflow
 
-**Congratulations!** Your new Hugo site is now created in your current project directory.
+### 📋 **[Project Management](docs/project-management/)**
+- **[Development Journal](docs/project-management/journal.md)** - Project history and changes
+- **[Knowledge Base](docs/project-management/knowledge-base.md)** - Technical insights
 
-## Configure Hugo
+### 👥 **[Community](docs/community/)**
+- **[Contributing Guidelines](docs/community/contributing.md)** - How to contribute
+- **[Code of Conduct](docs/community/code-of-conduct.md)** - Community standards
 
-### Create or Install a Theme
+---
 
-- **Create a custom theme**:
-
-  ```bash
-  hugo new theme <THEMENAME>
-  ```
-
-  Replace `<THEMENAME>` with your desired theme name.
-
-- **Install a theme from Hugo themes gallery**:
-  [Hugo Themes](https://themes.gohugo.io/)
-
-### Update Configuration
-
-Set the theme in the `config.toml` file:
-
-```toml
-theme = "<THEMENAME>"
-```
-
-### Content Creation
-
-Create new content by specifying the section and filename:
+## ⚡ **Quick Start**
 
 ```bash
-hugo new content/<SECTIONNAME>/<FILENAME>.<FORMAT>
+# 1. Install dependencies
+npm install
+
+# 2. Start development server
+npm run start
+
+# 3. Access your site
+open http://localhost:1313
 ```
 
-## Integrate Tailwind CSS
+## 🎯 **Key Features**
 
-### Install Dependencies
+- ✅ **Modern Architecture**: Hugo + Tailwind CSS v4 + PostCSS
+- ✅ **Content Management**: NetlifyCMS with multi-environment support
+- ✅ **Performance Optimized**: CSS tree-shaking, image optimization
+- ✅ **Automated Deployment**: Netlify integration with CI/CD pipeline
+- ✅ **Developer Experience**: Hot reload, linting, formatting
+- ✅ **Comprehensive Documentation**: Organized guides for every aspect
 
-Install Tailwind CSS and its peer dependencies:
+## 📊 **Project Status**
 
-```bash
-npm install tailwindcss@latest postcss@latest autoprefixer@latest
-```
+| Component | Status | Documentation |
+|-----------|--------|---------------|
+| 🎨 **Frontend** | ✅ Complete | [Development Docs](docs/development/) |
+| 🚀 **Deployment** | ✅ Complete | [Deployment Guides](docs/deployment/) |
+| 📝 **CMS** | ✅ Complete | [Content Management](docs/content-management/) |
+| ⚙️ **CI/CD** | ✅ Complete | [CI/CD Pipeline](docs/ci-cd/) |
+| 📖 **Documentation** | ✅ Complete | [All Documentation](docs/) |
 
-### Configure Tailwind and PostCSS
+---
 
-Generate the Tailwind and PostCSS configuration files:
+**Need help?** Start with the [Documentation Hub](docs/README.md) for comprehensive guides and resources.
+- **Homepage:**  `content/_index.md`
+- **Portfolio:**  `content/portfolio/`
+- **Blog Posts:**  `content/posts/`
+- **Other Pages:**  `content/about.md`, `content/contact.md`, etc.
 
-```bash
-npx tailwindcss init -p
-```
+---
 
-Configure PurgeCSS in `tailwind.config.js` to remove unused styles:
+## 4. Customizing Layouts & Components (Theme)
+- **Main Layouts:**  `themes/myPortfolio/layouts/_default/`
+- **Homepage Layout:**  `themes/myPortfolio/layouts/_default/home.html`
+- **Partials:**  `themes/myPortfolio/layouts/partials/`
+- **Shortcodes:**  `themes/myPortfolio/layouts/shortcodes/`
 
-```javascript
-module.exports = {
-  purge: ['./layouts/**/*.html', './content/**/*.md'],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-```
+---
 
-### Add Tailwind to Your CSS
+## 5. Styling with Tailwind CSS
+- **Edit Tailwind source:**  `src/css/tailwind.css`
+- **Build CSS:**  `npm run build:css` (or `npm run watch` for auto-rebuild)
+- **Link CSS:**  Layouts include `/css/styles.css` from the `static/css/` directory.
 
-Create a CSS file at `assets/css/styles.css` and include Tailwind's directives:
+---
 
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
+## 6. Configuration
+- **Site-wide settings:**  `hugo.toml` (site title, theme, params, menus, etc.)
+- **Theme selection:**  Set `theme = "myPortfolio"` in `hugo.toml`.
+- **Menu:**  Define navigation in `hugo.toml` under `[[menus.main]]` and ensure referenced content files exist.
 
-### Build CSS with PostCSS
+---
 
-Update `package.json` to add scripts for building CSS:
+## 7. Theme vs. Project Customization
+- **To update the theme for all sites:** Edit files in `themes/myPortfolio/`.
+- **To override a theme template for this site only:** Copy the file from `themes/myPortfolio/layouts/` to `layouts/` in the project root and edit there.
+- **Static assets in `static/` at the project root override theme static assets of the same path.**
 
-```json
-"scripts": {
-  "build:css": "postcss assets/css/styles.css -o static/css/styles.css",
-  "watch:css": "postcss assets/css/styles.css -o static/css/styles.css --watch"
-}
-```
+---
 
-Build the CSS:
+## 8. Adding New Features
+- **New Section/Page:**  Add a Markdown file in `content/` and create/update a layout in `themes/myPortfolio/layouts/`.
+- **New Component:**  Add a partial in `themes/myPortfolio/layouts/partials/` and include it in layouts as needed.
+- **New Shortcode:**  Add to `themes/myPortfolio/layouts/shortcodes/` and use in Markdown as `{{< shortcode >}}`.
 
-```bash
-npm run build:css
-```
+---
 
-### Automate During Development
+## 9. Best Practices & Tips
+- **Keep theme and project customizations separate for easier upgrades.**
+- **Use shortcodes for reusable content blocks in Markdown.**
+- **Use partials for reusable layout components.**
+- **Keep the dev server running (`npm run start`) for rapid iteration.**
+- **Check the `public/` folder for build output, but do not edit it directly.**
 
-Automatically rebuild CSS on changes:
+---
 
-```bash
-npm run watch:css
-```
+## References
+- [Hugo Documentation](https://gohugo.io/documentation/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 
-### Link CSS in Hugo Layouts
+---
 
-Include the compiled CSS in your layouts:
+**Tip:**
+For rapid iteration, keep the dev server running (`npm run start`) and edit content, layouts, or styles. Hugo and Tailwind will auto-reload your changes.
 
-```html
-<link rel="stylesheet" href="{{ .Site.BaseURL }}css/styles.css">
-```
-
-## Serve and Build the Site
-
-Serve your site locally with Hugo's built-in server, which supports live reloading:
-
-```bash
-hugo server --buildDrafts
-```
-
-Build your site to generate the static files:
-
-```bash
-hugo
-```
-
-## Conclusion
-
-You now have a Hugo site integrated with Tailwind CSS ready for development. For more information on customization and advanced configurations, refer to the [Hugo documentation](https://gohugo.io/documentation/) and the [Tailwind CSS documentation](https://tailwindcss.com/docs).
-
-This README.md document serves as a complete guide to setting up a Hugo project with Tailwind CSS, tailored for rapid development and easy deployment. It covers every step from initial setup to development and build processes.
+---

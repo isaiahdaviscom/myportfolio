@@ -1,0 +1,98 @@
+{{- /*
+  tags/list.html — Taxonomy list page: all tags
+  URL: /tags/
+  Renders all tags grouped by category, with content counts.
+  Tag metadata is enriched from data/tags/{slug}.yaml.
+*/ -}}
+{{ define "main" }}
+
+{{- /* ── Category display config ── */}}
+{{- $categoryMeta := dict
+  "design"      (dict "label" "Design"      "icon" "🎨")
+  "ux"          (dict "label" "UX"          "icon" "🔬")
+  "engineering" (dict "label" "Engineering" "icon" "⚙️")
+  "tools"       (dict "label" "Tools"       "icon" "🛠")
+  "process"     (dict "label" "Process"     "icon" "📋")
+}}
+{{- $categoryOrder := slice "design" "ux" "engineering" "tools" "process" }}
+
+{{- /* ── Hero ── */}}
+<section class="page-hero">
+  <div class="container">
+    {{ partial "breadcrumb.html" . }}
+    <div class="mt-6">
+      <h1 class="page-h1 mb-2">Topics</h1>
+      <p class="blog-list__intro">
+        Browse all {{ len .Data.Terms }} topics across blog posts and portfolio projects.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="tag-index">
+  <div class="container">
+
+    {{- /* ── Build a category → terms map using the data registry ── */}}
+    {{- $termsByCategory := dict }}
+    {{- range $term := .Data.Terms.ByCount }}
+      {{- $slugKey  := $term.Page.Slug }}
+      {{- $tagData  := index site.Data.tags $slugKey }}
+      {{- $category := "other" }}
+      {{- if $tagData }}{{ $category = $tagData.category }}{{ end }}
+      {{- $existing := index $termsByCategory $category | default (slice) }}
+      {{- $termsByCategory = merge $termsByCategory (dict $category (append $term $existing)) }}
+    {{- end }}
+
+    {{- /* ── Render governed categories in order ── */}}
+    {{- range $catKey := $categoryOrder }}
+      {{- $terms := index $termsByCategory $catKey }}
+      {{- if $terms }}
+      {{- $meta := index $categoryMeta $catKey }}
+      <div class="tag-index__group">
+        <h2 class="tag-index__group-heading">
+          <span aria-hidden="true">{{ $meta.icon }}</span>
+          {{ $meta.label }}
+        </h2>
+        <ul class="tag-index__list" role="list">
+          {{- range $terms }}
+          {{- $slugKey := .Page.Slug }}
+          {{- $tagData := index site.Data.tags $slugKey }}
+          <li class="tag-index__item">
+            <a href="{{ .Page.RelPermalink }}" class="tag-index__link">
+              <span class="tag-index__name">{{ .Page.Title }}</span>
+              <span class="tag-index__count" aria-label="{{ .Count }} items">{{ .Count }}</span>
+            </a>
+            {{- if $tagData }}
+            <p class="tag-index__desc">{{ $tagData.description }}</p>
+            {{- end }}
+          </li>
+          {{- end }}
+        </ul>
+      </div>
+      {{- end }}
+    {{- end }}
+
+    {{- /* ── Any tags not in the governed registry (legacy / ungoverned) ── */}}
+    {{- $other := index $termsByCategory "other" }}
+    {{- if $other }}
+    <div class="tag-index__group tag-index__group--other">
+      <h2 class="tag-index__group-heading">
+        <span aria-hidden="true">🏷</span>
+        Other
+      </h2>
+      <ul class="tag-index__list" role="list">
+        {{- range $other }}
+        <li class="tag-index__item">
+          <a href="{{ .Page.RelPermalink }}" class="tag-index__link">
+            <span class="tag-index__name">{{ .Page.Title }}</span>
+            <span class="tag-index__count" aria-label="{{ .Count }} items">{{ .Count }}</span>
+          </a>
+        </li>
+        {{- end }}
+      </ul>
+    </div>
+    {{- end }}
+
+  </div>
+</section>
+{{ end }}

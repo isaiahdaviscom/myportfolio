@@ -1,0 +1,111 @@
+{{- /*
+  tags/term.html — Individual tag term page
+  URL: /tags/{slug}/
+  Renders all posts and portfolio projects tagged with this term.
+  Tag metadata (category, description) enriched from data/tags/{slug}.yaml.
+*/ -}}
+{{ define "main" }}
+
+{{- $slug    := .Page.Slug }}
+{{- $tagData := index site.Data.tags $slug }}
+
+{{- /* ── Partition pages by section ── */}}
+{{- $posts    := where .Pages "Section" "posts" }}
+{{- $projects := where .Pages "Section" "portfolio" }}
+
+{{- /* ── Hero ── */}}
+<section class="page-hero">
+  <div class="container">
+    {{ partial "breadcrumb.html" . }}
+    <div class="tag-hero__body">
+      {{- if $tagData }}
+      <p class="tag-hero__category">{{ $tagData.category | title }}</p>
+      {{- end }}
+      <h1 class="page-h1 tag-hero__title">{{ .Title }}</h1>
+      {{- if $tagData }}
+      <p class="tag-hero__description">{{ $tagData.description }}</p>
+      {{- end }}
+      <p class="tag-hero__count">
+        {{ len .Pages }} {{ if eq (len .Pages) 1 }}item{{ else }}items{{ end }}
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="tag-content">
+  <div class="container">
+
+    {{- /* ── Portfolio projects ── */}}
+    {{- if $projects }}
+    <section class="tag-section">
+      <h2 class="tag-section__heading">
+        Portfolio
+        <span class="tag-section__count">{{ len $projects }}</span>
+      </h2>
+      <div class="tag-projects-grid">
+        {{- range $projects }}
+        <a href="{{ .RelPermalink }}" class="tag-project-card">
+          {{- with .Params.cover }}
+          <div class="tag-project-card__cover">
+            <img src="{{ . }}" alt="{{ $.Title }}" width="480" height="320" loading="lazy">
+          </div>
+          {{- else }}
+          <div class="tag-project-card__cover tag-project-card__cover--empty"></div>
+          {{- end }}
+          <div class="tag-project-card__body">
+            {{- with .Params.client }}
+            <p class="tag-project-card__client">{{ . }}</p>
+            {{- end }}
+            <h3 class="tag-project-card__title">{{ .Title }}</h3>
+            {{- with .Params.dates }}
+            <p class="tag-project-card__year">{{ . }}</p>
+            {{- end }}
+          </div>
+        </a>
+        {{- end }}
+      </div>
+    </section>
+    {{- end }}
+
+    {{- /* ── Blog posts ── */}}
+    {{- if $posts }}
+    <section class="tag-section">
+      <h2 class="tag-section__heading">
+        Blog posts
+        <span class="tag-section__count">{{ len $posts }}</span>
+      </h2>
+      <div class="blog-list__grid">
+        {{- range $posts.ByDate.Reverse }}
+        <article class="blog-card">
+          {{- with .Params.cover }}
+          <a href="{{ .RelPermalink }}" tabindex="-1" aria-hidden="true">
+            <img src="{{ . }}" alt="{{ .Title }}" class="blog-card__cover"
+                 width="514" height="160" loading="lazy">
+          </a>
+          {{- end }}
+          <div class="blog-card__body">
+            <h3 class="blog-card__title">
+              <a href="{{ .RelPermalink }}" class="blog-card__title-link">{{ .Title }}</a>
+            </h3>
+            <time class="blog-card__date" datetime="{{ .Date.Format "2006-01-02" }}">
+              {{ time.Format ":date_long" .Date }}
+            </time>
+            <p class="blog-card__summary">
+              {{ with .Params.description }}{{ . }}{{ else }}{{ .Summary | truncate 120 }}{{ end }}
+            </p>
+          </div>
+        </article>
+        {{- end }}
+      </div>
+    </section>
+    {{- end }}
+
+    {{- /* ── Empty state ── */}}
+    {{- if not .Pages }}
+    <p class="tag-empty">No content tagged with "{{ .Title }}" yet.</p>
+    {{- end }}
+
+  </div>
+</div>
+
+{{ end }}

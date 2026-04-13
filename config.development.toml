@@ -1,0 +1,28 @@
+# Hugo configuration for development environment
+# This file overrides hugo.toml settings for development builds
+
+baseURL = "https://myportfolio-develop.netlify.app"
+
+# Disable features for development
+disableKinds = ["robotsTXT", "RSS"]
+
+# Enable development features
+buildDrafts = true
+buildFuture = true
+buildExpired = true
+
+# SEO protection for development
+[params]
+  noindex = true
+  environment = "development"
+  storybookBaseURL = "http://localhost:6006"
+  # GTM — Development environment (Netlify preview)
+  # Credentials from: GTM → Admin → Environments → Development → Actions → Get snippet
+  gtmId      = "GTM-W3VQVDR"
+  gtmAuth    = "6UN9jq3VJFKVhPybI-zE2g"
+  gtmPreview = "env-26"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

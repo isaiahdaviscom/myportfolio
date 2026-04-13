@@ -1,0 +1,127 @@
+{{- /*
+  Figma Prototype Embed
+  ──────────────────────────────────────────────────────────────────────────────
+  Renders a collapsible "Live Prototype" section on case study pages.
+  Only renders when `figma_embed` is set and non-empty in page front matter.
+
+  Front matter keys:
+    figma_embed  (required) — Figma embed URL:
+                   https://www.figma.com/embed?embed_host=share&url=...
+    figma_title  (optional) — accessible iframe title, defaults to page title.
+    figma_height (optional) — iframe height in px, defaults to 640.
+
+  Behaviour:
+    • Collapsed by default — no iframe is loaded until the user expands.
+    • JS lazily sets iframe `src` on first open to avoid blocking page load.
+    • Falls back gracefully when JS is disabled (<noscript> deep-link).
+
+  Placement: inserted between the hero header and the prose body section.
+*/}}
+{{- with .Params.figma_embed }}
+{{- $title  := $.Params.figma_title  | default (printf "%s — Figma Prototype" $.Title) }}
+{{- $height := $.Params.figma_height | default 640 }}
+
+<section class="cs-section cs-figma" aria-label="Live Prototype">
+  <div class="cs-container">
+
+    <details class="cs-figma__details" data-figma-lazy data-figma-src="{{ . }}">
+
+      <summary class="cs-figma__summary">
+        <span class="cs-figma__summary-left">
+          {{/* Figma wordmark icon */}}
+          <span class="cs-figma__icon" aria-hidden="true">
+            <svg width="14" height="20" viewBox="0 0 38 57" fill="none"
+                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M19 28.5C19 23.25 23.25 19 28.5 19C33.75 19 38 23.25 38 28.5C38 33.75 33.75 38 28.5 38C23.25 38 19 33.75 19 28.5Z" fill="#1ABCFE"/>
+              <path d="M0 47.5C0 42.25 4.25 38 9.5 38H19V47.5C19 52.75 14.75 57 9.5 57C4.25 57 0 52.75 0 47.5Z" fill="#0ACF83"/>
+              <path d="M19 0V19H28.5C33.75 19 38 14.75 38 9.5C38 4.25 33.75 0 28.5 0H19Z" fill="#FF7262"/>
+              <path d="M0 9.5C0 14.75 4.25 19 9.5 19H19V0H9.5C4.25 0 0 4.25 0 9.5Z" fill="#F24E1E"/>
+              <path d="M0 28.5C0 33.75 4.25 38 9.5 38H19V19H9.5C4.25 19 0 23.25 0 28.5Z" fill="#A259FF"/>
+            </svg>
+          </span>
+          <span class="cs-figma__label">Live Prototype</span>
+          <span class="cs-figma__badge">Figma</span>
+        </span>
+        <span class="cs-figma__summary-right">
+          <span class="cs-figma__hint">Click to expand</span>
+          <svg class="cs-figma__chevron" width="16" height="16" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </span>
+      </summary>
+
+      {{/* Frame wrapper — aspect-ratio enforced so layout doesn't jump */}}
+      <div class="cs-figma__frame-wrap" style="--figma-height: {{ $height }}px">
+        <iframe
+          class="cs-figma__frame"
+          data-src="{{ . }}"
+          title="{{ $title }}"
+          width="100%"
+          height="{{ $height }}"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+
+        {{/* Loading state — shown until iframe fires load event */}}
+        <div class="cs-figma__loading" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 38 57" fill="none"
+               xmlns="http://www.w3.org/2000/svg" class="cs-figma__loading-icon">
+            <path d="M19 28.5C19 23.25 23.25 19 28.5 19C33.75 19 38 23.25 38 28.5C38 33.75 33.75 38 28.5 38C23.25 38 19 33.75 19 28.5Z" fill="#1ABCFE"/>
+            <path d="M0 47.5C0 42.25 4.25 38 9.5 38H19V47.5C19 52.75 14.75 57 9.5 57C4.25 57 0 52.75 0 47.5Z" fill="#0ACF83"/>
+            <path d="M19 0V19H28.5C33.75 19 38 14.75 38 9.5C38 4.25 33.75 0 28.5 0H19Z" fill="#FF7262"/>
+            <path d="M0 9.5C0 14.75 4.25 19 9.5 19H19V0H9.5C4.25 0 0 4.25 0 9.5Z" fill="#F24E1E"/>
+            <path d="M0 28.5C0 33.75 4.25 38 9.5 38H19V19H9.5C4.25 19 0 23.25 0 28.5Z" fill="#A259FF"/>
+          </svg>
+          <span>Loading prototype…</span>
+        </div>
+      </div>
+
+      {{/* Accessible fallback when JS is unavailable */}}
+      <noscript>
+        <p class="cs-figma__noscript">
+          <a href="{{ . }}" target="_blank" rel="noopener noreferrer">
+            Open prototype in Figma ↗
+          </a>
+        </p>
+      </noscript>
+
+    </details>
+
+  </div>
+</section>
+
+<script>
+(function () {
+  /* Lazy-load iframe src only when the details element is first opened.
+     This keeps page load clean — Figma's embed JS is heavy (~400 kB). */
+  var details = document.querySelectorAll('[data-figma-lazy]');
+  details.forEach(function (el) {
+    el.addEventListener('toggle', function onToggle() {
+      if (!el.open) return;
+      var frame = el.querySelector('.cs-figma__frame');
+      if (frame && frame.dataset.src && !frame.src) {
+        frame.src = frame.dataset.src;
+        /* Hide loading overlay once iframe fires load */
+        frame.addEventListener('load', function () {
+          var overlay = el.querySelector('.cs-figma__loading');
+          if (overlay) overlay.style.display = 'none';
+        }, { once: true });
+      }
+      /* Update hint text after first open */
+      var hint = el.querySelector('.cs-figma__hint');
+      if (hint) hint.textContent = 'Click to collapse';
+    });
+
+    /* Restore hint text on close */
+    el.addEventListener('toggle', function () {
+      if (el.open) return;
+      var hint = el.querySelector('.cs-figma__hint');
+      if (hint) hint.textContent = 'Click to expand';
+    });
+  });
+})();
+</script>
+{{- end }}

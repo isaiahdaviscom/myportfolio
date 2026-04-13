@@ -1,0 +1,23 @@
+# Robots.txt for Production Environment
+# This file allows search engines to crawl the production site
+
+User-agent: *
+Allow: /
+
+# Block access to admin and private areas
+Disallow: /admin/
+Disallow: /.netlify/
+Disallow: /api/
+Disallow: /_draft/
+
+# Allow access to important files
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /fonts/
+
+# Crawl delay (optional - adjust as needed)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://isaiahdavis.com/sitemap.xml

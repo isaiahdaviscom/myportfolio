@@ -1,0 +1,54 @@
+# =============================================================================
+# NETLIFYCMS LOCAL DEVELOPMENT CONFIGURATION
+# =============================================================================
+# File: static/admin/config.local.yml
+# Purpose: Local development configuration for NetlifyCMS
+# Usage: Copy this to config.yml when developing locally
+# Environment: Development only (localhost)
+# =============================================================================
+
+# LOCAL DEVELOPMENT BACKEND
+# Uses netlify-cms-proxy-server for local development
+backend:
+  name: proxy
+  proxy_url: http://localhost:8081/api/v1
+  branch: master # Change to 'main' if your default branch is 'main'
+
+# MEDIA STORAGE CONFIGURATION (Local Development)
+media_folder: 'static/images/uploads'
+public_folder: '/images/uploads'
+
+# SITE URL (Local Development)
+site_url: http://localhost:1313
+display_url: http://localhost:1313
+# LOCAL WORKFLOW (no editorial workflow for faster development)
+# Uncomment the line below to disable editorial workflow locally
+# publish_mode: simple
+
+# =============================================================================
+# COLLECTIONS CONFIGURATION (Same as Production)
+# =============================================================================
+# Note: Collections configuration remains the same as production config.yml
+# Copy the entire collections section from config.yml when using this file
+
+# =============================================================================
+# LOCAL DEVELOPMENT SETUP INSTRUCTIONS
+# =============================================================================
+#
+# 1. Install proxy server globally:
+#    npm install -g netlify-cms-proxy-server
+#
+# 2. Start your Hugo development server:
+#    npm run hugo
+#
+# 3. Start the CMS proxy server in another terminal:
+#    npx netlify-cms-proxy-server
+#
+# 4. Or use the combined development command:
+#    npm run dev:cms
+#
+# 5. Access CMS at: http://localhost:1313/admin/
+#
+# 6. No authentication required in local development
+#
+# =============================================================================

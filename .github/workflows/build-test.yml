@@ -1,0 +1,69 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: [development, production]
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+    
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v2
+      with:
+        hugo-version: '0.132.2'
+        extended: true
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Set environment variables
+      run: |
+        echo "HUGO_ENV=${{ matrix.environment }}" >> $GITHUB_ENV
+        echo "NODE_ENV=${{ matrix.environment }}" >> $GITHUB_ENV
+        if [ "${{ matrix.environment }}" = "production" ]; then
+          echo "HUGO_BASEURL=https://isaiahdavis.com" >> $GITHUB_ENV
+        else
+          echo "HUGO_BASEURL=https://myportfolio-staging.netlify.app" >> $GITHUB_ENV
+        fi
+    
+    - name: Build CSS
+      run: npm run build:css
+    
+    - name: Build JavaScript
+      run: npm run build:js
+    
+    - name: Build Hugo site
+      run: npm run build:hugo
+    
+    - name: Test build output
+      run: |
+        echo "Testing ${{ matrix.environment }} build..."
+        ls -la public/
+        test -f public/index.html || (echo "❌ index.html not found!" && exit 1)
+        test -f public/css/styles.css || (echo "❌ styles.css not found!" && exit 1)
+        test -f public/js/main.js || (echo "❌ main.js not found!" && exit 1)
+        echo "✅ All required files found for ${{ matrix.environment }}!"
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: build-output-${{ matrix.environment }}
+        path: public/
+        retention-days: 7

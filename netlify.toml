@@ -1,22 +1,157 @@
 [build]
-  command = "hugo"
+  command = "npm run build:prod"
   publish = "public"
 
 [build.environment]
-  HUGO_VERSION = "0.88.1"
+  HUGO_VERSION = "0.132.2"
+  NODE_VERSION = "20"
+  NPM_VERSION = "9"
+
+# Local development — `netlify dev` uses this instead of the build command.
+# Runs Hugo's dev server on 1313; netlify dev proxies it on 8888 with
+# full Forms / Identity / redirects emulation.
+[dev]
+  command    = "hugo server -D --port 1313 --config hugo.toml,config.development.toml"
+  port       = 8888
+  targetPort = 1313
+  publish    = "public"
+  autoLaunch = false
+
+# Development/Staging environment (develop branch)
+[context.develop]
+  command = "npm run build:dev && npx storybook build --output-dir public/storybook"
+  [context.develop.environment]
+    HUGO_ENV = "development"
+    NODE_ENV = "development"
+    HUGO_BASEURL = "https://myportfolio-develop.netlify.app"
+    ROBOTS_DISALLOW = "true"
+    HUGO_PARAMS_STORYBOOKBASEURL = "https://myportfolio-develop.netlify.app/storybook"
+
+# Production environment (master branch)
+[context.production]
+  command = "npm run build:prod"
+  [context.production.environment]
+    HUGO_ENV = "production"
+    HUGO_BASEURL = "https://isaiahdavis.com"
+
+# Deploy previews (for pull requests)
+[context.deploy-preview]
+  command = "npm run build:dev"
+  [context.deploy-preview.environment]
+    HUGO_ENV = "preview"
+    NODE_ENV = "development"
+
+# Branch deploys (any other branch)
+[context.branch-deploy]
+  command = "npm run build:dev"
+  [context.branch-deploy.environment]
+    HUGO_ENV = "staging"
+    NODE_ENV = "development"
 
 [build.processing]
   skip_processing = ["node_modules/**"]
 
+# Environment-specific robots.txt redirects
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots-dev.txt"
+  status = 200
+  force = true
+  conditions = {Context = "develop"}
+
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots-dev.txt"
+  status = 200
+  force = true
+  conditions = {Context = "deploy-preview"}
+
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots-dev.txt"
+  status = 200
+  force = true
+  conditions = {Context = "branch-deploy"}
+
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots-prod.txt"
+  status = 200
+  force = true
+  conditions = {Context = "production"}
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+# Handle SPA fallback for any other routes that don't exist
 [[redirects]]
   from = "/*"
-  to = "/index.html"
-  status = 200
+  to = "/404.html"
+  status = 404
+
+# Security headers for all environments
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "0"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://identity.netlify.com https://cdn.acsbapp.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://identity.netlify.com https://api.netlify.com https://cdn.acsbapp.com; frame-src https://www.googletagmanager.com https://www.figma.com https://figma.com https://embed.figma.com; worker-src 'self'; manifest-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.netlify.com; upgrade-insecure-requests;"
+
+# Development environment headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    X-Frame-Options = "DENY"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex"
+    X-Environment = "development"
+  [headers.conditions]
+    Context = "develop"
+
+# Storybook design system — override restrictive headers so the story-preview
+# iframe can load. Must come AFTER the "/*" develop rule to win on conflict.
+[[headers]]
+  for = "/storybook/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' ws: wss:; frame-src 'self'; worker-src 'self' blob:; manifest-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self';"
+  [headers.conditions]
+    Context = "develop"
 
 [[headers]]
   for = "/*"
   [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    X-Frame-Options = "DENY"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex"
+    X-Environment = "development"
+  [headers.conditions]
+    Context = "deploy-preview"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    X-Frame-Options = "DENY"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex"
+    X-Environment = "development"
+  [headers.conditions]
+    Context = "branch-deploy"
+
+# Production environment headers
+[[headers]]
+  for = "/*"
+  [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+    X-Environment = "production"
+  [headers.conditions]
+    Context = "production"
 
 [[headers]]
   for = "/*.html"
@@ -24,6 +159,55 @@
     Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
   for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Service worker must never be cached
+[[headers]]
+  for = "/service-worker.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+# Contact success page — transient state page, never index
+[[headers]]
+  for = "/contact/success/"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+# NetlifyCMS Admin Interface Headers
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "0"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://identity.netlify.com https://unpkg.com blob:; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' data: https: blob:; font-src 'self' https://unpkg.com; connect-src 'self' https://identity.netlify.com https://api.netlify.com https://unpkg.com blob:; worker-src blob:; frame-ancestors 'self'; object-src 'none'; base-uri 'self';"
+
+# Netlify Identity Widget Headers
+[[headers]]
+  for = "/.netlify/identity"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+
+# Large Media (if using for images)
+[[headers]]
+  for = "/images/uploads/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"

@@ -1,0 +1,129 @@
+{{/*
+  structured-data.html — JSON-LD structured data partial
+  ─────────────────────────────────────────────────────
+  Security: ALL values are serialised through Hugo's `jsonify` pipeline so that
+  any content containing quotes, backslashes, or Unicode control characters
+  cannot break out of the JSON envelope and inject arbitrary JSON-LD.
+
+  Emits one <script type="application/ld+json"> block per page, containing an
+  @graph with:
+    • WebSite  — site-level, home page only
+    • Person   — site-level author, home page only
+    • WebPage  — every page (BreadcrumbList appended on non-home pages)
+*/}}
+
+{{- $site        := .Site -}}
+{{- $params      := $site.Params -}}
+{{- $baseURL     := $site.BaseURL | strings.TrimSuffix "/" -}}
+{{- $author      := $params.author      | default "Isaiah Davis" -}}
+{{- $siteTitle   := $site.Title         | default "Isaiah Davis - My Portfolio" -}}
+{{- $description := "" -}}
+{{- with .Params.description }}{{ $description = . }}{{ else }}{{ $description = $params.description | default "" }}{{ end -}}
+{{- $pageTitle   := "" -}}
+{{- if .Title }}{{ $pageTitle = printf "%s | %s" .Title $siteTitle }}{{ else }}{{ $pageTitle = $siteTitle }}{{ end -}}
+{{- $pageURL     := .Permalink | strings.TrimSuffix "/" -}}
+{{- $datePubl    := .Date.Format "2006-01-02" -}}
+{{- $dateMod     := .Lastmod.Format "2006-01-02" -}}
+
+{{- /* ── Build @graph array ───────────────────────────────────────────────── */ -}}
+{{- $graph := slice -}}
+
+{{- /* WebSite + Person: home page only */ -}}
+{{- if .IsHome -}}
+  {{- $website := dict
+      "@type"           "WebSite"
+      "@id"             (printf "%s/#website" $baseURL)
+      "url"             $baseURL
+      "name"            $siteTitle
+      "description"     $description
+      "inLanguage"      "en-US"
+      "author"          (dict
+          "@id" (printf "%s/#person" $baseURL))
+  -}}
+  {{- $person := dict
+      "@type"       "Person"
+      "@id"         (printf "%s/#person" $baseURL)
+      "name"        $author
+      "url"         $baseURL
+      "sameAs"      (slice
+          "https://github.com/isaiahdaviscom"
+          "https://www.linkedin.com/in/isaiahdavis/")
+  -}}
+  {{- $graph = $graph | append $website $person -}}
+{{- end -}}
+
+{{- /* WebPage — every page */ -}}
+{{- $webpageType := "WebPage" -}}
+{{- if .IsHome }}{{ $webpageType = "WebPage" }}{{ end -}}
+{{- if eq .Section "posts" }}{{ $webpageType = "BlogPosting" }}{{ end -}}
+
+{{- $webpage := dict
+    "@type"           $webpageType
+    "@id"             (printf "%s#webpage" $pageURL)
+    "url"             $pageURL
+    "name"            $pageTitle
+    "description"     $description
+    "inLanguage"      "en-US"
+    "isPartOf"        (dict "@id" (printf "%s/#website" $baseURL))
+    "datePublished"   $datePubl
+    "dateModified"    $dateMod
+    "author"          (dict "@id" (printf "%s/#person" $baseURL))
+-}}
+
+{{- /* BlogPosting extras */ -}}
+{{- if eq $webpageType "BlogPosting" -}}
+  {{- with .Params.cover -}}
+    {{- $webpage = merge $webpage (dict "image" (printf "%s%s" $baseURL .)) -}}
+  {{- end -}}
+  {{- with .Params.tags -}}
+    {{- $webpage = merge $webpage (dict "keywords" (delimit . ", ")) -}}
+  {{- end -}}
+  {{- $webpage = merge $webpage (dict
+      "wordCount"   .WordCount
+      "author"      (dict "@id" (printf "%s/#person" $baseURL))
+      "publisher"   (dict "@id" (printf "%s/#person" $baseURL))
+  ) -}}
+{{- end -}}
+
+{{- /* BreadcrumbList — non-home pages only */ -}}
+{{- if not .IsHome -}}
+  {{- $crumbs := slice (dict
+      "@type"    "ListItem"
+      "position" 1
+      "name"     "Home"
+      "item"     $baseURL)
+  -}}
+  {{- $pos := 2 -}}
+  {{- range .Ancestors.Reverse -}}
+    {{- if not .IsHome -}}
+      {{- $crumbs = $crumbs | append (dict
+          "@type"    "ListItem"
+          "position" $pos
+          "name"     .Title
+          "item"     (.Permalink | strings.TrimSuffix "/"))
+      -}}
+      {{- $pos = add $pos 1 -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if gt $pos 2 -}}
+    {{- $crumbs = $crumbs | append (dict
+        "@type"    "ListItem"
+        "position" $pos
+        "name"     .Title
+        "item"     $pageURL)
+    -}}
+    {{- $breadcrumb := dict
+        "@type"           "BreadcrumbList"
+        "@id"             (printf "%s#breadcrumb" $pageURL)
+        "itemListElement" $crumbs
+    -}}
+    {{- $graph = $graph | append $breadcrumb -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $graph = $graph | append $webpage -}}
+
+{{- /* ── Emit <script> — jsonify escapes HTML-unsafe chars automatically ─── */ -}}
+<script type="application/ld+json">
+{{ dict "@context" "https://schema.org" "@graph" $graph | jsonify (dict "indent" "  ") }}
+</script>

@@ -1,34 +1,135 @@
+/*
+  THEME-LEVEL CSS (Hugo Assets Pipeline)
+  ====================================
+  Purpose: Theme-specific styles processed by Hugo Pipes
+  Location: themes/myPortfolio/assets/css/main.css
+  Build: Processed by Hugo's {{ resources.Get "css/main.css" }}
+  
+  IMPORTANT: This file is for THEME-LEVEL components that should be:
+  - Reusable across multiple Hugo sites using this theme
+  - Processed by Hugo Pipes (minification, fingerprinting)
+  - Base theme styling and core layout systems
+  
+  AVOID: Site-specific customizations (put those in site root /src/css/)
+  
+  Standards:
+  - Use @layer base for foundational resets/base styles
+  - Use semantic naming (not utility classes)
+  - Focus on theme architecture, not specific design decisions
+
+
+  TABLE OF CONTENTS
+  =================
+  1. Tailwind Directives
+  2. Base Layer
+     2.1 Container System
+     2.2 Typography System
+  3. Header Components  
+  4. Navigation Components
+  5. Footer Components
+  6. Layout Utilities
+*/
+
+/* =============================================
+   1. TAILWIND DIRECTIVES
+   ============================================= */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  color: #222;
-  font-family: Arial, sans-serif;
-  line-height: 1.5;
-  margin: 1rem auto;
-  max-width: 768px;
-  font-size: .825em;
+/* =============================================
+   2. BASE LAYER - Theme Architecture
+   ============================================= */
+@layer base {
+  /* ========================================
+     2.1 Container System
+     ========================================
+     NOTE: .container layout is defined in src/css/layout/page.css via the
+     26-track grid system (grid-column: 2 / -2). Width and padding are
+     controlled there; nothing to declare here.
+     ======================================== */
+
+  /* ========================================
+     2.2 Typography System
+     ======================================== */
+
+  /* Body typography foundation */
+  body {
+    --font-sans: 'Inter', sans-serif;
+
+    color: #333;
+    font-family: var(--font-sans);
+    line-height: 1.75;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+  }
+
+  /* Heading typography hierarchy */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: Inter, sans-serif;
+    color: #222;
+    margin-bottom: 1rem;
+  }
+
+  /* Paragraph spacing and color */
+  p {
+    margin-bottom: 1.5rem;
+    color: #555;
+  }
 }
 
-header {
-  border-bottom: 1px solid #222;
-  margin-bottom: 1rem;
+/* =============================================
+   3. HEADER COMPONENTS
+   ============================================= */
+@layer base {
+  /* Site navigation header only — scoped to .site-header so cs-hero and other
+     <header role="banner"> elements are not affected */
+  .site-header {
+    background-color: #fff;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  /* Primary navigation inside site header */
+  .site-header nav ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-header nav ul li a {
+    color: #374151;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .site-header nav ul li a:hover {
+    color: #1d4ed8;
+  }
 }
 
-footer {
-  border-top: 1px solid #222;
-  margin-top: 1rem;
-}
+/* =============================================
+   4. HERO SECTION COMPONENTS
+   =============================================
+   NOTE: Generic .hero removed — the site uses scoped hero classes:
+   .home-hero  (home.css)   — dark navy landing section
+   .page-hero  (page.css)   — gradient hero used on interior pages
+   .cs-hero    (case-study.css) — portfolio case study header
+   Do not add unscoped element-type selectors here.
+*/
 
-header nav ul,
-footer nav ul {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; 
-}
+/* =============================================
+   5. FOOTER COMPONENTS
+   ============================================= */
 
-a {
-  color: #00e;
-  text-decoration: none;
-}
+/* Styles handled by src/css/layout/footer.css (PostCSS pipeline). */
+
+/* Nothing to declare here — avoid duplicating or overriding footer.css. */

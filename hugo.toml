@@ -6,11 +6,81 @@ theme = 'myPortfolio'
 [params]
   author = "Isaiah Davis"
   description = "My portfolio website"
+  storybookBaseURL = ""
+  keywords = ["portfolio", "web developer", "Isaiah Davis"]
+  logo = "images/logo.png"
+  favicon = "images/favicon.ico"
+  theme = "system"
+  themeColor = "#4a90e2"
+  title = "Isaiah Davis - My Portfolio"
+  version = "1.2.0"
+  # Google Tag Manager container ID — override per environment in config.*.toml
+  gtmId = "GTM-W3VQVDR"
+  
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[taxonomies]
+  tag      = "tags"
+  category = "categories"
+  series   = "series"
 
 [build]
-  publishDir = "public"
+
+# =============================================================================
+# VERSION BADGE — custom SVG output format
+# Generates /badges/version.svg at build time from site.Params.version.
+# Used by README.md and the site footer. Single source of truth: hugo.toml.
+# =============================================================================
+[outputFormats.SVG]
+  mediaType      = "image/svg+xml"
+  baseName       = "version"
+  isPlainText    = true
+  notAlternative = true
+
+# Sitemap configuration (disabled for development)
+[sitemap]
+  changefreq = "monthly"
+  filename = "sitemap.xml"
+  priority = 0.5
 
 [deploy]
   [[deploy.targets]]
     name = "Netlify"
     URL = "https://api.netlify.com/build_hooks/your-build-hook-url"
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+
+  [markup.highlight]
+    codeFences  = true    # process fenced code blocks
+    guessSyntax = true    # auto-detect language when not specified
+    noClasses   = false   # use CSS classes (chroma.css) instead of inline styles
+
+[[menus.main]]
+# myportfolio\themes\myPortfolio\layouts\_default\home.html
+name = 'Home'
+pageRef = '/'
+weight = 10
+
+[[menus.main]]
+name = 'Portfolio'
+pageRef = '/portfolio'
+weight = 15
+
+[[menus.main]]
+name = 'Blog'
+pageRef = '/posts'
+weight = 20
+
+[[menus.main]]
+name = 'About'
+pageRef = '/about'
+weight = 30
+
+[[menus.main]]
+name = 'Contact'
+pageRef = '/contact'
+weight = 40
