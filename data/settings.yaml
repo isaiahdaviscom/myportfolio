@@ -4,7 +4,10 @@
 #   available → gradient ring on      (force green / colourised)
 #   away      → grey ring             (force closed / grey)
 availability_mode: auto
-away_message: ''
+away_message: 'Not taking new work right now — stay in touch.'
+# Status pill labels on the /about/ page hero — synced with availability_mode
+available_label: 'Available for new projects'
+away_label: 'Heads down on a project'
 # ring_color is a MANUAL OVERRIDE for the ring gradient.
 # Leave blank ("") to let the automatic page-type colour map control the ring:
 #   contact page           → orange

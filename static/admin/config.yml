@@ -281,6 +281,18 @@ collections:
             widget: 'string'
             required: false
             hint: 'Optional — overrides the default next-open text in the stories panel. Leave blank to use automatic text.'
+          - label: 'Available Label'
+            name: 'available_label'
+            widget: 'string'
+            default: 'Available for new projects'
+            required: false
+            hint: 'Text shown in the status pill on the About page when available. Also reflected in the header ring state.'
+          - label: 'Away Label'
+            name: 'away_label'
+            widget: 'string'
+            default: 'Heads down on a project'
+            required: false
+            hint: 'Text shown in the status pill on the About page when availability_mode is \'away\'. Pill colour also switches to amber.'
 
   # ---------------------------------------------------------------------------
   # SITE PAGES
@@ -313,8 +325,18 @@ collections:
         fields:
           - { label: 'Title', name: 'title', widget: 'string' }
           - { label: 'Date', name: 'date', widget: 'datetime' }
-          - { label: 'Description', name: 'description', widget: 'text' }
-          - { label: 'Featured Image', name: 'featured_image', widget: 'image', required: false }
+          - { label: 'Description', name: 'description', widget: 'text', hint: 'Meta description — shown in search results and social previews.' }
+          - { label: 'Page Heading', name: 'heading', widget: 'string', hint: 'Large hero headline. Keep to ~60 chars.' }
+          - { label: 'Tagline', name: 'tagline', widget: 'string', hint: 'Eyebrow line shown above the heading. e.g. Frontend Developer · Chicago, IL' }
+          - label: 'Stats'
+            name: 'stats'
+            widget: 'list'
+            label_singular: 'Stat'
+            summary: '{{fields.value}} — {{fields.label}}'
+            hint: 'Key metrics shown in the hero strip. 3 recommended.'
+            fields:
+              - { label: 'Value', name: 'value', widget: 'string', hint: 'e.g. 5+ or 72%' }
+              - { label: 'Label', name: 'label', widget: 'string', hint: 'e.g. Years of frontend engineering' }
           - { label: 'Body', name: 'body', widget: 'markdown' }
 
       - label: 'Contact'

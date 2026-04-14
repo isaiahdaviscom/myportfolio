@@ -22,9 +22,13 @@
 
         {{/* Headline */}}
         <div>
-          <div class="about-hero__status" aria-label="Availability status">
+          {{- $availMode    := site.Data.settings.availability_mode | default "auto" -}}
+          {{- $availLabel   := site.Data.settings.available_label | default "Available for new projects" -}}
+          {{- $awayLabel    := site.Data.settings.away_label | default "Heads down on a project" -}}
+          {{- $isAway       := eq $availMode "away" -}}
+          <div class="about-hero__status{{ if $isAway }} about-hero__status--away{{ end }}" aria-label="Availability status">
             <span class="about-hero__status-dot" aria-hidden="true"></span>
-            <span class="about-hero__status-text">Available for new projects</span>
+            <span class="about-hero__status-text">{{ if $isAway }}{{ $awayLabel }}{{ else }}{{ $availLabel }}{{ end }}</span>
           </div>
           <p class="page-eyebrow mb-2">
             {{ .Params.tagline | default "Frontend Developer · Chicago, IL" }}
@@ -32,7 +36,7 @@
           <h1 class="page-h1 mb-4 max-w-2xl">
             {{ .Params.heading | default .Title }}
           </h1>
-          <div class="flex flex-wrap gap-3">
+          <div class="about-hero__actions">
             <a href="/contact/" class="btn-primary">
               Get in touch
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"

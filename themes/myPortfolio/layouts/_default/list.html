@@ -92,7 +92,7 @@
           {{- with .Params.cover }}
           <img src="{{ . }}" alt="{{ $featured.Title }} cover"
                class="pf-split__img"
-               width="900" height="680" loading="eager">
+               width="900" height="680" loading="eager" style="height: 100%;">
           {{- else }}
           <div class="pf-split__img-fallback"></div>
           {{- end }}

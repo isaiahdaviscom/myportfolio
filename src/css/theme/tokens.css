@@ -154,7 +154,7 @@
 
   /* Semantic page widths */
   --max-prose: 68ch;
-  --max-content: 80rem; /* 1280px — narrow content / prose */
+  --max-content: var(--sqs-site-max-width); /* 1200px — matches site grid content cap */
   --width-container: 93.75rem; /* 1500px — default page container */
   --max-wide: 96rem; /* 1536px — full-bleed wide layouts */
   --width-site: 90rem; /* 1440px — global site container (header + all sections) */

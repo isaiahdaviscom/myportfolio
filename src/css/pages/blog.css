@@ -341,14 +341,17 @@
   }
 
   .bs-container {
-    width: min(var(--max-content, 1200px), calc(100vw - 2 * clamp(1rem, 5vw, 5rem)));
+    width: min(
+      var(--max-content),
+      calc(100vw - 4vw * 2)
+    );
     margin-inline: auto;
     container-type: inline-size; /* allows comfort-body cqi to resolve against this container */
     container-name: bs-content;
   }
 
   .bs-container--prose {
-    max-width: calc(var(--max-prose, 68ch) + var(--space-12, 3rem));
+    max-width: calc(var(--max-prose) + var(--space-12));
   }
 
   /* ── 02. READING PROGRESS BAR ───────────────────────────────────────────── */
@@ -1096,6 +1099,7 @@
 
   .bs-series-main {
     min-width: 0;
+    max-width: calc(var(--max-prose) + var(--space-12)); /* match bs-container--prose width used on non-series posts */
   }
 
   @media (max-width: 1023px) {
