@@ -78,6 +78,9 @@
 /* 2.2 About page layout, skills & values */
 @import './pages/about.css';
 
+/* 2.25 Links page — profile hub + content grid */
+@import './pages/links.css';
+
 /* 2.3 Blog list & single post */
 @import './pages/blog.css';
 

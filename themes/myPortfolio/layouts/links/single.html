@@ -1,0 +1,350 @@
+{{/*
+  Links Page — /links/
+  ──────────────────────────────────────────────────────────────────────────────
+  A branded Linktree alternative: profile hub + social icons + content grid.
+  - Profile: avatar, @handle, tagline, availability pill, location
+  - Stats strip (reused from About)
+  - CTA actions row
+  - Social icon grid (from .Params.social)
+  - Services horizontal chip scroll
+  - Search + type filter + mixed content grid (posts + portfolio)
+  - Inline JS filter: no deps, no build step required
+  - `plain_footer: true` in front matter suppresses footer CTA strip
+*/}}
+
+{{ define "main" }}
+
+{{/* ── Availability ── */}}
+{{- $avail := site.Data.settings.availability_mode | default "auto" -}}
+{{- $isAvailable := or (eq $avail "available") (and (eq $avail "auto") (gt (now.Hour) 8) (lt (now.Hour) 18) (gt (now.Weekday) 0) (lt (now.Weekday) 6)) -}}
+{{- $availLabel := site.Data.settings.available_label | default "Available for new projects" -}}
+{{- $awayLabel  := site.Data.settings.away_label      | default "Heads down on a project"    -}}
+
+{{/* ── Collect content: posts + portfolio, sorted by date ── */}}
+{{- $posts     := where site.RegularPages "Section" "posts"     -}}
+{{- $projects  := where site.RegularPages "Section" "portfolio" -}}
+{{- $allItems  := ($posts | append $projects).ByDate.Reverse    -}}
+
+<div class="lk-page">
+
+  {{/* ══════════════  PROFILE CARD  ══════════════ */}}
+  <section class="lk-profile" aria-label="Profile">
+
+    {{/* Avatar — src from .Params.avatar, fallback to profile-branded.png */}}
+    {{- $avatarSrc := .Params.avatar | default "/images/profile-branded.png" -}}
+    <div class="lk-profile__avatar-wrap" aria-hidden="true">
+      <img
+        src="{{ $avatarSrc }}"
+        alt=""
+        width="96"
+        height="96"
+        class="lk-profile__avatar"
+        loading="eager"
+      >
+      <span class="lk-profile__avatar-ring {{ if not $isAvailable }}lk-profile__avatar-ring--away{{ end }}"></span>
+    </div>
+
+    {{/* Handle + meta */}}
+    <h1 class="lk-profile__handle">{{ .Title }}</h1>
+    <p class="lk-profile__tagline">{{ .Params.tagline }}</p>
+
+    {{/* Location badge */}}
+    {{- with .Params.location }}
+    <p class="lk-profile__location">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+        <circle cx="12" cy="10" r="3"/>
+      </svg>
+      {{ . }}
+    </p>
+    {{- end }}
+
+    {{/* Availability pill — role=status lets AT announce it without being intrusive */}}
+    <span
+      role="status"
+      class="lk-profile__pill {{ if not $isAvailable }}lk-profile__pill--away{{ end }}"
+    >
+      <span class="lk-profile__pill-dot" aria-hidden="true"></span>
+      {{ if $isAvailable }}{{ $availLabel }}{{ else }}{{ $awayLabel }}{{ end }}
+    </span>
+
+  </section>
+
+  {{/* ══════════════  STATS STRIP  ══════════════ */}}
+  {{- $defaultStats := slice
+    (dict "label" "Years exp."          "value" "5+")
+    (dict "label" "Client satisfaction" "value" "72%")
+    (dict "label" "Projects"            "value" "20+")
+  -}}
+  {{- $lkStats := .Params.stats | default $defaultStats -}}
+  <dl class="lk-stats" aria-label="Quick stats">
+    {{- range $lkStats }}
+    <div class="lk-stats__item">
+      <dt class="lk-stats__label">{{ .label }}</dt>
+      <dd class="lk-stats__value">{{ .value }}</dd>
+    </div>
+    {{- end }}
+  </dl>
+
+  {{/* ══════════════  CTA ACTIONS  ══════════════ */}}
+  <div class="lk-actions">
+    <a href="/contact/" class="lk-actions__btn lk-actions__btn--primary">Get in touch</a>
+    <a href="/portfolio/" class="lk-actions__btn lk-actions__btn--secondary">View portfolio</a>
+  </div>
+
+  {{/* ══════════════  SOCIAL ICON GRID  ══════════════ */}}
+  {{- with .Params.social }}
+  <nav class="lk-social" aria-label="Social links">
+    {{- range . }}
+    <a href="{{ .url }}" class="lk-social__link"
+       aria-label="{{ .label }}"
+       {{ if not (hasPrefix .url "mailto:") }} target="_blank" rel="noopener noreferrer" {{ end }}
+    >
+      {{- if eq .icon "linkedin" }}
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+        <rect x="2" y="9" width="4" height="12"/>
+        <circle cx="4" cy="4" r="2"/>
+      </svg>
+      {{- else if eq .icon "github" }}
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+      </svg>
+      {{- else if eq .icon "email" }}
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+      {{- else if eq .icon "portfolio" }}
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+      {{- else if eq .icon "blog" }}
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+        <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+      </svg>
+      {{- end }}
+      <span class="lk-social__label">{{ .name }}</span>
+    </a>
+    {{- end }}
+  </nav>
+  {{- end }}
+
+  {{/* ══════════════  SERVICES CHIPS  ══════════════ */}}
+  {{- with .Params.services }}
+  <div class="lk-services" aria-label="Services">
+    <p class="lk-services__heading">What I do</p>
+    <div class="lk-services__scroll" role="list">
+      {{- range . }}
+      <span class="lk-services__chip" role="listitem">{{ . }}</span>
+      {{- end }}
+    </div>
+  </div>
+  {{- end }}
+
+  {{/* ══════════════  CONTENT GRID  ══════════════ */}}
+  <section class="lk-content" aria-label="Recent work and writing">
+    <p class="lk-content__heading">Recent work</p>
+
+    {{/* Search */}}
+    <div class="lk-search" role="search">
+      <label for="lk-search-input" class="sr-only">Search posts and projects</label>
+      <svg class="lk-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input
+        id="lk-search-input"
+        type="search"
+        class="lk-search__input"
+        placeholder="Search posts &amp; projects…"
+        autocomplete="off"
+        spellcheck="false"
+      >
+    </div>
+
+    {{/* Type filters */}}
+    <div class="lk-filters" role="group" aria-label="Filter by type">
+      <button class="lk-filter-btn" data-type="all"     aria-pressed="true">All</button>
+      <button class="lk-filter-btn" data-type="post"    aria-pressed="false">Blog</button>
+      <button class="lk-filter-btn" data-type="project" aria-pressed="false">Projects</button>
+    </div>
+
+    {{/* Grid */}}
+    <div class="lk-grid" role="list" id="lk-grid">
+      {{- range $i, $item := $allItems }}
+      {{- $isPost    := eq $item.Section "posts"     }}
+      {{- $isProject := eq $item.Section "portfolio" }}
+      {{- $type      := cond $isPost "post" "project"  }}
+      {{- $tags      := delimit ($item.Params.tags   | default (slice)) "," | lower }}
+      {{- $skills    := delimit ($item.Params.skills | default (slice)) "," | lower }}
+      {{- $searchData := printf "%s,%s" $tags $skills }}
+      {{- $imgSrc    := "" }}
+      {{- with $item.Params.cover       }}{{- $imgSrc = . }}{{- end }}
+      {{- with $item.Params.cover_image }}{{- $imgSrc = . }}{{- end }}
+      {{- with $item.Params.image       }}{{- $imgSrc = . }}{{- end }}
+      {{- with $item.Params.thumbnail   }}{{- $imgSrc = . }}{{- end }}
+      <a
+        href="{{ $item.RelPermalink }}"
+        class="lk-grid__item"
+        role="listitem"
+        data-type="{{ $type }}"
+        data-title="{{ $item.Title | lower }}"
+        data-tags="{{ $searchData }}"
+        aria-label="{{ $item.Title }}{{ if $isPost }} (blog post){{ else }} (project){{ end }}"
+      >
+        {{- if $imgSrc }}
+        <img
+          src="{{ $imgSrc }}"
+          alt=""
+          width="300"
+          height="300"
+          class="lk-grid__img"
+          loading="{{ if lt $i 6 }}eager{{ else }}lazy{{ end }}"
+          decoding="async"
+        >
+        {{- else }}
+        <div class="lk-grid__placeholder" aria-hidden="true">
+          {{- if $isPost }}
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+          {{- else }}
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+          {{- end }}
+        </div>
+        {{- end }}
+        <div class="lk-grid__overlay" aria-hidden="true">
+          <span class="lk-grid__type-badge">{{ if $isPost }}Post{{ else }}Project{{ end }}</span>
+          <p class="lk-grid__title">{{ $item.Title }}</p>
+        </div>
+      </a>
+      {{- end }}
+    </div>
+
+    {{/* Empty state — role=status lets screen readers announce it when shown */}}
+    <p class="lk-grid__empty lk-grid__empty--hidden" id="lk-grid-empty"
+       role="status" aria-live="polite" aria-atomic="true">No results — try a different search.</p>
+
+  </section>
+
+</div>
+
+{{/* ══════════════  INLINE FILTER JS  ══════════════ */}}
+<script>
+(function () {
+  var searchInput = document.getElementById('lk-search-input');
+  var filterBtns  = document.querySelectorAll('.lk-filter-btn');
+  var items       = document.querySelectorAll('.lk-grid__item');
+  var emptyMsg    = document.getElementById('lk-grid-empty');
+
+  /* ── URL param helpers ─────────────────────────────────────────────────
+     Supported params:
+       ?q=performance          → prefill search, filter by title/tags
+       ?type=post|project      → activate the matching filter button
+       ?tag=accessibility      → prefill search with that tag value
+     Params can be combined: ?type=post&tag=performance
+  ──────────────────────────────────────────────────────────────────────── */
+  function getParams() {
+    var sp = new URLSearchParams(window.location.search);
+    return {
+      q:    (sp.get('q')    || sp.get('tag') || '').toLowerCase().trim(),
+      type: (sp.get('type') || 'all').toLowerCase().trim()
+    };
+  }
+
+  function setActiveType(type) {
+    filterBtns.forEach(function (b) {
+      b.setAttribute('aria-pressed', b.dataset.type === type ? 'true' : 'false');
+    });
+  }
+
+  function getActiveType() {
+    for (var i = 0; i < filterBtns.length; i++) {
+      if (filterBtns[i].getAttribute('aria-pressed') === 'true') {
+        return filterBtns[i].dataset.type;
+      }
+    }
+    return 'all';
+  }
+
+  function applyFilter() {
+    var query      = searchInput.value.toLowerCase().trim();
+    var activeType = getActiveType();
+    var visible    = 0;
+
+    items.forEach(function (item) {
+      var titleMatch = !query ||
+        item.dataset.title.indexOf(query) !== -1 ||
+        item.dataset.tags.indexOf(query)  !== -1;
+      var typeMatch = activeType === 'all' || item.dataset.type === activeType;
+      var show = titleMatch && typeMatch;
+
+      item.classList.toggle('lk-grid__item--hidden', !show);
+      if (show) { visible++; }
+    });
+
+    emptyMsg.classList.toggle('lk-grid__empty--hidden', visible > 0);
+  }
+
+  /* ── Update URL without a page reload ─────────────────────────────── */
+  function syncUrl() {
+    var sp   = new URLSearchParams();
+    var q    = searchInput.value.trim();
+    var type = getActiveType();
+    if (q)            { sp.set('q',    q);    }
+    if (type !== 'all') { sp.set('type', type); }
+    var qs = sp.toString();
+    var url = window.location.pathname + (qs ? '?' + qs : '');
+    history.replaceState(null, '', url);
+  }
+
+  /* ── Wire events ───────────────────────────────────────────────────── */
+  searchInput.addEventListener('input', function () {
+    applyFilter();
+    syncUrl();
+  });
+
+  filterBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      setActiveType(btn.dataset.type);
+      applyFilter();
+      syncUrl();
+    });
+  });
+
+  /* ── Apply state from URL on page load ─────────────────────────────── */
+  var params = getParams();
+
+  if (params.type && params.type !== 'all') {
+    setActiveType(params.type);
+  }
+  if (params.q) {
+    searchInput.value = params.q;
+  }
+  if (params.q || params.type !== 'all') {
+    applyFilter();
+    /* Scroll grid into view if a filter was pre-applied */
+    var grid = document.getElementById('lk-grid');
+    if (grid) { grid.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  }
+}());
+</script>
+
+{{ end }}

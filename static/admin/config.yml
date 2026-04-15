@@ -348,6 +348,41 @@ collections:
           - { label: 'Description', name: 'description', widget: 'text' }
           - { label: 'Body', name: 'body', widget: 'markdown' }
 
+      - label: 'Links Page'
+        name: 'links'
+        file: 'content/links.md'
+        fields:
+          - { label: 'Title (handle)', name: 'title', widget: 'string', hint: 'Displayed as the page @handle. e.g. @isaiahdaviscom' }
+          - { label: 'Description', name: 'description', widget: 'text', hint: 'Meta description for search engines and social previews.' }
+          - { label: 'Avatar', name: 'avatar', widget: 'image', required: false, hint: 'Profile picture. Defaults to /images/profile-branded.png if not set.' }
+          - { label: 'Tagline', name: 'tagline', widget: 'string', hint: 'One-line descriptor shown under the handle. e.g. Frontend Developer · UI Engineer' }
+          - { label: 'Location', name: 'location', widget: 'string', required: false, hint: 'e.g. Chicago, IL' }
+          - label: 'Stats'
+            name: 'stats'
+            widget: 'list'
+            label_singular: 'Stat'
+            summary: '{{fields.value}} — {{fields.label}}'
+            hint: 'Key metrics shown below the profile. 3 recommended.'
+            fields:
+              - { label: 'Value', name: 'value', widget: 'string', hint: 'e.g. 5+ or 72%' }
+              - { label: 'Label', name: 'label', widget: 'string', hint: 'e.g. Years exp.' }
+          - label: 'Social Links'
+            name: 'social'
+            widget: 'list'
+            label_singular: 'Link'
+            summary: '{{fields.name}} — {{fields.url}}'
+            fields:
+              - { label: 'Name', name: 'name', widget: 'string' }
+              - { label: 'URL', name: 'url', widget: 'string' }
+              - { label: 'Icon', name: 'icon', widget: 'select', options: ['linkedin', 'github', 'email', 'portfolio', 'blog'], hint: 'Maps to an inline SVG icon.' }
+              - { label: 'Label (accessibility)', name: 'label', widget: 'string', hint: 'Screen reader text. e.g. Connect on LinkedIn' }
+          - label: 'Services'
+            name: 'services'
+            widget: 'list'
+            label_singular: 'Service'
+            hint: 'Chip labels shown in the horizontal scroll row.'
+            field: { label: 'Service', name: 'item', widget: 'string' }
+
       - label: 'Portfolio Index'
         name: 'portfolio_index'
         file: 'content/portfolio.md'

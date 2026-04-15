@@ -8,6 +8,7 @@
 {{/* ═══════════════  PRE-FOOTER CTA STRIP  ═══════════════ */}}
 {{- $avail := site.Data.settings.availability_mode | default "auto" -}}
 {{- $isAvailable := or (eq $avail "available") (and (eq $avail "auto") (gt (now.Hour) 8) (lt (now.Hour) 18) (gt (now.Weekday) 0) (lt (now.Weekday) 6)) -}}
+{{- if not .Params.plain_footer }}
 <div class="site-footer__cta">
   <div class="site-footer__cta-inner">
     <div>
@@ -29,6 +30,7 @@
     </a>
   </div>
 </div>
+{{- end }}
 
 {{/* ══════════════════  MAIN FOOTER BODY  ══════════════════ */}}
 <div class="site-footer__body">
