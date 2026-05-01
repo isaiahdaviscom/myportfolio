@@ -57,6 +57,9 @@
 /* 1.6 Breadcrumb navigation */
 @import './layout/breadcrumb.css';
 
+/* 1.62 In-page jump links */
+@import './components/jumplinks.css';
+
 /* 1.65 Site header (glass sticky bar + nav + social links) */
 @import './layout/header.css';
 

@@ -44,7 +44,7 @@
 }
 
 .cs-container--prose {
-  max-width: calc(var(--max-prose) + var(--space-12));
+  max-width: none;
 }
 
 /* ── 02. THEME TOGGLE ───────────────────────────────────────────────────────── */
@@ -91,50 +91,62 @@
 
 /* ── 03. HERO ───────────────────────────────────────────────────────────────── */
 .cs-hero {
+  --cs-hero-overlay-left: color-mix(in srgb, var(--color-bg) 66%, transparent);
+  --cs-hero-overlay-left-stop: 46%;
+  --cs-hero-overlay-bottom: color-mix(in srgb, var(--color-bg) 74%, transparent);
+  --cs-hero-overlay-bottom-start: 60%;
+  --cs-hero-text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
+
   background-color: var(--color-bg);
   padding-block: var(--space-20) var(--space-16);
   border-bottom: 1px solid var(--color-border);
   position: relative;  overflow: hidden;
 }
 
+/* Readability control layer — tune via CSS variables per cover image if needed */
+.cs-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      to right,
+      var(--cs-hero-overlay-left) 0,
+      transparent var(--cs-hero-overlay-left-stop)
+    ),
+    linear-gradient(
+      to bottom,
+      transparent var(--cs-hero-overlay-bottom-start),
+      var(--cs-hero-overlay-bottom) 100%
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
 /*
   Cover image feathered into the hero background.
   --cs-cover is set as an inline CSS custom property on <header> by the template
   whenever .Params.cover is present. When absent the pseudo-element renders nothing.
-  The mask fades from right-to-left so the text column stays fully readable.
+  The mask fades from right-to-left so the text column stays fully readable,
+  and fades from bottom-to-top for a smooth transition to content below.
 */
 .cs-hero::after {
   content: '';
   position: absolute;
   inset: 0;
   background-image: var(--cs-cover, none);
-  background-size: auto 130%;
-  background-position: right -2rem center;
+  background-size: cover;
   background-repeat: no-repeat;
-  opacity: 0.08;
-  filter: grayscale(0.35);
-  -webkit-mask-image: radial-gradient(
-    ellipse 58% 88% at 88% 50%,
-    black 5%,
-    transparent 70%
-  );
-  mask-image: radial-gradient(
-    ellipse 58% 88% at 88% 50%,
-    black 5%,
-    transparent 70%
-  );
+  opacity: 1;
   pointer-events: none;
   z-index: 0;
-}
-
-[data-theme='dark'] .cs-hero::after {
-  opacity: 0.14;
 }
 
 /* Ensure all direct children sit above the background layer */
 .cs-hero > * {
   position: relative;
-  z-index: 1;}
+  z-index: 1;
+}
 
 .cs-hero__eyebrow {
   font-size: var(--text-xs);
@@ -144,6 +156,7 @@
   color: var(--color-accent);
   margin-bottom: var(--space-4);
   display: block;
+  text-shadow: var(--cs-hero-text-shadow);
 }
 
 .cs-hero__title {
@@ -159,6 +172,7 @@
   color: var(--color-text-primary);
   margin-bottom: var(--space-5);
   max-width: 22ch;
+  text-shadow: var(--cs-hero-text-shadow);
 }
 
 .cs-hero__meta {
@@ -167,6 +181,7 @@
   align-items: center;
   gap: var(--space-2);
   margin-bottom: var(--space-8);
+  text-shadow: var(--cs-hero-text-shadow);
 }
 
 /* Cover image — full-bleed above fold, constrained max height */
@@ -194,7 +209,6 @@
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-4);
   padding-block: var(--space-10);
-  /* border-bottom removed — .cs-hero's own border-bottom closes the section */
 }
 
 .cs-metric-tile {
@@ -316,7 +330,7 @@
   font-size: var(--comfort-body); /* clamp(base, 1.8cqi, lg) — scales with cs-content */
   line-height: var(--leading-comfort); /* 1.75 — generous for long-form case study reading */
   color: var(--color-text-secondary);
-  max-width: var(--max-prose);
+  max-width: 100%;
 }
 
 .cs-prose > * + * {
@@ -372,6 +386,65 @@
 
 .cs-prose ul li::marker {
   color: var(--color-accent);
+}
+
+/* ── 06.5 DETAIL VISUALS ─────────────────────────────────────────────────── */
+.cs-detail-media-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.cs-detail-media {
+  grid-column: span 6;
+  margin: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.cs-detail-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 42rem;
+}
+
+.cs-detail-media--standard {
+  aspect-ratio: 16 / 10;
+}
+
+.cs-detail-media--wide {
+  grid-column: span 12;
+  aspect-ratio: 21 / 9;
+}
+
+.cs-detail-media--portrait {
+  aspect-ratio: 3 / 4;
+}
+
+.cs-detail-media--square {
+  aspect-ratio: 1 / 1;
+}
+
+.cs-detail-media--tall {
+  grid-column: span 4;
+  aspect-ratio: 4 / 5;
+}
+
+.cs-detail-media--hero {
+  grid-column: span 12;
+  aspect-ratio: 16 / 7;
+}
+
+.cs-detail-media__caption {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  border-top: 1px solid var(--color-border);
 }
 
 /* ── 07. CALLOUT ────────────────────────────────────────────────────────────── */
@@ -764,6 +837,11 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .cs-detail-media,
+  .cs-detail-media--tall {
+    grid-column: span 6;
+  }
+
   .cs-hero {
     padding-block: var(--space-16) var(--space-12);
   }
@@ -774,6 +852,20 @@
   .cs-metrics {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-3);
+  }
+
+  .cs-detail-media,
+  .cs-detail-media--wide,
+  .cs-detail-media--portrait,
+  .cs-detail-media--square,
+  .cs-detail-media--tall,
+  .cs-detail-media--hero {
+    grid-column: span 12;
+  }
+
+  .cs-detail-media--wide,
+  .cs-detail-media--hero {
+    aspect-ratio: 16 / 10;
   }
 
   .cs-metric-tile__value {

@@ -25,10 +25,10 @@
 {{- $projects  := where site.RegularPages "Section" "portfolio" -}}
 {{- $allItems  := ($posts | append $projects).ByDate.Reverse    -}}
 
-<div class="lk-page">
+<div class="lk-page" id="links-top">
 
   {{/* ══════════════  PROFILE CARD  ══════════════ */}}
-  <section class="lk-profile" aria-label="Profile">
+  <section class="lk-profile" id="links-overview" aria-label="Profile">
 
     {{/* Avatar — src from .Params.avatar, fallback to profile-branded.png */}}
     {{- $avatarSrc := .Params.avatar | default "/images/profile-branded.png" -}}
@@ -71,6 +71,23 @@
 
   </section>
 
+  {{- $jump := slice
+    (dict "href" "#links-overview" "label" "Overview")
+    (dict "href" "#links-content" "label" "Recent work")
+  -}}
+  {{- with .Params.social -}}
+    {{- $jump = $jump | append (dict "href" "#links-social" "label" "Social") -}}
+  {{- end -}}
+  {{- with .Params.services -}}
+    {{- $jump = $jump | append (dict "href" "#links-services" "label" "Services") -}}
+  {{- end -}}
+  {{ partial "jumplinks.html" (dict
+      "links" $jump
+      "label" "Quick links"
+      "ariaLabel" "Links page jump links"
+      "innerClass" "container"
+  ) }}
+
   {{/* ══════════════  STATS STRIP  ══════════════ */}}
   {{- $defaultStats := slice
     (dict "label" "Years exp."          "value" "5+")
@@ -95,7 +112,7 @@
 
   {{/* ══════════════  SOCIAL ICON GRID  ══════════════ */}}
   {{- with .Params.social }}
-  <nav class="lk-social" aria-label="Social links">
+  <nav class="lk-social" id="links-social" aria-label="Social links">
     {{- range . }}
     <a href="{{ .url }}" class="lk-social__link"
        aria-label="{{ .label }}"
@@ -139,7 +156,7 @@
 
   {{/* ══════════════  SERVICES CHIPS  ══════════════ */}}
   {{- with .Params.services }}
-  <div class="lk-services" aria-label="Services">
+  <div class="lk-services" id="links-services" aria-label="Services">
     <p class="lk-services__heading">What I do</p>
     <div class="lk-services__scroll" role="list">
       {{- range . }}
@@ -150,7 +167,7 @@
   {{- end }}
 
   {{/* ══════════════  CONTENT GRID  ══════════════ */}}
-  <section class="lk-content" aria-label="Recent work and writing">
+  <section class="lk-content" id="links-content" aria-label="Recent work and writing">
     <p class="lk-content__heading">Recent work</p>
 
     {{/* Search */}}

@@ -1,8 +1,8 @@
 ﻿---
 title: "Spark Conference"
-cover: "/images/514/independent-grocers-alliance-cover.jpg"
+cover: "/images/514/sparkconference-cover.jpg"
 role: "Web Designer"
-dates: "Jan 2019 — Apr 2021"
+dates: "[ADD DATE RANGE]"
 heading: "Redesigning the Spark Conference Website to Drive Registrations"
 bgcolor: "bg-white"
 figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...

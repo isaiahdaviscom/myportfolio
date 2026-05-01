@@ -22,11 +22,31 @@
 
 <div class="cs-page" id="cs-top">
 
+  {{- $heroStyles := slice -}}
+  {{- with .Params.cover }}
+    {{- $heroStyles = $heroStyles | append (printf "--cs-cover: url('%s')" .) -}}
+  {{- end -}}
+  {{- with .Params.hero_overlay_left }}
+    {{- $heroStyles = $heroStyles | append (printf "--cs-hero-overlay-left: %s" .) -}}
+  {{- end -}}
+  {{- with .Params.hero_overlay_left_stop }}
+    {{- $heroStyles = $heroStyles | append (printf "--cs-hero-overlay-left-stop: %s" .) -}}
+  {{- end -}}
+  {{- with .Params.hero_overlay_bottom }}
+    {{- $heroStyles = $heroStyles | append (printf "--cs-hero-overlay-bottom: %s" .) -}}
+  {{- end -}}
+  {{- with .Params.hero_overlay_bottom_start }}
+    {{- $heroStyles = $heroStyles | append (printf "--cs-hero-overlay-bottom-start: %s" .) -}}
+  {{- end -}}
+  {{- with .Params.hero_text_shadow }}
+    {{- $heroStyles = $heroStyles | append (printf "--cs-hero-text-shadow: %s" .) -}}
+  {{- end -}}
+
 
   {{/* ════════════════════════════════════════════════════════════════════════
        1. HERO
        ════════════════════════════════════════════════════════════════════════ */}}
-  <header class="cs-hero" role="banner"{{- with .Params.cover }} style="--cs-cover: url('{{ . }}')"{{- end }}>
+  <header class="cs-hero" role="banner"{{- if gt (len $heroStyles) 0 }} style="{{ delimit $heroStyles "; " }}"{{- end }}>
     <div class="cs-container">
 
       {{- /* Breadcrumb — replaces the simple back anchor */ -}}
@@ -84,22 +104,6 @@
 
     </div>{{/* /.cs-container (hero text) */}}
 
-    {{/* ── Cover image ──────────────────────────────────────────────────── */}}
-    {{- with .Params.cover }}
-    <div class="cs-container">
-      <div class="cs-hero__cover">
-        <img
-          src="{{ . }}"
-          alt="{{ $.Title }} — project cover"
-          width="1200"
-          height="480"
-          loading="eager"
-          decoding="async"
-        />
-      </div>
-    </div>
-    {{- end }}
-
     {{/* ── Metric tiles ─────────────────────────────────────────────────── */}}
     {{- with .Params.metrics }}
     <div class="cs-container">
@@ -124,6 +128,30 @@
 
   </header>{{/* /.cs-hero */}}
 
+  {{- $jump := slice (dict "href" "#cs-top" "label" "Overview") -}}
+  {{- if .Content -}}
+    {{- $jump = $jump | append (dict "href" "#cs-story-heading" "label" "Story") -}}
+  {{- end -}}
+  {{- with .Params.gallery -}}
+    {{- $jump = $jump | append (dict "href" "#cs-gallery-heading" "label" "Gallery") -}}
+  {{- end -}}
+  {{- with .Params.detail_images -}}
+    {{- $jump = $jump | append (dict "href" "#cs-visuals-heading" "label" "Visuals") -}}
+  {{- end -}}
+  {{- with .Params.timeline -}}
+    {{- $jump = $jump | append (dict "href" "#cs-process-heading" "label" "Process") -}}
+  {{- end -}}
+  {{- with .Params.lessons -}}
+    {{- $jump = $jump | append (dict "href" "#cs-lessons-heading" "label" "Lessons") -}}
+  {{- end -}}
+  {{- $jump = $jump | append (dict "href" "#cs-related" "label" "More work") -}}
+  {{ partial "jumplinks.html" (dict
+      "links" $jump
+      "label" "Case study sections"
+      "ariaLabel" "Case study jump links"
+      "innerClass" "cs-container"
+  ) }}
+
   {{/* ════════════════════════════════════════════════════════════════════════
        1.5 FIGMA PROTOTYPE EMBED — only renders if figma_embed is set
        Positioned after metrics/cover and before prose so visitors can
@@ -142,6 +170,69 @@
         <div class="cs-prose">
           {{ .Content }}
           {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+        </div>
+      </div>
+    </section>
+    {{- end }}
+
+    {{/* ════════════════════════════════════════════════════════════════════
+         2.25 DETAIL VISUALS — admin-controlled image variants + offsets
+         ════════════════════════════════════════════════════════════════════ */}}
+    {{- with .Params.detail_images }}
+    <section class="cs-section" aria-labelledby="cs-visuals-heading">
+      <div class="cs-container">
+        <span class="cs-section__eyebrow">Visuals</span>
+        <h2 class="cs-section__heading" id="cs-visuals-heading">Detail Visuals</h2>
+
+        <div class="cs-detail-media-grid">
+          {{- range . }}
+          {{- $image := .image | default .src -}}
+          {{- if $image -}}
+          {{- $variant := .variant | default "standard" -}}
+          {{- $fit := .fit | default "cover" -}}
+          {{- $preset := .offset_preset | default "custom" -}}
+          {{- $x := .offset_x | default 50 -}}
+          {{- $y := .offset_y | default 50 -}}
+
+          {{- if eq $preset "top" -}}
+            {{- $x = 50 -}}
+            {{- $y = 12 -}}
+          {{- else if eq $preset "bottom" -}}
+            {{- $x = 50 -}}
+            {{- $y = 88 -}}
+          {{- else if eq $preset "left" -}}
+            {{- $x = 18 -}}
+            {{- $y = 50 -}}
+          {{- else if eq $preset "right" -}}
+            {{- $x = 82 -}}
+            {{- $y = 50 -}}
+          {{- else if eq $preset "top-left" -}}
+            {{- $x = 18 -}}
+            {{- $y = 18 -}}
+          {{- else if eq $preset "top-right" -}}
+            {{- $x = 82 -}}
+            {{- $y = 18 -}}
+          {{- else if eq $preset "bottom-left" -}}
+            {{- $x = 18 -}}
+            {{- $y = 82 -}}
+          {{- else if eq $preset "bottom-right" -}}
+            {{- $x = 82 -}}
+            {{- $y = 82 -}}
+          {{- end -}}
+
+          <figure class="cs-detail-media cs-detail-media--{{ $variant }}">
+            <img
+              src="{{ $image }}"
+              alt="{{ .alt | default .caption | default $.Title }}"
+              loading="lazy"
+              style="object-fit: {{ $fit }}; object-position: {{ $x }}% {{ $y }}%;"
+            >
+            {{- with .caption }}
+            <figcaption class="cs-detail-media__caption">{{ . }}</figcaption>
+            {{- end }}
+          </figure>
+          {{- end }}
+          {{- end }}
         </div>
       </div>
     </section>
@@ -191,7 +282,7 @@
   {{/* ════════════════════════════════════════════════════════════════════════
        5. MORE CASE STUDIES
        ════════════════════════════════════════════════════════════════════════ */}}
-  <div class="cs-related cs-container">
+  <div class="cs-related cs-container" id="cs-related">
     {{ partial "related-projects.html" . }}
   </div>
 

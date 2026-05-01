@@ -1,8 +1,8 @@
 ﻿---
 title: "Empire Magazine"
-cover: "/images/514/independent-grocers-alliance-cover.jpg"
+cover: "/images/514/empire-cover.jpg"
 role: "Web Designer"
-dates: "Jan 2019 — Apr 2021"
+dates: "[ADD DATE RANGE]"
 heading: "Editorial Web Design & UX Redesign for Empire Magazine"
 bgcolor: "bg-white"
 figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...

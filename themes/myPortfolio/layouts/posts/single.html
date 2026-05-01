@@ -52,7 +52,7 @@
 {{- $primaryCat := "" -}}
 {{- with $categories }}{{- $primaryCat = index . 0 | title }}{{- end -}}
 
-<div class="bs-page">
+<div class="bs-page" id="bs-top">
 
   {{- /* ── 1. Scroll-driven reading progress bar ─────────────────────────── */ -}}
   <div class="bs-progress" role="progressbar" aria-hidden="true">
@@ -60,7 +60,7 @@
   </div>
 
   {{- /* ── 2. Hero ──────────────────────────────────────────────────────────── */ -}}
-  <header class="bs-hero">
+  <header class="bs-hero" id="bs-overview">
     <div class="bs-container">
 
       {{ partial "breadcrumb.html" . }}
@@ -136,6 +136,24 @@
 
   </header>{{/* /.bs-hero */}}
 
+  {{- $jump := slice
+    (dict "href" "#bs-overview" "label" "Overview")
+    (dict "href" "#bs-article" "label" "Article")
+  -}}
+  {{- with $tags -}}
+    {{- $jump = $jump | append (dict "href" "#bs-tags" "label" "Topics") -}}
+  {{- end -}}
+  {{- $jump = $jump | append (dict "href" "#bs-author" "label" "Author") -}}
+  {{- if or $prev $next $sPrev $sNext -}}
+    {{- $jump = $jump | append (dict "href" "#bs-more" "label" "More") -}}
+  {{- end -}}
+  {{ partial "jumplinks.html" (dict
+      "links" $jump
+      "label" "Article sections"
+      "ariaLabel" "Blog post jump links"
+      "innerClass" "bs-container"
+  ) }}
+
   {{- /* ── 3. Article body ─────────────────────────────────────────────────── */ -}}
   <main id="bs-content" class="bs-body">
     <div class="bs-container{{ if not $isSeries }} bs-container--prose{{ end }}">
@@ -170,13 +188,13 @@
         <div class="bs-series-main">
       {{- end -}}
 
-      <article class="bs-article prose prose-lg">
+      <article class="bs-article prose prose-lg" id="bs-article">
         {{ .Content }}
       </article>
 
       {{- /* ── Tags footer row */ -}}
       {{- with $tags }}
-      <div class="bs-article-tags" role="list" aria-label="Article tags">
+      <div class="bs-article-tags" id="bs-tags" role="list" aria-label="Article tags">
         {{- range . }}
         <a href="/tags/{{ . | urlize }}/" class="bs-tag" role="listitem">#{{ . }}</a>
         {{- end }}
@@ -184,7 +202,7 @@
       {{- end }}
 
       {{- /* ── 4. Author card ────────────────────────────────────────────── */ -}}
-      <aside class="bs-author" aria-label="About the author">
+      <aside class="bs-author" id="bs-author" aria-label="About the author">
         <div class="bs-author__avatar" aria-hidden="true">ID</div>
         <div class="bs-author__body">
           <p class="bs-author__name">Isaiah Davis</p>
@@ -205,7 +223,7 @@
 
       {{- /* Series-aware navigation */ -}}
       {{- if or $sPrev $sNext }}
-      <nav class="bs-post-nav bs-post-nav--series" aria-label="Continue the series">
+      <nav class="bs-post-nav bs-post-nav--series" id="bs-more" aria-label="Continue the series">
         <p class="bs-post-nav__label">Continue the series</p>
         <div class="bs-post-nav__grid">
 
@@ -244,7 +262,7 @@
       {{- else if or $prev $next }}
 
       {{- /* Generic section navigation for non-series posts */ -}}
-      <nav class="bs-post-nav" aria-label="More posts">
+      <nav class="bs-post-nav" id="bs-more" aria-label="More posts">
         <p class="bs-post-nav__label">More writing</p>
         <div class="bs-post-nav__grid">
 

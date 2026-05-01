@@ -1,8 +1,8 @@
 ﻿---
 title: "Mac N Cheese Bar"
-cover: "/images/514/pdbgroup-cover.jpg"
+cover: "/images/514/macncheese-cover.jpg"
 role: "Designer + Developer"
-dates: "June 2021 — Dec 2018"
+dates: "[ADD DATE RANGE]"
 heading: "Designing & Launching Mac N Cheese Bar's Digital Presence"
 bgcolor: "bg-gray-900"
 figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...

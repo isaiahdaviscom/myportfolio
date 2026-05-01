@@ -1,6 +1,6 @@
 ﻿---
 title: "Love is Like a Candle"
-cover: "/images/514/sandc-cover.jpg"
+cover: "/images/514/loveislikeacandle-cover.jpg"
 role: "Creative Director"
 dates: "June 2021 — Present"
 heading: "Creative Direction & Brand Refresh for Love is Like a Candle"

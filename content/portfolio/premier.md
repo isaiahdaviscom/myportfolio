@@ -2,7 +2,7 @@
 title: "Premier Design + Build Group"
 cover: "/images/514/pdbgroup-cover.jpg"
 role: "Graphic Designer + Marketing Specialist"
-dates: "June 2021 — Dec 2018"
+dates: "[ADD DATE RANGE]"
 heading: "Brand Identity & Digital Marketing for Premier Design + Build Group"
 bgcolor: "bg-gray-900"
 figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
