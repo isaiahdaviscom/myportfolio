@@ -73,13 +73,17 @@
     </div>
   </section>
 
-  {{- $jump := slice
-    (dict "href" "#about-overview" "label" "Overview")
-    (dict "href" "#about-bio" "label" "Bio")
-    (dict "href" "#about-skills" "label" "Skills")
-    (dict "href" "#about-values" "label" "Values")
-    (dict "href" "#about-contact" "label" "Contact")
-  -}}
+  {{- $jump := slice (dict "href" "#about-top" "label" "Overview") -}}
+  {{- if .Content -}}
+    {{- $jump = $jump | append (dict "href" "#about-bio" "label" "Bio") -}}
+  {{- end -}}
+  {{- with .Params.skills -}}
+    {{- $jump = $jump | append (dict "href" "#about-skills" "label" "Skills") -}}
+  {{- end -}}
+  {{- with .Params.values -}}
+    {{- $jump = $jump | append (dict "href" "#about-values" "label" "Values") -}}
+  {{- end -}}
+  {{- $jump = $jump | append (dict "href" "#about-contact" "label" "Contact") -}}
   {{ partial "jumplinks.html" (dict
       "links" $jump
       "label" "About sections"

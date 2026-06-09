@@ -106,6 +106,13 @@
     min-width: 0;
   }
 
+  /* When jumplinks render outside a grid section, keep the inner row aligned
+     with the main content column width instead of hugging viewport-left. */
+  .jumplinks__inner.container {
+    width: min(var(--sqs-site-max-width), calc(100% - (var(--sqs-site-gutter) * 2)));
+    margin-inline: auto;
+  }
+
   .jumplinks__label {
     margin: 0;
     font-size: var(--text-xs);

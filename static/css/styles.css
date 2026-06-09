@@ -2358,6 +2358,10 @@ html {
     padding-block: var(--space-2);
     min-width: 0;
   }
+  .jumplinks__inner.container {
+    width: min(var(--sqs-site-max-width), calc(100% - (var(--sqs-site-gutter) * 2)));
+    margin-inline: auto;
+  }
   .jumplinks__label {
     margin: 0;
     font-size: var(--text-xs);
