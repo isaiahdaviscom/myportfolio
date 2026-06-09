@@ -78,7 +78,6 @@
 
   body.has-jumplinks .jumplinks {
     margin-top: 0;
-    border-top: 2px solid var(--color-border);
   }
 
   [data-theme='dark'] body.has-jumplinks .jumplinks {

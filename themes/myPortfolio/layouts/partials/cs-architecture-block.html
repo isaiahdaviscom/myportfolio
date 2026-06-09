@@ -1,0 +1,21 @@
+{{- with .Params.architecture_flow }}
+<section class="cs-section" aria-labelledby="cs-architecture-heading">
+  <div class="cs-container">
+    <div class="cs-arch-shell">
+      <div class="cs-arch-shell__head">
+        <span class="cs-section__eyebrow">System Architecture</span>
+        <h2 class="cs-section__heading" id="cs-architecture-heading">Connected Platform Flow</h2>
+      </div>
+
+      <ol class="cs-architecture" role="list" aria-label="System architecture flow">
+        {{- range $i, $node := . }}
+        <li class="cs-architecture__node">
+          <span class="cs-architecture__index">{{ add $i 1 }}</span>
+          <p class="cs-architecture__label">{{ $node }}</p>
+        </li>
+        {{- end }}
+      </ol>
+    </div>
+  </div>
+</section>
+{{- end }}

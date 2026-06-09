@@ -217,8 +217,21 @@
     ); /* baseline grid — rows ≥ 24px, grow to fit content */
 
     background: var(--color-bg);
-    padding-block: var(--space-12);
+    padding-block: var(--space-16);
     min-height: 60vh;
+  }
+
+  .blog-single__hero {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .blog-single__hero-content {
+    margin-top: var(--space-8);
+    max-width: 52rem;
+  }
+
+  .blog-single__title {
+    margin-bottom: var(--space-4);
   }
 
   /* Role / dates line (shown on case studies too via single.html) */
@@ -226,14 +239,15 @@
     font-size: var(--text-sm);
     font-weight: var(--font-medium);
     color: var(--color-accent);
-    margin-bottom: var(--space-1);
+    margin-bottom: var(--space-3);
   }
 
   /* Description line */
   .blog-single__description {
     font-size: var(--text-base);
     color: var(--color-text-secondary);
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-8);
+    max-width: 65ch;
   }
 
   /* Meta row: date + read time side by side */
@@ -242,7 +256,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: var(--space-3);
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-8);
   }
 
   /* Published date */
@@ -265,6 +279,27 @@
   .blog-single__read-time::before {
     content: '·';
     color: var(--color-border-strong);
+  }
+
+  .blog-single__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-14);
+    align-items: start;
+  }
+
+  .blog-single__article {
+    max-width: 52rem;
+  }
+
+  .blog-single__related {
+    max-width: 74rem;
+  }
+
+  @media (min-width: 1200px) {
+    .blog-single__layout {
+      gap: var(--space-16);
+    }
   }
 
   /* Tags strip below article body */

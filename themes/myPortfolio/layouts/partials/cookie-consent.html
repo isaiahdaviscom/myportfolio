@@ -1,0 +1,66 @@
+<section class="cookie-consent" data-cookie-banner hidden aria-label="Cookie consent" role="region">
+  <div class="cookie-consent__inner">
+    <button type="button" class="cookie-consent__close" data-consent-action="dismiss" aria-label="Dismiss cookie banner for now">
+      <span aria-hidden="true">×</span>
+    </button>
+    <p class="cookie-consent__eyebrow">Privacy Controls</p>
+    <h2 class="cookie-consent__title">Your data, your choice.</h2>
+    <p class="cookie-consent__copy">
+      This site uses essential cookies for core functionality and optional analytics cookies to understand site usage.
+      You can accept all, reject non-essential cookies, or customize your preference.
+    </p>
+    <div class="cookie-consent__actions">
+      <button type="button" class="cookie-btn cookie-btn--ghost" data-consent-action="reject">
+        Reject Non-Essential
+      </button>
+      <button type="button" class="cookie-btn cookie-btn--ghost" data-consent-action="open-settings">
+        Customize
+      </button>
+      <button type="button" class="cookie-btn cookie-btn--primary" data-consent-action="accept">
+        Accept All
+      </button>
+    </div>
+    <p class="cookie-consent__status" data-consent-status aria-live="polite"></p>
+  </div>
+</section>
+
+<section class="cookie-panel" id="cookie-panel" data-cookie-panel hidden aria-labelledby="cookie-panel-title" aria-modal="true" role="dialog" aria-hidden="true">
+  <div class="cookie-panel__backdrop" data-consent-action="close-settings"></div>
+  <div class="cookie-panel__sheet">
+    <button type="button" class="cookie-panel__close" data-consent-action="close-settings" aria-label="Close cookie preferences">
+      <span aria-hidden="true">×</span>
+    </button>
+    <h2 id="cookie-panel-title" class="cookie-panel__title">Cookie Preferences</h2>
+    <p class="cookie-panel__copy">
+      Essential cookies are always enabled. Analytics cookies help improve content quality and navigation.
+    </p>
+
+    <div class="cookie-panel__group">
+      <label class="cookie-toggle" for="cookie-essential">
+        <span>
+          <strong>Essential Cookies</strong>
+          <small>Required for navigation, security, and core site behavior.</small>
+        </span>
+        <input id="cookie-essential" type="checkbox" checked disabled>
+      </label>
+
+      <label class="cookie-toggle" for="cookie-analytics">
+        <span>
+          <strong>Analytics Cookies</strong>
+          <small>Collects anonymized usage patterns through GTM/GA4.</small>
+        </span>
+        <input id="cookie-analytics" type="checkbox" data-consent-field="analytics">
+      </label>
+    </div>
+
+    <div class="cookie-panel__actions">
+      <button type="button" class="cookie-btn cookie-btn--ghost" data-consent-action="reject">Reject Non-Essential</button>
+      <button type="button" class="cookie-btn cookie-btn--ghost" data-consent-action="save-settings">Save Preferences</button>
+      <button type="button" class="cookie-btn cookie-btn--primary" data-consent-action="accept">Accept All</button>
+    </div>
+  </div>
+</section>
+
+<button type="button" class="cookie-settings-fab" data-consent-action="open-settings" aria-haspopup="dialog" aria-controls="cookie-panel" aria-expanded="false" hidden>
+  Cookie Settings
+</button>

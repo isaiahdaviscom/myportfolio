@@ -1,7 +1,7 @@
 <script>
   ((i, e) => {
     // <stdin>
-    e.addEventListener('DOMContentLoaded', () => {
+    const init = () => {
       const currentYear = new Date().getFullYear();
       const footerYear = document.getElementById('footer-year');
       if (footerYear) {
@@ -11,6 +11,281 @@
       if (footerVersion) {
         footerVersion.textContent = 'v1.0.0'; // Replace with actual version if available
       }
+
+      // ── Cookie consent + analytics gating ───────────────────────────────
+      const CONSENT_KEY = 'site-cookie-consent-v1';
+      const CONSENT_DISMISS_KEY = 'site-cookie-consent-dismissed-v1';
+
+      const cookieBanner = document.querySelector('[data-cookie-banner]');
+      const cookiePanel = document.querySelector('[data-cookie-panel]');
+      const cookieFab = document.querySelector('.cookie-settings-fab');
+      const analyticsField = document.querySelector('[data-consent-field="analytics"]');
+      const statusField = document.querySelector('[data-consent-status]');
+
+      let focusRestoreEl = null;
+      let focusTrapBound = false;
+      let consentState = null;
+
+      let gtmLoaded = false;
+
+      const readConsent = () => {
+        if (consentState && typeof consentState.analytics === 'boolean') {
+          return consentState;
+        }
+
+        try {
+          const raw = localStorage.getItem(CONSENT_KEY);
+          if (!raw) return null;
+          const parsed = JSON.parse(raw);
+          if (!parsed || typeof parsed.analytics !== 'boolean') return null;
+          consentState = parsed;
+          return parsed;
+        } catch (_) {
+          return null;
+        }
+      };
+
+      const writeConsent = (analyticsEnabled) => {
+        const consent = {
+          essential: true,
+          analytics: Boolean(analyticsEnabled),
+          timestamp: new Date().toISOString(),
+        };
+
+        consentState = consent;
+
+        try {
+          localStorage.setItem(CONSENT_KEY, JSON.stringify(consent));
+        } catch (_) {}
+
+        return consent;
+      };
+
+      const hasDecision = (consent) => {
+        return Boolean(consent && typeof consent.analytics === 'boolean');
+      };
+
+      const isDismissed = () => {
+        try {
+          return sessionStorage.getItem(CONSENT_DISMISS_KEY) === '1';
+        } catch (_) {
+          return false;
+        }
+      };
+
+      const setDismissed = (value) => {
+        try {
+          if (value) sessionStorage.setItem(CONSENT_DISMISS_KEY, '1');
+          else sessionStorage.removeItem(CONSENT_DISMISS_KEY);
+        } catch (_) {}
+      };
+
+      const announceStatus = (message) => {
+        if (!statusField) return;
+        statusField.textContent = message || '';
+      };
+
+      const getPanelFocusable = () => {
+        if (!cookiePanel) return [];
+        return Array.from(
+          cookiePanel.querySelectorAll(
+            'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )
+        );
+      };
+
+      const trapPanelFocus = (ev) => {
+        if (!cookiePanel || cookiePanel.hidden || ev.key !== 'Tab') return;
+        const focusable = getPanelFocusable();
+        if (!focusable.length) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        const active = document.activeElement;
+
+        if (ev.shiftKey && active === first) {
+          ev.preventDefault();
+          last.focus();
+          return;
+        }
+
+        if (!ev.shiftKey && active === last) {
+          ev.preventDefault();
+          first.focus();
+        }
+      };
+
+      const setPanelOpen = (open) => {
+        if (!cookiePanel) return;
+
+        if (open && !focusRestoreEl) {
+          focusRestoreEl = document.activeElement;
+        }
+
+        cookiePanel.hidden = !open;
+        cookiePanel.style.display = open ? 'grid' : 'none';
+        cookiePanel.setAttribute('aria-hidden', String(!open));
+        document.body.classList.toggle('cookie-panel-open', open);
+
+        if (cookieFab) {
+          cookieFab.setAttribute('aria-expanded', String(open));
+        }
+
+        if (open) {
+          const focusable = getPanelFocusable();
+          if (focusable.length) {
+            focusable[0].focus();
+          }
+
+          if (!focusTrapBound) {
+            document.addEventListener('keydown', trapPanelFocus);
+            focusTrapBound = true;
+          }
+        } else {
+          if (focusTrapBound) {
+            document.removeEventListener('keydown', trapPanelFocus);
+            focusTrapBound = false;
+          }
+
+          if (focusRestoreEl && typeof focusRestoreEl.focus === 'function') {
+            focusRestoreEl.focus();
+          }
+          focusRestoreEl = null;
+        }
+      };
+
+      const setBannerVisible = (visible) => {
+        if (!cookieBanner) return;
+        cookieBanner.hidden = !visible;
+        cookieBanner.style.display = visible ? '' : 'none';
+      };
+
+      const setSettingsVisible = (visible) => {
+        if (!cookieFab) return;
+        cookieFab.hidden = !visible;
+      };
+
+      const applyConsentMode = (consent, mode) => {
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = window.gtag || function gtag() {
+          window.dataLayer.push(arguments);
+        };
+
+        const granted = Boolean(consent && consent.analytics);
+        window.gtag('consent', mode || 'default', {
+          ad_storage: granted ? 'granted' : 'denied',
+          ad_user_data: granted ? 'granted' : 'denied',
+          ad_personalization: granted ? 'granted' : 'denied',
+          analytics_storage: granted ? 'granted' : 'denied',
+          functionality_storage: 'granted',
+          security_storage: 'granted',
+        });
+      };
+
+      const loadGtmIfAllowed = (consent) => {
+        if (!consent || !consent.analytics || gtmLoaded) return;
+        const cfg = window.__SITE_GTM__;
+        if (!cfg || !cfg.id) return;
+
+        const existing = document.querySelector('script[src*="googletagmanager.com/gtm.js?id="]');
+        if (existing) {
+          gtmLoaded = true;
+          return;
+        }
+
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(cfg.id) + (cfg.env || '');
+        document.head.appendChild(script);
+        gtmLoaded = true;
+      };
+
+      const syncConsentUI = (consent) => {
+        if (analyticsField) {
+          analyticsField.checked = Boolean(consent && consent.analytics);
+        }
+
+        const decided = hasDecision(consent);
+        const dismissed = !decided && isDismissed();
+
+        setBannerVisible(!decided && !dismissed);
+        setSettingsVisible(decided || dismissed);
+      };
+
+      const commitConsent = (analyticsEnabled, source) => {
+        const consent = writeConsent(analyticsEnabled);
+        setDismissed(false);
+        applyConsentMode(consent, 'update');
+        loadGtmIfAllowed(consent);
+        syncConsentUI(consent);
+        setPanelOpen(false);
+
+        if (source === 'accept') {
+          announceStatus('Preferences saved: analytics enabled.');
+        } else if (source === 'reject') {
+          announceStatus('Preferences saved: analytics disabled.');
+        } else {
+          announceStatus('Preferences saved.');
+        }
+      };
+
+      const consent = readConsent();
+      applyConsentMode(consent, 'default');
+      loadGtmIfAllowed(consent);
+      syncConsentUI(consent);
+
+      e.addEventListener('click', (ev) => {
+        const trigger = ev.target.closest('[data-consent-action]');
+        if (!trigger) return;
+
+        const action = trigger.getAttribute('data-consent-action');
+
+        if (action === 'accept') {
+          commitConsent(true, 'accept');
+          return;
+        }
+
+        if (action === 'reject') {
+          commitConsent(false, 'reject');
+          return;
+        }
+
+        if (action === 'open-settings') {
+          setDismissed(false);
+          const latestConsent = readConsent();
+          if (analyticsField) {
+            analyticsField.checked = Boolean(latestConsent && latestConsent.analytics);
+          }
+          setPanelOpen(true);
+          return;
+        }
+
+        if (action === 'dismiss') {
+          setDismissed(true);
+          syncConsentUI(readConsent());
+          announceStatus('Cookie banner dismissed for now.');
+          return;
+        }
+
+        if (action === 'save-settings') {
+          commitConsent(Boolean(analyticsField && analyticsField.checked), 'save');
+          return;
+        }
+
+        if (action === 'close-settings') {
+          setPanelOpen(false);
+        }
+      });
+
+      document.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Escape' && cookiePanel && !cookiePanel.hidden) {
+          setPanelOpen(false);
+        }
+      });
+      // ── End cookie consent + analytics gating ───────────────────────────
 
       // Shared page-state classes used by connected sticky UI (header + jumplinks)
       document.body.classList.toggle('has-jumplinks', Boolean(document.querySelector('.jumplinks')));
@@ -265,6 +540,12 @@
         });
       }
       // ── End reveal ───────────────────────────────────────────────────────
-    });
+    };
+
+    if (e.readyState === 'loading') {
+      e.addEventListener('DOMContentLoaded', init, { once: true });
+    } else {
+      init();
+    }
   })(window, document);
 </script>

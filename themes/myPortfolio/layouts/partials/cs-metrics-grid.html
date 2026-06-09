@@ -1,0 +1,14 @@
+{{- with .Params.metrics }}
+<div class="cs-metrics" role="list" aria-label="Key outcomes">
+  {{- range $i, $m := . }}
+  {{- $variant := add (mod $i 4) 1 }}
+  <article class="cs-metric-tile cs-metric-tile--{{ $variant }}" role="listitem">
+    <p class="cs-metric-tile__value" aria-label="{{ $m.value }} — {{ $m.label }}">{{ $m.value }}</p>
+    <p class="cs-metric-tile__label">{{ $m.label }}</p>
+    {{- with $m.detail }}
+    <p class="cs-metric-tile__detail">{{ . }}</p>
+    {{- end }}
+  </article>
+  {{- end }}
+</div>
+{{- end }}

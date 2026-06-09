@@ -60,6 +60,9 @@
 /* 1.62 In-page jump links */
 @import './components/jumplinks.css';
 
+/* 1.63 Global cookie consent banner + preferences */
+@import './components/cookie-consent.css';
+
 /* 1.65 Site header (glass sticky bar + nav + social links) */
 @import './layout/header.css';
 

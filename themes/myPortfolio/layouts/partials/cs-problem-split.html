@@ -1,0 +1,34 @@
+{{- $problemSummary := .Params.problem_summary | default .Params.description -}}
+{{- $problemPoints := .Params.problem_points -}}
+{{- $constraints := .Params.constraints -}}
+{{- if or $problemSummary $problemPoints $constraints -}}
+<section class="cs-section cs-section--tint" aria-labelledby="cs-problem-heading">
+  <div class="cs-container">
+    <div class="cs-problem-split">
+      <div class="cs-problem-split__main">
+        <span class="cs-section__eyebrow">The Problem</span>
+        <h2 class="cs-section__heading" id="cs-problem-heading">The Problem Space</h2>
+        {{- with $problemSummary }}
+        <p class="cs-problem-split__summary">{{ . }}</p>
+        {{- end }}
+      </div>
+
+      <aside class="cs-problem-split__side" aria-label="Primary issues and constraints">
+        {{- with $problemPoints }}
+        <section class="cs-issue-card" aria-labelledby="cs-issue-heading">
+          <h3 id="cs-issue-heading" class="cs-issue-card__title">Primary Issues</h3>
+          <div class="cs-issue-card__list" role="list">{{- range . }}<p role="listitem">{{ . }}</p>{{- end }}</div>
+        </section>
+        {{- end }}
+
+        {{- with $constraints }}
+        <section class="cs-callout cs-callout--neutral" aria-labelledby="cs-constraints-heading">
+          <h3 id="cs-constraints-heading" class="cs-callout__title">Constraints</h3>
+          <div class="cs-callout__list" role="list">{{- range . }}<p role="listitem">{{ . }}</p>{{- end }}</div>
+        </section>
+        {{- end }}
+      </aside>
+    </div>
+  </div>
+</section>
+{{- end -}}

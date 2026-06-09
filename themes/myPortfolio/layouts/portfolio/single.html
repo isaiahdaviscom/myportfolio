@@ -13,13 +13,6 @@
 */}}
 {{ define "main" }}
 
-{{- $palette := slice
-  (dict "accent" "var(--color-metric-1)" "soft" "var(--color-metric-1-soft)")
-  (dict "accent" "var(--color-metric-2)" "soft" "var(--color-metric-2-soft)")
-  (dict "accent" "var(--color-metric-3)" "soft" "var(--color-metric-3-soft)")
-  (dict "accent" "var(--color-metric-4)" "soft" "var(--color-metric-4-soft)")
-}}
-
 <div class="cs-page" id="cs-top">
 
   {{- $heroStyles := slice -}}
@@ -48,89 +41,93 @@
        ════════════════════════════════════════════════════════════════════════ */}}
   <header class="cs-hero" role="banner"{{- if gt (len $heroStyles) 0 }} style="{{ delimit $heroStyles "; " }}"{{- end }}>
     <div class="cs-container">
+      <div class="cs-hero__layout">
+        <div class="cs-hero__main">
+          {{- with .Params.role }}
+          <span class="cs-hero__eyebrow">{{ . }}</span>
+          {{- end }}
 
-      {{- /* Breadcrumb — replaces the simple back anchor */ -}}
-      {{ partial "breadcrumb.html" . }}
+          <h1 class="cs-hero__title">{{ .Params.heading | default .Title }}</h1>
 
-      {{- with .Params.role }}
-      <span class="cs-hero__eyebrow">{{ . }}</span>
-      {{- end }}
+          {{- with (.Params.subtitle | default .Params.problem_summary | default .Params.description) }}
+          <p class="cs-hero__subtitle">{{ . }}</p>
+          {{- end }}
 
-      <h1 class="cs-hero__title">{{ .Params.heading | default .Title }}</h1>
+          {{/* ── Meta chips ─────────────────────────────────────────────────── */}}
+          <div class="cs-hero__meta" role="list" aria-label="Project metadata">
 
-      {{/* ── Meta chips ─────────────────────────────────────────────────── */}}
-      <div class="cs-hero__meta" role="list" aria-label="Project metadata">
+            {{- with .Params.dates }}
+            <span class="cs-chip cs-chip--accent" role="listitem">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none"
+                   viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8"  y1="2" x2="8"  y2="6"/>
+                <line x1="3"  y1="10" x2="21" y2="10"/>
+              </svg>
+              {{ . }}
+            </span>
+            {{- end }}
 
-        {{- with .Params.dates }}
-        <span class="cs-chip cs-chip--accent" role="listitem">
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none"
-               viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-            <line x1="16" y1="2" x2="16" y2="6"/>
-            <line x1="8"  y1="2" x2="8"  y2="6"/>
-            <line x1="3"  y1="10" x2="21" y2="10"/>
-          </svg>
-          {{ . }}
-        </span>
-        {{- end }}
+            {{- with .Params.employment_type }}
+            <span class="cs-chip" role="listitem">{{ . }}</span>
+            {{- end }}
 
-        {{- with .Params.employment_type }}
-        <span class="cs-chip" role="listitem">{{ . }}</span>
-        {{- end }}
+            {{- with .Params.location }}
+            <span class="cs-chip cs-chip--muted" role="listitem">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none"
+                   viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              {{ . }}
+            </span>
+            {{- end }}
 
-        {{- with .Params.location }}
-        <span class="cs-chip cs-chip--muted" role="listitem">
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none"
-               viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-          </svg>
-          {{ . }}
-        </span>
-        {{- end }}
+          </div>{{/* /.cs-hero__meta */}}
 
-      </div>{{/* /.cs-hero__meta */}}
+          {{/* ── Tech stack chips — accepts both `stack` and `skills` keys ── */}}
+          {{- $chips := .Params.stack | default .Params.skills -}}
+          {{- with $chips }}
+          <div class="cs-hero__meta" role="list" aria-label="Tech stack">
+            {{- range . }}
+            <span class="cs-chip cs-chip--accent" role="listitem">{{ . }}</span>
+            {{- end }}
+          </div>
+          {{- end }}
+        </div>
 
-      {{/* ── Tech stack chips — accepts both `stack` and `skills` keys ── */}}
-      {{- $chips := .Params.stack | default .Params.skills -}}
-      {{- with $chips }}
-      <div class="cs-hero__meta" role="list" aria-label="Tech stack">
-        {{- range . }}
-        <span class="cs-chip cs-chip--accent" role="listitem">{{ . }}</span>
-        {{- end }}
+        <aside class="cs-hero__metrics" aria-label="Impact metrics">
+          {{ partial "cs-metrics-grid.html" . }}
+        </aside>
       </div>
-      {{- end }}
 
     </div>{{/* /.cs-container (hero text) */}}
 
-    {{/* ── Metric tiles ─────────────────────────────────────────────────── */}}
-    {{- with .Params.metrics }}
-    <div class="cs-container">
-      <div class="cs-metrics" role="list" aria-label="Key outcomes">
-        {{- range $i, $m := . }}
-        {{- $colors := index $palette (mod $i 4) }}
-        <div
-          class="cs-metric-tile"
-          role="listitem"
-          style="--tile-accent:{{ $colors.accent }};--tile-accent-soft:{{ $colors.soft }}"
-        >
-          <p class="cs-metric-tile__value" aria-label="{{ $m.value }} — {{ $m.label }}">{{ $m.value }}</p>
-          <p class="cs-metric-tile__label">{{ $m.label }}</p>
-          {{- with $m.detail }}
-          <p class="cs-metric-tile__detail">{{ . }}</p>
-          {{- end }}
-        </div>
-        {{- end }}
-      </div>
-    </div>
-    {{- end }}
-
   </header>{{/* /.cs-hero */}}
+
+  <section class="cs-utility-bar" aria-label="Page context">
+    <div class="cs-container">
+      {{ partial "breadcrumb.html" . }}
+    </div>
+  </section>
 
   {{- $jump := slice (dict "href" "#cs-top" "label" "Overview") -}}
   {{- if .Content -}}
     {{- $jump = $jump | append (dict "href" "#cs-story-heading" "label" "Story") -}}
+  {{- end -}}
+  {{- with .Params.problem_summary -}}
+    {{- $jump = $jump | append (dict "href" "#cs-problem-heading" "label" "Problem") -}}
+  {{- end -}}
+  {{- with .Params.architecture_flow -}}
+    {{- $jump = $jump | append (dict "href" "#cs-architecture-heading" "label" "Architecture") -}}
+  {{- end -}}
+  {{- with .Params.component_system -}}
+    {{- $jump = $jump | append (dict "href" "#cs-components-heading" "label" "Components") -}}
+  {{- end -}}
+  {{- with .Params.figma_embed -}}
+    {{- $jump = $jump | append (dict "href" "#cs-prototype-heading" "label" "Prototype") -}}
   {{- end -}}
   {{- with .Params.gallery -}}
     {{- $jump = $jump | append (dict "href" "#cs-gallery-heading" "label" "Gallery") -}}
@@ -153,27 +150,120 @@
   ) }}
 
   {{/* ════════════════════════════════════════════════════════════════════════
-       1.5 FIGMA PROTOTYPE EMBED — only renders if figma_embed is set
-       Positioned after metrics/cover and before prose so visitors can
-       explore the prototype before reading the case study narrative.
-       ════════════════════════════════════════════════════════════════════════ */}}
-  {{- partial "cs-figma-embed.html" . }}
-
-  {{/* ════════════════════════════════════════════════════════════════════════
        2. PROSE — rendered markdown (Challenge / Role / Achievements)
        ════════════════════════════════════════════════════════════════════════ */}}
   <main id="main-content">
     {{- if .Content }}
     <section class="cs-section" aria-labelledby="cs-story-heading">
-      <div class="cs-container cs-container--prose">
-        <h2 id="cs-story-heading" class="sr-only">Case Study</h2>
-        <div class="cs-prose">
-          {{ .Content }}
-          {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+      <div class="cs-container cs-story-layout">
+        <aside class="cs-story-rail" aria-label="Project summary">
+          <section class="cs-rail-card" aria-labelledby="cs-rail-overview-heading">
+            <p class="cs-rail-card__eyebrow">At a Glance</p>
+            <h2 class="cs-rail-card__heading" id="cs-rail-overview-heading">Project Overview</h2>
+            <ul class="cs-rail-list" role="list">
+              {{- with .Params.role }}
+              <li class="cs-rail-list__row">
+                <span class="cs-rail-list__label">Role</span>
+                <span class="cs-rail-list__value">{{ . }}</span>
+              </li>
+              {{- end }}
+              {{- with .Params.dates }}
+              <li class="cs-rail-list__row">
+                <span class="cs-rail-list__label">Timeline</span>
+                <span class="cs-rail-list__value">{{ . }}</span>
+              </li>
+              {{- end }}
+              {{- with .Params.location }}
+              <li class="cs-rail-list__row">
+                <span class="cs-rail-list__label">Location</span>
+                <span class="cs-rail-list__value">{{ . }}</span>
+              </li>
+              {{- end }}
+            </ul>
+          </section>
+
+          {{- with .Params.metrics }}
+          <section class="cs-rail-card" aria-labelledby="cs-rail-impact-heading">
+            <p class="cs-rail-card__eyebrow">Impact Snapshot</p>
+            <h2 class="cs-rail-card__heading" id="cs-rail-impact-heading">Outcomes</h2>
+            <ul class="cs-rail-impact" role="list">
+              {{- range first 3 . }}
+              <li class="cs-rail-impact__item">
+                <span class="cs-rail-impact__value">{{ .value }}</span>
+                <span class="cs-rail-impact__label">{{ .label }}</span>
+              </li>
+              {{- end }}
+            </ul>
+          </section>
+          {{- end }}
+
+          {{- $railStack := .Params.stack | default .Params.skills -}}
+          {{- with $railStack }}
+          <section class="cs-rail-card" aria-labelledby="cs-rail-stack-heading">
+            <p class="cs-rail-card__eyebrow">System Stack</p>
+            <h2 class="cs-rail-card__heading" id="cs-rail-stack-heading">Core Technologies</h2>
+            <ul class="cs-rail-tags" role="list">
+              {{- range first 8 . }}
+              <li>{{ . }}</li>
+              {{- end }}
+            </ul>
+          </section>
+          {{- end }}
+        </aside>
+
+        <div class="cs-story-content cs-container--prose">
+          <h2 id="cs-story-heading" class="sr-only">Case Study</h2>
+          <div class="cs-prose">
+            {{ .Content }}
+            {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+          </div>
         </div>
       </div>
     </section>
     {{- end }}
+
+    {{- with .Params.full_bleed_sections }}
+    <section class="cs-fullbleed-wrap" aria-label="Project visuals">
+      {{- range . }}
+      <figure class="cs-fullbleed">
+        <div class="cs-fullbleed__media">
+          <img src="{{ .image }}" alt="{{ .alt | default $.Title }}" loading="lazy">
+        </div>
+        {{- if or .eyebrow .headline .copy }}
+        <figcaption class="cs-fullbleed__caption cs-container">
+          <div class="cs-fullbleed__card">
+            {{- with .eyebrow }}
+            <p class="cs-fullbleed__eyebrow">{{ . }}</p>
+            {{- end }}
+            {{- with .headline }}
+            <h2 class="cs-fullbleed__title">{{ . }}</h2>
+            {{- end }}
+            {{- with .copy }}
+            <p class="cs-fullbleed__copy">{{ . }}</p>
+            {{- end }}
+          </div>
+        </figcaption>
+        {{- end }}
+      </figure>
+      {{- end }}
+    </section>
+    {{- end }}
+
+    {{ partial "cs-problem-split.html" . }}
+
+    {{ partial "cs-architecture-block.html" . }}
+
+    {{- with .Params.figma_embed }}
+    <section class="cs-section" aria-labelledby="cs-prototype-heading">
+      <div class="cs-container">
+        <span class="cs-section__eyebrow">Prototype</span>
+        <h2 class="cs-section__heading" id="cs-prototype-heading">Interactive Walkthrough</h2>
+      </div>
+      {{- partial "cs-figma-embed.html" $ }}
+    </section>
+    {{- end }}
+
+    {{ partial "cs-component-grid.html" . }}
 
     {{/* ════════════════════════════════════════════════════════════════════
          2.25 DETAIL VISUALS — admin-controlled image variants + offsets

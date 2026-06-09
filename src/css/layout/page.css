@@ -70,12 +70,12 @@
       var(--color-surface) 55%,
       var(--color-surface-subtle) 100%
     );
-    padding-block: var(--space-12) var(--space-16);
+    padding-block: var(--space-16) var(--space-20);
   }
 
   @media (min-width: 768px) {
     .page-hero {
-      padding-block: var(--space-16) var(--space-24);
+      padding-block: var(--space-20) var(--space-28);
     }
   }
 

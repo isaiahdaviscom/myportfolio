@@ -1,0 +1,24 @@
+{{- with .Params.spotlight_cards }}
+<section class="cs-section cs-section--compact" aria-labelledby="cs-spotlight-heading">
+  <div class="cs-container">
+    <span class="cs-section__eyebrow">Story Spotlight</span>
+    <h2 class="cs-section__heading" id="cs-spotlight-heading">From Constraint to System</h2>
+
+    <div class="cs-spotlight-grid" role="list">
+      {{- range $card := . }}
+      <article class="cs-spotlight-card" role="listitem">
+        {{- with $card.icon }}
+        <p class="cs-spotlight-card__icon" aria-hidden="true">{{ . }}</p>
+        {{- end }}
+        <p class="cs-spotlight-card__kicker">{{ $card.title }}</p>
+        <h3 class="cs-spotlight-card__title">{{ $card.headline }}</h3>
+        <p class="cs-spotlight-card__copy">{{ $card.copy }}</p>
+        {{- with $card.href }}
+        <a class="cs-spotlight-card__link" href="{{ . }}">{{ $card.label | default "Explore" }} <span aria-hidden="true">→</span></a>
+        {{- end }}
+      </article>
+      {{- end }}
+    </div>
+  </div>
+</section>
+{{- end }}
