@@ -6,7 +6,7 @@ draft: false
 weight: 70
 year: "2019"
 client: "Toms"
-project_url: ""
+project_url: "https://www.toms.com"
 featured_image: "/images/514/toms-cover.jpg"
 categories:
   - branding

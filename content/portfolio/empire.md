@@ -6,7 +6,7 @@ draft: false
 weight: 80
 year: "2019"
 client: "Empire Magazine"
-project_url: ""
+project_url: "https://www.empireonline.com"
 featured_image: "/images/514/empire-cover.jpg"
 categories:
   - editorial

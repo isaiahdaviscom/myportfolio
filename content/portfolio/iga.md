@@ -6,7 +6,7 @@ draft: false
 weight: 20
 year: "2019"
 client: "Independent Grocers Alliance"
-project_url: ""
+project_url: "https://www.iga.com"
 featured_image: "/images/514/independent-grocers-alliance-cover.jpg"
 categories:
   - web-design

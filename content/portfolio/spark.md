@@ -6,7 +6,7 @@ draft: false
 weight: 90
 year: "2020"
 client: "Spark Conference"
-project_url: ""
+project_url: "https://www.sparkconference.com"
 featured_image: "/images/514/sparkconference-cover.jpg"
 categories:
   - web-design

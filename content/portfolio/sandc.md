@@ -6,7 +6,7 @@ draft: false
 weight: 10
 year: "2021"
 client: "S&C Electric Company"
-project_url: ""
+project_url: "https://www.sandc.com"
 featured_image: "/images/514/sandc-cover.jpg"
 categories:
   - ux
