@@ -67,7 +67,7 @@
 {{/* ═══════════════════════════════════════════════════════════════
      FEATURED WORK
      ═══════════════════════════════════════════════════════════════ */}}
-{{- $featured := where (where .Site.RegularPages "Section" "portfolio") ".Params.feature" true | first 3 }}
+{{- $featured := sort (where .Site.RegularPages "Section" "portfolio") ".Params.weight" | first 3 }}
 {{- if $featured }}
 <section class="home-work" aria-labelledby="home-work-heading">
   <div class="home-work__inner">
@@ -89,16 +89,17 @@
       <a href="{{ $p.RelPermalink }}"
          class="home-work-card{{ if eq $i 0 }} home-work-card--featured{{ end }}"
          aria-label="{{ $p.Title }}">
-        {{- if $p.Params.cover }}
-        <img src="{{ $p.Params.cover }}" alt="{{ $p.Title }}" class="home-work-card__img"
+         {{- $cardImage := $p.Params.featured_image | default $p.Params.cover }}
+         {{- if $cardImage }}
+         <img src="{{ $cardImage }}" alt="{{ $p.Title }}" class="home-work-card__img"
              width="514" height="321" {{ if eq $i 0 }}loading="eager"{{ else }}loading="lazy"{{ end }} decoding="async">
         {{- else }}
         <div class="home-work-card__fallback" aria-hidden="true">{{ substr $p.Title 0 1 }}</div>
         {{- end }}
         <div class="home-work-card__overlay">
-          {{- with $p.Params.role }}<p class="home-work-card__role">{{ . }}</p>{{- end }}
+          {{- with $p.Params.client }}<p class="home-work-card__role">{{ . }}</p>{{- else }}<p class="home-work-card__role">{{ $p.Title }}</p>{{- end }}
           <h3 class="home-work-card__title">{{ $p.Title }}</h3>
-          {{- with $p.Params.dates }}<p class="home-work-card__dates">{{ . }}</p>{{- end }}
+          {{- with $p.Params.year }}<p class="home-work-card__dates">{{ . }}</p>{{- end }}
         </div>
       </a>
       {{- end }}

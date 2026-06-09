@@ -11,9 +11,11 @@ featured_image: "/images/514/isaiahdavis-cover.jpg"
 categories:
   - web-design
 tags:
-  - design-systems
-  - performance
-  - frontend
+  - Design Systems
+  - Performance
+  - Frontend
+  - Figma
+  - Accessibility
 technologies:
   - Hugo
   - Tailwind CSS
@@ -22,7 +24,6 @@ technologies:
   - Figma
   - Performance Optimization
   - Accessibility
-  - Hugo
   - Tailwind CSS
   - PostCSS
   - Netlify

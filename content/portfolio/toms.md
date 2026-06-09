@@ -11,8 +11,10 @@ featured_image: "/images/514/toms-cover.jpg"
 categories:
   - branding
 tags:
-  - campaign-design
-  - brand-strategy
+  - Branding
+  - UI Design
+  - Typography
+  - Figma
 technologies:
   - Motion Graphics
   - Campaign Design
@@ -20,7 +22,6 @@ technologies:
   - Social Media
   - Digital Assets
   - Adobe Creative Suite
-  - Campaign Design
   - Adobe Illustrator
   - Social Media Graphics
   - Brand Strategy

@@ -27,7 +27,7 @@
 <section class="blog-single">
   <div class="container">
     <div class="blog-single__layout">
-      <article class="blog-single__article content-card prose prose-lg" aria-labelledby="blog-single-content-heading">
+      <article class="blog-single__article content-card prose" aria-labelledby="blog-single-content-heading">
         <h2 id="blog-single-content-heading" class="sr-only">Article content</h2>
         {{ .Content }}
         {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}

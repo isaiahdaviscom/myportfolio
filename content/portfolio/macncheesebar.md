@@ -11,8 +11,11 @@ featured_image: "/images/514/macncheese-cover.jpg"
 categories:
   - web-design
 tags:
-  - e-commerce
-  - ux
+  - UX
+  - UI Design
+  - Frontend
+  - Figma
+  - Accessibility
 technologies:
   - Shopify
   - Liquid
@@ -20,8 +23,6 @@ technologies:
   - E-Commerce UX
   - Customer Research
   - Figma
-  - Web Design
-  - E-commerce UX
   - Brand Design
   - SEO
   - Squarespace

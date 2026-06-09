@@ -11,8 +11,11 @@ featured_image: "/images/514/sparkconference-cover.jpg"
 categories:
   - web-design
 tags:
-  - ux
-  - event-marketing
+  - UX
+  - UI Design
+  - Figma
+  - HTML
+  - CSS
 technologies:
   - Web Design
   - UX/UI Design
@@ -21,7 +24,6 @@ technologies:
   - Conversion Optimization
   - Figma
   - Event UX
-  - Figma
   - Registration Funnel Design
   - Information Architecture
   - Webflow

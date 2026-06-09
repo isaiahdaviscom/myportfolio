@@ -11,9 +11,11 @@ featured_image: "/images/514/sandc-cover.jpg"
 categories:
   - ux
 tags:
-  - design-systems
-  - frontend
-  - performance
+  - Design Systems
+  - Frontend
+  - Performance
+  - Accessibility
+  - TypeScript
 technologies:
   - React
   - TypeScript
@@ -21,10 +23,6 @@ technologies:
   - Performance Optimization
   - Accessibility
   - Testing
-  - "Dashboard pages averaged 6-8 second load times over corporate VPN"
-  - "No shared component contracts across teams or views"
-  - "Accessibility defects were addressed as isolated fixes"
-  - "Limited analytics visibility into user behavior and friction"
 constraints:
   - "VPN-dependent usage across multiple facilities"
   - "No framework dependencies due to IT review overhead"

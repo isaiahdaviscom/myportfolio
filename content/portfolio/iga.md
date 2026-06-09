@@ -11,8 +11,11 @@ featured_image: "/images/514/independent-grocers-alliance-cover.jpg"
 categories:
   - web-design
 tags:
-  - design-systems
-  - performance
+  - Design Systems
+  - Performance
+  - Accessibility
+  - Frontend
+  - Figma
 technologies:
   - Design Systems
   - React

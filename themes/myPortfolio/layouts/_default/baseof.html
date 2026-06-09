@@ -29,18 +29,18 @@
   <meta name="bingbot" content="{{ $robotsContent }}">
   {{- end }}
   <meta name="description"
-    content="{{ with .Params.description }}{{ . | htmlEscape }}{{ else }}{{ .Site.Params.description | htmlEscape }}{{ end }}">
-  <meta name="keywords" content="{{ delimit .Site.Params.keywords " , " | htmlEscape }}">
+    content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <meta name="keywords" content="{{ delimit .Site.Params.keywords " , " }}">
 
   <!-- Open Graph Meta Tags -->
   {{- $ogType := "website" }}
   {{- if eq .Section "posts" }}{{- $ogType = "article" }}{{- end }}
   {{- $ogImage := "" }}
-  {{- with .Params.images }}{{- $ogImage = index . 0 | absURL }}{{- else }}{{- with .Params.featured_image }}{{- $ogImage = . | absURL }}{{- else }}{{- with .Params.cover }}{{- $ogImage = . | absURL }}{{- else }}{{- $ogImage = "/images/og-default.png" | absURL }}{{- end }}{{- end }}{{- end }}
+  {{- with .Params.images }}{{- $ogImage = index . 0 | absURL }}{{- else }}{{- with .Params.featured_image }}{{- $ogImage = . | absURL }}{{- else }}{{- with .Params.cover }}{{- $ogImage = . | absURL }}{{- else }}{{- if .IsHome }}{{- $ogImage = "/images/profile-branded.png" | absURL }}{{- end }}{{- if not $ogImage }}{{- $ogImage = "/images/og-default.png" | absURL }}{{- end }}{{- end }}{{- end }}{{- end }}
   <meta property="og:title"
-    content="{{ if .Title }}{{ .Title | htmlEscape }} | {{ end }}{{ .Site.Title | htmlEscape }}">
+    content="{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}">
   <meta property="og:description"
-    content="{{ with .Params.description }}{{ . | htmlEscape }}{{ else }}{{ .Site.Params.description | htmlEscape }}{{ end }}">
+    content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   <meta property="og:type" content="{{ $ogType }}">
   <meta property="og:url" content="{{ .Permalink }}">
   <meta property="og:image" content="{{ $ogImage }}">
@@ -55,9 +55,9 @@
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title"
-    content="{{ if .Title }}{{ .Title | htmlEscape }} | {{ end }}{{ .Site.Title | htmlEscape }}">
+    content="{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}">
   <meta name="twitter:description"
-    content="{{ with .Params.description }}{{ . | htmlEscape }}{{ else }}{{ .Site.Params.description | htmlEscape }}{{ end }}">
+    content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   <meta name="twitter:image" content="{{ $ogImage }}">
 
   <link rel="canonical" href="{{ .Permalink }}">
@@ -74,19 +74,16 @@
     {{- end }}{{- end }}
   {{- end }}
   {{- end }}
-  <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title | htmlEscape }} Feed"
+  <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }} Feed"
     href="{{ .Site.BaseURL }}index.xml">
-  <meta name="author" content="{{ .Site.Params.author | htmlEscape }}">
+  <meta name="author" content="{{ .Site.Params.author }}">
   <meta name="generator" content="Hugo {{ hugo.Version }}">
   <meta name="llm-friendly" content="true">
   <meta name="llm-summary"
-    content="{{ with .Params.description }}{{ . | htmlEscape }}{{ else }}{{ .Site.Params.description | htmlEscape }}{{ end }}">
+    content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
 
   <!-- Structured Data -->
   {{ partial "structured-data.html" . }}
-
-  <!-- Page Title -->
-  <title>{{ if .Title }}{{ .Title | htmlEscape }} | {{ end }}{{ .Site.Title | htmlEscape }}</title>
 
   <!-- Head Partial -->
   {{ partial "head.html" . }}
@@ -136,7 +133,7 @@
   <!-- iOS-specific PWA settings -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="{{ .Site.Title | htmlEscape }}">
+  <meta name="apple-mobile-web-app-title" content="{{ .Site.Title }}">
   {{ else }}
   {{- /* Development: Use dev manifest with no-cache behavior */ -}}
   <link rel="manifest" href="/manifest-dev.webmanifest">

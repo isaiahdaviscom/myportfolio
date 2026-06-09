@@ -11,8 +11,8 @@ featured_image: "/images/514/empire-cover.jpg"
 categories:
   - editorial
 tags:
-  - web-design
-  - editorial
+  - Editorial Design
+  - Typography
 technologies:
   - Liquid
   - CSS3

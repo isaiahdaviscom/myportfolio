@@ -11,8 +11,9 @@ featured_image: "/images/514/loveislikeacandle-cover.jpg"
 categories:
   - branding
 tags:
-  - art-direction
-  - brand-design
+  - Branding
+  - UI Design
+  - Figma
 technologies:
   - Brand Strategy
   - Motion Design

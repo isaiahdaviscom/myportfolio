@@ -11,8 +11,10 @@ featured_image: "/images/514/pdbgroup-cover.jpg"
 categories:
   - branding
 tags:
-  - brand-design
-  - marketing
+  - Branding
+  - UI Design
+  - Typography
+  - Figma
 technologies:
   - Brand Identity
   - Logo Design
@@ -20,12 +22,9 @@ technologies:
   - Collateral Design
   - Digital Marketing
   - Adobe Creative Suite
-  - Adobe Creative Suite
-  - Brand Identity
   - Print Design
   - Meta Ads
   - Photography Direction
-  - Marketing Strategy
 
 metrics:
   - value: "32%"
