@@ -100,3 +100,27 @@
 <button type="button" class="cookie-settings-fab" data-consent-action="open-settings" aria-haspopup="dialog" aria-controls="cookie-panel" aria-expanded="false" hidden>
   Cookie Settings
 </button>
+
+<form
+  name="cookie-consent-events"
+  method="POST"
+  action="/"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  hidden
+  aria-hidden="true"
+  data-cookie-consent-log-form
+>
+  <input type="hidden" name="form-name" value="cookie-consent-events">
+  <input type="hidden" name="bot-field">
+  <input type="hidden" name="event_name" value="cookie_consent_updated">
+  <input type="hidden" name="consent_version" value="2">
+  <input type="hidden" name="analytics_enabled" value="false">
+  <input type="hidden" name="source" value="system">
+  <input type="hidden" name="updated_at" value="">
+  <input type="hidden" name="expires_at" value="">
+  <input type="hidden" name="pathname" value="">
+  <input type="hidden" name="page_url" value="">
+  <input type="hidden" name="host" value="">
+  <input type="hidden" name="consent_state" value="">
+</form>

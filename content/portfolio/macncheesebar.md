@@ -1,17 +1,25 @@
 ﻿---
 title: "Mac N Cheese Bar"
-cover: "/images/514/macncheese-cover.jpg"
-role: "Designer + Developer"
-dates: "[ADD DATE RANGE]"
-heading: "Designing & Launching Mac N Cheese Bar's Digital Presence"
-bgcolor: "bg-gray-900"
-figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
-figma_title: "Mac N Cheese Bar — Interactive Prototype"
-feature: true
+description: "E-commerce site design and launch for a specialty food brand, delivered 12 days ahead of schedule with integrated online ordering and 40% fewer support calls."
+date: 2020-06-01T00:00:00Z
+draft: false
 weight: 60
-employment_type: "Freelance"
-location: "Chicago, IL · Remote"
-skills:
+year: "2020"
+client: "Mac N Cheese Bar"
+project_url: ""
+featured_image: "/images/514/macncheese-cover.jpg"
+categories:
+  - web-design
+tags:
+  - e-commerce
+  - ux
+technologies:
+  - Shopify
+  - Liquid
+  - Web Design
+  - E-Commerce UX
+  - Customer Research
+  - Figma
   - Web Design
   - E-commerce UX
   - Brand Design

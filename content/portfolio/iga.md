@@ -1,17 +1,25 @@
 ﻿---
 title: "IGA"
-cover: "/images/514/independent-grocers-alliance-cover.jpg"
-role: "Web Designer"
-dates: "Jan 2019 — Apr 2021"
-heading: "Unifying the Digital Brand Experience for Independent Grocers Alliance"
-bgcolor: "bg-white"
-figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
-figma_title: "IGA — Interactive Prototype"
-feature: true
+description: "Design system unification for 18 independent grocer microsites, reducing landing page production time by 44% and improving mobile accessibility scores from 61 to 83."
+date: 2019-01-01T00:00:00Z
+draft: false
 weight: 20
-employment_type: "Full-time"
-location: "Greater Chicago Area · On-site"
-skills:
+year: "2019"
+client: "Independent Grocers Alliance"
+project_url: ""
+featured_image: "/images/514/independent-grocers-alliance-cover.jpg"
+categories:
+  - web-design
+tags:
+  - design-systems
+  - performance
+technologies:
+  - Design Systems
+  - React
+  - Tailwind CSS
+  - Performance Optimization
+  - Accessibility
+  - Figma
   - HubSpot
   - HTML/CSS
   - Responsive Design

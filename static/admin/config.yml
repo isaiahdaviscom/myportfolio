@@ -13,7 +13,7 @@
 # No manual file swapping needed — run: npm run cms:local  to start the proxy.
 backend:
   name: git-gateway
-  branch: master # Change to 'main' if your default branch is 'main'
+  branch: develop # Changed from 'master' to 'develop' to match workflow branch
 
 # LOCAL DEVELOPMENT BACKEND
 # Automatically activates when site is accessed from localhost.

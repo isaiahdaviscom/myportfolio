@@ -1,17 +1,27 @@
 ﻿---
 title: "Isaiah Davis Designs"
-cover: "/images/514/isaiahdavis-cover.jpg"
-role: "Frontend Developer"
-dates: "June 2021 — Present"
-heading: "Designing & Building My Own Frontend Studio from Scratch"
-bgcolor: "bg-gray-900"
-figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
-figma_title: "Isaiah Davis Designs — Design System Reference"
-feature: true
+description: "A custom-built frontend studio showcasing design systems, performance optimization, and component architecture at scale."
+date: 2021-06-01T00:00:00Z
+draft: false
 weight: 40
-employment_type: "Freelance"
-location: "Chicago, IL · Remote"
-skills:
+year: "2021"
+client: ""
+project_url: "https://isaiahdavis.com"
+featured_image: "/images/514/isaiahdavis-cover.jpg"
+categories:
+  - web-design
+tags:
+  - design-systems
+  - performance
+  - frontend
+technologies:
+  - Hugo
+  - Tailwind CSS
+  - PostCSS
+  - Netlify
+  - Figma
+  - Performance Optimization
+  - Accessibility
   - Hugo
   - Tailwind CSS
   - PostCSS

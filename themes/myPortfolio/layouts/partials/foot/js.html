@@ -22,6 +22,7 @@
       const cookieBanner = document.querySelector('[data-cookie-banner]');
       const cookiePanel = document.querySelector('[data-cookie-panel]');
       const cookieFab = document.querySelector('.cookie-settings-fab');
+      const consentLogForm = document.querySelector('[data-cookie-consent-log-form]');
       const analyticsField = document.querySelector('[data-consent-field="analytics"]');
       const statusField = document.querySelector('[data-consent-status]');
       const summaryField = document.querySelector('[data-consent-summary]');
@@ -96,6 +97,36 @@
         } catch (_) {}
 
         setCookieValue(CONSENT_COOKIE, raw, CONSENT_MAX_AGE_DAYS * 24 * 60 * 60);
+      };
+
+      const postConsentToNetlify = (consent) => {
+        if (!consentLogForm || !window.fetch || !consent) {
+          return Promise.resolve();
+        }
+
+        const payload = new URLSearchParams({
+          'form-name': consentLogForm.getAttribute('name') || 'cookie-consent-events',
+          event_name: 'cookie_consent_updated',
+          consent_version: String(consent.version || CONSENT_VERSION),
+          analytics_enabled: String(Boolean(consent.analytics)),
+          source: consent.source || 'saved',
+          updated_at: consent.updatedAt || '',
+          expires_at: consent.expiresAt || '',
+          pathname: window.location.pathname || '/',
+          page_url: window.location.href || '',
+          host: window.location.host || '',
+          consent_state: consent.analytics ? 'analytics_enabled' : 'essential_only',
+          'bot-field': '',
+        });
+
+        return window.fetch('/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: payload.toString(),
+          keepalive: true,
+        }).catch(() => undefined);
       };
 
       const normalizeConsent = (parsed) => {
@@ -438,6 +469,7 @@
         loadGtmIfAllowed(consent);
         applyConsentDependencies(consent);
         syncConsentUI(consent);
+        postConsentToNetlify(consent);
         publishConsent(consent);
         setPanelOpen(false);
 

@@ -1,17 +1,25 @@
 ﻿---
 title: "Love is Like a Candle"
-cover: "/images/514/loveislikeacandle-cover.jpg"
-role: "Creative Director"
-dates: "June 2021 — Present"
-heading: "Creative Direction & Brand Refresh for Love is Like a Candle"
-bgcolor: "bg-gray-900"
-figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
-figma_title: "Love is Like a Candle — Interactive Prototype"
-feature: true
+description: "Brand refresh and creative direction that increased e-commerce conversion by 50% and Instagram engagement to 5.8%."
+date: 2021-06-01T00:00:00Z
+draft: false
 weight: 50
-employment_type: "Freelance"
-location: "Chicago, IL · Remote"
-skills:
+year: "2021"
+client: "Love is Like a Candle"
+project_url: ""
+featured_image: "/images/514/loveislikeacandle-cover.jpg"
+categories:
+  - branding
+tags:
+  - art-direction
+  - brand-design
+technologies:
+  - Brand Strategy
+  - Motion Design
+  - Shopify
+  - Photography Art Direction
+  - Social Media Design
+  - Adobe Creative Suite
   - Art Direction
   - Visual Identity
   - Social Content Strategy

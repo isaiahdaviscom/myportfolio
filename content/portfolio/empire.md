@@ -1,22 +1,25 @@
 ﻿---
 title: "Empire Magazine"
-cover: "/images/514/empire-cover.jpg"
-role: "Web Designer"
-dates: "[ADD DATE RANGE]"
-heading: "Editorial Web Design & UX Redesign for Empire Magazine"
-bgcolor: "bg-white"
-figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
-figma_title: "Empire Magazine — Interactive Prototype"
-feature: true
+description: "Editorial web redesign and UX optimization that increased session duration by 48 seconds and newsletter conversion by 138%."
+date: 2019-01-01T00:00:00Z
+draft: false
 weight: 80
-employment_type: "Freelance"
-location: "Chicago, IL · Remote"
-skills:
-  - Editorial Design
-  - CSS Grid
-  - UX Research
-  - Newsletter Design
+year: "2019"
+client: "Empire Magazine"
+project_url: ""
+featured_image: "/images/514/empire-cover.jpg"
+categories:
+  - editorial
+tags:
+  - web-design
+  - editorial
+technologies:
+  - Liquid
+  - CSS3
+  - JavaScript
   - CMS
+  - Typography
+  - A/B Testing
 
 metrics:
   - value: "+48s"

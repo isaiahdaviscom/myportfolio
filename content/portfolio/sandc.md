@@ -1,19 +1,26 @@
 ﻿---
 title: "S&C Electric Company"
-cover: "/images/514/sandc-cover.jpg"
-role: "Frontend Developer"
-dates: "June 2021 — Present"
-heading: "Frontend Modernization & Systems Ownership at S&C Electric"
-bgcolor: "bg-gray-900"
-figma_embed: ""
-figma_title: "S&C Electric — Component Library Reference"
-feature: true
+description: "Frontend modernization and design systems implementation for three VPN-dependent internal dashboards, improving performance and accessibility while reducing development cycles."
+date: 2021-06-01T00:00:00Z
+draft: false
 weight: 10
-employment_type: "Full-time"
-location: "Chicago, IL · Hybrid"
-subtitle: "Modernized three VPN-dependent internal dashboards into a governed frontend platform that improved speed, accessibility, and maintainability under strict enterprise constraints."
-problem_summary: "The original dashboard ecosystem had performance bottlenecks, duplicated UI patterns, and inconsistent accessibility behavior. Every release demanded manual fixes across separate implementations, slowing delivery and increasing support overhead."
-problem_points:
+year: "2021"
+client: "S&C Electric Company"
+project_url: ""
+featured_image: "/images/514/sandc-cover.jpg"
+categories:
+  - ux
+tags:
+  - design-systems
+  - frontend
+  - performance
+technologies:
+  - React
+  - TypeScript
+  - Design Systems
+  - Performance Optimization
+  - Accessibility
+  - Testing
   - "Dashboard pages averaged 6-8 second load times over corporate VPN"
   - "No shared component contracts across teams or views"
   - "Accessibility defects were addressed as isolated fixes"
