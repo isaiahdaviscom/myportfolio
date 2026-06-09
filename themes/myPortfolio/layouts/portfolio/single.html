@@ -230,9 +230,9 @@
          Recommended graphic: finished product UI, annotated mockup, or design
          system overview at 16:7 ratio. Shows the "after" state of your work.
     */}}
-    {{- if .Content }}
+    {{- if $.Content }}
     <div class="cs-container">
-      {{- with .Params.story_image }}
+      {{- with $.Params.story_image }}
       <figure class="cs-editorial-image cs-editorial-image--wide" aria-label="{{ $.Params.story_image_alt | default $.Title }}">
         <img src="{{ . }}" alt="{{ $.Params.story_image_alt | default $.Title }}" loading="lazy">
       </figure>
@@ -290,22 +290,21 @@
 
     {{ partial "cs-component-grid.html" . }}
 
-    {{/* ════════════════════════════════════════════════════════════════════
-         2.25 DETAIL VISUALS — admin-controlled image variants + offsets
-    {{/* ════════════════════════════════════════════════════════════════════════
-         EDITORIAL IMAGE #2 — System / Artifact Detail
-         ════════════════════════════════════════════════════════════════════════
-         Provide `artifact_image` in front matter to replace the placeholder.
-         Recommended: high-fidelity UI screenshot, component specimen, or
-         technical diagram at 16:7 ratio. Bridges system analysis and visuals.
-    */}}
+        {{/* ════════════════════════════════════════════════════════════════════════
+          EDITORIAL IMAGE #2 — System / Artifact Detail
+          ════════════════════════════════════════════════════════════════════════
+          Provide `artifact_image` in front matter to replace the placeholder.
+          Recommended: high-fidelity UI screenshot, component specimen, or
+          technical diagram at 16:7 ratio. Bridges system analysis and visuals.
+        */}}
     {{- with .Params.artifact_image }}
     <div class="cs-container">
       <figure class="cs-editorial-image cs-editorial-image--wide" aria-label="{{ $.Params.artifact_image_alt | default $.Title }}">
         <img src="{{ . }}" alt="{{ $.Params.artifact_image_alt | default $.Title }}" loading="lazy">
       </figure>
     </div>
-    {{- else if or .Params.component_system .Params.architecture_flow }}
+    {{- else }}
+    {{- if or .Params.component_system .Params.architecture_flow }}
     <div class="cs-container">
       <figure class="cs-editorial-image cs-editorial-image--wide" aria-hidden="true">
         <div class="cs-editorial-image__placeholder">
@@ -316,7 +315,10 @@
       </figure>
     </div>
     {{- end }}
+    {{- end }}
 
+      {{/* ════════════════════════════════════════════════════════════════════
+         2.25 DETAIL VISUALS — admin-controlled image variants + offsets
          ════════════════════════════════════════════════════════════════════ */}}
     {{- with .Params.detail_images }}
       <section class="cs-section cs-section--block-subtle" aria-labelledby="cs-visuals-heading">
@@ -403,7 +405,7 @@
          iteration, or user journey map at 16:7 ratio. Documents how you got
          there and gives the timeline section visual context above it.
     */}}
-    {{- with .Params.process_image }}
+    {{- with $.Params.process_image }}
     <div class="cs-container">
       <figure class="cs-editorial-image cs-editorial-image--wide" aria-label="{{ $.Params.process_image_alt | default $.Title }}">
         <img src="{{ . }}" alt="{{ $.Params.process_image_alt | default $.Title }}" loading="lazy">
