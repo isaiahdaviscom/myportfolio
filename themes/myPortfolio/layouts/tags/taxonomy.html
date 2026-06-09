@@ -49,15 +49,16 @@
       </h2>
       <div class="blog-list__grid">
         {{ range $posts.ByDate.Reverse }}
+        {{- $post := . -}}
         <article class="blog-card">
-          {{- with .Params.cover }}
-          <a href="{{ $.RelPermalink }}" tabindex="-1" aria-hidden="true">
-            <img src="{{ . }}" alt="{{ $.Title }} cover"
+          {{- with $post.Params.cover }}
+          <a href="{{ $post.RelPermalink }}" tabindex="-1" aria-hidden="true">
+            <img src="{{ . }}" alt="{{ $post.Title }} cover"
                  class="blog-card__cover" width="514" height="160" loading="lazy">
           </a>
           {{- end }}
           <div class="blog-card__body">
-            {{- with .Params.categories }}
+            {{- with $post.Params.categories }}
             <div class="blog-card__categories">
               {{- range first 2 . }}
               <span class="blog-card__category">{{ . }}</span>
@@ -65,16 +66,16 @@
             </div>
             {{- end }}
             <h3 class="blog-card__title">
-              <a href="{{ .RelPermalink }}" class="blog-card__title-link">{{ .Title }}</a>
+              <a href="{{ $post.RelPermalink }}" class="blog-card__title-link">{{ $post.Title }}</a>
             </h3>
-            <time class="blog-card__date" datetime="{{ .Date.Format "2006-01-02" }}">
-              {{ time.Format ":date_long" .Date }}
+            <time class="blog-card__date" datetime="{{ $post.Date.Format "2006-01-02" }}">
+              {{ time.Format ":date_long" $post.Date }}
             </time>
             <p class="blog-card__summary">
-              {{ with .Params.description }}{{ . }}{{ else }}{{ .Summary | truncate 120 }}{{ end }}
+              {{ with $post.Params.description }}{{ . }}{{ else }}{{ $post.Summary | truncate 120 }}{{ end }}
             </p>
-            {{- $mins := div .WordCount 200 }}{{- if lt $mins 1 }}{{- $mins = 1 }}{{- end }}
-            <a href="{{ .RelPermalink }}" class="blog-card__read-more">
+            {{- $mins := div $post.WordCount 200 }}{{- if lt $mins 1 }}{{- $mins = 1 }}{{- end }}
+            <a href="{{ $post.RelPermalink }}" class="blog-card__read-more">
               {{ $mins }} min read
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                    stroke-width="2.5" aria-hidden="true">
@@ -98,21 +99,27 @@
       </h2>
       <div class="tag-projects-grid">
         {{ range sort $projects "Weight" }}
-        <a href="{{ .RelPermalink }}" class="tag-project-card"
-           aria-label="{{ .Title }} — view case study">
-          {{- with .Params.cover }}
+        {{- $project := . -}}
+        {{- $projectCover := $project.Params.featured_image | default $project.Params.cover -}}
+        <a href="{{ $project.RelPermalink }}" class="tag-project-card"
+           aria-label="{{ $project.Title }} — view case study">
+          {{- with $projectCover }}
           <div class="tag-project-card__cover">
-            <img src="{{ . }}" alt="{{ $.Title }} cover"
+            <img src="{{ . }}" alt="{{ $project.Title }} cover"
                  width="600" height="400" loading="lazy">
           </div>
           {{- else }}
           <div class="tag-project-card__cover tag-project-card__cover--empty"></div>
           {{- end }}
           <div class="tag-project-card__body">
-            <p class="tag-project-card__client">{{ .Title }}</p>
-            <h3 class="tag-project-card__title">{{ .Params.heading | default .Title }}</h3>
-            {{- with .Params.year }}
+            <p class="tag-project-card__client">{{ $project.Params.client | default $project.Title }}</p>
+            <h3 class="tag-project-card__title">{{ $project.Title }}</h3>
+            {{- with $project.Params.year }}
             <p class="tag-project-card__year">{{ . }}</p>
+            {{- else }}
+            {{- with $project.Params.dates }}
+            <p class="tag-project-card__year">{{ . }}</p>
+            {{- end }}
             {{- end }}
           </div>
         </a>

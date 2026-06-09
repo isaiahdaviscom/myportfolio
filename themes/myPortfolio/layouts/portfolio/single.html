@@ -16,9 +16,9 @@
 <div class="cs-page" id="cs-top">
 
   {{- $heroStyles := slice -}}
-  {{- $heroImage := .Params.cover | default .Params.featured_image -}}
+  {{- $heroImage := .Params.featured_image | default .Params.cover -}}
   {{- with $heroImage }}
-    {{- $heroStyles = $heroStyles | append (printf "--cs-cover: url('%s')" .) -}}
+    {{- $heroStyles = $heroStyles | append (printf "--cs-cover: url('%s')" (. | safeURL)) -}}
   {{- end -}}
   {{- with .Params.hero_overlay_left }}
     {{- $heroStyles = $heroStyles | append (printf "--cs-hero-overlay-left: %s" .) -}}
@@ -40,7 +40,7 @@
   {{/* ════════════════════════════════════════════════════════════════════════
        1. HERO
        ════════════════════════════════════════════════════════════════════════ */}}
-  <header class="cs-hero" role="banner"{{- if gt (len $heroStyles) 0 }} style="{{ delimit $heroStyles "; " }}"{{- end }}>
+  <header class="cs-hero" role="banner"{{- if gt (len $heroStyles) 0 }} style="{{ delimit $heroStyles "; " | safeCSS }}"{{- end }}>
     <div class="cs-container">
       <div class="cs-hero__layout">
         <div class="cs-hero__main">

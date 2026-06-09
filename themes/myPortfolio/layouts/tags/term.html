@@ -44,21 +44,29 @@
       </h2>
       <div class="tag-projects-grid">
         {{- range $projects }}
-        <a href="{{ .RelPermalink }}" class="tag-project-card">
-          {{- with .Params.cover }}
+        {{- $project := . -}}
+        {{- $projectCover := $project.Params.featured_image | default $project.Params.cover -}}
+        <a href="{{ $project.RelPermalink }}" class="tag-project-card">
+          {{- with $projectCover }}
           <div class="tag-project-card__cover">
-            <img src="{{ . }}" alt="{{ $.Title }}" width="480" height="320" loading="lazy">
+            <img src="{{ . }}" alt="{{ $project.Title }} cover" width="480" height="320" loading="lazy">
           </div>
           {{- else }}
           <div class="tag-project-card__cover tag-project-card__cover--empty"></div>
           {{- end }}
           <div class="tag-project-card__body">
-            {{- with .Params.client }}
+            {{- with $project.Params.client }}
             <p class="tag-project-card__client">{{ . }}</p>
+            {{- else }}
+            <p class="tag-project-card__client">{{ $project.Title }}</p>
             {{- end }}
-            <h3 class="tag-project-card__title">{{ .Title }}</h3>
-            {{- with .Params.dates }}
+            <h3 class="tag-project-card__title">{{ $project.Title }}</h3>
+            {{- with $project.Params.year }}
             <p class="tag-project-card__year">{{ . }}</p>
+            {{- else }}
+            {{- with $project.Params.dates }}
+            <p class="tag-project-card__year">{{ . }}</p>
+            {{- end }}
             {{- end }}
           </div>
         </a>
@@ -76,22 +84,23 @@
       </h2>
       <div class="blog-list__grid">
         {{- range $posts.ByDate.Reverse }}
+        {{- $post := . -}}
         <article class="blog-card">
-          {{- with .Params.cover }}
-          <a href="{{ .RelPermalink }}" tabindex="-1" aria-hidden="true">
-            <img src="{{ . }}" alt="{{ .Title }}" class="blog-card__cover"
+          {{- with $post.Params.cover }}
+          <a href="{{ $post.RelPermalink }}" tabindex="-1" aria-hidden="true">
+            <img src="{{ . }}" alt="{{ $post.Title }} cover" class="blog-card__cover"
                  width="514" height="160" loading="lazy">
           </a>
           {{- end }}
           <div class="blog-card__body">
             <h3 class="blog-card__title">
-              <a href="{{ .RelPermalink }}" class="blog-card__title-link">{{ .Title }}</a>
+              <a href="{{ $post.RelPermalink }}" class="blog-card__title-link">{{ $post.Title }}</a>
             </h3>
-            <time class="blog-card__date" datetime="{{ .Date.Format "2006-01-02" }}">
-              {{ time.Format ":date_long" .Date }}
+            <time class="blog-card__date" datetime="{{ $post.Date.Format "2006-01-02" }}">
+              {{ time.Format ":date_long" $post.Date }}
             </time>
             <p class="blog-card__summary">
-              {{ with .Params.description }}{{ . }}{{ else }}{{ .Summary | truncate 120 }}{{ end }}
+              {{ with $post.Params.description }}{{ . }}{{ else }}{{ $post.Summary | truncate 120 }}{{ end }}
             </p>
           </div>
         </article>

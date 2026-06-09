@@ -6,7 +6,7 @@ draft: false
 weight: 50
 year: "2021"
 client: "Love is Like a Candle"
-project_url: ""
+project_url: "https://isaiahdavis.com/portfolio/loveislikeacandle/"
 featured_image: "/images/514/loveislikeacandle-cover.jpg"
 categories:
   - branding

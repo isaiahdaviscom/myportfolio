@@ -14,11 +14,12 @@
       {{ if .Pages }}
       <div class="blog-list__grid">
         {{ range .Pages.ByDate.Reverse }}
+          {{- $post := . -}}
           <article class="blog-card">
             {{/* Cover image if available */}}
-            {{- with .Params.cover }}
-            <a href="{{ .RelPermalink }}" tabindex="-1" aria-hidden="true">
-              <img src="{{ . }}" alt="{{ .Title }} cover"
+            {{- with $post.Params.cover }}
+            <a href="{{ $post.RelPermalink }}" tabindex="-1" aria-hidden="true">
+              <img src="{{ . }}" alt="{{ $post.Title }} cover"
                    class="blog-card__cover" width="514" height="160" loading="lazy">
             </a>
             {{- end }}
@@ -86,10 +87,11 @@
       {{/* ── Featured split hero card ── */}}
       {{- with $featured }}
       <a href="{{ .RelPermalink }}" class="pf-split" aria-label="{{ .Title }} — view case study">
+        {{- $heroImage := .Params.featured_image | default .Params.cover -}}
 
         {{/* Left: cover image */}}
         <div class="pf-split__image">
-          {{- with .Params.cover }}
+          {{- with $heroImage }}
           <img src="{{ . }}" alt="{{ $featured.Title }} cover"
                class="pf-split__img"
                width="900" height="680" loading="eager" style="height: 100%;">
@@ -102,16 +104,17 @@
         <div class="pf-split__body">
 
           {{/* Eyebrow — client / company name */}}
-          <p class="pf-split__eyebrow">{{ .Title }}</p>
+          <p class="pf-split__eyebrow">{{ .Params.client | default .Title }}</p>
 
           {{/* Heading */}}
-          <h2 class="pf-split__heading">{{ .Params.heading | default .Title }}</h2>
+          <h2 class="pf-split__heading">{{ .Title }}</h2>
 
           {{/* Short summary from page body */}}
-          <p class="pf-split__desc">{{ .Summary | truncate 180 "&hellip;" }}</p>
+          <p class="pf-split__desc">{{ .Params.description | default (.Summary | truncate 180 "&hellip;") }}</p>
 
           {{/* Skills / service types — listed vertically */}}
-          {{- with .Params.skills }}
+          {{- $splitHighlights := .Params.technologies | default .Params.skills -}}
+          {{- with $splitHighlights }}
           <ul class="pf-split__skills" aria-label="Skills &amp; services">
             {{- range first 5 . }}<li>{{ . }}</li>{{- end }}
           </ul>
@@ -135,29 +138,32 @@
       {{- if $rest }}
       <div class="pf-card-grid">
         {{- range $rest }}
-        <a href="{{ .RelPermalink }}" class="pf-card">
+        {{- $project := . -}}
+        <a href="{{ $project.RelPermalink }}" class="pf-card">
+          {{- $cardImage := $project.Params.featured_image | default $project.Params.cover -}}
+          {{- $cardSkills := $project.Params.tags | default $project.Params.technologies -}}
 
           {{/* Image fills entire card — body overlays on dark gradient */}}
           <div class="pf-card__image">
-            {{- with .Params.cover }}
-            <img src="{{ . }}" alt="{{ $.Title }} cover"
+            {{- with $cardImage }}
+            <img src="{{ . }}" alt="{{ $project.Title }} cover"
                  class="pf-card__img"
                  width="514" height="385" loading="lazy">
             {{- else }}
             <div class="pf-card__fallback">
-              <span class="pf-card__fallback-letter">{{ substr .Title 0 1 }}</span>
+              <span class="pf-card__fallback-letter">{{ substr $project.Title 0 1 }}</span>
             </div>
             {{- end }}
 
             {{/* Body — positioned over gradient via CSS */}}
             <div class="pf-card__body">
               <div class="pf-card__chips">
-                {{- with .Params.role }}<span class="pf-chip pf-chip--sm">{{ . }}</span>{{- end }}
-                {{- with .Params.employment_type }}<span class="pf-chip pf-chip--sm pf-chip--muted">{{ . }}</span>{{- end }}
+                {{- with $project.Params.client }}<span class="pf-chip pf-chip--sm">{{ . }}</span>{{- end }}
+                {{- with $project.Params.year }}<span class="pf-chip pf-chip--sm pf-chip--muted">{{ . }}</span>{{- end }}
               </div>
-              <h2 class="pf-card__title">{{ .Title }}</h2>
-              <p class="pf-card__dates">{{ .Params.dates }}</p>
-              {{- with .Params.skills }}
+              <h2 class="pf-card__title">{{ $project.Title }}</h2>
+              {{- with $project.Params.year }}<p class="pf-card__dates">{{ . }}</p>{{- end }}
+              {{- with $cardSkills }}
               <div class="pf-card__skills">
                 {{- range first 4 . }}<span class="pf-chip pf-chip--xs">{{ . }}</span>{{- end }}
               </div>
@@ -188,10 +194,11 @@
       {{ if .Pages }}
       <div class="blog-list__grid">
         {{ range .Pages.ByDate.Reverse }}
+          {{- $post := . -}}
           <article class="blog-card">
-            {{- with .Params.cover }}
-            <a href="{{ .RelPermalink }}" tabindex="-1" aria-hidden="true">
-              <img src="{{ . }}" alt="{{ .Title }} cover"
+            {{- with $post.Params.cover }}
+            <a href="{{ $post.RelPermalink }}" tabindex="-1" aria-hidden="true">
+              <img src="{{ . }}" alt="{{ $post.Title }} cover"
                    class="blog-card__cover" width="514" height="160" loading="lazy">
             </a>
             {{- end }}
