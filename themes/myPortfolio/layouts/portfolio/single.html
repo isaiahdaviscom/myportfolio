@@ -16,7 +16,8 @@
 <div class="cs-page" id="cs-top">
 
   {{- $heroStyles := slice -}}
-  {{- with .Params.cover }}
+  {{- $heroImage := .Params.cover | default .Params.featured_image -}}
+  {{- with $heroImage }}
     {{- $heroStyles = $heroStyles | append (printf "--cs-cover: url('%s')" .) -}}
   {{- end -}}
   {{- with .Params.hero_overlay_left }}
