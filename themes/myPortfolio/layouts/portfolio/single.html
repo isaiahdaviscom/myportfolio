@@ -223,6 +223,31 @@
     {{- end }}
 
     {{- with .Params.full_bleed_sections }}
+    {{/* ════════════════════════════════════════════════════════════════════════
+         EDITORIAL IMAGE #1 — Key Visual (story → analysis break)
+         ════════════════════════════════════════════════════════════════════════
+         Provide `story_image` in front matter to replace the placeholder.
+         Recommended graphic: finished product UI, annotated mockup, or design
+         system overview at 16:7 ratio. Shows the "after" state of your work.
+    */}}
+    {{- if .Content }}
+    <div class="cs-container">
+      {{- with .Params.story_image }}
+      <figure class="cs-editorial-image cs-editorial-image--wide" aria-label="{{ $.Params.story_image_alt | default $.Title }}">
+        <img src="{{ . }}" alt="{{ $.Params.story_image_alt | default $.Title }}" loading="lazy">
+      </figure>
+      {{- else }}
+      <figure class="cs-editorial-image cs-editorial-image--wide" aria-hidden="true">
+        <div class="cs-editorial-image__placeholder">
+          <span class="cs-editorial-image__icon" aria-hidden="true">🖼️</span>
+          <p class="cs-editorial-image__label">Recommended Graphic — Key Visual</p>
+          <p class="cs-editorial-image__rec">Finished product UI, annotated screen, or design system overview. 16:7 ratio. Add <code>story_image: /path/to/image.webp</code> to front matter.</p>
+        </div>
+      </figure>
+      {{- end }}
+    </div>
+    {{- end }}
+
     <section class="cs-fullbleed-wrap" aria-label="Project visuals">
       {{- range . }}
       <figure class="cs-fullbleed">
@@ -267,9 +292,34 @@
 
     {{/* ════════════════════════════════════════════════════════════════════
          2.25 DETAIL VISUALS — admin-controlled image variants + offsets
+    {{/* ════════════════════════════════════════════════════════════════════════
+         EDITORIAL IMAGE #2 — System / Artifact Detail
+         ════════════════════════════════════════════════════════════════════════
+         Provide `artifact_image` in front matter to replace the placeholder.
+         Recommended: high-fidelity UI screenshot, component specimen, or
+         technical diagram at 16:7 ratio. Bridges system analysis and visuals.
+    */}}
+    {{- with .Params.artifact_image }}
+    <div class="cs-container">
+      <figure class="cs-editorial-image cs-editorial-image--wide" aria-label="{{ $.Params.artifact_image_alt | default $.Title }}">
+        <img src="{{ . }}" alt="{{ $.Params.artifact_image_alt | default $.Title }}" loading="lazy">
+      </figure>
+    </div>
+    {{- else if or .Params.component_system .Params.architecture_flow }}
+    <div class="cs-container">
+      <figure class="cs-editorial-image cs-editorial-image--wide" aria-hidden="true">
+        <div class="cs-editorial-image__placeholder">
+          <span class="cs-editorial-image__icon" aria-hidden="true">⚙️</span>
+          <p class="cs-editorial-image__label">Recommended Graphic — System Detail</p>
+          <p class="cs-editorial-image__rec">High-fidelity component sheet, design token specimen, or architecture diagram. 16:7 ratio. Add <code>artifact_image: /path/to/image.webp</code> to front matter.</p>
+        </div>
+      </figure>
+    </div>
+    {{- end }}
+
          ════════════════════════════════════════════════════════════════════ */}}
     {{- with .Params.detail_images }}
-    <section class="cs-section" aria-labelledby="cs-visuals-heading">
+      <section class="cs-section cs-section--block-subtle" aria-labelledby="cs-visuals-heading">
       <div class="cs-container">
         <span class="cs-section__eyebrow">Visuals</span>
         <h2 class="cs-section__heading" id="cs-visuals-heading">Detail Visuals</h2>
@@ -332,7 +382,7 @@
          2.5 GALLERY — rendered only when .Params.gallery is populated
          ════════════════════════════════════════════════════════════════════ */}}
     {{- with .Params.gallery }}
-    <section class="cs-section" aria-labelledby="cs-gallery-heading">
+      <section class="cs-section cs-section--block-subtle" aria-labelledby="cs-gallery-heading">
       <div class="cs-container">
         <span class="cs-section__eyebrow">Gallery</span>
         <h2 class="cs-section__heading" id="cs-gallery-heading">Project Visuals</h2>
@@ -345,7 +395,33 @@
          3. PROCESS TIMELINE
          ════════════════════════════════════════════════════════════════════ */}}
     {{- with .Params.timeline }}
-    <section class="cs-section" aria-labelledby="cs-process-heading">
+    {{/* ════════════════════════════════════════════════════════════════════════
+         EDITORIAL IMAGE #3 — Process Documentation
+         ════════════════════════════════════════════════════════════════════════
+         Provide `process_image` in front matter to replace the placeholder.
+         Recommended: whiteboard sketch, Figma exploration grid, wireframe
+         iteration, or user journey map at 16:7 ratio. Documents how you got
+         there and gives the timeline section visual context above it.
+    */}}
+    {{- with .Params.process_image }}
+    <div class="cs-container">
+      <figure class="cs-editorial-image cs-editorial-image--wide" aria-label="{{ $.Params.process_image_alt | default $.Title }}">
+        <img src="{{ . }}" alt="{{ $.Params.process_image_alt | default $.Title }}" loading="lazy">
+      </figure>
+    </div>
+    {{- else }}
+    <div class="cs-container">
+      <figure class="cs-editorial-image cs-editorial-image--wide" aria-hidden="true">
+        <div class="cs-editorial-image__placeholder">
+          <span class="cs-editorial-image__icon" aria-hidden="true">✏️</span>
+          <p class="cs-editorial-image__label">Recommended Graphic — Process Documentation</p>
+          <p class="cs-editorial-image__rec">Whiteboard sketch, Figma explorations, wireframe iterations, or user journey map. 16:7 ratio. Add <code>process_image: /path/to/image.webp</code> to front matter.</p>
+        </div>
+      </figure>
+    </div>
+    {{- end }}
+
+      <section class="cs-section cs-section--block-accent" aria-labelledby="cs-process-heading">
       <div class="cs-container cs-container--prose">
         <span class="cs-section__eyebrow">Process</span>
         <h2 class="cs-section__heading" id="cs-process-heading">How We Got There</h2>
@@ -358,7 +434,7 @@
          4. LESSONS LEARNED
          ════════════════════════════════════════════════════════════════════ */}}
     {{- with .Params.lessons }}
-    <section class="cs-section" aria-labelledby="cs-lessons-heading">
+      <section class="cs-section cs-section--block-ink" aria-labelledby="cs-lessons-heading">
       <div class="cs-container cs-container--prose">
         <span class="cs-section__eyebrow">Reflection</span>
         <h2 class="cs-section__heading" id="cs-lessons-heading">Lessons Learned</h2>

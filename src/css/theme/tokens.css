@@ -20,6 +20,16 @@
 /* ─────────────────────────────────────────────────────────────────────────────
    ALL LIGHT-MODE TOKENS (single :root block — required by no-duplicate-selectors)
    ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Global base font scale: 13px = 81.25% of browser default 16px ─────────
+   All rem units in the design token system scale proportionally.
+   Effect: --text-base (1rem) = 13px, --text-lg = 14.6px, --text-2xl = 19.5px.
+   Spacing tokens also scale down (--space-4 = 13px, --space-8 = 26px, etc.)
+   which is desirable — tighter baseline rhythm at compact body size. ────── */
+html {
+  font-size: 81.25%;
+}
+
 :root {
   /* ── 1. COLORS ──────────────────────────────────────────────────────────── */
 
