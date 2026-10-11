@@ -14,8 +14,7 @@ export default {
   tags: ['autodocs']
 };
 
-const IMG = (w, h, seed) =>
-  `https://images.unsplash.com/photo-${seed}?w=${w}&h=${h}&fit=crop`;
+const IMG = (w, h, seed) => `https://images.unsplash.com/photo-${seed}?w=${w}&h=${h}&fit=crop`;
 
 /* ══════════════════════════════════════════════════════════
    1. BLOG CARD
@@ -80,9 +79,24 @@ export const BlogCardNoCover = {
    2. BLOG LIST GRID
    ══════════════════════════════════════════════════════════ */
 const POSTS = [
-  { title: 'Building a Design System from Scratch with Storybook', cat: 'Design Systems', date: 'April 8, 2026', img: IMG(800, 450, '1461749280684-dccba630e2f6') },
-  { title: 'Design Tokens & Figma — Single Source of Truth', cat: 'Design Systems', date: 'April 10, 2026', img: IMG(800, 450, '1493723843671-1d655e66ac1c') },
-  { title: 'Design System Developer Workflow in VS Code', cat: 'Workflow', date: 'April 12, 2026', img: null }
+  {
+    title: 'Building a Design System from Scratch with Storybook',
+    cat: 'Design Systems',
+    date: 'April 8, 2026',
+    img: IMG(800, 450, '1461749280684-dccba630e2f6')
+  },
+  {
+    title: 'Design Tokens & Figma — Single Source of Truth',
+    cat: 'Design Systems',
+    date: 'April 10, 2026',
+    img: IMG(800, 450, '1493723843671-1d655e66ac1c')
+  },
+  {
+    title: 'Design System Developer Workflow in VS Code',
+    cat: 'Workflow',
+    date: 'April 12, 2026',
+    img: null
+  }
 ];
 
 export const BlogList = {
@@ -94,7 +108,8 @@ export const BlogList = {
           Articles on frontend development, design systems, and building for the web.
         </p>
         <div class="blog-list__grid">
-          ${POSTS.map(p => `
+          ${POSTS.map(
+            p => `
             <article class="blog-card">
               ${p.img ? `<div class="blog-card__cover"><img src="${p.img}" alt="${p.title}" width="800" height="450" loading="lazy" /></div>` : ''}
               <div class="blog-card__body">
@@ -109,7 +124,8 @@ export const BlogList = {
                 <a href="#" class="blog-card__read-more">Read more →</a>
               </div>
             </article>
-          `).join('')}
+          `
+          ).join('')}
         </div>
       </div>
     </div>
@@ -184,7 +200,12 @@ export const PostHero = {
    4. SERIES SIDEBAR (two-column layout)
    ══════════════════════════════════════════════════════════ */
 const SERIES_PAGES = [
-  { order: 1, title: 'Building a Design System from Scratch with Storybook', href: '#', current: true },
+  {
+    order: 1,
+    title: 'Building a Design System from Scratch with Storybook',
+    href: '#',
+    current: true
+  },
   { order: 2, title: 'Design Tokens & Figma — Single Source of Truth', href: '#', current: false },
   { order: 3, title: 'Design System Developer Workflow in VS Code', href: '#', current: false }
 ];
@@ -198,12 +219,16 @@ function seriesSidebar(currentOrder = 1) {
     return `
       <li class="bs-series__item${isCurrent ? ' bs-series__item--current' : ''}">
         <span class="bs-series__num" aria-hidden="true">${p.order}</span>
-        ${isCurrent ? `
+        ${
+          isCurrent
+            ? `
           <span class="bs-series__item-body">
             <span class="bs-series__reading-badge" aria-label="You are reading this post">Reading now</span>
             <span class="bs-series__item-title">${p.title}</span>
           </span>
-        ` : `<a href="${p.href}" class="bs-series__item-link">${p.title}</a>`}
+        `
+            : `<a href="${p.href}" class="bs-series__item-link">${p.title}</a>`
+        }
       </li>`;
   }).join('');
 

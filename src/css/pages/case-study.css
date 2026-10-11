@@ -100,7 +100,8 @@
   background: var(--color-bg);
   padding-block: var(--space-24) var(--space-20);
   border-bottom: 1px solid var(--color-border);
-  position: relative;  overflow: hidden;
+  position: relative;
+  overflow: hidden;
 }
 
 /* Readability control layer — tune via CSS variables per cover image if needed */
@@ -536,7 +537,11 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   background:
-    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--color-accent) 12%, transparent) 0, transparent 48%),
+    radial-gradient(
+      circle at 100% 0%,
+      color-mix(in srgb, var(--color-accent) 12%, transparent) 0,
+      transparent 48%
+    ),
     var(--color-surface);
   padding: var(--space-4) var(--space-5);
   box-shadow: var(--shadow-sm);
@@ -713,14 +718,18 @@
 }
 
 .cs-architecture__index {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
   font-size: var(--text-xs);
   color: var(--color-text-muted);
 }
 
 .cs-architecture__label {
   margin: 0;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
   font-size: var(--text-sm);
   color: var(--color-text-primary);
   line-height: var(--leading-relaxed);
@@ -739,8 +748,7 @@
   background: var(--color-surface);
   padding: var(--space-4) var(--space-5);
   box-shadow: none;
-  transition:
-    border-color var(--duration-fast) var(--ease-out);
+  transition: border-color var(--duration-fast) var(--ease-out);
 }
 
 .cs-component-card:hover {
@@ -1247,8 +1255,7 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: none;
-  transition:
-    border-color var(--duration-fast) var(--ease-out);
+  transition: border-color var(--duration-fast) var(--ease-out);
 }
 
 .cs-lesson-card:hover {
@@ -1374,7 +1381,9 @@
   gap: var(--space-4);
 }
 
-.cs-figma__summary::-webkit-details-marker { display: none; }
+.cs-figma__summary::-webkit-details-marker {
+  display: none;
+}
 
 .cs-figma__summary:hover {
   background: var(--color-surface-subtle);
@@ -1476,7 +1485,8 @@
 }
 
 @keyframes figma-float {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: translateY(0) scale(1);
     filter: drop-shadow(0 0 0 rgba(77, 141, 255, 0));
@@ -1506,8 +1516,13 @@
 }
 
 @keyframes figma-shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* Noscript fallback */
@@ -1591,16 +1606,16 @@
   }
 
   .cs-story-rail {
-      grid-column: auto;
-      grid-row: auto;
+    grid-column: auto;
+    grid-row: auto;
     position: static;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-    .cs-story-content {
-      grid-column: auto;
-      grid-row: auto;
-    }
+  .cs-story-content {
+    grid-column: auto;
+    grid-row: auto;
+  }
 
   .cs-story-rail .cs-rail-card:last-child {
     grid-column: span 2;
@@ -1616,7 +1631,7 @@
   }
 
   .cs-hero {
-     padding-block: var(--space-20) var(--space-14);
+    padding-block: var(--space-20) var(--space-14);
   }
 }
 

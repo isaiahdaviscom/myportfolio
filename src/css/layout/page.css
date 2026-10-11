@@ -361,17 +361,17 @@
     box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5);
   }
 
-/* CTA strip button — dark mode: keep it legible on the accent-blue background */
-[data-theme='dark'] .cta-strip__btn {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-}
+  /* CTA strip button — dark mode: keep it legible on the accent-blue background */
+  [data-theme='dark'] .cta-strip__btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
 
-[data-theme='dark'] .cta-strip__btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-}
+  [data-theme='dark'] .cta-strip__btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+  }
 
   /* Icon badge — small coloured square icon used in contact info rows */
   .icon-badge {

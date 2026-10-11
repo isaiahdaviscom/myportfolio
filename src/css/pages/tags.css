@@ -15,7 +15,6 @@
 */
 
 @layer components {
-
   /* ──────────────────────────────────────────────────────────────
      1. TAG HERO
      Extra metadata layer on top of the shared .page-hero band.
@@ -138,7 +137,10 @@
     box-shadow: var(--shadow-xs);
     text-decoration: none;
     color: inherit;
-    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    transition:
+      box-shadow 0.2s ease,
+      transform 0.2s ease,
+      border-color 0.2s ease;
   }
 
   .tag-project-card:hover {
@@ -264,7 +266,9 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-4) var(--space-5);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   .tag-index__item:hover {

@@ -82,8 +82,16 @@
   }
 
   @keyframes avatar-ring-pulse {
-    0%, 100% { opacity: 0.35; transform: scale(1); }
-    50%       { opacity: 0.12; transform: scale(1.05); }
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 0.12;
+      transform: scale(1.05);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -111,11 +119,7 @@
     right: -8%;
     width: 52%;
     height: 170%;
-    background: radial-gradient(
-      ellipse at center,
-      var(--color-accent-soft) 0%,
-      transparent 68%
-    );
+    background: radial-gradient(ellipse at center, var(--color-accent-soft) 0%, transparent 68%);
     pointer-events: none;
     z-index: 0;
   }
@@ -137,16 +141,8 @@
     background-repeat: no-repeat;
     opacity: 0.11;
     filter: grayscale(0.5);
-    -webkit-mask-image: radial-gradient(
-      ellipse 52% 92% at 82% 50%,
-      black 10%,
-      transparent 72%
-    );
-    mask-image: radial-gradient(
-      ellipse 52% 92% at 82% 50%,
-      black 10%,
-      transparent 72%
-    );
+    mask-image: radial-gradient(ellipse 52% 92% at 82% 50%, black 10%, transparent 72%);
+    mask-image: radial-gradient(ellipse 52% 92% at 82% 50%, black 10%, transparent 72%);
     pointer-events: none;
     z-index: 0;
     display: none; /* mobile: avatar is the visual, skip bg portrait */
@@ -219,12 +215,20 @@
   }
 
   @keyframes about-status-pulse {
-    0%, 100% { box-shadow: 0 0 0 2px color-mix(in srgb, #22c55e 28%, transparent); }
-    50%       { box-shadow: 0 0 0 6px color-mix(in srgb, #22c55e 0%, transparent); }
+    0%,
+    100% {
+      box-shadow: 0 0 0 2px color-mix(in srgb, #22c55e 28%, transparent);
+    }
+
+    50% {
+      box-shadow: 0 0 0 6px color-mix(in srgb, #22c55e 0%, transparent);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .about-hero__status-dot { animation: none; }
+    .about-hero__status-dot {
+      animation: none;
+    }
   }
 
   /* ────────────────────────────────────────────────────────────
@@ -243,8 +247,7 @@
   .about-hero__stats {
     display: flex;
     flex-wrap: wrap;
-    column-gap: 0;
-    row-gap: var(--space-5);
+    gap: var(--space-5) 0;
     margin-top: var(--space-10);
     padding-top: var(--space-6);
     border-top: 1px solid var(--color-border);

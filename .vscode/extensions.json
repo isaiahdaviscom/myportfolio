@@ -2,7 +2,6 @@
   // ── VS Code Extension Recommendations for myportfolio ─────────────────────
   // Run "Extensions: Show Recommended Extensions" to install all at once.
   "recommendations": [
-
     // ── Hugo ──────────────────────────────────────────────────────────────
     // Hugo language support: syntax highlight, snippets, multi-root aware
     "budparr.language-hugo-vscode",
@@ -76,7 +75,5 @@
 
   // Extensions that should NOT be recommended (already handled differently
   // or cause conflicts with the Hugo language mode).
-  "unwantedRecommendations": [
-    "ms-vscode.html-language-features"
-  ]
+  "unwantedRecommendations": ["ms-vscode.html-language-features"]
 }

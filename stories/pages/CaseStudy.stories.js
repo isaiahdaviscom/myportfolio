@@ -18,8 +18,7 @@ export default {
   tags: ['autodocs']
 };
 
-const IMG = (seed) =>
-  `https://images.unsplash.com/photo-${seed}?w=1200&h=600&fit=crop`;
+const IMG = seed => `https://images.unsplash.com/photo-${seed}?w=1200&h=600&fit=crop`;
 
 /* ══════════════════════════════════════════════════════════
    1. HERO
@@ -70,13 +69,15 @@ export const MetricTiles = {
     <div class="cs-page" style="padding: 2rem;">
       <div class="cs-container">
         <div class="cs-metrics">
-          ${METRICS.map(m => `
+          ${METRICS.map(
+            m => `
             <div class="cs-metric-tile">
               <span class="cs-metric-tile__value">${m.value}</span>
               <span class="cs-metric-tile__label">${m.label}</span>
               <span class="cs-metric-tile__detail">${m.detail}</span>
             </div>
-          `).join('')}
+          `
+          ).join('')}
         </div>
       </div>
     </div>
@@ -135,8 +136,14 @@ export const Callout = {
    5. TIMELINE
    ══════════════════════════════════════════════════════════ */
 const PHASES = [
-  { phase: 'Week 1', desc: 'Discovery call, competitor audit, content inventory. Deliverable: sitemap + content brief.' },
-  { phase: 'Week 2', desc: 'Token system, component library in Storybook, Figma comps reviewed & approved.' },
+  {
+    phase: 'Week 1',
+    desc: 'Discovery call, competitor audit, content inventory. Deliverable: sitemap + content brief.'
+  },
+  {
+    phase: 'Week 2',
+    desc: 'Token system, component library in Storybook, Figma comps reviewed & approved.'
+  },
   { phase: 'Week 3', desc: 'Hugo build, CMS wiring, Lighthouse pass, staging review.' },
   { phase: 'Launch', desc: 'DNS cutover, redirect map, post-launch audit at 24 h and 7 days.' }
 ];
@@ -146,12 +153,14 @@ export const Timeline = {
     <div class="cs-page" style="padding: 2rem;">
       <div class="cs-container cs-container--prose">
         <ol class="cs-timeline">
-          ${PHASES.map(p => `
+          ${PHASES.map(
+            p => `
             <li class="cs-timeline__step">
               <span class="cs-timeline__phase">${p.phase}</span>
               <p class="cs-timeline__desc">${p.desc}</p>
             </li>
-          `).join('')}
+          `
+          ).join('')}
         </ol>
       </div>
     </div>
@@ -162,9 +171,20 @@ export const Timeline = {
    6. LESSONS
    ══════════════════════════════════════════════════════════ */
 const LESSONS = [
-  { insight: 'Token-first speeds handoff', detail: 'When tokens are the contract between design and code, review cycles shrink significantly.' },
-  { insight: 'CMS simplicity = adoption', detail: 'A CMS the client can\'t use independently is a support ticket waiting to happen.' },
-  { insight: 'Lighthouse gates ship dates', detail: 'Running Lighthouse as a CI check prevented three performance regressions before launch.' }
+  {
+    insight: 'Token-first speeds handoff',
+    detail:
+      'When tokens are the contract between design and code, review cycles shrink significantly.'
+  },
+  {
+    insight: 'CMS simplicity = adoption',
+    detail: "A CMS the client can't use independently is a support ticket waiting to happen."
+  },
+  {
+    insight: 'Lighthouse gates ship dates',
+    detail:
+      'Running Lighthouse as a CI check prevented three performance regressions before launch.'
+  }
 ];
 
 export const LessonCards = {
@@ -172,12 +192,14 @@ export const LessonCards = {
     <div class="cs-page" style="padding: 2rem;">
       <div class="cs-container cs-container--prose">
         <div class="cs-lessons">
-          ${LESSONS.map(l => `
+          ${LESSONS.map(
+            l => `
             <div class="cs-lesson-card">
               <p class="cs-lesson-card__insight">${l.insight}</p>
               <p class="cs-lesson-card__detail">${l.detail}</p>
             </div>
-          `).join('')}
+          `
+          ).join('')}
         </div>
       </div>
     </div>
@@ -229,8 +251,18 @@ export const FigmaEmbed = {
    8. RELATED PROJECTS
    ══════════════════════════════════════════════════════════ */
 const RELATED = [
-  { title: 'IGA Supermarkets', role: 'UI Design', href: '#', img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=400&fit=crop' },
-  { title: 'Isaiah Davis Designs', role: 'Portfolio', href: '#', img: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=400&h=400&fit=crop' }
+  {
+    title: 'IGA Supermarkets',
+    role: 'UI Design',
+    href: '#',
+    img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=400&fit=crop'
+  },
+  {
+    title: 'Isaiah Davis Designs',
+    role: 'Portfolio',
+    href: '#',
+    img: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=400&h=400&fit=crop'
+  }
 ];
 
 export const RelatedProjects = {
@@ -244,7 +276,8 @@ export const RelatedProjects = {
             <a href="/portfolio/" class="cs-related__link">View all →</a>
           </header>
           <ul class="related-projects__grid">
-            ${RELATED.map(p => `
+            ${RELATED.map(
+              p => `
               <li>
                 <a href="${p.href}" class="card related-projects__card">
                   <picture><img src="${p.img}" alt="${p.title}" /></picture>
@@ -254,7 +287,8 @@ export const RelatedProjects = {
                   </div>
                 </a>
               </li>
-            `).join('')}
+            `
+            ).join('')}
           </ul>
         </section>
       </div>
@@ -290,12 +324,14 @@ export const FullPage = {
           </div>
         </section>
         <div class="cs-metrics">
-          ${METRICS.map(m => `
+          ${METRICS.map(
+            m => `
             <div class="cs-metric-tile">
               <span class="cs-metric-tile__value">${m.value}</span>
               <span class="cs-metric-tile__label">${m.label}</span>
               <span class="cs-metric-tile__detail">${m.detail}</span>
-            </div>`).join('')}
+            </div>`
+          ).join('')}
         </div>
       </div>
       <div class="cs-container cs-container--prose">
@@ -313,22 +349,26 @@ export const FullPage = {
           <p class="cs-section__eyebrow">Process</p>
           <h2 class="cs-section__heading">Three-week sprint</h2>
           <ol class="cs-timeline">
-            ${PHASES.map(p => `
+            ${PHASES.map(
+              p => `
               <li class="cs-timeline__step">
                 <span class="cs-timeline__phase">${p.phase}</span>
                 <p class="cs-timeline__desc">${p.desc}</p>
-              </li>`).join('')}
+              </li>`
+            ).join('')}
           </ol>
         </section>
         <section class="cs-section">
           <p class="cs-section__eyebrow">Reflections</p>
           <h2 class="cs-section__heading">Lessons learned</h2>
           <div class="cs-lessons">
-            ${LESSONS.map(l => `
+            ${LESSONS.map(
+              l => `
               <div class="cs-lesson-card">
                 <p class="cs-lesson-card__insight">${l.insight}</p>
                 <p class="cs-lesson-card__detail">${l.detail}</p>
-              </div>`).join('')}
+              </div>`
+            ).join('')}
           </div>
         </section>
       </div>

@@ -363,7 +363,6 @@
 */
 
 @layer components {
-
   /* ── 01. PAGE SHELL ──────────────────────────────────────────────────────── */
   .bs-page {
     background-color: var(--color-bg);
@@ -376,10 +375,7 @@
   }
 
   .bs-container {
-    width: min(
-      var(--max-content),
-      calc(100vw - 4vw * 2)
-    );
+    width: min(var(--max-content), calc(100vw - 4vw * 2));
     margin-inline: auto;
     container-type: inline-size; /* allows comfort-body cqi to resolve against this container */
     container-name: bs-content;
@@ -390,6 +386,7 @@
   }
 
   /* ── 02. READING PROGRESS BAR ───────────────────────────────────────────── */
+
   /*
     CSS-only scroll-driven progress indicator.
     Uses animation-timeline: scroll() — Baseline 2024.
@@ -402,13 +399,17 @@
     right: 0;
     height: 3px;
     z-index: 200;
-    background: var(--color-border, rgba(0,0,0,0.08));
+    background: var(--color-border, rgba(0, 0, 0, 0.08));
     pointer-events: none;
   }
 
   .bs-progress__fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-hover, var(--color-accent)));
+    background: linear-gradient(
+      90deg,
+      var(--color-accent),
+      var(--color-accent-hover, var(--color-accent))
+    );
     transform-origin: left;
     transform: scaleX(0);
     animation: bs-reading-progress linear;
@@ -416,8 +417,13 @@
   }
 
   @keyframes bs-reading-progress {
-    from { transform: scaleX(0); }
-    to   { transform: scaleX(1); }
+    from {
+      transform: scaleX(0);
+    }
+
+    to {
+      transform: scaleX(1);
+    }
   }
 
   /* ── 03. HERO ───────────────────────────────────────────────────────────── */
@@ -426,7 +432,7 @@
     border-bottom: 1px solid var(--color-border);
     background: linear-gradient(
       155deg,
-      var(--color-accent-soft, oklch(0.97 0.01 250)) 0%,
+      var(--color-accent-soft, oklch(97% 0.01 250deg)) 0%,
       var(--color-surface, #fff) 50%,
       var(--color-surface-subtle, #f8f9fb) 100%
     );
@@ -443,11 +449,7 @@
   }
 
   .bs-hero__title {
-    font-size: clamp(
-      var(--text-2xl, 1.5rem),
-      5.5vw,
-      var(--text-5xl, 3rem)
-    );
+    font-size: clamp(var(--text-2xl, 1.5rem), 5.5vw, var(--text-5xl, 3rem));
     font-weight: var(--font-extrabold, 800);
     line-height: var(--leading-tight, 1.2);
     letter-spacing: var(--tracking-tight, -0.025em);
@@ -489,7 +491,7 @@
   .bs-hero__cover {
     border-radius: var(--radius-xl, 1rem);
     overflow: hidden;
-    box-shadow: var(--shadow-xl, 0 20px 60px rgba(0,0,0,0.15));
+    box-shadow: var(--shadow-xl, 0 20px 60px rgba(0, 0, 0, 0.15));
     aspect-ratio: 1200 / 630;
     max-height: 460px;
   }
@@ -538,7 +540,9 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm, 0.25rem);
     letter-spacing: 0.01em;
-    transition: color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
+    transition:
+      color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out);
   }
 
   .bs-tag:is(a):hover {
@@ -553,8 +557,14 @@
   }
 
   .bs-article {
-    font-size: var(--comfort-body); /* clamp(base, 1.8cqi, lg) — matches cs-prose & about-bio__prose */
-    line-height: var(--leading-comfort); /* 1.75 — consistent with other long-form reading contexts */
+    font-size: var(
+      --comfort-body
+    ); /* clamp(base, 1.8cqi, lg) — matches cs-prose & about-bio__prose */
+
+    line-height: var(
+      --leading-comfort
+    ); /* 1.75 — consistent with other long-form reading contexts */
+
     color: var(--color-text-primary);
   }
 
@@ -649,7 +659,8 @@
   .bs-article blockquote {
     position: relative;
     margin-inline: 0;
-    padding: var(--space-6, 1.5rem) var(--space-7, 1.75rem) var(--space-6, 1.5rem) var(--space-8, 2rem);
+    padding: var(--space-6, 1.5rem) var(--space-7, 1.75rem) var(--space-6, 1.5rem)
+      var(--space-8, 2rem);
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-left: 4px solid var(--color-accent);
@@ -689,12 +700,13 @@
   }
 
   /* Code block */
+
   /* Code blocks — when Hugo uses noClasses=false, .highlight wrapper 
      plus .chroma class handle colours via chroma.css. This block
      handles geometry / padding / font only, so both paths work. */
   .bs-article pre {
     background: #0d1117; /* github-dark baseline; chroma.css wins via .chroma */
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-xl, 1rem);
     padding: var(--space-6, 1.5rem);
     overflow-x: auto;
@@ -793,7 +805,11 @@
     width: 52px;
     height: 52px;
     border-radius: var(--radius-full, 9999px);
-    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover, var(--color-accent)));
+    background: linear-gradient(
+      135deg,
+      var(--color-accent),
+      var(--color-accent-hover, var(--color-accent))
+    );
     color: #fff;
     font-size: var(--text-sm, 0.875rem);
     font-weight: var(--font-bold, 700);
@@ -980,8 +996,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    column-gap: var(--space-3, 0.75rem);
-    row-gap: var(--space-1, 0.25rem);
+    gap: var(--space-1, 0.25rem) var(--space-3, 0.75rem);
     margin-bottom: var(--space-4, 1rem);
   }
 
@@ -1134,7 +1149,9 @@
 
   .bs-series-main {
     min-width: 0;
-    max-width: calc(var(--max-prose) + var(--space-12)); /* match bs-container--prose width used on non-series posts */
+    max-width: calc(
+      var(--max-prose) + var(--space-12)
+    ); /* match bs-container--prose width used on non-series posts */
   }
 
   @media (max-width: 1023px) {
@@ -1162,7 +1179,6 @@
       width: 100%;
     }
   }
-
 } /* end @layer components */
 
 /* ── 11. DARK-MODE OVERRIDES ──────────────────────────────────────────────── */
@@ -1181,7 +1197,7 @@
 [data-theme='dark'] .bs-article pre,
 [data-theme='dark'] .bs-article .chroma {
   background: #0d1117; /* github-dark — consistent in both themes */
-  border-color: rgba(255,255,255,0.08);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 [data-theme='dark'] .bs-article blockquote {
@@ -1229,6 +1245,7 @@
 }
 
 /* ── 13. STORYBOOK CALLOUT (.sb-callout) ─────────────────────────────────── */
+
 /*
   Inline component reference card for blog posts.
   Renders a "View in Storybook" link when storybookBaseURL is configured,
@@ -1335,4 +1352,3 @@
   background: var(--color-bg);
   border-color: var(--color-border);
 }
-

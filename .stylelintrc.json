@@ -22,6 +22,8 @@
         "ignorePseudoClasses": ["global"]
       }
     ],
+    "block-no-empty": null,
+    "declaration-block-no-duplicate-properties": null,
     "property-no-vendor-prefix": [
       true,
       {

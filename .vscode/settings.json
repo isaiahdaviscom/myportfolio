@@ -16,7 +16,7 @@
   "workbench.editor.tabSizing": "shrink",
   "workbench.editor.tabCloseButton": "off",
   "workbench.editor.tabActionCloseVisibility": false,
-  "workbench.editor.revealIfOpen": true,        // don't open duplicate tabs
+  "workbench.editor.revealIfOpen": true, // don't open duplicate tabs
   "workbench.tree.indent": 18,
   "workbench.tree.renderIndentGuides": "always",
   "workbench.statusBar.visible": true,
@@ -32,18 +32,18 @@
   "editor.trimAutoWhitespace": true,
   "editor.formatOnSave": true,
   "editor.formatOnPaste": false,
-  "editor.linkedEditing": true,        // auto-rename matching HTML tags
+  "editor.linkedEditing": true, // auto-rename matching HTML tags
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": "active",
   "editor.inlineSuggest.enabled": true,
   "editor.suggest.insertMode": "replace",
   "editor.quickSuggestions": {
-    "strings": true,       // Tailwind class autocomplete inside class=""
+    "strings": true, // Tailwind class autocomplete inside class=""
     "comments": false,
     "other": true
   },
   "editor.parameterHints.enabled": true,
-  "editor.stickyScroll.enabled": true,     // keeps current function/block header visible while scrolling
+  "editor.stickyScroll.enabled": true, // keeps current function/block header visible while scrolling
   "editor.minimap.renderCharacters": false,
   "editor.minimap.maxColumn": 100,
   "editor.renderWhitespace": "boundary",
@@ -146,18 +146,18 @@
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
-    "hugo.toml":          "config.*.toml, netlify.toml, netlify-*.toml, .hugo_build.lock",
-    "package.json":       "package-lock.json, .npmrc, .nvmrc, .node-version",
+    "hugo.toml": "config.*.toml, netlify.toml, netlify-*.toml, .hugo_build.lock",
+    "package.json": "package-lock.json, .npmrc, .nvmrc, .node-version",
     "tailwind.config.js": "postcss.config.js",
-    ".eslintrc.*":        ".eslintignore, .prettierrc*, .prettierignore, .stylelintrc*, .markdownlint*",
-    "README.md":          "CHANGELOG.md, LICENSE, CODE_OF_CONDUCT.md, CONTRIBUTING.md, SECURITY.md",
-    "*.toml":             "$(capture).development.toml, $(capture).production.toml",
-    "robots-prod.txt":    "robots-dev.txt",
+    ".eslintrc.*": ".eslintignore, .prettierrc*, .prettierignore, .stylelintrc*, .markdownlint*",
+    "README.md": "CHANGELOG.md, LICENSE, CODE_OF_CONDUCT.md, CONTRIBUTING.md, SECURITY.md",
+    "*.toml": "$(capture).development.toml, $(capture).production.toml",
+    "robots-prod.txt": "robots-dev.txt",
     "manifest.webmanifest": "manifest-dev.webmanifest"
   },
 
   // ── CSS validation ─────────────────────────────────────────────────────────
-  "css.validate": false,      // stylelint handles this
+  "css.validate": false, // stylelint handles this
   "scss.validate": false,
   "less.validate": false,
   "stylelint.validate": ["css", "scss", "postcss"],
@@ -172,7 +172,7 @@
     "html": "html"
   },
   "emmet.triggerExpansionOnTab": true,
-  "html.format.enable": false,      // Prettier / hugo mode handles this
+  "html.format.enable": false, // Prettier / hugo mode handles this
   "html.validate.scripts": false,
   "html.validate.styles": false,
   "html.format.wrapLineLength": 0,
@@ -199,8 +199,11 @@
     "html": "html"
   },
   "tailwindCSS.files.exclude": [
-    "**/.git/**", "**/node_modules/**", "**/dist/**",
-    "**/build/**", "**/public/**"
+    "**/.git/**",
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/public/**"
   ],
   "tailwindCSS.experimental.configFile": "tailwind.config.js",
   "tailwindCSS.classAttributes": ["class", "className", "ngClass"],
@@ -222,50 +225,64 @@
     { "text": "NOTE:", "color": "#fff", "backgroundColor": "#3b82f6", "fontWeight": "bold" },
     { "text": "SECURITY:", "color": "#fff", "backgroundColor": "#dc2626", "fontWeight": "bold" }
   ],
-  "todohighlight.include": [
-    "**/*.html", "**/*.js", "**/*.css", "**/*.md", "**/*.toml", "**/*.yml"
-  ],
-  "todohighlight.exclude": [
-    "**/node_modules/**", "**/public/**", "**/.git/**"
-  ],
+  "todohighlight.include": ["**/*.html", "**/*.js", "**/*.css", "**/*.md", "**/*.toml", "**/*.yml"],
+  "todohighlight.exclude": ["**/node_modules/**", "**/public/**", "**/.git/**"],
 
   // ── Error Lens ─────────────────────────────────────────────────────────────
   "errorLens.enabledDiagnosticLevels": ["warning", "error"],
-  "errorLens.excludeBySource": ["html"],   // suppress Hugo template false positives
+  "errorLens.excludeBySource": ["html"], // suppress Hugo template false positives
 
   // ── GitLens ────────────────────────────────────────────────────────────────
   "gitlens.currentLine.enabled": true,
   "gitlens.hovers.currentLine.over": "line",
-  "gitlens.codeLens.enabled": false,       // keep editor clean
+  "gitlens.codeLens.enabled": false, // keep editor clean
   "gitlens.statusBar.enabled": true,
   "gitlens.graph.layout": "editor",
 
   // ── Project Manager ────────────────────────────────────────────────────────
-  "projectManager.git.baseFolders": [
-    "C:\\Users\\IBlac\\OneDrive\\Desktop\\MyProjects"
-  ],
+  "projectManager.git.baseFolders": ["C:\\Users\\IBlac\\OneDrive\\Desktop\\MyProjects"],
 
   // ── Spell Checker ─────────────────────────────────────────────────────────
   "cSpell.enabled": true,
   "cSpell.language": "en",
   "cSpell.words": [
-    "isaiahdavis", "myportfolio", "netlify", "sandc", "tailwindcss",
-    "postcss", "esbuild", "frontmatter", "baseof", "hugo", "shortcode",
-    "shortcodes", "archetypes", "jsonify", "htmlescape", "acsbapp",
-    "gitlens", "esbenp", "markdownlint", "stylelint", "webmanifest",
-    "webp", "webroot", "prerequestiles", "lovella", "iga", "empire"
+    "isaiahdavis",
+    "myportfolio",
+    "netlify",
+    "sandc",
+    "tailwindcss",
+    "postcss",
+    "esbuild",
+    "frontmatter",
+    "baseof",
+    "hugo",
+    "shortcode",
+    "shortcodes",
+    "archetypes",
+    "jsonify",
+    "htmlescape",
+    "acsbapp",
+    "gitlens",
+    "esbenp",
+    "markdownlint",
+    "stylelint",
+    "webmanifest",
+    "webp",
+    "webroot",
+    "prerequestiles",
+    "lovella",
+    "iga",
+    "empire"
   ],
-  "cSpell.ignorePaths": [
-    "**/node_modules/**", "**/public/**", "package-lock.json", "*.svg"
-  ],
+  "cSpell.ignorePaths": ["**/node_modules/**", "**/public/**", "package-lock.json", "*.svg"],
 
   // ── Markdown ───────────────────────────────────────────────────────────────
   "markdown.preview.fontSize": 14,
   "markdown.preview.lineHeight": 1.6,
   "markdownlint.config": {
-    "MD013": false,   // line length — handled by prettier
-    "MD033": false,   // inline HTML — used in content
-    "MD041": false    // first heading — not always needed
+    "MD013": false, // line length — handled by prettier
+    "MD033": false, // inline HTML — used in content
+    "MD041": false // first heading — not always needed
   },
 
   // ── YAML ───────────────────────────────────────────────────────────────────

@@ -13,3 +13,8 @@ themes/myPortfolio/exampleSite/
 # Hugo Go-template HTML files — Prettier cannot parse Go template syntax
 themes/myPortfolio/layouts/**/*.html
 layouts/**/*.html
+# Generated / Go-template JSON outputs
+themes/myPortfolio/layouts/**/*.json
+static/css/styles.css
+static/js/main.js
+unused-classes.json

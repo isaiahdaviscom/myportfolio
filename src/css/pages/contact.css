@@ -36,8 +36,7 @@
     display: grid;
     grid-template-columns: subgrid;
     align-items: start;
-    row-gap: var(--space-12);
-    column-gap: var(--grid-gap-lg);
+    gap: var(--space-12) var(--grid-gap-lg);
   }
 
   /* Mobile: both children span all 24 inherited tracks */
@@ -48,8 +47,13 @@
 
   @media (min-width: 1024px) {
     /* Sidebar: 9 of 24 tracks (~37.5%), form: 15 of 24 tracks (~62.5%) */
-    .contact-info      { grid-column: 1 / span 9; }
-    .contact-form-wrap { grid-column: 10 / -1; }
+    .contact-info {
+      grid-column: 1 / span 9;
+    }
+
+    .contact-form-wrap {
+      grid-column: 10 / -1;
+    }
   }
 
   /* ────────────────────────────────────────────────────────────
@@ -174,7 +178,7 @@
   flex-direction: column;
   gap: var(--space-2);
   min-width: 0; /* prevent flex/grid item from overflowing its track */
-  width: 100%;  /* explicit stretch for both flex and grid contexts */
+  width: 100%; /* explicit stretch for both flex and grid contexts */
 }
 
 /* Label */
@@ -227,8 +231,8 @@
 
 /* Select — custom dropdown chevron */
 .form-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  appearance: none;
+  appearance: none;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -333,7 +337,9 @@
 }
 
 @keyframes form-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Success state */
@@ -461,7 +467,9 @@
     font-weight: var(--font-medium, 500);
     color: var(--color-accent);
     text-decoration: none;
-    transition: color 0.15s ease, gap 0.15s ease;
+    transition:
+      color 0.15s ease,
+      gap 0.15s ease;
   }
 
   .contact-success__back:hover {

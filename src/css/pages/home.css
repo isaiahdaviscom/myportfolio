@@ -804,7 +804,10 @@
     grid-column: 2 / -2; /* content tracks — gutters handled by parent --grid-template */
     display: grid;
     grid-template-columns: subgrid; /* inherit all 24 content cols — children snap to column grid */
-    row-gap: var(--grid-gap-lg); /* 1 col unit — vertical gap when content + services stack on mobile */
+    row-gap: var(
+      --grid-gap-lg
+    ); /* 1 col unit — vertical gap when content + services stack on mobile */
+
     align-items: start;
   }
 

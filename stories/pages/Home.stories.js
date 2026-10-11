@@ -14,8 +14,7 @@ export default {
 };
 
 /* ── Helpers ──────────────────────────────────────────────── */
-const IMG = (w, h, seed) =>
-  `https://images.unsplash.com/photo-${seed}?w=${w}&h=${h}&fit=crop`;
+const IMG = (w, h, seed) => `https://images.unsplash.com/photo-${seed}?w=${w}&h=${h}&fit=crop`;
 
 const STAT = (value, label) => `
   <div class="home-hero__stat">
@@ -78,9 +77,24 @@ export const Hero = {
    2. FEATURED WORK GRID
    ══════════════════════════════════════════════════════════ */
 const PROJECTS = [
-  { title: 'Empire Creative Co.', role: 'Brand Identity', dates: '2025', img: IMG(800, 600, '1493723843671-1d655e66ac1c') },
-  { title: 'IGA Supermarkets', role: 'UI Design · Dev', dates: '2024', img: IMG(800, 600, '1556742049-0cfed4f6a45d') },
-  { title: 'Isaiah Davis Designs', role: 'Portfolio · Motion', dates: '2024', img: IMG(800, 600, '1467232004584-a241de8bcf5d') }
+  {
+    title: 'Empire Creative Co.',
+    role: 'Brand Identity',
+    dates: '2025',
+    img: IMG(800, 600, '1493723843671-1d655e66ac1c')
+  },
+  {
+    title: 'IGA Supermarkets',
+    role: 'UI Design · Dev',
+    dates: '2024',
+    img: IMG(800, 600, '1556742049-0cfed4f6a45d')
+  },
+  {
+    title: 'Isaiah Davis Designs',
+    role: 'Portfolio · Motion',
+    dates: '2024',
+    img: IMG(800, 600, '1467232004584-a241de8bcf5d')
+  }
 ];
 
 function workCard({ title, role, dates, img, featured = false }) {
@@ -153,9 +167,17 @@ export const CtaCard = {
    4. ABOUT TEASER + SERVICE CARDS
    ══════════════════════════════════════════════════════════ */
 const SERVICES = [
-  { icon: '⚡', title: 'Frontend Dev', desc: 'Performant, accessible HTML/CSS/JS — built to last.' },
+  {
+    icon: '⚡',
+    title: 'Frontend Dev',
+    desc: 'Performant, accessible HTML/CSS/JS — built to last.'
+  },
   { icon: '🎨', title: 'UI Design', desc: 'Token-driven design systems with Figma + Storybook.' },
-  { icon: '📐', title: 'Architecture', desc: 'Scalable CSS + component strategies for growing teams.' }
+  {
+    icon: '📐',
+    title: 'Architecture',
+    desc: 'Scalable CSS + component strategies for growing teams.'
+  }
 ];
 
 export const AboutTeaser = {
@@ -173,13 +195,15 @@ export const AboutTeaser = {
           <a href="/about/" class="home-about__link">More about me →</a>
         </div>
         <div class="home-about__services">
-          ${SERVICES.map(s => `
+          ${SERVICES.map(
+            s => `
             <div class="home-service-card">
               <div class="home-service-card__icon" aria-hidden="true">${s.icon}</div>
               <h3 class="home-service-card__title">${s.title}</h3>
               <p class="home-service-card__desc">${s.desc}</p>
             </div>
-          `).join('')}
+          `
+          ).join('')}
         </div>
       </div>
     </section>
@@ -190,9 +214,24 @@ export const AboutTeaser = {
    5. LATEST POSTS
    ══════════════════════════════════════════════════════════ */
 const POSTS = [
-  { date: 'Apr 8, 2026', title: 'Building a Design System from Scratch with Storybook', summary: 'How Storybook-first development creates a living UI inventory for your team.', href: '#' },
-  { date: 'Apr 10, 2026', title: 'Design Tokens & Figma: Single Source of Truth', summary: 'Connecting W3C DTCG tokens to both your CSS and Figma library.', href: '#' },
-  { date: 'Apr 12, 2026', title: 'Design System Developer Workflow in VS Code', summary: 'Autocomplete, linting, and tasks that keep your token usage consistent.', href: '#' }
+  {
+    date: 'Apr 8, 2026',
+    title: 'Building a Design System from Scratch with Storybook',
+    summary: 'How Storybook-first development creates a living UI inventory for your team.',
+    href: '#'
+  },
+  {
+    date: 'Apr 10, 2026',
+    title: 'Design Tokens & Figma: Single Source of Truth',
+    summary: 'Connecting W3C DTCG tokens to both your CSS and Figma library.',
+    href: '#'
+  },
+  {
+    date: 'Apr 12, 2026',
+    title: 'Design System Developer Workflow in VS Code',
+    summary: 'Autocomplete, linting, and tasks that keep your token usage consistent.',
+    href: '#'
+  }
 ];
 
 export const LatestPosts = {
@@ -205,14 +244,16 @@ export const LatestPosts = {
           <a href="/posts/" class="home-posts__view-all">All posts →</a>
         </div>
         <div class="home-posts__grid">
-          ${POSTS.map(p => `
+          ${POSTS.map(
+            p => `
             <a href="${p.href}" class="home-post-card">
               <time class="home-post-card__date">${p.date}</time>
               <h3 class="home-post-card__title">${p.title}</h3>
               <p class="home-post-card__summary">${p.summary}</p>
               <span class="home-post-card__read" aria-hidden="true">Read →</span>
             </a>
-          `).join('')}
+          `
+          ).join('')}
         </div>
       </div>
     </section>

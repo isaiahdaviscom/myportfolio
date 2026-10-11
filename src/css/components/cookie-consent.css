@@ -23,7 +23,11 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   background:
-    radial-gradient(circle at 0% 100%, color-mix(in srgb, var(--color-accent) 14%, transparent) 0, transparent 40%),
+    radial-gradient(
+      circle at 0% 100%,
+      color-mix(in srgb, var(--color-accent) 14%, transparent) 0,
+      transparent 40%
+    ),
     var(--color-surface);
   box-shadow: var(--shadow-xl);
   padding: var(--space-5) var(--space-6);

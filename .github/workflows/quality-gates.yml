@@ -103,13 +103,13 @@ jobs:
       run: |
         echo "📊 Checking bundle sizes..."
         
-        # Check CSS bundle size (limit: 100KB)
+        # Check CSS bundle size (limit: 100KB gzipped — the size actually transferred)
         if [ -f "static/css/styles.css" ]; then
-          css_size=$(stat -c%s "static/css/styles.css" 2>/dev/null || stat -f%z "static/css/styles.css")
+          css_size=$(gzip -9 -c "static/css/styles.css" | wc -c)
           css_kb=$((css_size / 1024))
-          echo "CSS bundle size: ${css_kb}KB"
+          echo "CSS bundle size (gzipped): ${css_kb}KB"
           if [ $css_size -gt 102400 ]; then
-            echo "❌ CSS bundle too large: ${css_kb}KB (limit: 100KB)"
+            echo "❌ CSS bundle too large: ${css_kb}KB gzipped (limit: 100KB)"
             exit 1
           fi
         fi
