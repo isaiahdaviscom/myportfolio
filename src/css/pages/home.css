@@ -157,7 +157,7 @@
 
   /* Primary CTA — override page.css btn-primary for dark bg context */
   .home-hero .btn-primary {
-    background: #4d8dff;
+    background: #2563eb; /* white text: 5.2:1 */
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.18);
     box-shadow:
@@ -167,7 +167,7 @@
   }
 
   .home-hero .btn-primary:hover {
-    background: #3a7aee;
+    background: #1d4ed8;
     transform: translateY(-2px);
     box-shadow:
       0 6px 20px rgba(77, 141, 255, 0.5),

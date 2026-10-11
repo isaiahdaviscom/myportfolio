@@ -98,7 +98,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.625rem;
-    background: #4d8dff;
+    background: #2563eb; /* white text: 5.2:1 */
     color: #fff;
     font-size: 0.875rem;
     font-weight: 600;
@@ -116,7 +116,7 @@
   }
 
   .site-footer__cta-btn:hover {
-    background: #3a7aee;
+    background: #1d4ed8;
     transform: translateY(-1px);
     box-shadow:
       0 4px 12px rgba(77, 141, 255, 0.3),
