@@ -111,6 +111,9 @@
 /* 2.6 Scroll & motion enhancements (smooth scroll, reveal, selection, scrollbar, focus-ring) */
 @import './utilities/motion.css';
 
+/* 2.7 Apple-style refinements (springs, materials, optical typography) */
+@import './utilities/apple.css';
+
 /* =============================================
    2. TAILWIND DIRECTIVES
    ============================================= */
