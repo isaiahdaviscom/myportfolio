@@ -26,11 +26,14 @@ html {
 }
 
 /* ── 2. ANCHOR SCROLL OFFSET ───────────────────────────────────────────────
-   When the browser jumps to an anchor (#section-id), the sticky header
-   (~64px) would occlude the target. scroll-margin-top adds breathing room
-   above every element that could be an anchor target.                       */
+   Sticky header + sticky jump links would occlude an anchor target. JS
+   publishes their measured heights as --header-h and --jumplinks-offset
+   (0 on pages without jump links); the target clears both plus breathing
+   room. This rule is unlayered, so it must carry the full offset itself. */
 [id] {
-  scroll-margin-top: 5.5rem; /* header height (~64px) + 24px breathing */
+  scroll-margin-top: calc(
+    var(--header-h, 4rem) + var(--jumplinks-offset, 0px) + var(--space-6, 1.5rem)
+  );
 }
 
 /* ── 3. TEXT SELECTION ────────────────────────────────────────────────────

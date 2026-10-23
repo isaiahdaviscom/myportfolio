@@ -1,0 +1,30 @@
+{{- /* /llms.txt — curated, Markdown index for LLM-based answer engines (llmstxt.org). */ -}}
+{{- $r := site.Data.resume -}}
+# {{ $r.name }}
+
+> {{ $r.name }} is a {{ $r.jobTitle }} based in {{ $r.location.city }}, {{ $r.location.regionName }}, {{ $r.location.countryName }} ({{ $r.workMode | lower }}). Available for freelance, contract and full-time work. Specialities: {{ delimit $r.services ", " }}.
+
+- Website: {{ "/" | absURL }}
+- Location: {{ $r.location.city }}, {{ $r.location.regionName }}
+- Current role: Frontend Developer at {{ $r.employer }}
+- Contact: {{ $r.email }}
+- LinkedIn: {{ $r.linkedin }}
+- GitHub: {{ $r.github }}
+- Full context for LLMs: {{ "llms-full.txt" | absURL }}
+
+## Key pages
+
+- [About]({{ "about/" | absURL }}): Background, skills and approach.
+- [Portfolio]({{ "portfolio/" | absURL }}): Case studies and project work.
+- [Blog]({{ "posts/" | absURL }}): Articles on frontend engineering, accessibility, performance and design systems.
+- [Contact]({{ "contact/" | absURL }}): How to start a project or get in touch.
+
+## Portfolio
+{{ range sort (where site.RegularPages "Section" "portfolio") "Weight" }}
+- [{{ .Title }}]({{ .Permalink }}): {{ .Params.description | plainify | replaceRE `\s+` " " }}
+{{- end }}
+
+## Blog
+{{ range (where site.RegularPages "Section" "posts") }}
+- [{{ .Title }}]({{ .Permalink }}): {{ (partial "seo-description.html" .) | replaceRE `\s+` " " }}
+{{- end }}

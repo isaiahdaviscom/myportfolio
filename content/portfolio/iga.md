@@ -4,6 +4,9 @@ description: "Design system unification for 18 independent grocer microsites, re
 date: 2019-01-01T00:00:00Z
 draft: false
 weight: 20
+role: "Web Designer"
+start_date: "2019-01"
+end_date: "2021-04"
 year: "2019"
 client: "Independent Grocers Alliance"
 project_url: "https://www.iga.com"

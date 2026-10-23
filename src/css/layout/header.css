@@ -451,6 +451,12 @@
   ────────────────────────────────────────────────────────────── */
 
   @media (max-width: 767px) {
+    /* The closed drawer sits in an implicit second row; a baseline-height row
+       would leave a blank strip under the bar and push sticky jump links down. */
+    .site-header {
+      grid-auto-rows: auto;
+    }
+
     /* Hide the inline nav links from the bar to prevent overflow */
     .site-header__left .inline-menu {
       display: none;

@@ -1,0 +1,49 @@
+{{- /* /llms-full.txt — the same index plus the substantive content, in one Markdown document. */ -}}
+{{- $r := site.Data.resume -}}
+{{- $about := site.GetPage "/about" -}}
+# {{ $r.name }} — full context
+
+> {{ $r.name }} is a {{ $r.jobTitle }} based in {{ $r.location.city }}, {{ $r.location.regionName }}, {{ $r.location.countryName }} ({{ $r.workMode | lower }}). Available for freelance, contract and full-time work.
+
+Canonical site: {{ "/" | absURL }} · Contact: {{ $r.email }} · LinkedIn: {{ $r.linkedin }} · GitHub: {{ $r.github }}
+
+## Summary
+
+{{ $r.summary }}
+
+## Services
+
+{{ range $r.services }}- {{ . }}
+{{ end }}
+## Experience
+{{ range sort (where site.RegularPages "Section" "portfolio") "Weight" }}
+{{- $when := partial "resume-dates.html" . }}
+### {{ .Params.role }} — {{ .Title }}{{ with $when.range }} ({{ . }}{{ with $when.duration }}, {{ . }}{{ end }}){{ end }}
+
+{{ .Params.description }}
+{{ with .Params.technologies }}
+Technologies: {{ delimit . ", " }}
+{{ end }}
+Case study: {{ .Permalink }}
+{{ end }}
+{{- with $about }}
+## About
+
+{{ .RawContent | replaceRE `(?m)^\s+$` "" }}
+
+{{- with .Params.skills }}
+### Skills
+{{ range $group, $items := . }}
+- {{ $group | title }}: {{ delimit $items ", " }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+## Articles
+{{ range (where site.RegularPages "Section" "posts") }}
+### {{ .Title }}
+
+{{ partial "seo-description.html" . }}
+
+URL: {{ .Permalink }}{{ with .Params.tags }} · Topics: {{ delimit . ", " }}{{ end }}
+{{ end }}

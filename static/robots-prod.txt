@@ -1,97 +1,88 @@
-# Robots.txt for Production Environment
-# This file allows search engines to crawl the production site
+# robots.txt — production
+# Policy: be discoverable by search engines AND by AI answer/search assistants
+# (so the site can be cited), while opting out of bulk model-training crawlers.
 
 User-agent: *
 Allow: /
-
-# Block access to admin and private areas
 Disallow: /admin/
 Disallow: /.netlify/
 Disallow: /api/
 Disallow: /_draft/
+Disallow: /contact/success/
 
-# Allow access to important files
-Allow: /css/
-Allow: /js/
-Allow: /images/
-Allow: /fonts/
+# ── AI search / answer-engine retrieval agents: ALLOWED (citations, GEO/AIO) ──
+User-agent: OAI-SearchBot
+Allow: /
 
-# Crawl delay (optional - adjust as needed)
-Crawl-delay: 1
+User-agent: ChatGPT-User
+Allow: /
 
-# ── AI/LLM Training & Scraper Bot Blocking ───────────────────────────────────
-# Block OpenAI crawlers (GPT training & ChatGPT browsing)
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+# ── Model-training-only crawlers: BLOCKED ─────────────────────────────────────
+# To let these use the site for training as well, delete the matching block.
 User-agent: GPTBot
 Disallow: /
 
-User-agent: ChatGPT-User
-Disallow: /
-
-User-agent: OAI-SearchBot
-Disallow: /
-
-# Block Anthropic / Claude
 User-agent: ClaudeBot
-Disallow: /
-
-User-agent: Claude-Web
 Disallow: /
 
 User-agent: anthropic-ai
 Disallow: /
 
-# Block Common Crawl (primary training corpus for many LLMs)
-User-agent: CCBot
-Disallow: /
-
-# Block ByteDance / TikTok scraper
-User-agent: Bytespider
-Disallow: /
-
-# Block Google Vertex AI / Bard training
 User-agent: Google-Extended
 Disallow: /
 
-# Block Cohere training crawler
-User-agent: cohere-ai
-Disallow: /
-
-# Block Perplexity AI
-User-agent: PerplexityBot
-Disallow: /
-
-# Block Diffbot (ML data extraction)
-User-agent: Diffbot
-Disallow: /
-
-# Block ImagesiftBot (image ML training)
-User-agent: ImagesiftBot
-Disallow: /
-
-# Block Omgili / Webz.io news scrapers
-User-agent: Omgilibot
-Disallow: /
-
-User-agent: omgili
-Disallow: /
-
-# Block Apple AI (Applebot-Extended for Apple Intelligence)
 User-agent: Applebot-Extended
 Disallow: /
 
-# Block Meta AI training crawler
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
 User-agent: FacebookBot
 Disallow: /
 
-# Block Amazon Alexa / AI data scraper
-User-agent: Amazonbot
+User-agent: Diffbot
 Disallow: /
 
-# Block PetalBot (Huawei AI)
+User-agent: ImagesiftBot
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
 User-agent: PetalBot
 Disallow: /
 
-# ─────────────────────────────────────────────────────────────────────────────
-
-# Sitemap location
+# Sitemap and LLM-readable summaries
 Sitemap: https://isaiahdavis.com/sitemap.xml
+# llms.txt: https://isaiahdavis.com/llms.txt
+# llms-full.txt: https://isaiahdavis.com/llms-full.txt

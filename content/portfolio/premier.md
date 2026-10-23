@@ -4,6 +4,9 @@ description: "Brand identity and digital marketing strategy that generated 32% m
 date: 2018-01-01T00:00:00Z
 draft: false
 weight: 30
+role: "Graphic Designer + Marketing Specialist"
+start_date: "2018-06"
+end_date: "2018-12"
 year: "2018"
 client: "Premier Design + Build Group"
 project_url: "https://www.pdbgroup.com"

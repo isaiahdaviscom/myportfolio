@@ -1,0 +1,154 @@
+{{- /*
+  seo-schema.html — JSON-LD knowledge graph (schema.org).
+  Entities are linked by @id so search engines and LLM-based answer engines resolve one Person,
+  one WebSite and one local ProfessionalService across every page.
+  Personal facts come from data/resume.yaml. Built with dict + jsonify, so values are always escaped.
+*/ -}}
+{{- $r := site.Data.resume -}}
+{{- $home := "/" | absURL -}}
+{{- $personID := printf "%s#person" $home -}}
+{{- $siteID := printf "%s#website" $home -}}
+{{- $serviceID := printf "%s#service" $home -}}
+{{- $pageID := printf "%s#webpage" .Permalink -}}
+{{- $desc := partial "seo-description.html" . -}}
+{{- $image := partial "seo-image.html" . -}}
+{{- $avatar := "/images/profile-branded.png" | absURL -}}
+{{- $dateFmt := "2006-01-02T15:04:05Z07:00" -}}
+{{- $loc := $r.location -}}
+
+{{- $address := dict "@type" "PostalAddress" "addressLocality" $loc.city "addressRegion" $loc.region "addressCountry" $loc.country -}}
+
+{{- $person := dict
+  "@type" "Person"
+  "@id" $personID
+  "name" $r.name
+  "url" $home
+  "image" $avatar
+  "jobTitle" $r.jobTitle
+  "description" $r.summary
+  "email" (printf "mailto:%s" $r.email)
+  "address" $address
+  "homeLocation" (dict "@type" "City" "name" (printf "%s, %s" $loc.city $loc.regionName))
+  "worksFor" (dict "@type" "Organization" "name" $r.employer "url" $r.employerUrl)
+  "knowsAbout" $r.knowsAbout
+  "sameAs" (slice $r.linkedin $r.github)
+-}}
+
+{{- $service := dict
+  "@type" (slice "ProfessionalService" "LocalBusiness")
+  "@id" $serviceID
+  "name" (printf "%s — %s" $r.name $r.jobTitle)
+  "url" $home
+  "image" $avatar
+  "description" (printf "%s is a %s based in %s, %s, taking freelance, contract and full-time work. %s." $r.name $r.jobTitle $loc.city $loc.regionName $r.workMode)
+  "address" $address
+  "geo" (dict "@type" "GeoCoordinates" "latitude" $loc.latitude "longitude" $loc.longitude)
+  "areaServed" (slice
+    (dict "@type" "City" "name" $loc.city)
+    (dict "@type" "AdministrativeArea" "name" $loc.regionName)
+    (dict "@type" "Country" "name" $loc.countryName))
+  "founder" (dict "@id" $personID)
+  "knowsAbout" $r.services
+  "sameAs" (slice $r.linkedin $r.github)
+-}}
+
+{{- $website := dict
+  "@type" "WebSite"
+  "@id" $siteID
+  "url" $home
+  "name" site.Params.author
+  "description" site.Params.description
+  "inLanguage" "en-US"
+  "publisher" (dict "@id" $personID)
+-}}
+
+{{- /* WebPage node for the current page */ -}}
+{{- $pageType := "WebPage" -}}
+{{- if eq .Type "about" }}{{ $pageType = "ProfilePage" }}
+{{- else if eq .Type "contact" }}{{ $pageType = "ContactPage" }}
+{{- else if or .IsSection (eq .Kind "taxonomy") (eq .Kind "term") }}{{ $pageType = "CollectionPage" }}{{ end -}}
+{{- $webpage := dict
+  "@type" $pageType
+  "@id" $pageID
+  "url" .Permalink
+  "name" (cond .IsHome (printf "%s — %s" $r.name $r.jobTitle) .Title)
+  "description" $desc
+  "inLanguage" "en-US"
+  "isPartOf" (dict "@id" $siteID)
+  "primaryImageOfPage" (dict "@type" "ImageObject" "url" $image)
+-}}
+{{- if .IsPage }}
+  {{- $webpage = merge $webpage (dict "datePublished" (.Date.Format $dateFmt) "dateModified" (.Lastmod.Format $dateFmt)) }}
+{{- end }}
+{{- if or .IsHome (eq .Type "about") }}
+  {{- $webpage = merge $webpage (dict "about" (dict "@id" $personID) "mainEntity" (dict "@id" $personID)) }}
+{{- end }}
+
+{{- if not .IsHome }}
+  {{- $webpage = merge $webpage (dict "breadcrumb" (dict "@id" (printf "%s#breadcrumb" .Permalink))) }}
+{{- end }}
+
+{{- $graph := slice $webpage -}}
+
+{{- if or .IsHome (eq .Type "about") (eq .Type "contact") }}
+  {{- $graph = $graph | append $person $service $website }}
+{{- end }}
+
+{{- /* Breadcrumbs (every page except home) */ -}}
+{{- if not .IsHome }}
+  {{- $crumbs := slice (dict "@type" "ListItem" "position" 1 "name" "Home" "item" $home) }}
+  {{- $chain := slice }}
+  {{- range .Ancestors.Reverse }}{{ if not .IsHome }}{{ $chain = $chain | append . }}{{ end }}{{ end }}
+  {{- $chain = $chain | append . }}
+  {{- range $i, $p := $chain }}
+    {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" (add $i 2) "name" $p.Title "item" $p.Permalink) }}
+  {{- end }}
+  {{- $graph = $graph | append (dict "@type" "BreadcrumbList" "@id" (printf "%s#breadcrumb" .Permalink) "itemListElement" $crumbs) }}
+{{- end }}
+
+{{- /* Content entities */ -}}
+{{- if and .IsPage (eq .Section "posts") }}
+  {{- $post := dict
+    "@type" "BlogPosting"
+    "@id" (printf "%s#article" .Permalink)
+    "headline" .Title
+    "description" $desc
+    "image" $image
+    "url" .Permalink
+    "inLanguage" "en-US"
+    "datePublished" (.Date.Format $dateFmt)
+    "dateModified" (.Lastmod.Format $dateFmt)
+    "wordCount" .WordCount
+    "author" (dict "@id" $personID)
+    "publisher" (dict "@id" $personID)
+    "isPartOf" (dict "@id" $siteID)
+    "mainEntityOfPage" (dict "@id" $pageID) }}
+  {{- with .Params.tags }}{{ $post = merge $post (dict "keywords" (delimit . ", ")) }}{{ end }}
+  {{- with .Params.categories }}{{ $post = merge $post (dict "articleSection" (index . 0)) }}{{ end }}
+  {{- $graph = $graph | append $post }}
+{{- else if and .IsPage (eq .Section "portfolio") }}
+  {{- $work := dict
+    "@type" "CreativeWork"
+    "@id" (printf "%s#work" .Permalink)
+    "name" .Title
+    "description" $desc
+    "image" $image
+    "url" .Permalink
+    "inLanguage" "en-US"
+    "creator" (dict "@id" $personID)
+    "mainEntityOfPage" (dict "@id" $pageID) }}
+  {{- with .Params.year }}{{ $work = merge $work (dict "dateCreated" .) }}{{ end }}
+  {{- with .Params.technologies }}{{ $work = merge $work (dict "keywords" (delimit . ", ")) }}{{ end }}
+  {{- with .Params.client }}{{ $work = merge $work (dict "sponsor" (dict "@type" "Organization" "name" .)) }}{{ end }}
+  {{- $graph = $graph | append $work }}
+{{- else if and .IsSection (eq .Section "portfolio") }}
+  {{- $items := slice }}
+  {{- range $i, $p := sort .Pages "Weight" }}
+    {{- $items = $items | append (dict "@type" "ListItem" "position" (add $i 1) "url" $p.Permalink "name" $p.Title) }}
+  {{- end }}
+  {{- $graph = $graph | append (dict "@type" "ItemList" "@id" (printf "%s#projects" .Permalink) "name" "Portfolio projects" "itemListElement" $items) }}
+{{- end }}
+
+<script type="application/ld+json">
+{{ dict "@context" "https://schema.org" "@graph" $graph | jsonify | safeJS }}
+</script>

@@ -4,6 +4,8 @@ description: "A custom-built frontend studio showcasing design systems, performa
 date: 2021-06-01T00:00:00Z
 draft: false
 weight: 40
+role: "Multidisciplinary"
+start_date: "2010-02"
 year: "2021"
 client: ""
 project_url: "https://isaiahdavis.com"

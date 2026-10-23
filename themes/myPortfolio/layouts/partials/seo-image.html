@@ -1,0 +1,8 @@
+{{- /*
+  seo-image.html — absolute URL of the best representative image for a page.
+  Order: Params.images[0] → featured_image → cover → profile image.
+*/ -}}
+{{- $img := "" -}}
+{{- with .Params.images }}{{ $img = index . 0 }}{{ end -}}
+{{- if not $img }}{{ $img = .Params.featured_image | default .Params.cover | default "/images/profile-branded.png" }}{{ end -}}
+{{- return ($img | absURL) -}}

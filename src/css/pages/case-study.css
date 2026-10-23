@@ -781,7 +781,7 @@
   grid-column: 2;
   grid-row: 1;
   position: sticky;
-  top: calc(var(--header-h, 3.5rem) + var(--jumplinks-h, 3rem) + var(--space-6));
+  top: calc(var(--header-h, 3.5rem) + var(--jumplinks-offset, var(--jumplinks-h, 3rem)) + var(--space-6));
   display: grid;
   gap: var(--space-4);
 }
@@ -922,7 +922,7 @@
   margin-bottom: var(--space-4);
   padding: 0 0 var(--space-3) 0;
   border-bottom: 1px solid var(--color-border);
-  scroll-margin-top: calc(var(--header-h, 3.5rem) + var(--space-16));
+  scroll-margin-top: calc(var(--header-h, 3.5rem) + var(--jumplinks-offset, 0px) + var(--space-8));
 }
 
 .cs-prose h2::before {

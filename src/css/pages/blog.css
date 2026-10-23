@@ -335,11 +335,11 @@
 }
 
 [data-theme='dark'] .blog-card {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  box-shadow: none;
 }
 
 [data-theme='dark'] .blog-card:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  box-shadow: none;
 }
 
 /* ============================================================

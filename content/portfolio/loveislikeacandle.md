@@ -4,6 +4,9 @@ description: "Brand refresh and creative direction that increased e-commerce con
 date: 2021-06-01T00:00:00Z
 draft: false
 weight: 50
+role: "Multidisciplinary"
+start_date: "2021-03"
+end_date: "2022-12"
 year: "2021"
 client: "Love is Like a Candle"
 project_url: "https://isaiahdavis.com/portfolio/loveislikeacandle/"

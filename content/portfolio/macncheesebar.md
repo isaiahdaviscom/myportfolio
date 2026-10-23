@@ -4,6 +4,9 @@ description: "E-commerce site design and launch for a specialty food brand, deli
 date: 2020-06-01T00:00:00Z
 draft: false
 weight: 60
+role: "Multidisciplinary"
+start_date: "2021-03"
+end_date: "2021-05"
 year: "2020"
 client: "Mac N Cheese Bar"
 project_url: "https://isaiahdavis.com/portfolio/macncheesebar/"

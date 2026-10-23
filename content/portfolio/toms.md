@@ -4,6 +4,9 @@ description: "Multi-platform campaign design producing 47 assets across 4 channe
 date: 2019-06-01T00:00:00Z
 draft: false
 weight: 70
+role: "Multidisciplinary"
+start_date: "2015-06"
+end_date: "2015-07"
 year: "2019"
 client: "Toms"
 project_url: "https://www.toms.com"

@@ -4,6 +4,7 @@ description: "Editorial web redesign and UX optimization that increased session 
 date: 2019-01-01T00:00:00Z
 draft: false
 weight: 80
+role: "Multidisciplinary"
 year: "2019"
 client: "Empire Magazine"
 project_url: "https://www.empireonline.com"

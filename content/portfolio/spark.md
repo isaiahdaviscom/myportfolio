@@ -4,6 +4,7 @@ description: "Conference website redesign with optimized registration funnel tha
 date: 2020-01-01T00:00:00Z
 draft: false
 weight: 90
+role: "Multidisciplinary"
 year: "2020"
 client: "Spark Conference"
 project_url: "https://www.sparkconference.com"

@@ -9,10 +9,10 @@ plain_footer: true
 plain_layout: true
 
 stats:
-  - value: "5+"
+  - value: "10+"
     label: "Years exp."
   - value: "72%"
-    label: "Client satisfaction"
+    label: "Faster page loads"
   - value: "20+"
     label: "Projects"
 
@@ -20,10 +20,12 @@ social:
   - name: LinkedIn
     url: "https://www.linkedin.com/in/isaiahdavis/"
     icon: linkedin
+    image: "/images/profile-branded.png"
     label: "Connect on LinkedIn"
   - name: GitHub
     url: "https://github.com/isaiahdaviscom"
     icon: github
+    image: "/images/514/sandc-cover.jpg"
     label: "See my code"
   - name: Email
     url: "mailto:isaiah@isaiahdavis.com"

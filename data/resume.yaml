@@ -1,0 +1,51 @@
+# Single source of truth for personal facts reused by the print résumé,
+# JSON-LD (Person / ProfessionalService), llms.txt and meta tags.
+name: "Isaiah Davis"
+jobTitle: "Frontend Developer & UI Engineer"
+tagline: "Frontend Developer · UI Engineer · Designer"
+employer: "S&C Electric Company"
+employerUrl: "https://www.sandc.com"
+location:
+  city: "Chicago"
+  region: "IL"
+  regionName: "Illinois"
+  country: "US"
+  countryName: "United States"
+  # City-centre coordinates only; this is a service-area business, not a street address.
+  latitude: 41.8781
+  longitude: -87.6298
+workMode: "Remote-friendly"
+email: "isaiah@isaiahdavis.com"
+linkedin: "https://www.linkedin.com/in/isaiahdavis/"
+github: "https://github.com/isaiahdaviscom"
+
+summary: >-
+  Frontend Developer at S&C Electric Company, a global leader in power generation and distribution.
+  Experience in graphic design and web development, building compelling and consistent brand
+  identities for diverse clients. Certified in React.js, a modern web framework that enables
+  dynamic, responsive web applications with high performance and scalability.
+  Core competencies include HTML5, CSS3, JavaScript, jQuery, and Adobe Suite. Collaborates with
+  cross-functional teams to develop web pages, landing pages, and social media campaigns that align
+  with company vision and goals, and conducts generative research, creates multimedia content, and
+  implements project-management tools to ensure quality and efficiency.
+
+services:
+  - "Frontend development"
+  - "Design systems"
+  - "Web performance optimization"
+  - "Accessibility (WCAG 2.1 AA)"
+  - "UI and brand design"
+
+knowsAbout:
+  - "Frontend development"
+  - "Design systems"
+  - "Accessibility"
+  - "Web performance"
+  - "TypeScript"
+  - "JavaScript"
+  - "React"
+  - "HTML5"
+  - "CSS"
+  - "Hugo"
+  - "Figma"
+  - "Brand identity"

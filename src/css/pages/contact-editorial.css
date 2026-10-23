@@ -1,0 +1,126 @@
+/* ==========================================================================
+   CONTACT FORM — EDITORIAL TREATMENT
+   Form fields in contact.css are unlayered, so these overrides are too.
+   Ruled, underline-style fields instead of filled rounded boxes.
+   ========================================================================== */
+
+.form-label {
+  font-family: var(--font-mono, ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  padding-inline: 0;
+  background-color: transparent;
+  border-width: 0 0 1px;
+  border-color: var(--color-border-strong, var(--color-border));
+  border-radius: 0;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  background-color: transparent;
+  border-color: var(--color-accent);
+  box-shadow: 0 1px 0 var(--color-accent);
+}
+
+/* Dark-mode field rules in contact.css use the `background` shorthand, which
+   resets the chevron's no-repeat and refills the box; restate them per theme. */
+[data-theme='dark'] .form-input,
+[data-theme='dark'] .form-select,
+[data-theme='dark'] .form-textarea {
+  background-color: transparent;
+  border-color: var(--color-border-strong, var(--color-border));
+}
+
+[data-theme='dark'] .form-textarea {
+  background-color: color-mix(in srgb, var(--color-surface-subtle) 55%, transparent);
+}
+
+[data-theme='dark'] .form-input:focus,
+[data-theme='dark'] .form-select:focus,
+[data-theme='dark'] .form-textarea:focus {
+  background-color: transparent;
+  border-color: var(--color-accent);
+}
+
+.form-select,
+[data-theme='dark'] .form-select {
+  padding-right: var(--space-8);
+  background-repeat: no-repeat;
+  background-position: right 0 center;
+  background-size: 14px 14px;
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+.form-select:focus {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+}
+
+/* Unselected placeholder reads as a hint, not a value */
+.form-select:invalid {
+  color: var(--color-text-muted);
+}
+
+.form-select:hover:not(:focus) {
+  border-color: var(--color-accent);
+}
+
+/* Native option list follows the theme instead of the OS default */
+.form-select option {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+[data-theme='dark'] .form-select,
+[data-theme='dark'] .form-select:focus {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0 center;
+  background-size: 14px 14px;
+}
+
+[data-theme='dark'] .form-select {
+  color-scheme: dark;
+}
+
+[data-theme='dark'] .form-select:invalid {
+  color: var(--color-text-muted);
+}
+
+[data-theme='dark'] .form-select:focus {
+  box-shadow: 0 1px 0 var(--color-accent);
+}
+
+.form-textarea {
+  border-width: 1px;
+  padding: var(--space-3);
+}
+
+.form-submit,
+.form-submit:hover,
+.form-submit:active {
+  border-radius: 2px;
+  box-shadow: none;
+  transform: none;
+}
+
+.form-submit:hover {
+  filter: brightness(1.12);
+}
+
+.form-submit:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--color-bg),
+    0 0 0 4px var(--color-accent);
+}

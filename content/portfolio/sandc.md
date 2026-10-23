@@ -4,6 +4,8 @@ description: "Frontend modernization and design systems implementation for three
 date: 2021-06-01T00:00:00Z
 draft: false
 weight: 10
+role: "Frontend Developer"
+start_date: "2021-06"
 year: "2021"
 client: "S&C Electric Company"
 project_url: "https://www.sandc.com"
