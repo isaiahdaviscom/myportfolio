@@ -1,7 +1,7 @@
 <script>
   ((i, e) => {
     // <stdin>
-    e.addEventListener('DOMContentLoaded', () => {
+    const init = () => {
       const currentYear = new Date().getFullYear();
       const footerYear = document.getElementById('footer-year');
       if (footerYear) {
@@ -11,6 +11,556 @@
       if (footerVersion) {
         footerVersion.textContent = 'v1.0.0'; // Replace with actual version if available
       }
+
+      // ── Cookie consent + analytics gating ───────────────────────────────
+      const CONSENT_KEY = 'site-cookie-consent-v2';
+      const LEGACY_CONSENT_KEY = 'site-cookie-consent-v1';
+      const CONSENT_COOKIE = 'site_cookie_consent';
+      const CONSENT_VERSION = 2;
+      const CONSENT_MAX_AGE_DAYS = 180;
+
+      const cookieBanner = document.querySelector('[data-cookie-banner]');
+      const cookiePanel = document.querySelector('[data-cookie-panel]');
+      const cookieFab = document.querySelector('.cookie-settings-fab');
+      const consentLogForm = document.querySelector('[data-cookie-consent-log-form]');
+      const analyticsField = document.querySelector('[data-consent-field="analytics"]');
+      const statusField = document.querySelector('[data-consent-status]');
+      const summaryField = document.querySelector('[data-consent-summary]');
+      const updatedField = document.querySelector('[data-consent-updated]');
+
+      let focusRestoreEl = null;
+      let focusTrapBound = false;
+      let consentState = null;
+      let gtmLoaded = false;
+
+      const addDays = (date, days) => {
+        const next = new Date(date.getTime());
+        next.setDate(next.getDate() + days);
+        return next;
+      };
+
+      const formatConsentDate = (isoString) => {
+        if (!isoString) return '';
+
+        try {
+          return new Intl.DateTimeFormat(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          }).format(new Date(isoString));
+        } catch (_) {
+          return '';
+        }
+      };
+
+      const setCookieValue = (name, value, maxAgeSeconds) => {
+        document.cookie = [
+          name + '=' + encodeURIComponent(value),
+          'path=/',
+          'SameSite=Lax',
+          'max-age=' + String(maxAgeSeconds),
+        ].join('; ');
+      };
+
+      const getCookieValue = (name) => {
+        const prefix = name + '=';
+        const found = document.cookie.split('; ').find((item) => item.indexOf(prefix) === 0);
+        return found ? decodeURIComponent(found.slice(prefix.length)) : '';
+      };
+
+      const clearCookieEverywhere = (name) => {
+        const hostname = window.location.hostname;
+        const hostnameParts = hostname.split('.');
+        const domains = [''];
+
+        for (let index = 0; index < hostnameParts.length - 1; index += 1) {
+          domains.push('.' + hostnameParts.slice(index).join('.'));
+        }
+
+        domains.forEach((domain) => {
+          document.cookie = [
+            name + '=',
+            'expires=Thu, 01 Jan 1970 00:00:00 GMT',
+            'path=/',
+            domain ? 'domain=' + domain : '',
+            'SameSite=Lax',
+          ].filter(Boolean).join('; ');
+        });
+      };
+
+      const persistConsent = (consent) => {
+        const raw = JSON.stringify(consent);
+
+        try {
+          localStorage.setItem(CONSENT_KEY, raw);
+          localStorage.removeItem(LEGACY_CONSENT_KEY);
+        } catch (_) {}
+
+        setCookieValue(CONSENT_COOKIE, raw, CONSENT_MAX_AGE_DAYS * 24 * 60 * 60);
+      };
+
+      const postConsentToNetlify = (consent) => {
+        if (!consentLogForm || !window.fetch || !consent) {
+          return Promise.resolve();
+        }
+
+        const payload = new URLSearchParams({
+          'form-name': consentLogForm.getAttribute('name') || 'cookie-consent-events',
+          event_name: 'cookie_consent_updated',
+          consent_version: String(consent.version || CONSENT_VERSION),
+          analytics_enabled: String(Boolean(consent.analytics)),
+          source: consent.source || 'saved',
+          updated_at: consent.updatedAt || '',
+          expires_at: consent.expiresAt || '',
+          pathname: window.location.pathname || '/',
+          page_url: window.location.href || '',
+          host: window.location.host || '',
+          consent_state: consent.analytics ? 'analytics_enabled' : 'essential_only',
+          'bot-field': '',
+        });
+
+        return window.fetch('/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: payload.toString(),
+          keepalive: true,
+        }).catch(() => undefined);
+      };
+
+      const normalizeConsent = (parsed) => {
+        if (!parsed || typeof parsed.analytics !== 'boolean') return null;
+
+        const updatedAt = parsed.updatedAt || parsed.timestamp || new Date().toISOString();
+        const expiresAt = parsed.expiresAt || addDays(new Date(updatedAt), CONSENT_MAX_AGE_DAYS).toISOString();
+
+        return {
+          essential: true,
+          analytics: Boolean(parsed.analytics),
+          source: parsed.source || 'saved',
+          version: Number(parsed.version || 1),
+          updatedAt,
+          expiresAt,
+        };
+      };
+
+      const readConsent = () => {
+        if (consentState) {
+          return consentState;
+        }
+
+        const candidates = [];
+
+        try {
+          candidates.push(localStorage.getItem(CONSENT_KEY));
+          candidates.push(localStorage.getItem(LEGACY_CONSENT_KEY));
+        } catch (_) {}
+
+        candidates.push(getCookieValue(CONSENT_COOKIE));
+
+        for (const raw of candidates) {
+          if (!raw) continue;
+
+          try {
+            const normalized = normalizeConsent(JSON.parse(raw));
+            if (!normalized) continue;
+            consentState = normalized;
+            return normalized;
+          } catch (_) {}
+        }
+
+        return null;
+      };
+
+      const isConsentCurrent = (consent) => {
+        if (!consent || typeof consent.analytics !== 'boolean') return false;
+        if (consent.version !== CONSENT_VERSION) return false;
+        if (!consent.expiresAt) return false;
+        return Date.parse(consent.expiresAt) > Date.now();
+      };
+
+      const hasDecision = (consent) => isConsentCurrent(consent);
+
+      const announceStatus = (message) => {
+        if (!statusField) return;
+        statusField.textContent = message || '';
+      };
+
+      const syncSummary = (consent) => {
+        const current = isConsentCurrent(consent) ? consent : null;
+
+        if (summaryField) {
+          summaryField.textContent = current
+            ? (current.analytics ? 'Optional analytics cookies are enabled.' : 'Only essential cookies are enabled.')
+            : 'No optional cookies run until you make a choice.';
+        }
+
+        if (updatedField) {
+          updatedField.textContent = current
+            ? 'Saved ' + formatConsentDate(current.updatedAt) + '. Preferences renew every ' + String(CONSENT_MAX_AGE_DAYS) + ' days.'
+            : 'You can revisit these choices at any time.';
+        }
+      };
+
+      const getPanelFocusable = () => {
+        if (!cookiePanel) return [];
+        return Array.from(
+          cookiePanel.querySelectorAll(
+            'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )
+        );
+      };
+
+      const trapPanelFocus = (ev) => {
+        if (!cookiePanel || cookiePanel.hidden || ev.key !== 'Tab') return;
+        const focusable = getPanelFocusable();
+        if (!focusable.length) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        const active = document.activeElement;
+
+        if (ev.shiftKey && active === first) {
+          ev.preventDefault();
+          last.focus();
+          return;
+        }
+
+        if (!ev.shiftKey && active === last) {
+          ev.preventDefault();
+          first.focus();
+        }
+      };
+
+      const setPanelOpen = (open) => {
+        if (!cookiePanel) return;
+
+        if (open) {
+          // Opening panel: save focus (only if not on banner to avoid restore bugs)
+          const activeEl = document.activeElement;
+          const isActiveBanner = cookieBanner && cookieBanner.contains(activeEl);
+          if (activeEl && !isActiveBanner && activeEl !== document.body) {
+            focusRestoreEl = activeEl;
+          } else {
+            focusRestoreEl = null; // Don't restore to banner
+          }
+
+          // Hide banner to prevent interaction beneath backdrop
+          setBannerVisible(false);
+
+          // Show panel
+          cookiePanel.hidden = false;
+          cookiePanel.style.display = 'grid';
+          cookiePanel.setAttribute('aria-hidden', 'false');
+          document.body.classList.add('cookie-panel-open');
+
+          if (cookieFab) {
+            cookieFab.setAttribute('aria-expanded', 'true');
+          }
+
+          // Set focus to first focusable element in panel
+          const focusable = getPanelFocusable();
+          if (focusable.length) {
+            focusable[0].focus();
+          }
+
+          // Attach focus trap
+          if (!focusTrapBound) {
+            document.addEventListener('keydown', trapPanelFocus);
+            focusTrapBound = true;
+          }
+        } else {
+          // Closing panel
+          if (focusTrapBound) {
+            document.removeEventListener('keydown', trapPanelFocus);
+            focusTrapBound = false;
+          }
+
+          // Hide panel
+          cookiePanel.hidden = true;
+          cookiePanel.style.display = 'none';
+          cookiePanel.setAttribute('aria-hidden', 'true');
+          document.body.classList.remove('cookie-panel-open');
+
+          if (cookieFab) {
+            cookieFab.setAttribute('aria-expanded', 'false');
+          }
+
+          // If no decision made yet, re-show banner; otherwise keep it hidden
+          const latestConsent = readConsent();
+          const hasDecision = isConsentCurrent(latestConsent);
+          if (!hasDecision) {
+            setBannerVisible(true);
+          }
+
+          // Restore focus safely (skip if it's now outside document or was banner)
+          if (focusRestoreEl && typeof focusRestoreEl.focus === 'function') {
+            try {
+              focusRestoreEl.focus();
+            } catch (_) {
+              // Focus failed; restore to body
+            }
+          }
+          focusRestoreEl = null;
+        }
+      };
+
+      const setBannerVisible = (visible) => {
+        if (!cookieBanner) return;
+        cookieBanner.hidden = !visible;
+        cookieBanner.style.display = visible ? '' : 'none';
+      };
+
+      const setSettingsVisible = (visible) => {
+        if (!cookieFab) return;
+        cookieFab.hidden = !visible;
+      };
+
+      const setConsentAttributes = (consent) => {
+        const current = isConsentCurrent(consent) ? consent : null;
+        const analyticsState = current && current.analytics ? 'granted' : 'denied';
+        const decisionState = current ? 'set' : 'pending';
+
+        document.documentElement.setAttribute('data-consent-analytics', analyticsState);
+        document.documentElement.setAttribute('data-consent-status', decisionState);
+        document.body.setAttribute('data-consent-analytics', analyticsState);
+        document.body.setAttribute('data-consent-status', decisionState);
+      };
+
+      const applyConsentMode = (consent, mode) => {
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = window.gtag || function gtag() {
+          window.dataLayer.push(arguments);
+        };
+
+        const current = isConsentCurrent(consent) ? consent : null;
+        const granted = Boolean(current && current.analytics);
+        window.gtag('consent', mode || 'default', {
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+          analytics_storage: granted ? 'granted' : 'denied',
+          functionality_storage: 'granted',
+          personalization_storage: 'denied',
+          security_storage: 'granted',
+        });
+      };
+
+      const activateDeferredAssets = (category) => {
+        document.querySelectorAll('script[type="text/plain"][data-consent-category="' + category + '"]:not([data-consent-activated])').forEach((node) => {
+          const script = document.createElement('script');
+
+          Array.from(node.attributes).forEach((attribute) => {
+            if (attribute.name === 'type' || attribute.name === 'data-consent-category' || attribute.name === 'data-consent-activated') {
+              return;
+            }
+            script.setAttribute(attribute.name, attribute.value);
+          });
+
+          if (node.src) {
+            script.src = node.src;
+          }
+
+          script.text = node.textContent;
+          node.setAttribute('data-consent-activated', 'true');
+          node.parentNode.insertBefore(script, node.nextSibling);
+        });
+
+        document.querySelectorAll('[data-consent-placeholder-for="' + category + '"]').forEach((node) => {
+          node.hidden = true;
+        });
+
+        document.querySelectorAll('[data-consent-requires="' + category + '"]').forEach((node) => {
+          node.hidden = false;
+        });
+      };
+
+      const clearAnalyticsCookies = () => {
+        ['_ga', '_gid', '_gat', '_gcl_au', '_ga_*', '_gat_gtag_*', '_gac_*', '_dc_gtm_*'].forEach((name) => {
+          if (name.indexOf('*') === -1) {
+            clearCookieEverywhere(name);
+            return;
+          }
+
+          const prefix = name.replace('*', '');
+          document.cookie.split('; ').forEach((cookie) => {
+            const cookieName = cookie.split('=')[0];
+            if (cookieName.indexOf(prefix) === 0) {
+              clearCookieEverywhere(cookieName);
+            }
+          });
+        });
+      };
+
+      const loadGtmIfAllowed = (consent) => {
+        const current = isConsentCurrent(consent) ? consent : null;
+        if (!current || !current.analytics || gtmLoaded) return;
+
+        const cfg = window.__SITE_GTM__;
+        if (!cfg || !cfg.id) return;
+
+        const existing = document.querySelector('script[src*="googletagmanager.com/gtm.js?id="]');
+        if (existing) {
+          gtmLoaded = true;
+          return;
+        }
+
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(cfg.id) + (cfg.env || '');
+        document.head.appendChild(script);
+        gtmLoaded = true;
+      };
+
+      const applyConsentDependencies = (consent) => {
+        const current = isConsentCurrent(consent) ? consent : null;
+
+        if (current && current.analytics) {
+          activateDeferredAssets('analytics');
+          return;
+        }
+
+        clearAnalyticsCookies();
+      };
+
+      const syncConsentUI = (consent) => {
+        const current = isConsentCurrent(consent) ? consent : null;
+
+        if (analyticsField) {
+          analyticsField.checked = Boolean(current && current.analytics);
+        }
+
+        setBannerVisible(!current);
+        // FAB only visible when consent exists (no banner shown) and panel not open
+        setSettingsVisible(Boolean(current && cookiePanel && cookiePanel.hidden));
+        setConsentAttributes(current);
+        syncSummary(current);
+      };
+
+      const publishConsent = (consent) => {
+        window.dispatchEvent(new CustomEvent('site:consent-updated', {
+          detail: consent || null,
+        }));
+      };
+
+      const writeConsent = (analyticsEnabled, source) => {
+        const updatedAt = new Date().toISOString();
+        const consent = {
+          essential: true,
+          analytics: Boolean(analyticsEnabled),
+          source: source || 'saved',
+          version: CONSENT_VERSION,
+          updatedAt,
+          expiresAt: addDays(new Date(updatedAt), CONSENT_MAX_AGE_DAYS).toISOString(),
+        };
+
+        consentState = consent;
+        persistConsent(consent);
+        return consent;
+      };
+
+      const commitConsent = (analyticsEnabled, source) => {
+        const consent = writeConsent(analyticsEnabled, source);
+        applyConsentMode(consent, 'update');
+        loadGtmIfAllowed(consent);
+        applyConsentDependencies(consent);
+        syncConsentUI(consent);
+        postConsentToNetlify(consent);
+        publishConsent(consent);
+        setPanelOpen(false);
+
+        if (source === 'accept') {
+          announceStatus('Preferences saved. Analytics cookies are enabled.');
+        } else if (source === 'reject') {
+          announceStatus('Preferences saved. Only essential cookies remain enabled.');
+        } else {
+          announceStatus('Preferences saved.');
+        }
+      };
+
+      const consent = readConsent();
+      applyConsentMode(consent, 'default');
+      loadGtmIfAllowed(consent);
+      applyConsentDependencies(consent);
+      syncConsentUI(consent);
+
+      e.addEventListener('click', (ev) => {
+        const trigger = ev.target.closest('[data-consent-action]');
+        if (!trigger) return;
+
+        const action = trigger.getAttribute('data-consent-action');
+
+        if (action === 'accept') {
+          commitConsent(true, 'accept');
+          return;
+        }
+
+        if (action === 'reject') {
+          commitConsent(false, 'reject');
+          return;
+        }
+
+        if (action === 'open-settings') {
+          const latestConsent = readConsent();
+          if (analyticsField) {
+            analyticsField.checked = Boolean(isConsentCurrent(latestConsent) && latestConsent.analytics);
+          }
+          setPanelOpen(true);
+          return;
+        }
+
+        if (action === 'save-settings') {
+          commitConsent(Boolean(analyticsField && analyticsField.checked), 'save');
+          return;
+        }
+
+        if (action === 'close-settings') {
+          setPanelOpen(false);
+        }
+      });
+
+      document.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Escape' && cookiePanel && !cookiePanel.hidden) {
+          setPanelOpen(false);
+        }
+      });
+      // ── End cookie consent + analytics gating ───────────────────────────
+
+      // Shared page-state classes used by connected sticky UI (header + jumplinks)
+      document.body.classList.toggle('has-jumplinks', Boolean(document.querySelector('.jumplinks')));
+
+      // Publish the real sticky-header and jump-link heights so sticky offsets
+      // and scroll targets stay correct at every breakpoint, font size and
+      // after the header wraps or the drawer opens.
+      (function syncStickyOffsets() {
+        const root = document.documentElement;
+        const stickyHeader = document.querySelector('.site-header');
+        const stickyJump = document.querySelector('.jumplinks');
+        if (!stickyHeader && !stickyJump) return;
+
+        const measure = () => {
+          // Pages with a plain layout have no header, so nothing offsets the sticky bar.
+          const headerH = stickyHeader ? stickyHeader.getBoundingClientRect().height : 0;
+          root.style.setProperty('--header-h', headerH + 'px');
+          if (stickyJump) {
+            root.style.setProperty('--jumplinks-offset', stickyJump.getBoundingClientRect().height + 'px');
+          }
+        };
+
+        measure();
+        window.addEventListener('resize', measure, { passive: true });
+        window.addEventListener('load', measure);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+        if ('ResizeObserver' in window) {
+          const ro = new ResizeObserver(measure);
+          if (stickyHeader) ro.observe(stickyHeader);
+          if (stickyJump) ro.observe(stickyJump);
+        }
+      })();
 
       // ── Mobile navigation drawer ─────────────────────────────────────────
       const navToggle  = document.getElementById('nav-toggle');
@@ -66,7 +616,9 @@
       const header = document.querySelector('.site-header');
       if (header) {
         const onScroll = () => {
-          header.classList.toggle('site-header--scrolled', window.scrollY > 4);
+          const isScrolled = window.scrollY > 4;
+          header.classList.toggle('site-header--scrolled', isScrolled);
+          document.body.classList.toggle('header-is-scrolled', isScrolled);
         };
         window.addEventListener('scroll', onScroll, { passive: true });
         onScroll(); // initialise on load (e.g. browser restores scroll position)
@@ -92,6 +644,127 @@
         });
       });
       // ── End smooth anchor scroll ─────────────────────────────────────────
+
+      // ── Jumplink active state ───────────────────────────────────────────
+      // Keeps the current section pill highlighted as the reader scrolls.
+      document.querySelectorAll('.jumplinks').forEach((nav) => {
+        const list = nav.querySelector('.jumplinks__list');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const items = Array.from(nav.querySelectorAll('.jumplinks__link[href^="#"]'))
+          .map((link) => {
+            const id = link.getAttribute('href').slice(1);
+            const target = id ? document.getElementById(id) : null;
+            return target ? { link, target } : null;
+          })
+          .filter(Boolean);
+
+        if (!items.length) return;
+
+        let activeId = null;
+
+        const syncOverflow = () => {
+          if (!list) return;
+
+          const overflowThreshold = 12;
+          const maxScrollLeft = Math.max(list.scrollWidth - list.clientWidth, 0);
+          const hasOverflow = maxScrollLeft > overflowThreshold;
+          const showStart = hasOverflow && list.scrollLeft > overflowThreshold;
+          const showEnd = hasOverflow && list.scrollLeft < maxScrollLeft - overflowThreshold;
+
+          nav.classList.toggle('is-overflowing-start', showStart);
+          nav.classList.toggle('is-overflowing-end', showEnd);
+        };
+
+        const keepActiveInView = (link, behavior = 'auto') => {
+          if (!list || !link) return;
+
+          const listRect = list.getBoundingClientRect();
+          const linkRect = link.getBoundingClientRect();
+          const overflowThreshold = 12;
+          const clippedStart = linkRect.left < listRect.left + overflowThreshold;
+          const clippedEnd = linkRect.right > listRect.right - overflowThreshold;
+
+          if (clippedStart || clippedEnd) {
+            link.scrollIntoView({
+              block: 'nearest',
+              inline: 'nearest',
+              behavior,
+            });
+
+            window.requestAnimationFrame(syncOverflow);
+          }
+        };
+
+        const setActive = (id, { scrollIntoView = false, behavior = 'auto' } = {}) => {
+          let activeLink = null;
+
+          items.forEach(({ link, target }) => {
+            const isActive = target.id === id;
+            link.classList.toggle('is-active', isActive);
+            if (isActive) link.setAttribute('aria-current', 'location');
+            else link.removeAttribute('aria-current');
+            if (isActive) activeLink = link;
+          });
+
+          if (scrollIntoView && activeId !== id) {
+            keepActiveInView(activeLink, behavior);
+          }
+
+          activeId = id;
+        };
+
+        const syncActive = () => {
+          let current = items[0].target.id;
+
+          // Each target's scroll-margin-top is where jump links land it, so it is the exact activation line.
+          items.forEach(({ target }) => {
+            const line = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+            if (target.getBoundingClientRect().top - line <= 2) {
+              current = target.id;
+            }
+          });
+
+          // A short final section can never reach the activation line, so the page bottom selects it.
+          if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+            current = items[items.length - 1].target.id;
+          }
+
+          setActive(current, { scrollIntoView: true });
+        };
+
+        let ticking = false;
+        const queueSync = () => {
+          if (ticking) return;
+          ticking = true;
+          window.requestAnimationFrame(() => {
+            syncActive();
+            syncOverflow();
+            ticking = false;
+          });
+        };
+
+        if (window.location.hash) {
+          const hashId = window.location.hash.slice(1);
+          const hashMatch = items.find(({ target }) => target.id === hashId);
+          if (hashMatch) setActive(hashMatch.target.id, { scrollIntoView: true });
+        }
+
+        items.forEach(({ link, target }) => {
+          link.addEventListener('click', () => {
+            setActive(target.id, {
+              scrollIntoView: true,
+              behavior: prefersReducedMotion ? 'auto' : 'smooth',
+            });
+          });
+        });
+
+        window.addEventListener('scroll', queueSync, { passive: true });
+        window.addEventListener('resize', queueSync, { passive: true });
+        window.addEventListener('hashchange', queueSync);
+        list?.addEventListener('scroll', syncOverflow, { passive: true });
+        queueSync();
+      });
+      // ── End jumplink active state ───────────────────────────────────────
 
       // ── Section / card reveal (IntersectionObserver) ─────────────────────
       // Targets cards and key content blocks. Skips elements already in the
@@ -143,6 +816,12 @@
         });
       }
       // ── End reveal ───────────────────────────────────────────────────────
-    });
+    };
+
+    if (e.readyState === 'loading') {
+      e.addEventListener('DOMContentLoaded', init, { once: true });
+    } else {
+      init();
+    }
   })(window, document);
 </script>

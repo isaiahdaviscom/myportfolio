@@ -60,7 +60,9 @@ const CHAPTERS = [
 ];
 
 export const ChapterVariants = {
-  render: () => CHAPTERS.map(c => `
+  render: () =>
+    CHAPTERS.map(
+      c => `
     <section class="ss-chapter ${c.mod}" style="min-height: 200px;">
       <div class="ss-chapter__inner ss-chapter__inner--text">
         <p class="ss-eyebrow ss-reveal ss-reveal--fade is-visible">Chapter variant</p>
@@ -71,7 +73,8 @@ export const ChapterVariants = {
         </p>
       </div>
     </section>
-  `).join('')
+  `
+    ).join('')
 };
 
 /* ══════════════════════════════════════════════════════════
@@ -137,12 +140,14 @@ export const TimelineChapter = {
         <p class="ss-eyebrow ss-reveal ss-reveal--fade is-visible">Process</p>
         <h2 class="ss-headline ss-reveal ss-reveal--up is-visible">Three-week sprint</h2>
         <ol class="ss-timeline ss-reveal is-visible">
-          ${STEPS.map(s => `
+          ${STEPS.map(
+            s => `
             <li class="ss-timeline__step">
               <span class="ss-timeline__num">${s.num}</span>
               <span class="ss-timeline__label">${s.label}</span>
             </li>
-          `).join('')}
+          `
+          ).join('')}
         </ol>
       </div>
     </section>
@@ -166,12 +171,14 @@ export const OutcomeChapter = {
         <p class="ss-eyebrow ss-reveal ss-reveal--fade is-visible">Results</p>
         <h2 class="ss-headline ss-reveal ss-reveal--up is-visible">Numbers that matter</h2>
         <div class="ss-outcome-metrics ss-reveal is-visible">
-          ${OUTCOMES.map(o => `
+          ${OUTCOMES.map(
+            o => `
             <div class="ss-outcome-tile">
               <span class="ss-outcome-tile__value">${o.value}</span>
               <span class="ss-outcome-tile__label">${o.label}</span>
             </div>
-          `).join('')}
+          `
+          ).join('')}
         </div>
       </div>
     </section>
@@ -250,11 +257,13 @@ export const FullScrollStory = {
           <p class="ss-eyebrow ss-reveal is-visible">Process</p>
           <h2 class="ss-headline ss-reveal is-visible">Three-week sprint</h2>
           <ol class="ss-timeline ss-reveal is-visible">
-            ${STEPS.map(s => `
+            ${STEPS.map(
+              s => `
               <li class="ss-timeline__step">
                 <span class="ss-timeline__num">${s.num}</span>
                 <span class="ss-timeline__label">${s.label}</span>
-              </li>`).join('')}
+              </li>`
+            ).join('')}
           </ol>
         </div>
       </section>
@@ -273,11 +282,13 @@ export const FullScrollStory = {
           <p class="ss-eyebrow ss-reveal is-visible">Results</p>
           <h2 class="ss-headline ss-reveal is-visible">Outcomes</h2>
           <div class="ss-outcome-metrics ss-reveal is-visible">
-            ${OUTCOMES.map(o => `
+            ${OUTCOMES.map(
+              o => `
               <div class="ss-outcome-tile">
                 <span class="ss-outcome-tile__value">${o.value}</span>
                 <span class="ss-outcome-tile__label">${o.label}</span>
-              </div>`).join('')}
+              </div>`
+            ).join('')}
           </div>
         </div>
       </section>

@@ -25,23 +25,60 @@
 {{- $projects  := where site.RegularPages "Section" "portfolio" -}}
 {{- $allItems  := ($posts | append $projects).ByDate.Reverse    -}}
 
-<div class="lk-page">
+{{/* ── Images for the link rows: newest cover per section, brand cover as fallback ── */}}
+{{- $fallbackImg := "/images/514/isaiahdavis-cover.jpg" -}}
+{{- $latestProject := "" -}}
+{{- range $projects.ByDate.Reverse -}}
+  {{- if not $latestProject -}}{{- $latestProject = .Params.featured_image | default .Params.cover | default .Params.cover_image | default .Params.image | default .Params.thumbnail | default "" -}}{{- end -}}
+{{- end -}}
+{{- $latestPost := "" -}}
+{{- range $posts.ByDate.Reverse -}}
+  {{- if not $latestPost -}}{{- $latestPost = .Params.featured_image | default .Params.cover | default .Params.cover_image | default .Params.image | default .Params.thumbnail | default "" -}}{{- end -}}
+{{- end -}}
+
+{{/* Jump links sit outside .lk-page so the bar spans the full 26-track grid and sticks correctly; order matches the DOM */}}
+{{- $jump := slice (dict "href" "#links-overview" "label" "Overview") -}}
+{{- with .Params.social -}}
+  {{- $jump = $jump | append (dict "href" "#links-social" "label" "Social") -}}
+{{- end -}}
+{{- with .Params.services -}}
+  {{- $jump = $jump | append (dict "href" "#links-services" "label" "Services") -}}
+{{- end -}}
+{{- $jump = $jump | append (dict "href" "#links-content" "label" "Recent work") -}}
+{{ partial "jumplinks.html" (dict
+    "links" $jump
+    "label" "Quick links"
+    "ariaLabel" "Links page jump links"
+    "innerClass" "container"
+) }}
+
+<div class="lk-page" id="links-top">
 
   {{/* ══════════════  PROFILE CARD  ══════════════ */}}
-  <section class="lk-profile" aria-label="Profile">
+  <section class="lk-profile" id="links-overview" aria-label="Profile">
 
     {{/* Avatar — src from .Params.avatar, fallback to profile-branded.png */}}
     {{- $avatarSrc := .Params.avatar | default "/images/profile-branded.png" -}}
-    <div class="lk-profile__avatar-wrap" aria-hidden="true">
-      <img
-        src="{{ $avatarSrc }}"
-        alt=""
-        width="96"
-        height="96"
-        class="lk-profile__avatar"
-        loading="eager"
-      >
-      <span class="lk-profile__avatar-ring {{ if not $isAvailable }}lk-profile__avatar-ring--away{{ end }}"></span>
+    <div class="lk-profile__dial hero-dial" aria-hidden="true">
+      <svg class="hero-dial__ring" viewBox="0 0 200 200" focusable="false">
+        <defs>
+          <path id="lk-dial-path" d="M100,100 m-90,0 a90,90 0 1,1 180,0 a90,90 0 1,1 -180,0"/>
+        </defs>
+        <text>
+          <textPath href="#lk-dial-path" textLength="560" lengthAdjust="spacing">Frontend developer · UI engineer · Chicago · Open to work ·</textPath>
+        </text>
+      </svg>
+      <span class="hero-dial__rule hero-dial__rule--h"></span>
+      <span class="hero-dial__rule hero-dial__rule--v"></span>
+      <div class="hero-dial__disc">
+        <span class="hero-dial__strip" style="--i:0"></span>
+        <span class="hero-dial__strip" style="--i:1"></span>
+        <span class="hero-dial__strip" style="--i:2"></span>
+        <span class="hero-dial__strip" style="--i:3"></span>
+        <span class="hero-dial__strip" style="--i:4"></span>
+        <span class="hero-dial__strip" style="--i:5"></span>
+      </div>
+      <span class="hero-dial__tag">Fig. 01</span>
     </div>
 
     {{/* Handle + meta */}}
@@ -51,11 +88,6 @@
     {{/* Location badge */}}
     {{- with .Params.location }}
     <p class="lk-profile__location">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-        <circle cx="12" cy="10" r="3"/>
-      </svg>
       {{ . }}
     </p>
     {{- end }}
@@ -73,8 +105,8 @@
 
   {{/* ══════════════  STATS STRIP  ══════════════ */}}
   {{- $defaultStats := slice
-    (dict "label" "Years exp."          "value" "5+")
-    (dict "label" "Client satisfaction" "value" "72%")
+    (dict "label" "Years exp."          "value" "10+")
+    (dict "label" "Faster page loads"   "value" "72%")
     (dict "label" "Projects"            "value" "20+")
   -}}
   {{- $lkStats := .Params.stats | default $defaultStats -}}
@@ -95,43 +127,20 @@
 
   {{/* ══════════════  SOCIAL ICON GRID  ══════════════ */}}
   {{- with .Params.social }}
-  <nav class="lk-social" aria-label="Social links">
+  <nav class="lk-social" id="links-social" aria-label="Social links">
     {{- range . }}
     <a href="{{ .url }}" class="lk-social__link"
-       aria-label="{{ .label }}"
        {{ if not (hasPrefix .url "mailto:") }} target="_blank" rel="noopener noreferrer" {{ end }}
     >
-      {{- if eq .icon "linkedin" }}
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-        <rect x="2" y="9" width="4" height="12"/>
-        <circle cx="4" cy="4" r="2"/>
-      </svg>
-      {{- else if eq .icon "github" }}
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-      </svg>
-      {{- else if eq .icon "email" }}
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-        <polyline points="22,6 12,13 2,6"/>
-      </svg>
-      {{- else if eq .icon "portfolio" }}
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-        <line x1="8" y1="21" x2="16" y2="21"/>
-        <line x1="12" y1="17" x2="12" y2="21"/>
-      </svg>
-      {{- else if eq .icon "blog" }}
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-        <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-      </svg>
-      {{- end }}
-      <span class="lk-social__label">{{ .name }}</span>
+      {{- $img := .image | default $fallbackImg -}}
+      {{- if and (eq .icon "portfolio") $latestProject }}{{ $img = $latestProject }}{{ end -}}
+      {{- if and (eq .icon "blog") $latestPost }}{{ $img = $latestPost }}{{ end -}}
+      <img src="{{ $img }}" alt="" width="64" height="64" class="lk-social__img" loading="lazy" decoding="async">
+      <span class="lk-social__text">
+        <span class="lk-social__name">{{ .name }}</span>
+        <span class="lk-social__label">{{ .label }}</span>
+      </span>
+      <span class="lk-social__arrow" aria-hidden="true">↗</span>
     </a>
     {{- end }}
   </nav>
@@ -139,7 +148,7 @@
 
   {{/* ══════════════  SERVICES CHIPS  ══════════════ */}}
   {{- with .Params.services }}
-  <div class="lk-services" aria-label="Services">
+  <div class="lk-services" id="links-services" aria-label="Services">
     <p class="lk-services__heading">What I do</p>
     <div class="lk-services__scroll" role="list">
       {{- range . }}
@@ -150,18 +159,12 @@
   {{- end }}
 
   {{/* ══════════════  CONTENT GRID  ══════════════ */}}
-  <section class="lk-content" aria-label="Recent work and writing">
+  <section class="lk-content" id="links-content" aria-label="Recent work and writing">
     <p class="lk-content__heading">Recent work</p>
 
     {{/* Search */}}
     <div class="lk-search" role="search">
       <label for="lk-search-input" class="sr-only">Search posts and projects</label>
-      <svg class="lk-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-           aria-hidden="true">
-        <circle cx="11" cy="11" r="8"/>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
       <input
         id="lk-search-input"
         type="search"
@@ -193,6 +196,7 @@
       {{- with $item.Params.cover_image }}{{- $imgSrc = . }}{{- end }}
       {{- with $item.Params.image       }}{{- $imgSrc = . }}{{- end }}
       {{- with $item.Params.thumbnail   }}{{- $imgSrc = . }}{{- end }}
+      {{- with $item.Params.featured_image }}{{- $imgSrc = . }}{{- end }}
       <a
         href="{{ $item.RelPermalink }}"
         class="lk-grid__item"
@@ -213,26 +217,12 @@
           decoding="async"
         >
         {{- else }}
-        <div class="lk-grid__placeholder" aria-hidden="true">
-          {{- if $isPost }}
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-            <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-          </svg>
-          {{- else }}
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-            <line x1="8" y1="21" x2="16" y2="21"/>
-            <line x1="12" y1="17" x2="12" y2="21"/>
-          </svg>
-          {{- end }}
-        </div>
+        <img src="{{ $fallbackImg }}" alt="" width="300" height="300" class="lk-grid__img" loading="lazy" decoding="async">
         {{- end }}
         <div class="lk-grid__overlay" aria-hidden="true">
-          <span class="lk-grid__type-badge">{{ if $isPost }}Post{{ else }}Project{{ end }}</span>
+          <span class="lk-grid__type-badge">{{ if $isPost }}Post{{ else }}Project{{ end }} · {{ if $isPost }}{{ $item.Date.Format "Jan 2006" }}{{ else }}{{ $item.Params.year | default ($item.Date.Format "2006") }}{{ end }}</span>
           <p class="lk-grid__title">{{ $item.Title }}</p>
+          {{- with $item.Params.role }}<p class="lk-grid__meta">{{ . }}</p>{{ end }}
         </div>
       </a>
       {{- end }}

@@ -5,9 +5,10 @@ theme = 'myPortfolio'
 
 [params]
   author = "Isaiah Davis"
-  description = "My portfolio website"
+  description = "Isaiah Davis is a Chicago-based Frontend Developer and UI Engineer building fast, accessible, design-system-driven websites. Available for freelance, contract and full-time work, remote-friendly."
+  homeTitle = "Isaiah Davis | Frontend Developer & UI Engineer in Chicago"
   storybookBaseURL = ""
-  keywords = ["portfolio", "web developer", "Isaiah Davis"]
+  keywords = ["Isaiah Davis", "frontend developer", "UI engineer", "Chicago", "design systems", "web accessibility", "web performance", "freelance web developer", "portfolio"]
   logo = "images/logo.png"
   favicon = "images/favicon.ico"
   theme = "system"
@@ -19,7 +20,20 @@ theme = 'myPortfolio'
   
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  home = ["HTML", "RSS", "JSON", "LLMS", "LLMSFull"]
+
+# /llms.txt (curated index) and /llms-full.txt (full context) for LLM-based answer engines.
+[outputFormats.LLMS]
+  mediaType      = "text/plain"
+  baseName       = "llms"
+  isPlainText    = true
+  notAlternative = true
+
+[outputFormats.LLMSFull]
+  mediaType      = "text/plain"
+  baseName       = "llms-full"
+  isPlainText    = true
+  notAlternative = true
 
 [taxonomies]
   tag      = "tags"

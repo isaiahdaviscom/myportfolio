@@ -22,6 +22,7 @@
   aria-modal="true"
   aria-label="Isaiah Davis — Availability"
   aria-hidden="true"
+  inert
 >
   {{/* Backdrop (click to close) */}}
   <div class="stories-backdrop" id="stories-backdrop"></div>
@@ -505,6 +506,7 @@
       currentSlide = 0;
       overlay.classList.add('stories-overlay--open');
       overlay.removeAttribute('aria-hidden');
+      overlay.inert = false;
       trigger.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
       goToSlide(0);
@@ -522,6 +524,7 @@
       card.classList.remove('stories-card--paused');
       overlay.classList.remove('stories-overlay--open');
       overlay.setAttribute('aria-hidden', 'true');
+      overlay.inert = true;
       trigger.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
       fills.forEach(function (f) {

@@ -25,6 +25,7 @@
     top: 0;
     z-index: 50;
     width: 100%;
+
     /* Same 26-track grid used by every page section — guarantees exact alignment */
     display: grid;
     grid-template-columns: var(--grid-template);
@@ -50,6 +51,11 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 
+  body.has-jumplinks .site-header {
+    border-bottom-color: transparent;
+    box-shadow: none;
+  }
+
   /* Scrolled state — JS adds this class once window.scrollY > 0.
      Deepens the glass, bumps shadow, tightens padding slightly.  */
   .site-header--scrolled {
@@ -68,6 +74,11 @@
     border-bottom-color: rgba(255, 255, 255, 0.1);
   }
 
+  body.has-jumplinks .site-header--scrolled {
+    border-bottom-color: transparent;
+    box-shadow: none;
+  }
+
   /* ──────────────────────────────────────────────────────────────
      2. INNER LAYOUT
      Flex row — stories trigger + nav on left, social on right.
@@ -77,6 +88,7 @@
     display: flex;
     align-items: center;
     gap: var(--space-4);
+
     /* Slots into tracks 2→-2, matching every other section's content column */
     grid-column: 2 / -2;
   }
@@ -175,24 +187,27 @@
   .site-header__icon {
     display: inline-block;
     flex-shrink: 0;
-    background-color: currentColor;
+    background-color: currentcolor;
   }
+
   .site-header__icon--linkedin {
     width: 22px;
     height: 22px;
-    -webkit-mask: url('/vendors/fontawesome/linkedin-brands-solid.svg') center / contain no-repeat;
+    mask: url('/vendors/fontawesome/linkedin-brands-solid.svg') center / contain no-repeat;
     mask: url('/vendors/fontawesome/linkedin-brands-solid.svg') center / contain no-repeat;
   }
+
   .site-header__icon--github {
     width: 22px;
     height: 22px;
-    -webkit-mask: url('/vendors/fontawesome/github-brands.svg') center / contain no-repeat;
+    mask: url('/vendors/fontawesome/github-brands.svg') center / contain no-repeat;
     mask: url('/vendors/fontawesome/github-brands.svg') center / contain no-repeat;
   }
+
   .site-header__icon--contact {
     width: 20px;
     height: 20px;
-    -webkit-mask: url('/vendors/fontawesome/paper-plane-solid.svg') center / contain no-repeat;
+    mask: url('/vendors/fontawesome/paper-plane-solid.svg') center / contain no-repeat;
     mask: url('/vendors/fontawesome/paper-plane-solid.svg') center / contain no-repeat;
   }
 
@@ -254,6 +269,7 @@
       0 0 0 2px var(--color-surface),
       0 0 0 4px var(--color-accent);
   }
+
   /* Remove focus ring for mouse users in browsers that support :focus-visible */
   .inline-menu a:focus:not(:focus-visible) {
     box-shadow: none;
@@ -384,6 +400,7 @@
     width: 18px;
     height: 18px;
   }
+
   .site-header__drawer-social-link .site-header__icon--contact {
     width: 16px;
     height: 16px;
@@ -434,6 +451,12 @@
   ────────────────────────────────────────────────────────────── */
 
   @media (max-width: 767px) {
+    /* The closed drawer sits in an implicit second row; a baseline-height row
+       would leave a blank strip under the bar and push sticky jump links down. */
+    .site-header {
+      grid-auto-rows: auto;
+    }
+
     /* Hide the inline nav links from the bar to prevent overflow */
     .site-header__left .inline-menu {
       display: none;
@@ -607,12 +630,17 @@
       border-color 0.18s ease,
       background-color 0.18s ease,
       opacity 0.2s ease;
-    -webkit-appearance: none;
+    appearance: none;
     appearance: none;
   }
 
-  .header-search__input::-webkit-search-cancel-button { display: none; }
-  .header-search__input::placeholder { color: var(--color-text-muted); }
+  .header-search__input::-webkit-search-cancel-button {
+    display: none;
+  }
+
+  .header-search__input::placeholder {
+    color: var(--color-text-muted);
+  }
 
   .header-search:focus-within .header-search__input {
     opacity: 1;
@@ -648,11 +676,20 @@
     color: var(--color-text-muted);
     cursor: pointer;
     flex-shrink: 0;
-    transition: background-color 0.12s ease, color 0.12s ease;
+    transition:
+      background-color 0.12s ease,
+      color 0.12s ease;
   }
 
-  .header-search__clear:hover { background: var(--color-border-strong); color: var(--color-text-primary); }
-  .header-search__clear:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .header-search__clear:hover {
+    background: var(--color-border-strong);
+    color: var(--color-text-primary);
+  }
+
+  .header-search__clear:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
 
   /* Magnifier toggle button */
   .header-search__btn {
@@ -668,14 +705,21 @@
     border-radius: var(--radius-lg);
     color: var(--color-text-secondary);
     cursor: pointer;
-    transition: background-color 0.15s ease, color 0.15s ease;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
   }
 
-  .header-search__btn:hover { background-color: var(--color-surface-subtle); color: var(--color-text-primary); }
+  .header-search__btn:hover {
+    background-color: var(--color-surface-subtle);
+    color: var(--color-text-primary);
+  }
 
   .header-search__btn:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-accent);
+    box-shadow:
+      0 0 0 2px var(--color-surface),
+      0 0 0 4px var(--color-accent);
     border-radius: var(--radius-lg);
   }
 
@@ -685,7 +729,10 @@
     color: var(--color-accent);
   }
 
-  [data-theme='dark'] .header-search__btn:hover { background-color: rgba(255, 255, 255, 0.08); color: var(--color-text-primary); }
+  [data-theme='dark'] .header-search__btn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--color-text-primary);
+  }
 
   /* ── Mega panel ──────────────────────────────────────────────
      position:absolute resolves to .site-header (sticky, nearest positioned
@@ -700,12 +747,15 @@
     top: 100%;
     left: 0;
     right: 0;
-    grid-column: 1 / -1;   /* full-width grid area as containing block */
+    grid-column: 1 / -1; /* full-width grid area as containing block */
     z-index: 10;
     background-color: var(--color-surface);
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.08),
+      0 2px 8px rgba(0, 0, 0, 0.05);
+
     /* Hidden by default */
     visibility: hidden;
     opacity: 0;
@@ -733,7 +783,9 @@
   [data-theme='dark'] .header-search__panel {
     background-color: var(--color-surface-raised);
     border-color: var(--color-border-strong);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.3);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.45),
+      0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
   /* Align panel content to the main column (same grid as .site-header) */
@@ -792,12 +844,22 @@
   }
 
   .header-search__result:hover,
-  .header-search__result:focus                       { background-color: var(--color-surface-subtle); }
-  .header-search__result[aria-selected='true']       { background-color: var(--color-accent-soft); }
+  .header-search__result:focus {
+    background-color: var(--color-surface-subtle);
+  }
+
+  .header-search__result[aria-selected='true'] {
+    background-color: var(--color-accent-soft);
+  }
 
   [data-theme='dark'] .header-search__result:hover,
-  [data-theme='dark'] .header-search__result:focus   { background-color: rgba(255, 255, 255, 0.07); }
-  [data-theme='dark'] .header-search__result[aria-selected='true'] { background-color: var(--color-accent-soft); }
+  [data-theme='dark'] .header-search__result:focus {
+    background-color: rgba(255, 255, 255, 0.07);
+  }
+
+  [data-theme='dark'] .header-search__result[aria-selected='true'] {
+    background-color: var(--color-accent-soft);
+  }
 
   /* Series / parent breadcrumb path (sits above the title) */
   .header-search__breadcrumb {
@@ -836,7 +898,9 @@
     transform: translateY(-50%);
     color: var(--color-text-muted);
     opacity: 0;
-    transition: opacity 0.12s ease, transform 0.12s ease;
+    transition:
+      opacity 0.12s ease,
+      transform 0.12s ease;
   }
 
   .header-search__result:hover .header-search__result-arrow,

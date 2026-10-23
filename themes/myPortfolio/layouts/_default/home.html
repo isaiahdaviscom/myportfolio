@@ -29,12 +29,29 @@
       </div>
     </div>
 
-    {{/* ── Decorative visual column (hidden on mobile) ── */}}
+    {{/* ── Personal brand portrait ── */}}
     <div class="home-hero__visual" aria-hidden="true">
-      <div class="home-hero__ring home-hero__ring--2"></div>
-      <div class="home-hero__ring home-hero__ring--1"></div>
-      <div class="home-hero__orbit-dot"></div>
-      <div class="home-hero__monogram">ID</div>
+      <div class="hero-dial">
+        <svg class="hero-dial__ring" viewBox="0 0 200 200" focusable="false">
+          <defs>
+            <path id="hero-dial-path" d="M100,100 m-90,0 a90,90 0 1,1 180,0 a90,90 0 1,1 -180,0"/>
+          </defs>
+          <text>
+            <textPath href="#hero-dial-path" textLength="560" lengthAdjust="spacing">Frontend developer · UI engineer · Chicago · Open to work ·</textPath>
+          </text>
+        </svg>
+        <span class="hero-dial__rule hero-dial__rule--h"></span>
+        <span class="hero-dial__rule hero-dial__rule--v"></span>
+        <div class="hero-dial__disc">
+          <span class="hero-dial__strip" style="--i:0"></span>
+          <span class="hero-dial__strip" style="--i:1"></span>
+          <span class="hero-dial__strip" style="--i:2"></span>
+          <span class="hero-dial__strip" style="--i:3"></span>
+          <span class="hero-dial__strip" style="--i:4"></span>
+          <span class="hero-dial__strip" style="--i:5"></span>
+        </div>
+        <span class="hero-dial__tag">Fig. 01</span>
+      </div>
     </div>
 
   </div>
@@ -67,7 +84,7 @@
 {{/* ═══════════════════════════════════════════════════════════════
      FEATURED WORK
      ═══════════════════════════════════════════════════════════════ */}}
-{{- $featured := where (where .Site.RegularPages "Section" "portfolio") ".Params.feature" true | first 3 }}
+{{- $featured := sort (where .Site.RegularPages "Section" "portfolio") ".Params.weight" | first 3 }}
 {{- if $featured }}
 <section class="home-work" aria-labelledby="home-work-heading">
   <div class="home-work__inner">
@@ -89,16 +106,17 @@
       <a href="{{ $p.RelPermalink }}"
          class="home-work-card{{ if eq $i 0 }} home-work-card--featured{{ end }}"
          aria-label="{{ $p.Title }}">
-        {{- if $p.Params.cover }}
-        <img src="{{ $p.Params.cover }}" alt="{{ $p.Title }}" class="home-work-card__img"
+         {{- $cardImage := $p.Params.featured_image | default $p.Params.cover }}
+         {{- if $cardImage }}
+         <img src="{{ $cardImage }}" alt="{{ $p.Title }}" class="home-work-card__img"
              width="514" height="321" {{ if eq $i 0 }}loading="eager"{{ else }}loading="lazy"{{ end }} decoding="async">
         {{- else }}
         <div class="home-work-card__fallback" aria-hidden="true">{{ substr $p.Title 0 1 }}</div>
         {{- end }}
         <div class="home-work-card__overlay">
-          {{- with $p.Params.role }}<p class="home-work-card__role">{{ . }}</p>{{- end }}
+          {{- with $p.Params.client }}<p class="home-work-card__role">{{ . }}</p>{{- else }}<p class="home-work-card__role">{{ $p.Title }}</p>{{- end }}
           <h3 class="home-work-card__title">{{ $p.Title }}</h3>
-          {{- with $p.Params.dates }}<p class="home-work-card__dates">{{ . }}</p>{{- end }}
+          {{- with $p.Params.year }}<p class="home-work-card__dates">{{ . }}</p>{{- end }}
         </div>
       </a>
       {{- end }}

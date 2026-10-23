@@ -22,25 +22,6 @@
 {{- /* Current page crumb — no URL, aria-current="page" */ -}}
 {{- $crumbs = $crumbs | append (dict "title" (.Params.heading | default .Title) "url" "" "current" true) -}}
 
-{{/* ── Structured Data (BreadcrumbList) ── */}}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {{- range $i, $c := $crumbs -}}
-    {{- if not (eq $i 0) }},{{ end }}
-    {
-      "@type": "ListItem",
-      "position": {{ add $i 1 }},
-      "name": {{ $c.title | jsonify }},
-      "item": "{{ if $c.url }}{{ $c.url | absURL }}{{ else }}{{ $.Permalink }}{{ end }}"
-    }
-    {{- end -}}
-  ]
-}
-</script>
-
 {{/* ── Visible breadcrumb nav ── */}}
 <nav class="breadcrumb" aria-label="Breadcrumb">
   <ol class="breadcrumb__list" role="list">

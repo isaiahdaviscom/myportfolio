@@ -1,18 +1,31 @@
 ﻿---
 title: "Isaiah Davis Designs"
-cover: "/images/514/sandc-cover.jpg"
-role: "Frontend Developer"
-dates: "June 2021 — Present"
-heading: "Designing & Building My Own Studio: Isaiah Davis Designs"
-bgcolor: "bg-gray-900"
-figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
-figma_title: "Isaiah Davis Designs — Interactive Prototype"
-feature: true
+description: "A custom-built frontend studio showcasing design systems, performance optimization, and component architecture at scale."
+date: 2021-06-01T00:00:00Z
+draft: false
 weight: 40
-employment_type: "Freelance"
-location: "Chicago, IL · Remote"
-skills:
+role: "Multidisciplinary"
+start_date: "2010-02"
+year: "2021"
+client: ""
+project_url: "https://isaiahdavis.com"
+featured_image: "/images/514/isaiahdavis-cover.jpg"
+categories:
+  - web-design
+tags:
+  - Design Systems
+  - Performance
+  - Frontend
+  - Figma
+  - Accessibility
+technologies:
   - Hugo
+  - Tailwind CSS
+  - PostCSS
+  - Netlify
+  - Figma
+  - Performance Optimization
+  - Accessibility
   - Tailwind CSS
   - PostCSS
   - Netlify
@@ -63,20 +76,23 @@ lessons:
     detail: "The 20+ partials powering the site aren't a finished product; they're a living system. The willingness to keep extending it is what makes it valuable, not the initial build."
 ---
 
-Isaiah Davis Designs is my personal design and development studio — the through-line connecting every client engagement, side project, and experiment I've shipped. Building it wasn't a single sprint; it's an ongoing commitment to practicing what I preach about thoughtful, performance-first web craft.
+Isaiah Davis Designs is my personal design and development studio — the through-line connecting every client engagement, side project, and experiment I've shipped. Building it wasn't a single sprint; it's an ongoing commitment to practicing what I recommend to clients: performance-first architecture, accessible markup, and UI systems that are genuinely maintainable.
+
+This site is built on Hugo, processed through a PostCSS/Tailwind v4 pipeline, and deployed to Netlify with Lighthouse CI checks on every push. The token-driven design system, component library, and content model were all designed before the first component was built — ensuring the system could grow without structural refactoring.
 
 ## The Challenge
 
-The goal was specific: design and build a portfolio and studio site that achieves a Lighthouse performance score above 90 on mobile, passes all Core Web Vitals thresholds, and authentically represents my range of work — all within the first 3 months of launch. Beyond metrics, it needed to function as a living proof-of-concept for every technique I recommend to clients.
+The goal was specific: design and build a portfolio and studio site that achieves a Lighthouse performance score above 90 on mobile, passes all Core Web Vitals thresholds, and authentically represents my range of work — all within the first 3 months of launch. Beyond the metrics, the site needed to function as a living proof-of-concept for every technique I recommend to clients.
 
 ## My Role
 
-As **Frontend Developer** and sole owner, I made every decision — information architecture, design system, Hugo theme architecture, CSS build pipeline, image optimization strategy, accessibility audit, and deployment pipeline on Netlify. Nothing was handed off.
+As **Frontend Developer and sole owner**, I made every decision — information architecture, design system, Hugo theme architecture, CSS build pipeline, image optimization strategy, accessibility audit, and deployment setup on Netlify. Nothing was handed off or delegated. Every component, every token, every content model decision reflects deliberate choices made under real constraints.
 
 ## What We Achieved
 
 - Lighthouse mobile score: **94 Performance / 98 Accessibility / 100 Best Practices / 100 SEO** at launch
-- All three Core Web Vitals (LCP, CLS, FID) consistently in the **"Good"** range
-- Site fully operational within **10 weeks** of first commit, hitting the 3-month target early
-- Component library grew to **20+ reusable partials** that reduced per-page authoring time significantly
+- All Core Web Vitals (LCP, CLS, FID) in the **"Good"** range, verified by Lighthouse CI on every push
+- Site fully operational in **10 weeks** from first commit — 2 weeks ahead of target
+- Component library grew to **20+ reusable partials** powering every page with zero duplicate markup
+- Token-driven design system in CSS custom properties covers color, spacing, typography, radius, and shadow — a single source of truth across all 20+ components
 - Serves as the primary case study shared in every new client discovery call

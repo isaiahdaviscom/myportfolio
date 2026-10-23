@@ -29,6 +29,7 @@
     position: relative;
     overflow: hidden;
     isolation: isolate;
+    container: hero-content / inline-size; /* cqi for hero type; kept off the subgrid, where containment breaks subgrid */
   }
 
   /* Right-side radial glow */
@@ -58,7 +59,6 @@
     position: relative;
     z-index: 1;
     grid-column: 2 / -2; /* content tracks — gutters handled by parent --grid-template */
-    container: hero-content / inline-size; /* enables cqi for hero typography */
     padding-block: 5rem 3.5rem;
     display: grid;
     grid-template-columns: subgrid; /* inherit all 24 content cols — children snap to column grid */
@@ -157,7 +157,7 @@
 
   /* Primary CTA — override page.css btn-primary for dark bg context */
   .home-hero .btn-primary {
-    background: #4d8dff;
+    background: #2563eb; /* white text: 5.2:1 */
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.18);
     box-shadow:
@@ -167,7 +167,7 @@
   }
 
   .home-hero .btn-primary:hover {
-    background: #3a7aee;
+    background: #1d4ed8;
     transform: translateY(-2px);
     box-shadow:
       0 6px 20px rgba(77, 141, 255, 0.5),
@@ -804,7 +804,10 @@
     grid-column: 2 / -2; /* content tracks — gutters handled by parent --grid-template */
     display: grid;
     grid-template-columns: subgrid; /* inherit all 24 content cols — children snap to column grid */
-    row-gap: var(--grid-gap-lg); /* 1 col unit — vertical gap when content + services stack on mobile */
+    row-gap: var(
+      --grid-gap-lg
+    ); /* 1 col unit — vertical gap when content + services stack on mobile */
+
     align-items: start;
   }
 

@@ -1,222 +1,274 @@
 /*
-  PRINT UTILITIES (Site-Specific)
-  ==============================
-  Purpose: LinkedIn-style print resume from the existing gallery cards.
+  PRINT UTILITIES
+  ===============
+  Unlayered on purpose: unlayered rules beat every @layer, so print output is
+  predictable regardless of layer order.
 
-  These rules are intentionally OUTSIDE @layer so they are "unlayered"
-  and therefore have higher cascade priority than all Tailwind layer
-  rules (theme / base / components / utilities). This guarantees the
-  print layout renders correctly in Chrome / Firefox / Safari print
-  preview regardless of layer-merge order.
-
-  Screen : @media screen hides .gallery-print-header and .print-entry.
-  Print  : @media print shows them as a LinkedIn Experience resume and
-           hides the visual card grid and site chrome.
+  1. Screen      - the print-only résumé (.print-cv) is hidden.
+  2. Print/global - every page prints as a clean, ink-friendly document.
+  3. Print/résumé - pages that include partials/print-cv.html (portfolio
+                    overview, About) print only the LinkedIn-style résumé.
 */
 
-/* -- Screen: hide print-only elements ---------------------------------------- */
 @media screen {
-  .gallery-print-header,
-  .print-entry,
   .print-cv {
     display: none !important;
   }
 }
 
-/* =============================================================================
-   PRINT
-   ============================================================================= */
 @media print {
-  /* -- Page setup ------------------------------------------------------------ */
   @page {
     margin: 0.6in 0.65in;
-    size: letter portrait;
   }
 
-  /* -- Hide site chrome + visual cards --------------------------------------- */
-  header,
-  footer,
-  nav,
-  .card {
+  /* -- 2. Global print ------------------------------------------------------ */
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  body {
+    font-size: 10.5pt;
+    line-height: 1.5;
+  }
+
+  .skip-to-content,
+  .site-header,
+  .site-footer,
+  .jumplinks,
+  .cta-strip,
+  .breadcrumb,
+  [data-print],
+  [class*='cookie-'],
+  [class*='stories-'],
+  [id*='stories-'],
+  dialog,
+  video,
+  iframe,
+  form,
+  button {
     display: none !important;
   }
 
-  /* -- Gallery: collapse multi-column grid into a single column -------------- */
-  #gallery {
+  main {
     padding: 0 !important;
+    margin: 0 !important;
   }
 
-  #gallery .mx-auto {
-    padding: 0 !important;
+  h1,
+  h2,
+  h3,
+  h4 {
+    break-after: avoid;
+    color: #000 !important;
   }
 
-  #gallery .row {
-    display: block !important;
-  }
-
-  .gallery-item {
-    display: block !important;
-    margin: 0;
-    padding: 0;
-  }
-
-  /* ==========================================================================
-     RESUME HEADER
-     ========================================================================== */
-  .gallery-print-header {
-    display: flex !important;
-    align-items: flex-start;
-    gap: 14pt;
-    padding-bottom: 12pt;
-    border-bottom: 2pt solid #0a66c2;
-    margin-bottom: 14pt;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .gallery-print-header__avatar {
-    width: 56pt;
-    height: 56pt;
-    border-radius: 50%;
-    background-color: #0a66c2;
-    color: #fff;
-    font-size: 20pt;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .gallery-print-header__name {
-    font-size: 20pt;
-    font-weight: 700;
-    color: #000;
-    margin: 0 0 3pt;
-    line-height: 1.1;
-  }
-
-  .gallery-print-header__title {
-    font-size: 10.5pt;
-    color: #000;
-    margin: 0 0 3pt;
-  }
-
-  .gallery-print-header__meta {
-    font-size: 8.5pt;
-    color: #555;
-    margin: 0;
-  }
-
-  /* ==========================================================================
-     EXPERIENCE ENTRIES (LinkedIn format)
-     ========================================================================== */
-  .print-entry {
-    display: flex !important;
-    gap: 10pt;
-    padding: 9pt 0;
-    border-bottom: 0.5pt solid #e0e0e0;
+  img,
+  figure,
+  blockquote,
+  pre,
+  table,
+  li {
     break-inside: avoid;
-    font-family:
-      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 10pt;
-    line-height: 1.5;
-    color: #000;
   }
 
-  .gallery-item:last-child .print-entry {
-    border-bottom: none;
+  img {
+    max-width: 100% !important;
+    height: auto;
   }
 
-  .print-entry__icon {
-    width: 38pt;
-    height: 38pt;
-    border-radius: 5pt;
-    border: 1pt solid #ccc;
-    background: #f4f4f4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16pt;
-    font-weight: 700;
-    color: #333;
-    flex-shrink: 0;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+  p {
+    orphans: 3;
+    widows: 3;
   }
 
-  .print-entry__body {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .print-entry__role {
-    font-size: 10.5pt;
-    font-weight: 700;
-    color: #000;
-    margin: 0 0 1.5pt;
-    line-height: 1.3;
-  }
-
-  .print-entry__company {
-    font-size: 9.5pt;
-    font-weight: 500;
-    color: #000;
-    margin: 0 0 1pt;
-  }
-
-  .print-entry__emp-type {
-    font-weight: 400;
+  /* Reveal where an external link goes, since paper cannot be clicked. */
+  main a[href^='http']:not([href*='isaiahdavis.com'])::after {
+    content: ' (' attr(href) ')';
+    font-size: 8.5pt;
+    word-break: break-all;
     color: #444;
   }
 
-  .print-entry__dates {
-    font-size: 8.5pt;
-    color: #555;
-    margin: 0 0 1pt;
+  /* Résumé links already print their address as text. */
+  .print-cv a::after {
+    content: none !important;
   }
 
-  .print-entry__location {
-    font-size: 8.5pt;
-    color: #555;
-    margin: 0 0 5pt;
+  /* -- 3. Résumé mode -------------------------------------------------------- */
+  body:has(.print-cv) main > :not(.print-cv) {
+    display: none !important;
   }
 
-  .print-entry__summary {
+  .print-cv {
+    display: block !important;
+    font-family:
+      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.45;
+    color: #000;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .print-cv a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .print-cv__header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 14pt;
+    align-items: center;
+    padding-bottom: 12pt;
+    border-bottom: 2pt solid #0051e0;
+  }
+
+  .print-cv__avatar {
+    width: 56pt;
+    height: 56pt;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .print-cv__name {
+    margin: 0;
+    font-size: 22pt;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .print-cv__tagline {
+    margin: 3pt 0 0;
+    font-size: 11pt;
+  }
+
+  .print-cv__place {
+    margin: 2pt 0 0;
     font-size: 9pt;
-    color: #222;
-    line-height: 1.5;
-    margin: 0 0 5pt;
+    color: #555;
   }
 
-  /* -- Skill tags ------------------------------------------------------------ */
-  .print-entry__skills {
-    list-style: none;
-    margin: 0 0 4pt;
+  .print-cv__contact {
+    margin: 0;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3pt;
+    list-style: none;
+    font-size: 8.5pt;
+    line-height: 1.7;
+    text-align: right;
   }
 
-  .print-entry__skill-tag {
-    font-size: 7.5pt;
-    border: 0.5pt solid #aaa;
-    border-radius: 3pt;
-    padding: 1pt 5pt;
+  .print-cv__section {
+    margin-top: 14pt;
+  }
+
+  .print-cv__section-title {
+    margin: 0 0 6pt;
+    font-size: 12pt;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .print-cv__about {
+    margin: 0;
+    font-size: 9.5pt;
+    line-height: 1.55;
+    color: #222;
+  }
+
+  .print-cv__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .print-cv__entry {
+    display: grid;
+    grid-template-columns: 34pt 1fr;
+    gap: 10pt;
+    padding: 9pt 0;
+    border-top: 0.5pt solid #d9d9d9;
+    break-inside: avoid;
+  }
+
+  .print-cv__entry:first-child {
+    border-top: 0;
+  }
+
+  .print-cv__entry-icon {
+    display: grid;
+    width: 34pt;
+    height: 34pt;
+    place-items: center;
+    border: 1pt solid #ccc;
+    border-radius: 4pt;
+    background: #f4f4f4;
+    font-size: 15pt;
+    font-weight: 700;
     color: #333;
   }
 
-  /* -- Case-study URL -------------------------------------------------------- */
-  .print-entry__url {
+  .print-cv__entry-body > * {
     margin: 0;
-    font-size: 7.5pt;
   }
 
-  .print-entry__url a {
-    color: #0a66c2;
-    text-decoration: none;
+  .print-cv__job-title {
+    font-size: 11pt;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .print-cv__company {
+    font-size: 10pt;
+  }
+
+  .print-cv__muted,
+  .print-cv__dates,
+  .print-cv__location,
+  .print-cv__link {
+    font-size: 8.5pt;
+    color: #555;
+  }
+
+  .print-cv__summary {
+    margin-top: 4pt !important;
+    font-size: 9pt;
+    color: #222;
+  }
+
+  .print-cv__skills {
+    margin-top: 3pt !important;
+    font-size: 8.5pt;
+    color: #333;
+  }
+
+  .print-cv__link {
+    margin-top: 2pt !important;
+    color: #0051e0;
+    word-break: break-all;
+  }
+
+  .print-cv__skillset {
+    display: grid;
+    margin: 0;
+    gap: 3pt;
+    font-size: 9pt;
+  }
+
+  .print-cv__skillset > div {
+    display: grid;
+    grid-template-columns: 70pt 1fr;
+    gap: 8pt;
+  }
+
+  .print-cv__skillset dt {
+    font-weight: 700;
+  }
+
+  .print-cv__skillset dd {
+    margin: 0;
   }
 }

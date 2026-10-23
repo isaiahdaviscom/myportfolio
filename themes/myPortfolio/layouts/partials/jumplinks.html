@@ -1,0 +1,19 @@
+{{- $links := .links -}}
+{{- if ge (len $links) 2 -}}
+{{- $label := .label | default "On this page" -}}
+{{- $ariaLabel := .ariaLabel | default "Jump links" -}}
+{{- $innerClass := .innerClass | default "container" -}}
+<nav class="jumplinks" aria-label="{{ $ariaLabel }}">
+  <div class="jumplinks__inner {{ $innerClass }}">
+    <p class="jumplinks__label">{{ $label }}</p>
+    <span class="jumplinks__divider" aria-hidden="true"></span>
+    <ul class="jumplinks__list" role="list">
+      {{- range $links }}
+      <li class="jumplinks__item">
+        <a class="jumplinks__link" href="{{ .href }}">{{ .label }}</a>
+      </li>
+      {{- end }}
+    </ul>
+  </div>
+</nav>
+{{- end -}}

@@ -23,7 +23,14 @@ export default {
     },
     colorVariant: {
       control: { type: 'select' },
-      options: ['', 'stories-ring--color-gradient', 'stories-ring--color-blue', 'stories-ring--color-amber', 'stories-ring--color-purple', 'stories-ring--color-green'],
+      options: [
+        '',
+        'stories-ring--color-gradient',
+        'stories-ring--color-blue',
+        'stories-ring--color-amber',
+        'stories-ring--color-purple',
+        'stories-ring--color-green'
+      ],
       description: 'Ring colour override (independent of availability)'
     },
     avatarSrc: {
@@ -35,7 +42,7 @@ export default {
 
 function renderRing({ available, colorVariant = '', avatarSrc = '/images/profile-branded.png' }) {
   const ringMod = available ? 'stories-ring--available' : 'stories-ring--away';
-  const dotMod  = available ? 'stories-dot--open' : 'stories-dot--closed';
+  const dotMod = available ? 'stories-dot--open' : 'stories-dot--closed';
   const colorCls = colorVariant ? ` ${colorVariant}` : '';
 
   return `
@@ -84,14 +91,16 @@ export const AllColours = {
   render: () => {
     const variants = [
       { cls: 'stories-ring--available stories-ring--color-gradient', label: 'Gradient' },
-      { cls: 'stories-ring--available stories-ring--color-blue',     label: 'Blue' },
-      { cls: 'stories-ring--available stories-ring--color-amber',    label: 'Amber' },
-      { cls: 'stories-ring--available stories-ring--color-purple',   label: 'Purple' },
-      { cls: 'stories-ring--available stories-ring--color-green',    label: 'Green' },
-      { cls: 'stories-ring--away',                                   label: 'Away' }
+      { cls: 'stories-ring--available stories-ring--color-blue', label: 'Blue' },
+      { cls: 'stories-ring--available stories-ring--color-amber', label: 'Amber' },
+      { cls: 'stories-ring--available stories-ring--color-purple', label: 'Purple' },
+      { cls: 'stories-ring--available stories-ring--color-green', label: 'Green' },
+      { cls: 'stories-ring--away', label: 'Away' }
     ];
 
-    const items = variants.map(v => `
+    const items = variants
+      .map(
+        v => `
       <div style="display:flex; flex-direction:column; align-items:center; gap:0.5rem;">
         <button class="stories-trigger" type="button" aria-label="${v.label}">
           <span class="stories-ring ${v.cls}" aria-hidden="true">
@@ -103,7 +112,9 @@ export const AllColours = {
         </button>
         <span style="font-size:0.75rem; color:var(--color-text-muted);">${v.label}</span>
       </div>
-    `).join('');
+    `
+      )
+      .join('');
 
     return `<div style="display:flex; flex-wrap:wrap; gap:2rem; padding:2rem;">${items}</div>`;
   }

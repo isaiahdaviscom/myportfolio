@@ -20,7 +20,6 @@
   gap: var(--space-6);
 }
 
-
 /* ─────────────────────────────────────────────
    PROFILE CARD
 ───────────────────────────────────────────── */
@@ -55,7 +54,12 @@
   position: absolute;
   inset: -3px;
   border-radius: 50%;
-  background: conic-gradient(var(--color-accent, #22c55e), #84cc16, #22d3ee, var(--color-accent, #22c55e));
+  background: conic-gradient(
+    var(--color-accent, #22c55e),
+    #84cc16,
+    #22d3ee,
+    var(--color-accent, #22c55e)
+  );
   z-index: 0;
 }
 
@@ -104,8 +108,10 @@
   border-radius: 9999px;
   font-size: var(--text-xs);
   font-weight: 600;
+
   /* green-100 bg (#dcfce7) — opaque, no ambiguity for contrast calc */
   background: #dcfce7;
+
   /* green-900 (#14532d) on green-100 = 9.2:1 ✓ */
   color: #14532d;
   border: 1px solid #16a34a; /* green-600 — 4.6:1 vs white ✓ */
@@ -115,6 +121,7 @@
 .lk-profile__pill--away {
   /* blue-100 (#dbeafe) — opaque */
   background: #dbeafe;
+
   /* blue-950 (#172554) on blue-100 = 11.3:1 ✓ */
   color: #172554;
   border-color: #2563eb; /* blue-600 — 4.5:1 vs white ✓ */
@@ -125,6 +132,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
+
   /* green-600 (#16a34a) — 4.6:1 vs green-100 pill bg ✓ */
   background: #16a34a;
   flex-shrink: 0;
@@ -139,6 +147,7 @@
   .lk-profile__pill {
     /* green-900 bg — dark, deep */
     background: #14532d;
+
     /* green-200 (#bbf7d0) on green-900 = 10.1:1 ✓ */
     color: #bbf7d0;
     border-color: #16a34a;
@@ -147,6 +156,7 @@
   .lk-profile__pill--away {
     /* blue-950 bg */
     background: #172554;
+
     /* blue-200 (#bfdbfe) on blue-950 = 11.6:1 ✓ */
     color: #bfdbfe;
     border-color: #3b82f6;
@@ -156,7 +166,6 @@
     background: var(--color-surface-dark, #0f172a);
   }
 }
-
 
 /* ─────────────────────────────────────────────
    STATS STRIP
@@ -201,7 +210,6 @@
   text-align: center;
 }
 
-
 /* ─────────────────────────────────────────────
    CTA ACTIONS
 ───────────────────────────────────────────── */
@@ -225,7 +233,9 @@
   font-size: var(--text-sm);
   font-weight: 600;
   text-decoration: none;
-  transition: opacity 0.15s ease, transform 0.1s ease;
+  transition:
+    opacity 0.15s ease,
+    transform 0.1s ease;
 }
 
 .lk-actions__btn:active {
@@ -251,13 +261,13 @@
   border-color: var(--color-heading);
 }
 
-
 /* ─────────────────────────────────────────────
    SOCIAL ICON GRID
 ───────────────────────────────────────────── */
 
 .lk-social {
   display: grid;
+
   /*
     auto-fit: empty tracks collapse to 0 so the filled cells stretch to cover
     the full row — icons always fill the container regardless of count.
@@ -275,6 +285,7 @@
   justify-content: center;
   gap: var(--space-1-5, 6px);
   width: 100%;
+
   /* Explicit padding-based height — avoids aspect-ratio/grid track conflicts */
   padding-block: var(--space-4);
   border-radius: var(--radius-lg, 12px);
@@ -282,7 +293,10 @@
   text-decoration: none;
   color: var(--color-heading);
   background: var(--color-surface-elevated, transparent);
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+
   /* WCAG 2.5.5 minimum tap target */
   min-height: 44px;
   box-sizing: border-box;
@@ -299,7 +313,6 @@
   color: var(--color-muted);
   line-height: 1;
 }
-
 
 /* ─────────────────────────────────────────────
    SERVICES CHIPS
@@ -343,7 +356,6 @@
   cursor: default;
 }
 
-
 /* ─────────────────────────────────────────────
    CONTENT SECTION (heading, search, filters, grid)
 ───────────────────────────────────────────── */
@@ -364,7 +376,6 @@
   margin: 0;
 }
 
-
 /* ─────────────────────────────────────────────
    SEARCH INPUT
 ───────────────────────────────────────────── */
@@ -384,7 +395,8 @@
 
 .lk-search__input {
   width: 100%;
-  padding: var(--space-2-5, 10px) var(--space-3) var(--space-2-5, 10px) calc(var(--space-3) + 16px + var(--space-2));
+  padding: var(--space-2-5, 10px) var(--space-3) var(--space-2-5, 10px)
+    calc(var(--space-3) + 16px + var(--space-2));
   border-radius: var(--radius-md, 8px);
   border: 1px solid var(--color-border);
   background: var(--color-surface-elevated, transparent);
@@ -404,7 +416,6 @@
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent, #2563eb) 15%, transparent);
 }
 
-
 /* ─────────────────────────────────────────────
    TYPE FILTER CHIPS
 ───────────────────────────────────────────── */
@@ -423,7 +434,10 @@
   color: var(--color-muted);
   background: transparent;
   cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
 }
 
 .lk-filter-btn:hover {
@@ -431,12 +445,11 @@
   border-color: var(--color-heading);
 }
 
-.lk-filter-btn[aria-pressed="true"] {
+.lk-filter-btn[aria-pressed='true'] {
   background: var(--color-accent, #2563eb);
   border-color: var(--color-accent, #2563eb);
   color: #fff;
 }
-
 
 /* ─────────────────────────────────────────────
    CONTENT GRID
@@ -491,7 +504,7 @@
   flex-direction: column;
   justify-content: flex-end;
   padding: var(--space-3);
-  background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0) 55%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0) 55%);
   opacity: 0;
   transition: opacity 0.2s ease;
 }
@@ -511,7 +524,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
   margin-bottom: var(--space-1);
 }
 
@@ -536,9 +549,13 @@
 }
 
 /* JS filter visibility — classes toggled by inline script */
-.lk-grid__item--hidden { display: none !important; }
-.lk-grid__empty--hidden { display: none; }
+.lk-grid__item--hidden {
+  display: none !important;
+}
 
+.lk-grid__empty--hidden {
+  display: none;
+}
 
 /* ─────────────────────────────────────────────
    DIVIDER BETWEEN SECTIONS

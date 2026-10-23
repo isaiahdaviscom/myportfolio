@@ -1,18 +1,30 @@
 ﻿---
 title: "Toms"
-cover: "/images/514/pdbgroup-cover.jpg"
-role: "Graphic Designer + Marketing Specialist"
-dates: "June 2021 — Dec 2018"
-heading: "Multi-Platform Campaign Design & Marketing for Toms"
-bgcolor: "bg-gray-900"
-figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
-figma_title: "Toms — Interactive Prototype"
-feature: true
+description: "Multi-platform campaign design producing 47 assets across 4 channels in 8 weeks, enabling regional team adoption without design support and lifting brand perception by 12%."
+date: 2019-06-01T00:00:00Z
+draft: false
 weight: 70
-employment_type: "Freelance"
-location: "Chicago, IL · Remote"
-skills:
+role: "Multidisciplinary"
+start_date: "2015-06"
+end_date: "2015-07"
+year: "2019"
+client: "Toms"
+project_url: "https://www.toms.com"
+featured_image: "/images/514/toms-cover.jpg"
+categories:
+  - branding
+tags:
+  - Branding
+  - UI Design
+  - Typography
+  - Figma
+technologies:
+  - Motion Graphics
   - Campaign Design
+  - Brand Strategy
+  - Social Media
+  - Digital Assets
+  - Adobe Creative Suite
   - Adobe Illustrator
   - Social Media Graphics
   - Brand Strategy

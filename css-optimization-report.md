@@ -1,30 +1,30 @@
 # CSS Optimization Report
 
-Generated: 2026-04-02T01:35:58.197Z
+Generated: 2026-10-11T22:29:16.821Z
 
 ## Summary
 
-- **Files Scanned**: 71
-- **Unique Classes Found**: 745
-- **Original CSS Size**: 161.77 KB
-- **Production CSS Size**: 111.52 KB
-- **Size Reduction**: 50.26 KB (31.07%)
+- **Files Scanned**: 84
+- **Unique Classes Found**: 1026
+- **Original CSS Size**: 254.24 KB
+- **Production CSS Size**: 181.41 KB
+- **Size Reduction**: 72.83 KB (28.65%)
 
 ## Analysis Details
 
 ### Files by Type
-- **Templates**: 36
+- **Templates**: 50
 - **Content**: 27
-- **Static**: 5
+- **Static**: 4
 - **Other**: 3
 
 ### Most Common Class Patterns
 
-- **Tailwind Utilities**: 36
-- **Responsive Classes**: 7
+- **Tailwind Utilities**: 34
+- **Responsive Classes**: 4
 - **Hover States**: 7
 - **Focus States**: 4
-- **Custom Classes**: 687
+- **Custom Classes**: 973
 
 ## Production Integration
 

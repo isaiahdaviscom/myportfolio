@@ -1,114 +1,84 @@
 {{- /*
-  Print CV Partial — LinkedIn "Experience" resume format
+  Print CV partial — LinkedIn-style "Experience" résumé
   ======================================================
-  Screen : hidden entirely (.print-cv { display: none } via print.css)
-  Print  : full-page LinkedIn-style resume drawn from portfolio pages
+  Screen : hidden (.print-cv { display: none } in utilities/print.css)
+  Print  : replaces the page body with a one-document résumé.
 
-  Data pulled per portfolio page:
-    .Title              → company / project name
-    .Params.role        → job title
-    .Params.employment_type → Full-time | Freelance | Contract
-    .Params.dates       → date range string
-    .Params.location    → "City, ST · Work type"
-    .Params.skills      → []string — skill tags
-    .Summary            → auto-excerpt (first ~70 words of body)
-    .Permalink          → printed URL for "View case study"
-*/}}
+  Personal facts : data/resume.yaml
+  Per project (content/portfolio/*.md front matter):
+    title, role, employment_type?, start_date? / end_date? ("YYYY-MM"), location?,
+    description, technologies | skills | tags
+*/ -}}
+{{- $r := site.Data.resume -}}
+{{- $about := site.GetPage "/about" -}}
 
 <div class="print-cv" aria-hidden="true">
 
-  {{- /* ── Resume Header ───────────────────────────────────────────────── */}}
   <header class="print-cv__header">
-    <div class="print-cv__avatar" aria-hidden="true">ID</div>
+    <img class="print-cv__avatar" src="/images/profile-branded.png" alt="" width="72" height="72">
     <div class="print-cv__identity">
-      <h1 class="print-cv__name">Isaiah Davis</h1>
-      <p class="print-cv__tagline">
-        Frontend Developer &middot; UX Designer &middot; Creative Director
-      </p>
-      <p class="print-cv__meta">
-        Chicago, IL
-        &nbsp;&bull;&nbsp;
-        isaiahdavis.com
-        &nbsp;&bull;&nbsp;
-        linkedin.com/in/isaiah-davis
-      </p>
+      <h1 class="print-cv__name">{{ $r.name }}</h1>
+      <p class="print-cv__tagline">{{ $r.jobTitle }}</p>
+      <p class="print-cv__place">{{ $r.location.city }}, {{ $r.location.region }} &middot; {{ $r.workMode }}</p>
     </div>
+    <ul class="print-cv__contact">
+      <li>{{ site.BaseURL | replaceRE "^https?://" "" | strings.TrimSuffix "/" }}</li>
+      <li>{{ $r.linkedin | replaceRE "^https?://(www\\.)?" "" | strings.TrimSuffix "/" }}</li>
+      <li>{{ $r.github | replaceRE "^https?://(www\\.)?" "" }}</li>
+      <li>{{ $r.email }}</li>
+    </ul>
   </header>
 
-  {{- /* ── Summary ───────────────────────────────────────────────────────── */}}
   <section class="print-cv__section">
-    <h2 class="print-cv__section-title">About</h2>
-    <p class="print-cv__about">
-      Frontend Developer and UX Designer with 7+ years building performant, accessible
-      web experiences across B2B SaaS, retail, and nonprofit sectors. Fluent across the
-      full design-to-deployment pipeline — from Figma wireframes and brand systems to
-      Hugo static sites, PostCSS build pipelines, and CI/CD on Netlify. Passionate about
-      design systems, Core Web Vitals, and turning ambiguous briefs into measurable
-      results.
-    </p>
+    <h2 class="print-cv__section-title">Summary</h2>
+    <p class="print-cv__about">{{ $r.summary }}</p>
   </section>
 
-  {{- /* ── Experience Section ───────────────────────────────────────────── */}}
   <section class="print-cv__section">
     <h2 class="print-cv__section-title">Experience</h2>
     <ol class="print-cv__list">
-      {{- $pages := where .Site.RegularPages "Section" "portfolio" }}
-      {{- $pages = where $pages ".Params.feature" true }}
-      {{- $pages = sort $pages "Weight" "asc" }}
-      {{- range $pages }}
+      {{- $pages := where site.RegularPages "Section" "portfolio" }}
+      {{- $pages = where $pages "Params.role" "ne" nil }}
+      {{- range sort $pages "Weight" "asc" }}
+      {{- $when := partial "resume-dates.html" . }}
       <li class="print-cv__entry">
-
-        {{- /* Company initial badge — mirrors LinkedIn's rounded-square logo */}}
-        <div class="print-cv__entry-icon" aria-hidden="true">
-          {{- substr .Title 0 1 -}}
-        </div>
-
+        <div class="print-cv__entry-icon" aria-hidden="true">{{ substr .Title 0 1 }}</div>
         <div class="print-cv__entry-body">
-
-          {{- /* Job title — bold, largest text in the entry */}}
           <h3 class="print-cv__job-title">{{ .Params.role }}</h3>
-
-          {{- /* Company · Employment type */}}
           <p class="print-cv__company">
-            {{ .Title -}}
-            {{- with .Params.employment_type }}
-              <span class="print-cv__emp-type">&nbsp;&middot;&nbsp;{{ . }}</span>
-            {{- end }}
+            {{- .Title -}}
+            {{- with .Params.employment_type }}<span class="print-cv__muted"> &middot; {{ . }}</span>{{ end -}}
           </p>
-
-          {{- /* Date range */}}
-          {{- with .Params.dates }}
-          <p class="print-cv__dates">{{ . }}</p>
+          {{- with $when.range }}
+          <p class="print-cv__dates">{{ . }}{{ with $when.duration }} &middot; {{ . }}{{ end }}</p>
           {{- end }}
-
-          {{- /* Location · Work modality */}}
-          {{- with .Params.location }}
-          <p class="print-cv__location">{{ . }}</p>
+          {{- with .Params.location }}<p class="print-cv__location">{{ . }}</p>{{ end }}
+          {{- with .Params.description }}<p class="print-cv__summary">{{ . }}</p>{{ end }}
+          {{- $skills := .Params.skills | default .Params.technologies | default .Params.tags }}
+          {{- with $skills }}
+          <p class="print-cv__skills"><strong>Skills:</strong> {{ delimit (first 6 .) " &middot; " | safeHTML }}</p>
           {{- end }}
-
-          {{- /* Auto-excerpt of page body — first ~70 words */}}
-          <p class="print-cv__summary">{{ .Summary }}</p>
-
-          {{- /* Skill tags */}}
-          {{- with .Params.skills }}
-          <ul class="print-cv__skills" aria-label="Skills used">
-            {{- range . }}
-            <li class="print-cv__skill-tag">{{ . }}</li>
-            {{- end }}
-          </ul>
-          {{- end }}
-
-          {{- /* Printed URL so paper readers can follow up */}}
-          <p class="print-cv__link-wrap">
-            <a class="print-cv__link" href="{{ .Permalink }}">
-              View case study: {{ .Permalink }}
-            </a>
-          </p>
-
+          <p class="print-cv__link"><a href="{{ .Permalink }}">{{ .Permalink | replaceRE "^https?://" "" }}</a></p>
         </div>
       </li>
       {{- end }}
     </ol>
   </section>
+
+  {{- with $about }}
+  {{- with .Params.skills }}
+  <section class="print-cv__section">
+    <h2 class="print-cv__section-title">Core skills</h2>
+    <dl class="print-cv__skillset">
+      {{- range $group, $items := . }}
+      <div>
+        <dt>{{ $group | title }}</dt>
+        <dd>{{ delimit $items " &middot; " | safeHTML }}</dd>
+      </div>
+      {{- end }}
+    </dl>
+  </section>
+  {{- end }}
+  {{- end }}
 
 </div>

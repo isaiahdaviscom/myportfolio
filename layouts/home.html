@@ -29,12 +29,29 @@
       </div>
     </div>
 
-    {{/* ── Decorative visual column (hidden on mobile) ── */}}
+    {{/* ── Personal brand portrait ── */}}
     <div class="home-hero__visual" aria-hidden="true">
-      <div class="home-hero__ring home-hero__ring--2"></div>
-      <div class="home-hero__ring home-hero__ring--1"></div>
-      <div class="home-hero__orbit-dot"></div>
-      <div class="home-hero__monogram">ID</div>
+      <div class="hero-dial">
+        <svg class="hero-dial__ring" viewBox="0 0 200 200" focusable="false">
+          <defs>
+            <path id="hero-dial-path" d="M100,100 m-90,0 a90,90 0 1,1 180,0 a90,90 0 1,1 -180,0"/>
+          </defs>
+          <text>
+            <textPath href="#hero-dial-path" textLength="560" lengthAdjust="spacing">Frontend developer · UI engineer · Chicago · Open to work ·</textPath>
+          </text>
+        </svg>
+        <span class="hero-dial__rule hero-dial__rule--h"></span>
+        <span class="hero-dial__rule hero-dial__rule--v"></span>
+        <div class="hero-dial__disc">
+          <span class="hero-dial__strip" style="--i:0"></span>
+          <span class="hero-dial__strip" style="--i:1"></span>
+          <span class="hero-dial__strip" style="--i:2"></span>
+          <span class="hero-dial__strip" style="--i:3"></span>
+          <span class="hero-dial__strip" style="--i:4"></span>
+          <span class="hero-dial__strip" style="--i:5"></span>
+        </div>
+        <span class="hero-dial__tag">Fig. 01</span>
+      </div>
     </div>
 
   </div>

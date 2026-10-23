@@ -1,0 +1,5 @@
+{{- /* seo-description.html — single description used by meta, Open Graph and JSON-LD. */ -}}
+{{- $d := .Params.description -}}
+{{- if not $d }}{{ $d = trim (.Summary | plainify | truncate 160) " \n\t" }}{{ end -}}
+{{- if or (not $d) .IsHome }}{{ $d = .Params.description | default site.Params.description }}{{ end -}}
+{{- return (trim ($d | plainify) " \n\t") -}}

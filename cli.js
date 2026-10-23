@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const fs   = require('fs');
+const fs = require('fs');
 const path = require('path');
 const { spawn, execSync } = require('child_process');
 
@@ -21,7 +21,9 @@ process.chdir(projectRoot);
 let pkg = { name: 'myportfolio', version: '0.0.0' };
 try {
   pkg = JSON.parse(fs.readFileSync(path.join(projectRoot, 'package.json'), 'utf8'));
-} catch { /* proceed with defaults */ }
+} catch {
+  /* proceed with defaults */
+}
 
 // ─── Lazy-load scripts ────────────────────────────────────────────────────────
 
@@ -31,40 +33,54 @@ function requireScript(name) {
 
 // ─── Args ─────────────────────────────────────────────────────────────────────
 
-const rawArgs     = process.argv.slice(2);
-const command     = (rawArgs[0] || 'help').toLowerCase();
-const restArgs    = rawArgs.slice(1);
-const flags       = new Set(restArgs.filter(a => a.startsWith('-')));
+const rawArgs = process.argv.slice(2);
+const command = (rawArgs[0] || 'help').toLowerCase();
+const restArgs = rawArgs.slice(1);
+const flags = new Set(restArgs.filter(a => a.startsWith('-')));
 const positionals = restArgs.filter(a => !a.startsWith('-'));
-const verbose     = flags.has('--verbose') || flags.has('-v');
+const verbose = flags.has('--verbose') || flags.has('-v');
 
-function hasFlag(...names) { return names.some(n => flags.has(n)); }
+function hasFlag(...names) {
+  return names.some(n => flags.has(n));
+}
 
 // ─── Colour palette ───────────────────────────────────────────────────────────
 
 const C = {
-  reset:   '\x1b[0m',
-  bold:    '\x1b[1m',
-  dim:     '\x1b[2m',
-  red:     '\x1b[31m',
-  green:   '\x1b[32m',
-  yellow:  '\x1b[33m',
-  blue:    '\x1b[34m',
+  reset: '\x1b[0m',
+  bold: '\x1b[1m',
+  dim: '\x1b[2m',
+  red: '\x1b[31m',
+  green: '\x1b[32m',
+  yellow: '\x1b[33m',
+  blue: '\x1b[34m',
   magenta: '\x1b[35m',
-  cyan:    '\x1b[36m',
+  cyan: '\x1b[36m'
 };
 
-function col(color, text) { return `${C[color]}${text}${C.reset}`; }
+function col(color, text) {
+  return `${C[color]}${text}${C.reset}`;
+}
 
 // ─── Shared UI primitives ─────────────────────────────────────────────────────
 
 const W = Math.min(process.stdout.columns || 72, 72);
 
-function rule()    { return C.dim + '\u2500'.repeat(W) + C.reset; }
-function ok(msg)   { console.log(`  ${col('green',  '\u2713')} ${msg}`); }
-function info(msg) { console.log(`  ${col('cyan',   '\u00b7')} ${C.dim}${msg}${C.reset}`); }
-function warn(msg) { console.log(`  ${col('yellow', '\u26a0')} ${col('yellow', msg)}`); }
-function fail(msg) { console.log(`  ${col('red',    '\u2717')} ${col('red', msg)}`); }
+function rule() {
+  return C.dim + '\u2500'.repeat(W) + C.reset;
+}
+function ok(msg) {
+  console.log(`  ${col('green', '\u2713')} ${msg}`);
+}
+function info(msg) {
+  console.log(`  ${col('cyan', '\u00b7')} ${C.dim}${msg}${C.reset}`);
+}
+function warn(msg) {
+  console.log(`  ${col('yellow', '\u26a0')} ${col('yellow', msg)}`);
+}
+function fail(msg) {
+  console.log(`  ${col('red', '\u2717')} ${col('red', msg)}`);
+}
 
 /** Top banner — title + optional subtitle + optional rows */
 function banner(title, subtitle = '', rows = []) {
@@ -75,7 +91,9 @@ function banner(title, subtitle = '', rows = []) {
   if (rows.length) {
     console.log(rule());
     for (const [icon, label, hint] of rows)
-      console.log(`  ${icon} ${C.bold}${label}${C.reset}${hint ? `  ${C.dim}${hint}${C.reset}` : ''}`);
+      console.log(
+        `  ${icon} ${C.bold}${label}${C.reset}${hint ? `  ${C.dim}${hint}${C.reset}` : ''}`
+      );
   }
   console.log(rule());
   console.log();
@@ -93,9 +111,11 @@ function done(msg = 'Done') {
 // ─── Help ─────────────────────────────────────────────────────────────────────
 
 function printHelp() {
-  const H = (label) => console.log(`\n  ${C.bold}${C.yellow}${label}${C.reset}`);
+  const H = label => console.log(`\n  ${C.bold}${C.yellow}${label}${C.reset}`);
   const R = (name, desc, hint = '') =>
-    console.log(`    ${col('green', name.padEnd(28))}${desc}${hint ? `  ${C.dim}${hint}${C.reset}` : ''}`);
+    console.log(
+      `    ${col('green', name.padEnd(28))}${desc}${hint ? `  ${C.dim}${hint}${C.reset}` : ''}`
+    );
 
   console.log();
   console.log(rule());
@@ -104,50 +124,50 @@ function printHelp() {
   console.log(rule());
 
   H('Development');
-  R('serve',               'Hugo + CSS watch (full dev mode)',      'http://localhost:1313');
-  R('serve --cms',         'Hugo + CSS + CMS proxy',                'http://localhost:1313/admin/');
-  R('serve --storybook',   'Hugo + CSS + Storybook dev',             'http://localhost:1313 + :6006');
-  R('serve --no-css',      'Hugo only (skip CSS watch)');
-  R('dev:cms',             'Alias for serve --cms');
-  R('watch',               'Watch & rebuild Tailwind CSS only');
+  R('serve', 'Hugo + CSS watch (full dev mode)', 'http://localhost:1313');
+  R('serve --cms', 'Hugo + CSS + CMS proxy', 'http://localhost:1313/admin/');
+  R('serve --storybook', 'Hugo + CSS + Storybook dev', 'http://localhost:1313 + :6006');
+  R('serve --no-css', 'Hugo only (skip CSS watch)');
+  R('dev:cms', 'Alias for serve --cms');
+  R('watch', 'Watch & rebuild Tailwind CSS only');
 
   H('Build');
-  R('dev',                 'Full development build');
-  R('prod',                'Full production build');
-  R('build [--prod]',      'Run build pipeline',                    'default: dev');
+  R('dev', 'Full development build');
+  R('prod', 'Full production build');
+  R('build [--prod]', 'Run build pipeline', 'default: dev');
 
   H('Content');
-  R('new post <slug>',     'Create a new blog post draft');
-  R('new project <slug>',  'Create a new portfolio project');
-  R('cms',                 'Start local CMS proxy server');
-  R('cms --open',          'Start proxy + open browser');
+  R('new post <slug>', 'Create a new blog post draft');
+  R('new project <slug>', 'Create a new portfolio project');
+  R('cms', 'Start local CMS proxy server');
+  R('cms --open', 'Start proxy + open browser');
 
   H('Deploy');
-  R('migrate',             'Production build dry-run');
-  R('migrate --deploy',    'Build + deploy to Netlify');
-  R('netlify status',      'Show Netlify site & env info');
+  R('migrate', 'Production build dry-run');
+  R('migrate --deploy', 'Build + deploy to Netlify');
+  R('netlify status', 'Show Netlify site & env info');
 
   H('Storybook');
-  R('storybook',           'Start Storybook dev server',            'http://localhost:6006');
-  R('storybook build',     'Build static Storybook');
-  R('design',              'CSS watch + Storybook (design flow)');
+  R('storybook', 'Start Storybook dev server', 'http://localhost:6006');
+  R('storybook build', 'Build static Storybook');
+  R('design', 'CSS watch + Storybook (design flow)');
 
   H('Maintenance');
-  R('clean [level]',       'Remove build artifacts',                'light|deep|nuclear|cache');
-  R('lint',                'Run CSS + JS + Markdown linters');
-  R('format',              'Prettier format all files');
-  R('css <sub>',           'CSS tools',                             'audit|analyze|unused|optimize|cleanup');
+  R('clean [level]', 'Remove build artifacts', 'light|deep|nuclear|cache');
+  R('lint', 'Run CSS + JS + Markdown linters');
+  R('format', 'Prettier format all files');
+  R('css <sub>', 'CSS tools', 'audit|analyze|unused|optimize|cleanup');
 
   H('Info');
-  R('sitemap',             'Preview sitemap at /sitemap.xml',          'http://localhost:1313/sitemap.xml');
-  R('status',              'Project & build status dashboard');
-  R('open [url]',          'Open browser to dev server', 'default: http://localhost:1313');
-  R('audit',               'Run npm security audit');
-  R('perf',                'Run performance test suite');
-    R('version',             'Print or manage the project version');
-    R('version sync',        'Sync version from package.json → hugo.toml + README badge');
-    R('version bump [level]','Bump version and sync (level: patch · minor · major, default: patch)');
-  R('help',                'Show this help text');
+  R('sitemap', 'Preview sitemap at /sitemap.xml', 'http://localhost:1313/sitemap.xml');
+  R('status', 'Project & build status dashboard');
+  R('open [url]', 'Open browser to dev server', 'default: http://localhost:1313');
+  R('audit', 'Run npm security audit');
+  R('perf', 'Run performance test suite');
+  R('version', 'Print or manage the project version');
+  R('version sync', 'Sync version from package.json → hugo.toml + README badge');
+  R('version bump [level]', 'Bump version and sync (level: patch · minor · major, default: patch)');
+  R('help', 'Show this help text');
 
   console.log();
   console.log(`  ${C.dim}Options:  --verbose / -v   verbose output${C.reset}`);
@@ -163,7 +183,7 @@ function runProcess(cmd, args = [], opts = {}) {
       stdio: 'inherit',
       shell: true,
       cwd: projectRoot,
-      ...opts,
+      ...opts
     });
     child.on('close', code =>
       code === 0 ? resolve() : reject(new Error(`${cmd} exited with code ${code}`))
@@ -179,8 +199,10 @@ function runNpm(script) {
 
 async function runBuild(environment) {
   const isProd = environment === 'production';
-  banner(`${isProd ? '\uD83D\uDE80' : '\uD83C\uDFD7'}  build  ${isProd ? 'prod' : 'dev'}`,
-         `${pkg.name} v${pkg.version}`);
+  banner(
+    `${isProd ? '\uD83D\uDE80' : '\uD83C\uDFD7'}  build  ${isProd ? 'prod' : 'dev'}`,
+    `${pkg.name} v${pkg.version}`
+  );
   const BuildPipeline = requireScript('build-pipeline.js');
   await new BuildPipeline({ environment, verbose }).run();
 }
@@ -206,22 +228,22 @@ async function runClean(level) {
 
 async function runServe(withCms = false, noCss = false, withStorybook = false) {
   const hugoCmd = 'hugo server -D --config hugo.toml,config.development.toml';
-  const cssCmd  = 'npm run watch';
-  const cmsCmd  = 'npx netlify-cms-proxy-server';
-  const sbCmd   = 'npm run storybook';
+  const cssCmd = 'npm run watch';
+  const cmsCmd = 'npx netlify-cms-proxy-server';
+  const sbCmd = 'npm run storybook';
 
   const rows = [];
-  if (!noCss) rows.push(['\uD83C\uDFA8', 'CSS',  'PostCSS watch  \u2192  static/css/styles.css']);
+  if (!noCss) rows.push(['\uD83C\uDFA8', 'CSS', 'PostCSS watch  \u2192  static/css/styles.css']);
   rows.push(['\uD83C\uDFD7', 'Hugo', col('bold', 'http://localhost:1313')]);
-  if (withCms)       rows.push(['\uD83D\uDCDD', 'CMS',       col('bold', 'http://localhost:1313/admin/')]);
+  if (withCms) rows.push(['\uD83D\uDCDD', 'CMS', col('bold', 'http://localhost:1313/admin/')]);
   if (withStorybook) rows.push(['\uD83D\uDCDA', 'Storybook', col('bold', 'http://localhost:6006')]);
   banner('\u26A1 serve', `${pkg.name} v${pkg.version}`, rows);
 
   const procConfigs = [
-    { cmd: hugoCmd, label: 'HUGO', color: 'blue'    },
-    ...(!noCss        ? [{ cmd: cssCmd, label: ' CSS', color: 'magenta' }] : []),
-    ...(withCms       ? [{ cmd: cmsCmd, label: ' CMS', color: 'yellow'  }] : []),
-    ...(withStorybook ? [{ cmd: sbCmd,  label: '  SB', color: 'cyan'    }] : []),
+    { cmd: hugoCmd, label: 'HUGO', color: 'blue' },
+    ...(!noCss ? [{ cmd: cssCmd, label: ' CSS', color: 'magenta' }] : []),
+    ...(withCms ? [{ cmd: cmsCmd, label: ' CMS', color: 'yellow' }] : []),
+    ...(withStorybook ? [{ cmd: sbCmd, label: '  SB', color: 'cyan' }] : [])
   ];
 
   const SKIP = [
@@ -233,15 +255,23 @@ async function runServe(withCms = false, noCss = false, withStorybook = false) {
     /^Environment:/,
     /^Serving pages from disk/,
     /^-{3,}\+-{3,}/,
-    /^\s*\|\s*EN\s*$/,
+    /^\s*\|\s*EN\s*$/
   ];
 
   const isWin = process.platform === 'win32';
 
   const procs = procConfigs.map(({ cmd, label, color }) => {
     const proc = isWin
-      ? spawn('cmd', ['/c', cmd], { stdio: ['inherit', 'pipe', 'pipe'], shell: false, cwd: projectRoot })
-      : spawn('sh',  ['-c', cmd], { stdio: ['inherit', 'pipe', 'pipe'], shell: false, cwd: projectRoot });
+      ? spawn('cmd', ['/c', cmd], {
+          stdio: ['inherit', 'pipe', 'pipe'],
+          shell: false,
+          cwd: projectRoot
+        })
+      : spawn('sh', ['-c', cmd], {
+          stdio: ['inherit', 'pipe', 'pipe'],
+          shell: false,
+          cwd: projectRoot
+        });
 
     const prefix = `${C.dim}[${C[color]}${label}${C.dim}]${C.reset} `;
 
@@ -250,11 +280,17 @@ async function runServe(withCms = false, noCss = false, withStorybook = false) {
       if (!raw) return;
       if (SKIP.some(r => r.test(raw))) return;
 
-      if (/^\s+(Pages|Paginator pages|Non-page files|Static files|Processed images|Aliases|Cleaned)\s+\|/.test(raw)) {
+      if (
+        /^\s+(Pages|Paginator pages|Non-page files|Static files|Processed images|Aliases|Cleaned)\s+\|/.test(
+          raw
+        )
+      ) {
         const [key, val] = raw.split('|');
-        const count  = (val || '').trim();
+        const count = (val || '').trim();
         const isZero = count === '0';
-        console.log(`${prefix}  ${C.dim}${key.trim().padEnd(22)}${C.reset}${isZero ? C.dim : C.green}${count}${C.reset}`);
+        console.log(
+          `${prefix}  ${C.dim}${key.trim().padEnd(22)}${C.reset}${isZero ? C.dim : C.green}${count}${C.reset}`
+        );
         return;
       }
       if (/^Built in \d+/.test(raw)) {
@@ -284,8 +320,14 @@ async function runServe(withCms = false, noCss = false, withStorybook = false) {
         console.log(`${prefix}${C.dim}\u2192 synced ${match?.[1] || raw}${C.reset}`);
         return;
       }
-      if (/error|ERROR/.test(raw)) { console.log(`${prefix}${C.red}${raw}${C.reset}`);    return; }
-      if (/WARN|warn/.test(raw))   { console.log(`${prefix}${C.yellow}${raw}${C.reset}`); return; }
+      if (/error|ERROR/.test(raw)) {
+        console.log(`${prefix}${C.red}${raw}${C.reset}`);
+        return;
+      }
+      if (/WARN|warn/.test(raw)) {
+        console.log(`${prefix}${C.yellow}${raw}${C.reset}`);
+        return;
+      }
       console.log(`${prefix}${C.dim}${raw}${C.reset}`);
     }
 
@@ -302,7 +344,11 @@ async function runServe(withCms = false, noCss = false, withStorybook = false) {
   });
 
   function shutdown() {
-    procs.forEach(p => { try { p.kill('SIGINT'); } catch (_) {} });
+    procs.forEach(p => {
+      try {
+        p.kill('SIGINT');
+      } catch (_) {}
+    });
     console.log();
     console.log(rule());
     info('Server stopped.');
@@ -310,7 +356,7 @@ async function runServe(withCms = false, noCss = false, withStorybook = false) {
     console.log();
     process.exit(0);
   }
-  process.on('SIGINT',  shutdown);
+  process.on('SIGINT', shutdown);
   process.on('SIGTERM', shutdown);
 
   await Promise.all(procs.map(p => new Promise(r => p.on('close', r))));
@@ -327,7 +373,7 @@ async function runStorybook(build = false) {
     console.log();
   } else {
     banner('\uD83C\uDFA8 storybook', `${pkg.name} v${pkg.version}`, [
-      ['\u00b7', 'Storybook dev', col('bold', 'http://localhost:6006')],
+      ['\u00b7', 'Storybook dev', col('bold', 'http://localhost:6006')]
     ]);
     await runNpm('storybook');
   }
@@ -352,7 +398,7 @@ async function runNew(type, slug) {
     process.exit(1);
   }
   const hugoType = type === 'post' ? 'posts' : 'portfolio';
-  const filename  = type === 'post' ? `posts/${slug}.md` : `portfolio/${slug}.md`;
+  const filename = type === 'post' ? `posts/${slug}.md` : `portfolio/${slug}.md`;
   banner(`\uD83D\uDCDD new ${type}`, slug);
   info(`Running Hugo archetype for ${hugoType}/${slug}.md ...`);
   await runProcess('hugo', ['new', filename, '--config', 'hugo.toml,config.development.toml']);
@@ -367,7 +413,7 @@ async function runNew(type, slug) {
 // ─── pf migrate ───────────────────────────────────────────────────────────────
 
 async function runMigrate(deploy = false) {
-  const icon  = deploy ? '\uD83D\uDE80' : '\uD83D\uDD0D';
+  const icon = deploy ? '\uD83D\uDE80' : '\uD83D\uDD0D';
   const label = deploy ? 'migrate --deploy' : 'migrate (dry-run)';
   banner(`${icon} ${label}`, `${pkg.name} v${pkg.version}`);
   await runProcess('node', ['scripts/migrate-to-prod.js', ...(deploy ? ['--deploy'] : [])]);
@@ -384,9 +430,9 @@ async function runNetlify() {
 
 async function runLint() {
   banner('\uD83D\uDD0D lint', `${pkg.name} v${pkg.version}`, [
-    ['\u00b7', 'CSS',       'stylelint src/**/*.css  themes/**/*.css'],
-    ['\u00b7', 'JS',        'eslint themes/**/assets/js/**/*.js'],
-    ['\u00b7', 'Markdown',  'markdownlint **/*.md'],
+    ['\u00b7', 'CSS', 'stylelint src/**/*.css  themes/**/*.css'],
+    ['\u00b7', 'JS', 'eslint themes/**/assets/js/**/*.js'],
+    ['\u00b7', 'Markdown', 'markdownlint **/*.md']
   ]);
   await runNpm('lint');
   done('All linters passed');
@@ -396,7 +442,7 @@ async function runLint() {
 
 async function runFormat() {
   banner('\u270F  format', `${pkg.name} v${pkg.version}`, [
-    ['\u00b7', 'Prettier', '**/*.{js,css,html,json,yml,yaml}'],
+    ['\u00b7', 'Prettier', '**/*.{js,css,html,json,yml,yaml}']
   ]);
   await runNpm('format');
   done('All files formatted');
@@ -406,7 +452,7 @@ async function runFormat() {
 
 async function runWatch() {
   banner('\uD83C\uDFA8 watch', `${pkg.name} v${pkg.version}`, [
-    ['\u00b7', 'PostCSS', 'src/css/tailwind.css  \u2192  static/css/styles.css'],
+    ['\u00b7', 'PostCSS', 'src/css/tailwind.css  \u2192  static/css/styles.css']
   ]);
   await runNpm('watch');
 }
@@ -414,12 +460,12 @@ async function runWatch() {
 // ─── pf css ───────────────────────────────────────────────────────────────────
 
 const cssSubMap = {
-  audit:    { script: 'css:audit',    icon: '\uD83D\uDD0E', label: 'CSS audit'    },
-  analyze:  { script: 'css:analyze',  icon: '\uD83D\uDCCA', label: 'CSS analyze'  },
-  report:   { script: 'css:report',   icon: '\uD83D\uDCCB', label: 'CSS report'   },
-  unused:   { script: 'css:unused',   icon: '\uD83D\uDDD1', label: 'CSS unused'   },
-  optimize: { script: 'css:optimize', icon: '\u26A1',        label: 'CSS optimize' },
-  cleanup:  { script: 'css:cleanup',  icon: '\uD83E\uDDF9', label: 'CSS cleanup'  },
+  audit: { script: 'css:audit', icon: '\uD83D\uDD0E', label: 'CSS audit' },
+  analyze: { script: 'css:analyze', icon: '\uD83D\uDCCA', label: 'CSS analyze' },
+  report: { script: 'css:report', icon: '\uD83D\uDCCB', label: 'CSS report' },
+  unused: { script: 'css:unused', icon: '\uD83D\uDDD1', label: 'CSS unused' },
+  optimize: { script: 'css:optimize', icon: '\u26A1', label: 'CSS optimize' },
+  cleanup: { script: 'css:cleanup', icon: '\uD83E\uDDF9', label: 'CSS cleanup' }
 };
 
 async function runCss(sub) {
@@ -439,8 +485,8 @@ async function runCss(sub) {
 
 async function runDesign() {
   banner('\uD83C\uDFA8 design workflow', `${pkg.name} v${pkg.version}`, [
-    ['\u00b7', 'CSS',       'PostCSS watch  \u2192  static/css/styles.css'],
-    ['\u00b7', 'Storybook', 'http://localhost:6006'],
+    ['\u00b7', 'CSS', 'PostCSS watch  \u2192  static/css/styles.css'],
+    ['\u00b7', 'Storybook', 'http://localhost:6006']
   ]);
   await runNpm('workflow:design');
 }
@@ -451,7 +497,7 @@ async function runSitemapPreview() {
   const sitemapUrl = 'http://localhost:1313/sitemap.xml';
   banner('\uD83D\uDDFA sitemap preview', `${pkg.name} v${pkg.version}`, [
     ['\u00b7', 'Hugo server', col('bold', 'http://localhost:1313')],
-    ['\u00b7', 'Sitemap',     col('cyan',  sitemapUrl)],
+    ['\u00b7', 'Sitemap', col('cyan', sitemapUrl)]
   ]);
   info('Serving with sitemap enabled (dev content + drafts included).');
   info(`Open ${sitemapUrl} to inspect the output.`);
@@ -461,16 +507,18 @@ async function runSitemapPreview() {
   const isWin = process.platform === 'win32';
   const proc = isWin
     ? spawn('cmd', ['/c', cmd], { stdio: 'inherit', shell: false, cwd: projectRoot })
-    : spawn('sh',  ['-c', cmd], { stdio: 'inherit', shell: false, cwd: projectRoot });
+    : spawn('sh', ['-c', cmd], { stdio: 'inherit', shell: false, cwd: projectRoot });
 
   function shutdown() {
-    try { proc.kill('SIGINT'); } catch (_) {}
+    try {
+      proc.kill('SIGINT');
+    } catch (_) {}
     console.log();
     info('Sitemap preview stopped.');
     console.log();
     process.exit(0);
   }
-  process.on('SIGINT',  shutdown);
+  process.on('SIGINT', shutdown);
   process.on('SIGTERM', shutdown);
 
   await new Promise(r => proc.on('close', r));
@@ -480,9 +528,12 @@ async function runSitemapPreview() {
 
 function runOpen(url = 'http://localhost:1313') {
   banner('\uD83C\uDF10 open', url);
-  const cmd = process.platform === 'win32' ? `start "${url}"`
-            : process.platform === 'darwin' ? `open "${url}"`
-            : `xdg-open "${url}"`;
+  const cmd =
+    process.platform === 'win32'
+      ? `start "${url}"`
+      : process.platform === 'darwin'
+        ? `open "${url}"`
+        : `xdg-open "${url}"`;
   execSync(cmd, { stdio: 'inherit', shell: true, cwd: projectRoot });
 }
 
@@ -490,7 +541,7 @@ function runOpen(url = 'http://localhost:1313') {
 
 async function runAudit() {
   banner('\uD83D\uDD10 audit', `${pkg.name} v${pkg.version}`, [
-    ['\u00b7', 'npm audit', '--audit-level moderate'],
+    ['\u00b7', 'npm audit', '--audit-level moderate']
   ]);
   await runProcess('npm', ['audit', '--audit-level', 'moderate']);
   done('Audit complete');
@@ -500,7 +551,7 @@ async function runAudit() {
 
 async function runPerf() {
   banner('\u26A1 perf', `${pkg.name} v${pkg.version}`, [
-    ['\u00b7', 'Performance test', 'scripts/performance-test.js'],
+    ['\u00b7', 'Performance test', 'scripts/performance-test.js']
   ]);
   await runNpm('test:performance');
   done('Performance test complete');
@@ -510,7 +561,7 @@ async function runPerf() {
 
 async function runCms(openBrowser = false) {
   banner('\uD83D\uDCDD cms', `${pkg.name} v${pkg.version}`, [
-    ['\u00b7', 'Admin proxy', col('bold', 'http://localhost:1313/admin/')],
+    ['\u00b7', 'Admin proxy', col('bold', 'http://localhost:1313/admin/')]
   ]);
   if (openBrowser) await runProcess('npm', ['run', 'cms:admin']);
   await runProcess('npx', ['netlify-cms-proxy-server']);
@@ -520,23 +571,30 @@ async function runCms(openBrowser = false) {
 
 function runStatus() {
   const checks = [
-    ['node_modules',          fs.existsSync(path.join(projectRoot, 'node_modules'))],
+    ['node_modules', fs.existsSync(path.join(projectRoot, 'node_modules'))],
     ['static/css/styles.css', fs.existsSync(path.join(projectRoot, 'static/css/styles.css'))],
-    ['static/js/main.js',     fs.existsSync(path.join(projectRoot, 'static/js/main.js'))],
-    ['public/ (built)',       fs.existsSync(path.join(projectRoot, 'public'))],
+    ['static/js/main.js', fs.existsSync(path.join(projectRoot, 'static/js/main.js'))],
+    ['public/ (built)', fs.existsSync(path.join(projectRoot, 'public'))]
   ];
 
   let gitBranch = 'unknown';
-  let gitDirty  = 0;
+  let gitDirty = 0;
   try {
-    gitBranch = execSync('git rev-parse --abbrev-ref HEAD', { cwd: projectRoot, encoding: 'utf8' }).trim();
+    gitBranch = execSync('git rev-parse --abbrev-ref HEAD', {
+      cwd: projectRoot,
+      encoding: 'utf8'
+    }).trim();
     const dirty = execSync('git status --porcelain', { cwd: projectRoot, encoding: 'utf8' }).trim();
     gitDirty = dirty ? dirty.split('\n').length : 0;
-  } catch { /* not a git repo */ }
+  } catch {
+    /* not a git repo */
+  }
 
   console.log();
   console.log(rule());
-  console.log(`  ${C.bold}${C.cyan}status${C.reset}  ${C.dim}${pkg.name} v${pkg.version}${C.reset}`);
+  console.log(
+    `  ${C.bold}${C.cyan}status${C.reset}  ${C.dim}${pkg.name} v${pkg.version}${C.reset}`
+  );
   console.log(rule());
   for (const [label, exists] of checks) {
     const icon = exists ? col('green', '\u2713') : col('yellow', '\u25CB');
@@ -546,7 +604,9 @@ function runStatus() {
   const branchTag = gitDirty
     ? col('yellow', ` (${gitDirty} uncommitted)`)
     : col('green', ' (clean)');
-  console.log(`  ${col('cyan', 'Branch')}  ${col(gitDirty ? 'yellow' : 'green', gitBranch)}${branchTag}`);
+  console.log(
+    `  ${col('cyan', 'Branch')}  ${col(gitDirty ? 'yellow' : 'green', gitBranch)}${branchTag}`
+  );
   console.log();
   console.log(`  ${col('cyan', 'URLs')}`);
   console.log(`    ${C.dim}Local ${C.reset} ${C.bold}http://localhost:1313${C.reset}`);
@@ -562,7 +622,6 @@ function runStatus() {
 (async () => {
   try {
     switch (command) {
-
       case 'help':
         printHelp();
         break;
@@ -578,19 +637,23 @@ function runStatus() {
             // Reload pkg so banner shows new version
             pkg = JSON.parse(fs.readFileSync(path.join(projectRoot, 'package.json'), 'utf8'));
             ok(`Bumped ${col('dim', prev)} → ${col('bold', next)} (${level})`);
-            if (hugoOk)   ok('hugo.toml synced');
+            if (hugoOk) ok('hugo.toml synced');
             if (readmeOk) ok('README.md badge synced');
           } else {
             banner('🔖 version sync', `${pkg.name} v${pkg.version}`);
             const { version, hugoOk, readmeOk } = versionSync.sync();
             ok(`Synced v${version}`);
-            if (hugoOk)   ok('hugo.toml synced');
+            if (hugoOk) ok('hugo.toml synced');
             if (readmeOk) ok('README.md badge synced');
           }
         } else {
           console.log();
-          console.log(`  ${C.bold}${C.cyan}${pkg.name}${C.reset}  ${C.dim}v${pkg.version}${C.reset}`);
-          console.log(`  ${C.dim}Run ${col('cyan', 'pf version bump')} to increment, ${col('cyan', 'pf version sync')} to sync.${C.reset}`);
+          console.log(
+            `  ${C.bold}${C.cyan}${pkg.name}${C.reset}  ${C.dim}v${pkg.version}${C.reset}`
+          );
+          console.log(
+            `  ${C.dim}Run ${col('cyan', 'pf version bump')} to increment, ${col('cyan', 'pf version sync')} to sync.${C.reset}`
+          );
           console.log();
         }
         break;
@@ -671,9 +734,9 @@ function runStatus() {
       case 'storybook':
       case 'story': {
         const sub = positionals[0];
-        if      (sub === 'build') await runStorybook(true);
+        if (sub === 'build') await runStorybook(true);
         else if (sub === 'serve') await runNpm('storybook:serve');
-        else                      await runStorybook(false);
+        else await runStorybook(false);
         break;
       }
 
@@ -685,7 +748,7 @@ function runStatus() {
       case 'storybook:serve':
       case 'story:serve':
         banner('\uD83D\uDCE6 storybook serve', `${pkg.name} v${pkg.version}`, [
-          ['\u00b7', 'Static preview', col('bold', 'http://localhost:6007')],
+          ['\u00b7', 'Static preview', col('bold', 'http://localhost:6007')]
         ]);
         await runNpm('storybook:serve');
         break;

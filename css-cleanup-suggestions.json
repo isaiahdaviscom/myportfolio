@@ -181,9 +181,6 @@
     "css",
     "yaml"
   ],
-  "mediumRisk": [
-    "stories-progress-fill--active",
-    "is-active"
-  ],
+  "mediumRisk": ["stories-progress-fill--active", "is-active"],
   "preserveClasses": []
 }

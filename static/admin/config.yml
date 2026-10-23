@@ -13,7 +13,7 @@
 # No manual file swapping needed — run: npm run cms:local  to start the proxy.
 backend:
   name: git-gateway
-  branch: master # Change to 'main' if your default branch is 'main'
+  branch: develop # Changed from 'master' to 'develop' to match workflow branch
 
 # LOCAL DEVELOPMENT BACKEND
 # Automatically activates when site is accessed from localhost.
@@ -167,6 +167,75 @@ collections:
           - { label: 'Alt Text', name: 'alt', widget: 'string' }
           - { label: 'Caption', name: 'caption', widget: 'string', required: false }
 
+      - label: 'Detail Page Images'
+        name: 'detail_images'
+        widget: 'list'
+        required: false
+        hint: 'Images rendered on portfolio detail pages. Each image supports layout variants and crop offsets.'
+        summary: '{{fields.variant}} — {{fields.caption}}'
+        fields:
+          - { label: 'Image', name: 'image', widget: 'image', required: true }
+          - { label: 'Alt Text', name: 'alt', widget: 'string', required: false }
+          - { label: 'Caption', name: 'caption', widget: 'string', required: false }
+          - label: 'Variant'
+            name: 'variant'
+            widget: 'select'
+            default: 'standard'
+            options:
+              - { label: 'Standard (2-up)', value: 'standard' }
+              - { label: 'Wide (full width)', value: 'wide' }
+              - { label: 'Portrait', value: 'portrait' }
+              - { label: 'Square', value: 'square' }
+              - { label: 'Tall (narrow)', value: 'tall' }
+              - { label: 'Hero strip (full width)', value: 'hero' }
+          - label: 'Fit Mode'
+            name: 'fit'
+            widget: 'select'
+            default: 'cover'
+            options:
+              - { label: 'Cover (crop to frame)', value: 'cover' }
+              - { label: 'Contain (fit fully)', value: 'contain' }
+          - label: 'Offset Preset'
+            name: 'offset_preset'
+            widget: 'select'
+            default: 'custom'
+            hint: 'Choose a quick focal-point preset, or custom to use manual X/Y sliders.'
+            options:
+              - { label: 'Custom', value: 'custom' }
+              - { label: 'Center', value: 'center' }
+              - { label: 'Top', value: 'top' }
+              - { label: 'Bottom', value: 'bottom' }
+              - { label: 'Left', value: 'left' }
+              - { label: 'Right', value: 'right' }
+              - { label: 'Top Left', value: 'top-left' }
+              - { label: 'Top Right', value: 'top-right' }
+              - { label: 'Bottom Left', value: 'bottom-left' }
+              - { label: 'Bottom Right', value: 'bottom-right' }
+          - {
+              label: 'Offset X (%)',
+              name: 'offset_x',
+              widget: 'number',
+              required: false,
+              value_type: 'int',
+              min: 0,
+              max: 100,
+              step: 1,
+              default: 50,
+              hint: 'Only used when Offset Preset = Custom.'
+            }
+          - {
+              label: 'Offset Y (%)',
+              name: 'offset_y',
+              widget: 'number',
+              required: false,
+              value_type: 'int',
+              min: 0,
+              max: 100,
+              step: 1,
+              default: 50,
+              hint: 'Only used when Offset Preset = Custom.'
+            }
+
       - label: 'Categories'
         name: 'categories'
         widget: 'select'
@@ -292,7 +361,7 @@ collections:
             widget: 'string'
             default: 'Heads down on a project'
             required: false
-            hint: 'Text shown in the status pill on the About page when availability_mode is \'away\'. Pill colour also switches to amber.'
+            hint: "Text shown in the status pill on the About page when availability_mode is 'away'. Pill colour also switches to amber."
 
   # ---------------------------------------------------------------------------
   # SITE PAGES
@@ -325,9 +394,24 @@ collections:
         fields:
           - { label: 'Title', name: 'title', widget: 'string' }
           - { label: 'Date', name: 'date', widget: 'datetime' }
-          - { label: 'Description', name: 'description', widget: 'text', hint: 'Meta description — shown in search results and social previews.' }
-          - { label: 'Page Heading', name: 'heading', widget: 'string', hint: 'Large hero headline. Keep to ~60 chars.' }
-          - { label: 'Tagline', name: 'tagline', widget: 'string', hint: 'Eyebrow line shown above the heading. e.g. Frontend Developer · Chicago, IL' }
+          - {
+              label: 'Description',
+              name: 'description',
+              widget: 'text',
+              hint: 'Meta description — shown in search results and social previews.'
+            }
+          - {
+              label: 'Page Heading',
+              name: 'heading',
+              widget: 'string',
+              hint: 'Large hero headline. Keep to ~60 chars.'
+            }
+          - {
+              label: 'Tagline',
+              name: 'tagline',
+              widget: 'string',
+              hint: 'Eyebrow line shown above the heading. e.g. Frontend Developer · Chicago, IL'
+            }
           - label: 'Stats'
             name: 'stats'
             widget: 'list'
@@ -336,7 +420,12 @@ collections:
             hint: 'Key metrics shown in the hero strip. 3 recommended.'
             fields:
               - { label: 'Value', name: 'value', widget: 'string', hint: 'e.g. 5+ or 72%' }
-              - { label: 'Label', name: 'label', widget: 'string', hint: 'e.g. Years of frontend engineering' }
+              - {
+                  label: 'Label',
+                  name: 'label',
+                  widget: 'string',
+                  hint: 'e.g. Years of frontend engineering'
+                }
           - { label: 'Body', name: 'body', widget: 'markdown' }
 
       - label: 'Contact'
@@ -352,11 +441,38 @@ collections:
         name: 'links'
         file: 'content/links.md'
         fields:
-          - { label: 'Title (handle)', name: 'title', widget: 'string', hint: 'Displayed as the page @handle. e.g. @isaiahdaviscom' }
-          - { label: 'Description', name: 'description', widget: 'text', hint: 'Meta description for search engines and social previews.' }
-          - { label: 'Avatar', name: 'avatar', widget: 'image', required: false, hint: 'Profile picture. Defaults to /images/profile-branded.png if not set.' }
-          - { label: 'Tagline', name: 'tagline', widget: 'string', hint: 'One-line descriptor shown under the handle. e.g. Frontend Developer · UI Engineer' }
-          - { label: 'Location', name: 'location', widget: 'string', required: false, hint: 'e.g. Chicago, IL' }
+          - {
+              label: 'Title (handle)',
+              name: 'title',
+              widget: 'string',
+              hint: 'Displayed as the page @handle. e.g. @isaiahdaviscom'
+            }
+          - {
+              label: 'Description',
+              name: 'description',
+              widget: 'text',
+              hint: 'Meta description for search engines and social previews.'
+            }
+          - {
+              label: 'Avatar',
+              name: 'avatar',
+              widget: 'image',
+              required: false,
+              hint: 'Profile picture. Defaults to /images/profile-branded.png if not set.'
+            }
+          - {
+              label: 'Tagline',
+              name: 'tagline',
+              widget: 'string',
+              hint: 'One-line descriptor shown under the handle. e.g. Frontend Developer · UI Engineer'
+            }
+          - {
+              label: 'Location',
+              name: 'location',
+              widget: 'string',
+              required: false,
+              hint: 'e.g. Chicago, IL'
+            }
           - label: 'Stats'
             name: 'stats'
             widget: 'list'
@@ -374,8 +490,19 @@ collections:
             fields:
               - { label: 'Name', name: 'name', widget: 'string' }
               - { label: 'URL', name: 'url', widget: 'string' }
-              - { label: 'Icon', name: 'icon', widget: 'select', options: ['linkedin', 'github', 'email', 'portfolio', 'blog'], hint: 'Maps to an inline SVG icon.' }
-              - { label: 'Label (accessibility)', name: 'label', widget: 'string', hint: 'Screen reader text. e.g. Connect on LinkedIn' }
+              - {
+                  label: 'Icon',
+                  name: 'icon',
+                  widget: 'select',
+                  options: ['linkedin', 'github', 'email', 'portfolio', 'blog'],
+                  hint: 'Maps to an inline SVG icon.'
+                }
+              - {
+                  label: 'Label (accessibility)',
+                  name: 'label',
+                  widget: 'string',
+                  hint: 'Screen reader text. e.g. Connect on LinkedIn'
+                }
           - label: 'Services'
             name: 'services'
             widget: 'list'

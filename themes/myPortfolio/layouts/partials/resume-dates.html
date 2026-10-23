@@ -1,0 +1,26 @@
+{{- /*
+  resume-dates.html — formats a portfolio page's employment range.
+  Input : a page with optional Params.start_date / end_date ("YYYY-MM"; no end = present).
+  Output: dict with "range" (e.g. "Jun 2021 – Present") and "duration" (e.g. "5 yrs 4 mos").
+  Pages without start_date fall back to Params.year and an empty duration.
+*/ -}}
+{{- $range := "" -}}
+{{- $duration := "" -}}
+{{- with .Params.start_date -}}
+  {{- $start := time.AsTime (printf "%s-01" .) -}}
+  {{- $present := not $.Params.end_date -}}
+  {{- $end := now -}}
+  {{- if not $present }}{{ $end = time.AsTime (printf "%s-01" $.Params.end_date) }}{{ end -}}
+  {{- $endLabel := cond $present "Present" ($end.Format "Jan 2006") -}}
+  {{- $range = printf "%s – %s" ($start.Format "Jan 2006") $endLabel -}}
+  {{- $months := add (mul (sub (int ($end.Format "2006")) (int ($start.Format "2006"))) 12) (add (sub (int ($end.Format "1")) (int ($start.Format "1"))) 1) -}}
+  {{- $years := div $months 12 -}}
+  {{- $rem := mod $months 12 -}}
+  {{- $parts := slice -}}
+  {{- if gt $years 0 }}{{ $parts = $parts | append (printf "%d %s" $years (cond (eq $years 1) "yr" "yrs")) }}{{ end -}}
+  {{- if gt $rem 0 }}{{ $parts = $parts | append (printf "%d %s" $rem (cond (eq $rem 1) "mo" "mos")) }}{{ end -}}
+  {{- $duration = delimit $parts " " -}}
+{{- else -}}
+  {{- $range = $.Params.year | default "" -}}
+{{- end -}}
+{{- return (dict "range" $range "duration" $duration) -}}

@@ -53,9 +53,16 @@
 
 /* 1.5 Case study page (portfolio single) */
 @import './pages/case-study.css';
+@import './pages/case-study-editorial.css';
 
 /* 1.6 Breadcrumb navigation */
 @import './layout/breadcrumb.css';
+
+/* 1.62 In-page jump links */
+@import './components/jumplinks.css';
+
+/* 1.63 Global cookie consent banner + preferences */
+@import './components/cookie-consent.css';
 
 /* 1.65 Site header (glass sticky bar + nav + social links) */
 @import './layout/header.css';
@@ -74,12 +81,14 @@
 
 /* 2.1 Contact page layout + form field styles */
 @import './pages/contact.css';
+@import './pages/contact-editorial.css';
 
 /* 2.2 About page layout, skills & values */
 @import './pages/about.css';
 
 /* 2.25 Links page — profile hub + content grid */
 @import './pages/links.css';
+@import './pages/links-editorial.css';
 
 /* 2.3 Blog list & single post */
 @import './pages/blog.css';
@@ -105,6 +114,12 @@
 /* 2.6 Scroll & motion enhancements (smooth scroll, reveal, selection, scrollbar, focus-ring) */
 @import './utilities/motion.css';
 
+/* 2.7 Apple-style refinements (springs, materials, optical typography) */
+@import './utilities/apple.css';
+
+/* 2.8 Editorial art direction — shared grid, typography and page surfaces */
+@import './components/editorial.css';
+
 /* =============================================
    2. TAILWIND DIRECTIVES
    ============================================= */
@@ -120,9 +135,11 @@
 
 /* Prevent any overflowing element from creating a horizontal page scrollbar.
    `clip` (vs `hidden`) avoids side-effects on scroll-position and sticky bars. */
+
+/* Anchor offsets come from each target's scroll-margin-top (utilities/motion.css);
+   a scroll-padding-top here would be added on top and double-count the header. */
 html {
   overflow-x: clip;
-  scroll-padding-top: var(--header-h, 3.5rem); /* prevent anchor links from hiding under sticky header */
 }
 
 /* Cap embedded media to their containers — covers cases where Tailwind preflight

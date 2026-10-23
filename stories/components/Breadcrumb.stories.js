@@ -27,18 +27,20 @@ export default {
 };
 
 function renderBreadcrumb({ crumbs }) {
-  const items = crumbs.map((c, i) => {
-    const isLast = i === crumbs.length - 1;
-    if (isLast) {
-      return `<li class="breadcrumb__item">
+  const items = crumbs
+    .map((c, i) => {
+      const isLast = i === crumbs.length - 1;
+      if (isLast) {
+        return `<li class="breadcrumb__item">
         <span class="breadcrumb__current" aria-current="page">${c.label}</span>
       </li>`;
-    }
-    return `<li class="breadcrumb__item">
+      }
+      return `<li class="breadcrumb__item">
       <a class="breadcrumb__link" href="${c.href}">${c.label}</a>
       <span class="breadcrumb__sep" aria-hidden="true">/</span>
     </li>`;
-  }).join('\n      ');
+    })
+    .join('\n      ');
 
   return `
     <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -52,10 +54,7 @@ function renderBreadcrumb({ crumbs }) {
 /** Two-level — Home → Current page */
 export const TwoLevel = {
   args: {
-    crumbs: [
-      { label: 'Home', href: '/' },
-      { label: 'Portfolio' }
-    ]
+    crumbs: [{ label: 'Home', href: '/' }, { label: 'Portfolio' }]
   },
   render: renderBreadcrumb
 };

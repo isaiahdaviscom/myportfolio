@@ -1,19 +1,30 @@
 ﻿---
 title: "Spark Conference"
-cover: "/images/514/independent-grocers-alliance-cover.jpg"
-role: "Web Designer"
-dates: "Jan 2019 — Apr 2021"
-heading: "Redesigning the Spark Conference Website to Drive Registrations"
-bgcolor: "bg-white"
-figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
-figma_title: "Spark Conference — Interactive Prototype"
-feature: true
+description: "Conference website redesign with optimized registration funnel that increased early-bird ticket registrations by 27% while improving Lighthouse score from 54 to 89."
+date: 2020-01-01T00:00:00Z
+draft: false
 weight: 90
-employment_type: "Contract"
-location: "Chicago, IL · Remote"
-skills:
-  - Event UX
+role: "Multidisciplinary"
+year: "2020"
+client: "Spark Conference"
+project_url: "https://www.sparkconference.com"
+featured_image: "/images/514/sparkconference-cover.jpg"
+categories:
+  - web-design
+tags:
+  - UX
+  - UI Design
   - Figma
+  - HTML
+  - CSS
+technologies:
+  - Web Design
+  - UX/UI Design
+  - WordPress
+  - Event Marketing
+  - Conversion Optimization
+  - Figma
+  - Event UX
   - Registration Funnel Design
   - Information Architecture
   - Webflow

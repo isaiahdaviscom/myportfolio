@@ -76,20 +76,48 @@ export const HeroAndBio = {
    ══════════════════════════════════════════════════════════ */
 const SKILLS = [
   {
-    cat: 'frontend', label: 'Frontend',
-    items: ['HTML5 / Semantics', 'CSS3 + Custom Properties', 'JavaScript (ES2022+)', 'Hugo / Jamstack', 'Performance & a11y']
+    cat: 'frontend',
+    label: 'Frontend',
+    items: [
+      'HTML5 / Semantics',
+      'CSS3 + Custom Properties',
+      'JavaScript (ES2022+)',
+      'Hugo / Jamstack',
+      'Performance & a11y'
+    ]
   },
   {
-    cat: 'tooling', label: 'Tooling',
-    items: ['Vite / PostCSS', 'Storybook', 'Figma Tokens / Style Dictionary', 'Git + CI/CD', 'Lighthouse / Web Vitals']
+    cat: 'tooling',
+    label: 'Tooling',
+    items: [
+      'Vite / PostCSS',
+      'Storybook',
+      'Figma Tokens / Style Dictionary',
+      'Git + CI/CD',
+      'Lighthouse / Web Vitals'
+    ]
   },
   {
-    cat: 'design', label: 'Design',
-    items: ['Figma', 'Design Systems', 'Typography & Spacing', 'Motion / Animation', 'Brand Identity']
+    cat: 'design',
+    label: 'Design',
+    items: [
+      'Figma',
+      'Design Systems',
+      'Typography & Spacing',
+      'Motion / Animation',
+      'Brand Identity'
+    ]
   },
   {
-    cat: 'backend', label: 'Backend Basics',
-    items: ['Node.js / Express', 'REST APIs', 'Netlify / Vercel', 'Serverless Functions', 'CMS Integration']
+    cat: 'backend',
+    label: 'Backend Basics',
+    items: [
+      'Node.js / Express',
+      'REST APIs',
+      'Netlify / Vercel',
+      'Serverless Functions',
+      'CMS Integration'
+    ]
   }
 ];
 
@@ -99,19 +127,25 @@ export const SkillsGrid = {
       <section class="about-skills">
         <h2 style="margin-bottom: 2rem;">Skills</h2>
         <div class="about-skills__grid">
-          ${SKILLS.map(cat => `
+          ${SKILLS.map(
+            cat => `
             <div class="page-card">
               <p class="skill-card__category skill-card__category--${cat.cat}">${cat.label}</p>
               <ul class="skill-card__list">
-                ${cat.items.map(item => `
+                ${cat.items
+                  .map(
+                    item => `
                   <li class="skill-card__item">
                     <span class="skill-card__dot skill-card__dot--${cat.cat}" aria-hidden="true"></span>
                     ${item}
                   </li>
-                `).join('')}
+                `
+                  )
+                  .join('')}
               </ul>
             </div>
-          `).join('')}
+          `
+          ).join('')}
         </div>
       </section>
     </div>
@@ -122,10 +156,26 @@ export const SkillsGrid = {
    4. VALUES GRID
    ══════════════════════════════════════════════════════════ */
 const VALUES = [
-  { icon: '🎯', title: 'Clarity over cleverness', desc: 'Code that the next developer (or future me) can understand at a glance.' },
-  { icon: '♿', title: 'Accessibility by default', desc: 'WCAG compliance isn\'t a checklist — it\'s a baseline for every component.' },
-  { icon: '⚡', title: 'Performance matters', desc: 'Core Web Vitals feed real business outcomes. I measure before I ship.' },
-  { icon: '🔁', title: 'Iterate, don\'t perfect', desc: 'Token-driven, documented, extensible systems beat monolithic rewrites.' }
+  {
+    icon: '🎯',
+    title: 'Clarity over cleverness',
+    desc: 'Code that the next developer (or future me) can understand at a glance.'
+  },
+  {
+    icon: '♿',
+    title: 'Accessibility by default',
+    desc: "WCAG compliance isn't a checklist — it's a baseline for every component."
+  },
+  {
+    icon: '⚡',
+    title: 'Performance matters',
+    desc: 'Core Web Vitals feed real business outcomes. I measure before I ship.'
+  },
+  {
+    icon: '🔁',
+    title: "Iterate, don't perfect",
+    desc: 'Token-driven, documented, extensible systems beat monolithic rewrites.'
+  }
 ];
 
 export const ValuesGrid = {
@@ -134,13 +184,15 @@ export const ValuesGrid = {
       <section class="about-values">
         <h2 style="margin-bottom: 2rem;">Philosophy</h2>
         <div class="about-values__grid">
-          ${VALUES.map(v => `
+          ${VALUES.map(
+            v => `
             <div class="page-card page-card--accent">
               <div class="value-card__icon" aria-hidden="true">${v.icon}</div>
               <h3 class="value-card__title">${v.title}</h3>
               <p class="value-card__desc">${v.desc}</p>
             </div>
-          `).join('')}
+          `
+          ).join('')}
         </div>
       </section>
     </div>
@@ -178,27 +230,35 @@ export const FullPage = {
       <section class="about-skills" style="margin-bottom: 4rem;">
         <h2 style="margin-bottom: 2rem;">Skills</h2>
         <div class="about-skills__grid">
-          ${SKILLS.map(cat => `
+          ${SKILLS.map(
+            cat => `
             <div class="page-card">
               <p class="skill-card__category skill-card__category--${cat.cat}">${cat.label}</p>
               <ul class="skill-card__list">
-                ${cat.items.map(i => `
+                ${cat.items
+                  .map(
+                    i => `
                   <li class="skill-card__item">
                     <span class="skill-card__dot skill-card__dot--${cat.cat}" aria-hidden="true"></span>${i}
-                  </li>`).join('')}
+                  </li>`
+                  )
+                  .join('')}
               </ul>
-            </div>`).join('')}
+            </div>`
+          ).join('')}
         </div>
       </section>
       <section class="about-values">
         <h2 style="margin-bottom: 2rem;">Philosophy</h2>
         <div class="about-values__grid">
-          ${VALUES.map(v => `
+          ${VALUES.map(
+            v => `
             <div class="page-card page-card--accent">
               <div class="value-card__icon" aria-hidden="true">${v.icon}</div>
               <h3 class="value-card__title">${v.title}</h3>
               <p class="value-card__desc">${v.desc}</p>
-            </div>`).join('')}
+            </div>`
+          ).join('')}
         </div>
       </section>
     </div>

@@ -1,23 +1,33 @@
 ﻿---
 title: "Premier Design + Build Group"
-cover: "/images/514/pdbgroup-cover.jpg"
-role: "Graphic Designer + Marketing Specialist"
-dates: "June 2021 — Dec 2018"
-heading: "Brand Identity & Digital Marketing for Premier Design + Build Group"
-bgcolor: "bg-gray-900"
-figma_embed: ""  # Paste Figma embed URL: https://www.figma.com/embed?embed_host=share&url=...
-figma_title: "Premier Design + Build Group — Interactive Prototype"
-feature: true
+description: "Brand identity and digital marketing strategy that generated 32% more inbound leads and established 1,200+ social followers in the first year."
+date: 2018-01-01T00:00:00Z
+draft: false
 weight: 30
-employment_type: "Full-time"
-location: "Chicago, IL · On-site"
-skills:
-  - Adobe Creative Suite
+role: "Graphic Designer + Marketing Specialist"
+start_date: "2018-06"
+end_date: "2018-12"
+year: "2018"
+client: "Premier Design + Build Group"
+project_url: "https://www.pdbgroup.com"
+featured_image: "/images/514/pdbgroup-cover.jpg"
+categories:
+  - branding
+tags:
+  - Branding
+  - UI Design
+  - Typography
+  - Figma
+technologies:
   - Brand Identity
+  - Logo Design
+  - Marketing Strategy
+  - Collateral Design
+  - Digital Marketing
+  - Adobe Creative Suite
   - Print Design
   - Meta Ads
   - Photography Direction
-  - Marketing Strategy
 
 metrics:
   - value: "32%"

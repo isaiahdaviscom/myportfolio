@@ -1,0 +1,17 @@
+{{- with .Params.component_system }}
+<section class="cs-section cs-section--tint" aria-labelledby="cs-components-heading">
+  <div class="cs-container">
+    <span class="cs-section__eyebrow">Component System</span>
+    <h2 class="cs-section__heading" id="cs-components-heading">Reusable Building Blocks</h2>
+
+    <div class="cs-component-grid" role="list">
+      {{- range . }}
+      <article class="cs-component-card" role="listitem">
+        <h3 class="cs-component-card__title">{{ .title }}</h3>
+        <p class="cs-component-card__copy">{{ .copy }}</p>
+      </article>
+      {{- end }}
+    </div>
+  </div>
+</section>
+{{- end }}

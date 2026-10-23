@@ -4,7 +4,7 @@
 
 [build.environment]
   HUGO_VERSION = "0.132.2"
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
   NPM_VERSION = "9"
 
 # Local development — `netlify dev` uses this instead of the build command.
@@ -183,6 +183,13 @@
   for = "/service-worker.js"
   [headers.values]
     Cache-Control = "no-cache, no-store, must-revalidate"
+
+# Plain-text LLM context files
+[[headers]]
+  for = "/llms*.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
 
 # Contact success page — transient state page, never index
 [[headers]]

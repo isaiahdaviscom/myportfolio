@@ -5,6 +5,9 @@
   <!--  -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {{- $seoDesc := partial "seo-description.html" . }}
+  {{- $seoTitle := cond .IsHome (site.Params.homeTitle | default .Site.Title) (printf "%s | %s" .Title (site.Params.author | default .Site.Title)) }}
+  <title>{{ $seoTitle }}</title>
 
   {{- /* Cache Control for Development */ -}}
   {{ if ne hugo.Environment "production" }}
@@ -18,7 +21,7 @@
   {{- /* Per-page `robots` front-matter overrides environment default.
        e.g.  robots: "noindex"  in a page's front matter prevents indexing
        even when HUGO_ENV=production (used for transient pages like /contact/success/). */ -}}
-  {{- $envDefault := cond (eq hugo.Environment "production") "index, follow" "noindex, nofollow, noarchive, nosnippet, noimageindex" -}}
+  {{- $envDefault := cond (eq hugo.Environment "production") "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" "noindex, nofollow, noarchive, nosnippet, noimageindex" -}}
   {{- $robotsContent := .Params.robots | default $envDefault -}}
   <meta name="robots" content="{{ $robotsContent }}">
   {{- if and (eq hugo.Environment "production") (not .Params.robots) }}
@@ -28,22 +31,28 @@
   <meta name="googlebot" content="{{ $robotsContent }}">
   <meta name="bingbot" content="{{ $robotsContent }}">
   {{- end }}
-  <meta name="description"
-    content="{{ with .Params.description }}{{ . | htmlEscape }}{{ else }}{{ .Site.Params.description | htmlEscape }}{{ end }}">
-  <meta name="keywords" content="{{ delimit .Site.Params.keywords " , " | htmlEscape }}">
+  <meta name="description" content="{{ $seoDesc }}">
+  <meta name="keywords" content="{{ delimit .Site.Params.keywords ", " }}">
+
+  <!-- Local / geo targeting -->
+  {{- $loc := site.Data.resume.location }}
+  <meta name="geo.region" content="{{ $loc.country }}-{{ $loc.region }}">
+  <meta name="geo.placename" content="{{ $loc.city }}">
+  <meta name="geo.position" content="{{ $loc.latitude }};{{ $loc.longitude }}">
+  <meta name="ICBM" content="{{ $loc.latitude }}, {{ $loc.longitude }}">
 
   <!-- Open Graph Meta Tags -->
   {{- $ogType := "website" }}
-  {{- if eq .Section "posts" }}{{- $ogType = "article" }}{{- end }}
-  {{- $ogImage := "" }}
-  {{- with .Params.images }}{{- $ogImage = index . 0 | absURL }}{{- else }}{{- with .Params.cover }}{{- $ogImage = . | absURL }}{{- else }}{{- $ogImage = "/images/og-default.png" | absURL }}{{- end }}{{- end }}
-  <meta property="og:title"
-    content="{{ if .Title }}{{ .Title | htmlEscape }} | {{ end }}{{ .Site.Title | htmlEscape }}">
-  <meta property="og:description"
-    content="{{ with .Params.description }}{{ . | htmlEscape }}{{ else }}{{ .Site.Params.description | htmlEscape }}{{ end }}">
+  {{- if eq .Section "posts" }}{{- if .IsPage }}{{- $ogType = "article" }}{{- end }}{{- end }}
+  {{- $ogImage := partial "seo-image.html" . }}
+  <meta property="og:site_name" content="{{ .Site.Params.author }}">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="{{ $seoTitle }}">
+  <meta property="og:description" content="{{ $seoDesc }}">
   <meta property="og:type" content="{{ $ogType }}">
   <meta property="og:url" content="{{ .Permalink }}">
   <meta property="og:image" content="{{ $ogImage }}">
+  <meta property="og:image:alt" content="{{ .Title | default .Site.Title }}">
   {{- if eq $ogType "article" }}
   <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}">
   <meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05-07:00" }}">
@@ -54,36 +63,37 @@
 
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title"
-    content="{{ if .Title }}{{ .Title | htmlEscape }} | {{ end }}{{ .Site.Title | htmlEscape }}">
-  <meta name="twitter:description"
-    content="{{ with .Params.description }}{{ . | htmlEscape }}{{ else }}{{ .Site.Params.description | htmlEscape }}{{ end }}">
+  <meta name="twitter:title" content="{{ $seoTitle }}">
+  <meta name="twitter:description" content="{{ $seoDesc }}">
   <meta name="twitter:image" content="{{ $ogImage }}">
 
   <link rel="canonical" href="{{ .Permalink }}">
+  <link rel="alternate" hreflang="en-us" href="{{ .Permalink }}">
+  <link rel="alternate" hreflang="x-default" href="{{ .Permalink }}">
+  <link rel="author" href="{{ "about/" | absURL }}">
+  <link rel="alternate" type="text/plain" title="LLM-readable site summary" href="{{ "llms.txt" | absURL }}">
   {{- if and (eq hugo.Environment "production") (not (eq .Kind "term")) (not (eq .Kind "taxonomy")) }}
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
   {{- end }}
   {{- if .IsHome }}
-  {{- /* Preload the first featured portfolio image — it is the LCP element on the home page */}}
-  {{- $lcp := where (where .Site.RegularPages "Section" "portfolio") ".Params.feature" true | first 1 }}
-  {{- range $lcp }}{{- with .Params.cover }}
-  <link rel="preload" as="image" href="{{ . }}" fetchpriority="high">
-  {{- end }}{{- end }}
+  {{- /* Preload the first portfolio image by weight — LCP element on the home page */}}
+  {{- $portfolioPages := where .Site.RegularPages "Section" "portfolio" }}
+  {{- $lcp := sort $portfolioPages ".Params.weight" | first 1 }}
+  {{- range $lcp }}
+    {{- with .Params.featured_image }}<link rel="preload" as="image" href="{{ . }}" fetchpriority="high">
+    {{- else }}{{- with .Params.cover }}<link rel="preload" as="image" href="{{ . }}" fetchpriority="high">
+    {{- end }}{{- end }}
   {{- end }}
-  <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title | htmlEscape }} Feed"
+  {{- end }}
+  <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }} Feed"
     href="{{ .Site.BaseURL }}index.xml">
-  <meta name="author" content="{{ .Site.Params.author | htmlEscape }}">
+  <meta name="author" content="{{ .Site.Params.author }}">
   <meta name="generator" content="Hugo {{ hugo.Version }}">
   <meta name="llm-friendly" content="true">
-  <meta name="llm-summary"
-    content="{{ with .Params.description }}{{ . | htmlEscape }}{{ else }}{{ .Site.Params.description | htmlEscape }}{{ end }}">
+  <meta name="llm-summary" content="{{ $seoDesc }}">
 
   <!-- Structured Data -->
-  {{ partial "structured-data.html" . }}
-
-  <!-- Page Title -->
-  <title>{{ if .Title }}{{ .Title | htmlEscape }} | {{ end }}{{ .Site.Title | htmlEscape }}</title>
+  {{ partial "seo-schema.html" . }}
 
   <!-- Head Partial -->
   {{ partial "head.html" . }}
@@ -133,26 +143,25 @@
   <!-- iOS-specific PWA settings -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="{{ .Site.Title | htmlEscape }}">
+  <meta name="apple-mobile-web-app-title" content="{{ .Site.Title }}">
   {{ else }}
   {{- /* Development: Use dev manifest with no-cache behavior */ -}}
   <link rel="manifest" href="/manifest-dev.webmanifest">
   <meta name="theme-color" content="#4a90e2">
   {{ end }}
-  {{- /* ── Google Tag Manager ── inject only when gtmId is configured */}}
+  {{- /* ── GTM config for consent-aware runtime loading ─────────────────── */}}
   {{- with site.Params.gtmId }}
   {{- $gtmId := . }}
   {{- $gtmEnv := "" }}
   {{- with site.Params.gtmAuth }}
     {{- $gtmEnv = printf "&gtm_auth=%s&gtm_preview=%s&gtm_cookies_win=x" . (site.Params.gtmPreview | default "env-1") }}
   {{- end }}
-  <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl+'{{ $gtmEnv }}';f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','{{ $gtmId }}');</script>
-  <!-- End Google Tag Manager -->
+  <script>
+    window.__SITE_GTM__ = {
+      id: {{ $gtmId | jsonify }},
+      env: {{ $gtmEnv | jsonify }}
+    };
+  </script>
   {{- end }}
 
   <!-- Service Worker Registration (Production Only) -->
@@ -192,20 +201,6 @@
 </head>
 
 <body>
-  {{- /* ── Google Tag Manager noscript fallback */}}
-  {{- with site.Params.gtmId }}
-  {{- $gtmId := . }}
-  {{- $gtmEnv := "" }}
-  {{- with site.Params.gtmAuth }}
-    {{- $gtmEnv = printf "&gtm_auth=%s&gtm_preview=%s&gtm_cookies_win=x" . (site.Params.gtmPreview | default "env-1") }}
-  {{- end }}
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $gtmId }}{{ $gtmEnv }}"
-    height="0" width="0" style="display:none;visibility:hidden"
-    title="Google Tag Manager"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
-  {{- end }}
-
   <!-- Skip to main content link for accessibility -->
   <a href="#main-content" class="skip-to-content">Skip to main content</a>
 
@@ -231,6 +226,9 @@
     {{ partial "footer.html" . }}
   </footer>
   {{- end }}
+
+  {{ partial "cookie-consent.html" . }}
+
   <!-- JavaScript Assets -->
   {{- if eq hugo.Environment "development" }}
   {{- /* Use regular partial in development to prevent caching */ -}}
